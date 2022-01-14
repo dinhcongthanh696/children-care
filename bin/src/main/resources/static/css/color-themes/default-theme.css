@@ -1,0 +1,62 @@
+
+
+/*Theme Color File
+a,
+.thm-clr,
+.main-menu .navigation > li:hover > a, 
+.main-menu .navigation > li.current > a{
+	color: #35ac46;
+}
+
+*/
+
+
+
+/*Background Color
+.thm-bg-clr,
+.search-box{
+	background-color: #35ac46;
+}
+
+*/
+
+
+
+
+
+
+
+
+/* Rgba Background color 
+
+@media only screen and (max-width: 991px){
+/* Background Color 
+.main-menu .navbar-collapse > .navigation > li > a,
+.main-menu .navbar-collapse > .navigation > li > ul > li > a{
+    background-color: #35ac46;
+}
+    
+.main-menu .navbar-collapse > .navigation > li > a:hover,
+.main-menu .navbar-collapse > .navigation > li > a:active,
+.main-menu .navbar-collapse > .navigation > li > a:focus,
+.main-menu .navbar-collapse > .navigation > li.current > a,
+.main-menu .navbar-collapse > .navigation > li.current-menu-item > a{
+    background: #1d1d1d;    
+} 
+    
+*/        
+    
+/* Border Color    
+.main-menu .navbar-collapse > .navigation > li,
+.main-menu .navbar-collapse > .navigation > li > ul > li,    
+.main-menu .navbar-collapse > .navigation > li:last-child,
+.main-menu .navbar-collapse > .navigation > li > ul > li:last-child{
+    border-color: #279336;        
+}    
+
+    
+}
+
+*/     
+
+

@@ -8,6 +8,7 @@ public class ChildrenCareApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ChildrenCareApplication.class, args);
+		//test commit
 	}
 
 }

@@ -1,0 +1,1864 @@
+
+/* Large Layout: 1200px. */
+@media only screen and (min-width: 1200px){
+.container {padding: 0;}
+.container-fluid{padding: 0;}    
+ 
+    
+}
+
+
+
+/* Medium screen  */ 
+@media only screen and (min-width: 992px) and (max-width: 1199px) {  
+
+/*** 
+=============================================
+    Header Style1 Area Style
+=============================================
+***/ 
+.header-contact-info ul {
+    margin-left: 30px;
+}    
+.header-contact-info ul li {
+    margin-right: 15px;
+    padding-right: 15px;
+}    
+.header-style1-button a {
+    width: 200px;
+}    
+    
+/*** 
+=============================================
+    Mainmenu Area Style
+=============================================
+***/ 
+.main-menu.style1 .navigation li a {
+    padding: 28px 15px 28px;
+}
+.search-box-style1 {
+    max-width: 220px;
+}    
+    
+/*** 
+=============================================
+    About Area Style
+=============================================
+***/     
+.about-logo-box {
+    margin-bottom: 30px;
+}    
+ 
+/*** 
+=============================================
+    Highlights Area Style
+=============================================
+***/      
+.highlights-area .single-middle-box {
+    padding: 0 40px;
+    max-width: 346px;
+    width: 100%;
+    min-height: 255px;
+    padding-bottom: 30px;
+}    
+    
+/*** 
+=============================================
+    Team Area v2 Style
+=============================================
+***/ 
+.team-area-v2 {
+    padding-top: 100px;
+    padding-bottom: 1px;
+}  
+.single-team-slide .img-holder {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    right: auto;
+    bottom: 0;
+    max-width: 360px;
+    width: 100%;
+    height: 475px;
+    z-index: 1;
+}       
+.single-team-slider .thumb-box.style2 {
+    position: relative;
+    height: 406px;
+    margin: 99px 0 0;
+    z-index: 2;
+}    
+.single-team-slider ul.nav-link {
+    position: absolute;
+    top: 330px;
+    right: 0px;
+    width: 140px;
+    padding: 0;
+    height: 475px;
+    z-index: 3;
+}
+
+/*** 
+=============================================
+    Footer Area style
+=============================================
+***/    
+.single-footer-widget.marbtm50 {
+    margin-bottom: 50px;
+}    
+.single-footer-widget.martop6 {
+    margin-top: 0px;
+}
+
+/*** 
+=============================================
+    Header Style2 Area style
+=============================================
+***/ 
+.header-style2-logo {
+    padding-right: 30px;
+}    
+.main-menu.style1.style2 .navigation li {
+    margin-right: 15px;
+}    
+.header-style2-button a {
+    width: 150px;
+}
+
+/*** 
+=============================================
+    Fact Counter Area style
+=============================================
+***/     
+.single-fact-counter {
+    max-width: 310px;
+}
+
+/*** 
+=============================================
+    About Area.home2 style
+=============================================
+***/      
+.about-image-holder {
+    display: block;
+    margin-bottom: 50px;
+}   
+    
+/*** 
+=============================================
+    Brand area style
+=============================================
+***/      
+.brand-area .brand li {
+    max-width: 465px;
+    text-align: center;
+}    
+    
+/*** 
+=============================================
+    Specialities Single Area style
+=============================================
+***/      
+.specialities-sidebar {
+    margin-left: 0;
+    margin-top: 100px;
+}    
+    
+/*** 
+=============================================
+    Doctor Area style
+=============================================
+***/ 
+.doctor-sidebar{
+    margin-bottom: 100px;
+}    
+.single-doctor-item .text-holder {
+    margin-left: 0;
+    margin-top: 35px;
+}   
+ 
+/*** 
+=============================================
+    Blog Single Area style
+=============================================
+***/ 
+.single-blog-post.single_post .text-box2 p {
+    margin: 0 0 21px;
+}    
+.single-blog-post.single_post .text-box2 ul {
+    margin-top: 0px;
+}    
+.single-blog-post.single_post .image-video-gallery-box .video-holder-box2 {
+    padding: 115px 0 115px;
+    margin-top: 30px;
+}    
+.blog-prev-next-option .single .title h3 {
+    font-size: 14px;
+    margin: 0 0 0px;
+}    
+    
+/*** 
+=============================================
+    Visit Timetable Area Style
+=============================================
+***/
+.find-doctor-specialities {
+    margin: 0 auto 30px;
+}    
+.find-doctor-specialities .input-box .ui-selectmenu-button{
+    margin-bottom: 20px;
+}   
+    
+/*** 
+=============================================
+    Appointment Area 2 Style
+=============================================
+***/    
+.appointment-area2 .appointment-right {
+    margin-top: 70px;
+}   
+.appointment-form-left form .single-box .input-box .ui-selectmenu-button{
+    margin-bottom: 20px;
+}
+
+/*** 
+=============================================
+    Contact Info Map Area Style
+=============================================
+***/     
+.contact-info-left{
+    display: block;
+    margin-bottom: 50px;
+}
+
+
+    
+    
+    
+  
+    
+    
+    
+    
+
+}
+
+
+
+/* Tablet Layout: 768px. */
+@media only screen and (min-width: 768px) and (max-width: 991px) {  
+    
+/*** 
+=============================================
+    Top Bar Area Style
+=============================================
+***/  
+.top-left {
+    margin-bottom: 10px;
+}    
+.top-left ul {
+    text-align: center;
+}
+.top-left ul li {
+    float: none;
+    margin-right: 0;
+    margin: 0 10px;
+}    
+    
+/*** 
+=============================================
+    Header Style1 Area Style
+=============================================
+***/     
+.header-style1-logo {
+    margin: 0;
+    float: none !important;
+    text-align: center;
+    margin-bottom: 25px;
+}    
+.header-contact-info {
+    float: none !important;
+}    
+.header-contact-info ul {
+    margin-left: 0px;
+    text-align: center;
+}    
+.header-contact-info ul li {
+    float: none;
+    margin-right: 0;
+    padding-right: 0;
+    border-right: none;
+    margin: 0 10px 0;
+}
+.header-style1-button {
+    margin: 20px 0 0;
+    float: none !important;
+}    
+.header-style1-button a{
+    margin: 0 auto;
+}    
+    
+/*** 
+=============================================
+    Mainmenu Area  style
+=============================================
+***/ 
+.mainmenu-area .inner-content {
+    padding-left: 5px;
+    padding-right: 5px;
+}    
+.mainmenu-right {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 300px;
+    z-index: 9999;
+    margin: 5px 0;
+} 
+.search-box-style1 {
+    position: absolute !important;
+    top: 0;
+    right: 70px;
+    width: 230px;
+    z-index: 3;
+}
+    
+/*** 
+=============================================
+    About Area Style
+=============================================
+***/     
+.about-logo-box {
+    margin-bottom: 30px;
+}    
+    
+/*** 
+=============================================
+    Highlights Area Style
+=============================================
+***/  
+.highlights-area .single-box {
+    padding: 0 30px 30px;
+    max-width: 100%;
+    width: 100%;
+    min-height: 255px;
+}    
+.highlights-area .single-middle-box {
+    padding: 0 40px;
+    max-width: 100%;
+    width: 100%;
+    padding-bottom: 80px;
+}    
+        
+/*** 
+=============================================
+    Team Area v2 Style
+=============================================
+***/ 
+.team-area-v2 {
+    padding-top: 100px;
+    padding-bottom: 1px;
+}    
+.single-team-slide .img-holder {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    right: auto;
+    bottom: 0;
+    max-width: 360px;
+    width: 100%;
+    height: 475px;
+    z-index: 1;
+}       
+.single-team-slider .thumb-box.style2 {
+    position: relative;
+    height: 406px;
+    margin: 99px 0 0;
+    z-index: 2;
+}    
+.single-team-slider ul.nav-link {
+    position: absolute;
+    top: 354px;
+    right: 0px;
+    width: 140px;
+    padding: 0;
+    height: 475px;
+    z-index: 3;
+}
+   
+/*** 
+=============================================
+    Testimonial Area  style
+=============================================
+***/    
+.testimonial-area .sec-title {
+    float: none !important;
+    display: block;
+    padding-bottom: 22px;
+}    
+.testimonial-area .button {
+    margin-top: 0px;
+    float: none !important;
+    padding-bottom: 40px;
+}    
+.testimonial-area .owl-theme .owl-nav.disabled + .owl-dots {
+    position: absolute;
+    top: -20px;
+    left: -104px;
+    margin: 0;
+}    
+    
+/*** 
+=============================================
+    Newsletter Area  style
+=============================================
+***/      
+.newsletter-form input[type="text"], 
+.newsletter-form input[type="email"]{
+    margin-bottom: 20px;
+}    
+    
+/*** 
+=============================================
+    Footer Area style
+=============================================
+***/    
+.single-footer-widget.marbtm50 {
+    margin-bottom: 50px;
+}    
+.single-footer-widget.martop6 {
+    margin-top: 0px;
+}
+
+/*** 
+=============================================
+    Footer Bottom area  style
+=============================================
+***/ 
+.footer-bottom-area {
+    padding: 27px 0 23px;
+}    
+.footer-social-links {
+    float: none !important;
+    display: block;
+    text-align: center;
+    margin-bottom: 12px;
+} 
+.sociallinks-style-one li {
+    float: none;
+    margin-right: 0;
+    margin: 0 8px;
+}    
+    
+    
+.footer-bottom-area .copyright-text {
+    position: static;
+    float: none !important;
+    display: block;
+    text-align: center;
+    margin-bottom: 9px;
+}      
+.footer-menu {
+    float: none !important;
+    overflow: hidden;
+    text-align: center;
+}    
+.footer-menu li {
+    display: inline-block;
+    float: none;
+    margin-right: 10px;
+    padding-right: 10px;
+}     
+  
+/*** 
+=============================================
+    Header Style2 Area style
+=============================================
+***/     
+.header-style2-logo {
+    position: absolute;
+    padding-right: 0;
+    margin: 15px 0;
+    top: 0px;
+    left: 80px;
+    z-index: 33;
+} 
+.header-style2-area.stricky-fixed .header-style2-logo {
+    transition: all 500ms ease;
+    margin: 15px 0;
+}    
+.header-style2-logo a{
+    display: inline-block;
+}    
+.header-style2-area .header-middle {
+    float: none !important;
+    display: block;
+}    
+.header-style2-button {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 15px;
+    z-index: 33;
+    margin: 15px 0;
+}    
+.header-style2-area.stricky-fixed .header-style2-button {
+    transition: all 500ms ease;
+    margin: 15px 0;
+}    
+    
+/*** 
+=============================================
+    Fact Counter Area style
+=============================================
+***/      
+.single-fact-counter {
+    display: block;
+    float: none;
+    max-width: 390px;
+    border-right: none;
+    margin: 0 auto 50px;
+}    
+    
+/*** 
+=============================================
+    About Area.home2 style
+=============================================
+***/      
+.about-image-holder {
+    display: block;
+    margin-bottom: 50px;
+}   
+
+/*** 
+=============================================
+    Appointment Area style
+=============================================
+***/  
+.appointment-image {
+    box-shadow: 0px 3px 10px 0px rgba(246,246,246,1);
+    padding-top: 40px;
+}    
+.appointment-form {
+    padding-top: 0;
+    margin-top: 50px;
+}    
+.appointment-form form {
+    padding-bottom: 60px;
+}    
+    
+/*** 
+=============================================
+    Works Area V2 style
+=============================================
+***/ 
+.single-work-slide .text-holder {
+    margin-top: 50px;
+}  
+.single-vertical-carousel:before {
+    position: absolute;
+    top: 60%;
+    bottom: 0;
+}  
+.single-work-slide .img-holder:before {
+    display: none;
+}    
+.works-area-v2 .prev-btn {
+    top: 80%;
+}    
+.works-area-v2 .next-btn {
+    bottom: 20%;
+}    
+
+/*** 
+=============================================
+    Warranties Sec style
+=============================================
+***/ 
+.warranties-sec {
+    padding: 10px 0 0px;
+}    
+.video-holder {
+    max-width: 570px;
+    min-height: 300px;
+}    
+.video-holder .icon-holder {
+    min-height: 300px;
+}    
+.warranties-content {
+    padding: 0px 0 88px;
+}    
+    
+/*** 
+=============================================
+    Brand area style
+=============================================
+***/      
+.brand-area .brand li {
+    max-width: 345px;
+    text-align: center;
+}    
+    
+/*** 
+=============================================
+    Fact Counter Area style2 style
+=============================================
+***/ 
+.fact-counter-area.style2 .single-fact-counter {
+    border-right: 0px solid;
+}    
+    
+/*** 
+=============================================
+    Choose Area style
+=============================================
+***/ 
+.single-choose-box .icon-holder span:before {
+    font-size: 60px;
+    line-height: 60px;
+}    
+.single-choose-box {
+    padding: 50px 15px 44px;
+}    
+.single-choose-box h3 {
+    font-size: 16px;
+}    
+.video-holder-box {
+    margin-top: 30px;
+}   
+    
+/*** 
+=============================================
+    Specialities Single Area style
+=============================================
+***/ 
+.transform-smile-content .text-holder {
+    margin-bottom: 40px;
+}    
+.specialities-sidebar {
+    margin-left: 0;
+    margin-top: 100px;
+}    
+    
+/*** 
+=============================================
+    Doctor Area style
+=============================================
+***/ 
+.doctor-sidebar{
+    margin-bottom: 100px;
+}     
+.single-doctor-item .text-holder {
+    margin-left: 0;
+    margin-top: 35px;
+}   
+   
+/*** 
+=============================================
+    Blog Area Style
+=============================================
+***/     
+#blog-area .sidebar-wrapper {
+    margin-top: 90px;
+    padding-left: 0px;
+}     
+   
+/*** 
+=============================================
+    Blog Single area style
+=============================================
+***/
+.single-blog-post.single_post .text-box2 p {
+    margin: 0 0 21px;
+}    
+.single-blog-post.single_post .text-box2 ul {
+    margin-top: 0px;
+}    
+.single-blog-post.single_post .image-video-gallery-box .video-holder-box2 {
+    padding: 130px 0 130px;
+    margin-top: 30px;
+}    
+
+/*** 
+=============================================
+    Testimonial Sec style4 style
+=============================================
+***/    
+.testimonial-sec.style4 .owl-nav {
+    bottom: 30%;
+}    
+   
+/*** 
+=============================================
+    Visit Timetable Area Style
+=============================================
+***/
+.find-doctor-specialities {
+    margin: 0 auto 30px;
+}    
+.find-doctor-specialities .input-box .ui-selectmenu-button{
+    margin-bottom: 20px;
+}   
+  
+/*** 
+=============================================
+    Appointment Area 2 Style
+=============================================
+***/    
+.appointment-area2 .appointment-right {
+    margin-top: 70px;
+}   
+.appointment-form-left form .single-box .input-box .ui-selectmenu-button{
+    margin-bottom: 20px;
+}    
+    
+/*** 
+=============================================
+    Contact Info Map Area Style
+=============================================
+***/     
+.contact-info-left{
+    display: block;
+    margin-bottom: 50px;
+}    
+    
+    
+    
+    
+    
+    
+    
+    
+ 
+    
+}
+
+
+/* Mobile Layout: 320px. */
+@media only screen and (max-width: 767px) { 
+
+/*** 
+=============================================
+    Top Bar Area Style
+=============================================
+***/  
+.top-left {
+    margin-bottom: 10px;
+}    
+.top-left ul {
+    text-align: center;
+}
+.top-left ul li {
+    float: none;
+    margin-right: 0;
+    margin: 0 5px;
+}    
+.top-right p {
+    display: block;
+    float: none;
+    padding-left: 0;
+    text-align: center;
+    margin: 0 0 7px;
+}    
+.top-right .sociallinks-style-one {
+    display: block;
+    float: none;
+    line-height: 20px;
+    text-align: center;
+}    
+.top-right .sociallinks-style-one li {
+    display: inline-block;
+    float: none;
+    margin-right: 0;
+    margin: 0 8px;
+}    
+    
+/*** 
+=============================================
+    Header Style1 Area Style
+=============================================
+***/     
+.header-style1-logo {
+    margin: 0;
+    float: none !important;
+    text-align: center;
+    margin-bottom: 25px;
+}    
+.header-contact-info {
+    float: none !important;
+}    
+.header-contact-info ul {
+    margin-left: 0px;
+    text-align: center;
+}    
+.header-contact-info ul li {
+    float: none;
+    margin-right: 0;
+    padding-right: 0;
+    border-right: none;
+    margin: 0 20px 20px;
+}
+.header-contact-info ul li:last-child {
+    margin: 0 20px 0;
+}    
+.header-style1-button {
+    margin: 20px 0 0;
+    float: none !important;
+}    
+.header-style1-button a{
+    margin: 0 auto;
+}    
+    
+/*** 
+=============================================
+    Mainmenu Area  style
+=============================================
+***/ 
+.mainmenu-area .inner-content {
+    padding-left: 5px;
+    padding-right: 5px;
+}    
+.mainmenu-right {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 300px;
+    z-index: 9999;
+    margin: 5px 0;
+} 
+.search-box-style1 {
+    position: absolute !important;
+    top: 0;
+    right: 56px;
+    width: 170px;
+    z-index: 3;
+}
+.search-box-style1 form.search-form button {
+    width: 50px;
+}
+.toggler-button .nav-toggler {
+    width: 55px;
+} 
+    
+/*** 
+=============================================
+    Hidden Bar Css Style
+=============================================
+***/      
+.hidden-bar {
+    max-width: 310px;
+}
+.hidden-bar-wrapper {
+    height: 100%;
+    padding: 50px 15px 30px;
+}    
+    
+   
+/*** 
+=============================================
+    About Area Style
+=============================================
+***/     
+.about-logo-box {
+    margin-bottom: 10px;
+}    
+.about-logo-box ul li {
+    display: block;
+    float: none;
+    margin-right: 0;
+    margin-bottom: 30px;
+    text-align: center;
+} 
+.about-text-holder .author-box .signatire-box {
+    position: static;
+    margin-top: 30px;
+}    
+    
+/*** 
+=============================================
+    Highlights Area Style
+=============================================
+***/  
+.highlights-area .single-box {
+    padding: 0 30px 30px;
+    max-width: 100%;
+    width: 100%;
+    min-height: 255px;
+}    
+.highlights-area .single-middle-box {
+    padding: 0 40px;
+    max-width: 100%;
+    width: 100%;
+    padding-bottom: 80px;
+}    
+
+    
+/*** 
+=============================================
+    Team Area v2 Style
+=============================================
+***/ 
+.team-area-v2 {
+    padding-top: 100px;
+    padding-bottom: 1px;
+}   
+.single-team-slide .img-holder {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: auto;
+    bottom: 0;
+    max-width: 360px;
+    width: 100%;
+    height: 475px;
+    z-index: 1;
+}       
+.single-team-slider .thumb-box.style2 {
+    position: absolute;
+    height: 340px;
+    margin: 0;
+    z-index: 2;
+    top: 40px;
+    left: 0;
+}
+.single-team-slider ul.nav-link {
+    position: absolute;
+    top: -10px;
+    left: 0px;
+    width: 140px;
+    padding: 0;
+    height: 440px;
+    z-index: 3;
+}
+.single-team-slide {
+    position: relative;
+    display: block;
+    padding-top: 470px;
+}    
+.single-team-slide .img-holder {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    max-width: 300px;
+    width: 100%;
+    height: 397px;
+    z-index: 1;
+    margin-top: 40px;
+}
+.single-team-slide .img-holder:before{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    max-width: 300px;
+    height: 398px;
+    border: 2px solid #32b6a1;
+    content: "";
+    z-index: 2;
+}
+.single-team-slide .img-holder .team-social-links {
+    position: absolute;
+    top: 40px;
+    right: -21px;
+    z-index: 10;
+}    
+    
+    
+/*** 
+=============================================
+    Works Area style
+=============================================
+***/    
+.works-tab-box .tab-menu {
+    padding-bottom: 40px;
+}    
+.works-tab-box .tab-menu li {
+    margin: 0px 3px 10px;
+}    
+    
+/*** 
+=============================================
+    Testimonial Area  style
+=============================================
+***/   
+.testimonial-area .inner-content {
+    padding-left: 50px;
+}    
+.testimonial-area .sec-title {
+    float: none !important;
+    display: block;
+    padding-bottom: 22px;
+}    
+.testimonial-area .button {
+    margin-top: 0px;
+    float: none !important;
+    padding-bottom: 40px;
+}    
+.testimonial-area .owl-theme .owl-nav.disabled + .owl-dots {
+    position: absolute;
+    top: -20px;
+    left: -50px;
+    margin: 0;
+}    
+    
+/*** 
+=============================================
+    Newsletter Area  style
+=============================================
+***/      
+.newsletter-form input[type="text"], 
+.newsletter-form input[type="email"]{
+    margin-bottom: 20px;
+}       
+    
+/*** 
+=============================================
+    Footer Area style
+=============================================
+***/    
+.single-footer-widget.marbtm50 {
+    margin-bottom: 50px;
+} 
+.single-footer-widget.pdbtm50 {
+    padding-bottom: 50px;
+}   
+.single-footer-widget.martop6 {
+    margin-top: 0px;
+}
+
+/*** 
+=============================================
+    Footer Bottom area  style
+=============================================
+***/ 
+.footer-bottom-area {
+    padding: 27px 0 23px;
+}    
+.footer-social-links {
+    float: none !important;
+    display: block;
+    text-align: center;
+    margin-bottom: 12px;
+} 
+.sociallinks-style-one li {
+    float: none;
+    margin-right: 0;
+    margin: 0 8px;
+}    
+.footer-bottom-area .copyright-text {
+    position: static;
+    float: none !important;
+    display: block;
+    text-align: center;
+    margin-bottom: 9px;
+}      
+.footer-menu {
+    float: none !important;
+    overflow: hidden;
+    text-align: center;
+}    
+.footer-menu li {
+    display: inline-block;
+    float: none;
+    margin-right: 10px;
+    padding-right: 10px;
+}     
+  
+    
+    
+
+    
+/*** 
+=============================================
+    Topbar Style2 Area style
+=============================================
+***/       
+.top-left-style2 {
+    float: none !important;
+    overflow: hidden;
+}    
+.top-left-style2 ul {
+    display: block;
+    overflow: hidden;
+    margin: 20px 0 0px;
+    text-align: center;
+}   
+.top-left-style2 ul li {
+    display: inline-block;
+    float: none;
+    color: #8b8b8b;
+    font-size: 15px;
+    line-height: 16px;
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
+    margin: 0 10px;
+}    
+.top-right-style2.float-right {
+    float: none !important;
+    display: block;
+} 
+    
+/*** 
+=============================================
+    Header Style2 Area style
+=============================================
+***/     
+.header-style2-logo {
+    position: absolute;
+    padding-right: 0;
+    margin: 15px 0;
+    top: 0px;
+    left: 80px;
+    z-index: 33;
+} 
+.header-style2-area.stricky-fixed .header-style2-logo {
+    transition: all 500ms ease;
+    margin: 15px 0;
+}    
+.header-style2-logo a{
+    display: inline-block;
+}    
+.header-style2-area .header-middle {
+    float: none !important;
+    display: block;
+}    
+.header-style2-button {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 15px;
+    z-index: 33;
+    margin: 15px 0;
+}    
+.header-style2-area.stricky-fixed .header-style2-button {
+    transition: all 500ms ease;
+    margin: 15px 0;
+}      
+    
+/*** 
+=============================================
+    Fact Counter Area style
+=============================================
+***/      
+.single-fact-counter {
+    display: block;
+    float: none;
+    max-width: 390px;
+    border-right: none;
+    margin: 0 auto 50px;
+}    
+    
+/*** 
+=============================================
+    About Area.home2 style
+=============================================
+***/      
+.about-image-holder {
+    display: block;
+    margin-bottom: 50px;
+}   
+        
+/*** 
+=============================================
+    Appointment Area style
+=============================================
+***/  
+.appointment-image {
+    box-shadow: 0px 3px 10px 0px rgba(246,246,246,1);
+    padding-top: 40px;
+}    
+.appointment-form {
+    padding-top: 0;
+    margin-top: 50px;
+    padding: 0 20px;
+}   
+.appointment-form form {
+    padding-bottom: 60px;
+}    
+.appointment-content:before {
+    position: absolute;
+    top: -50px;
+    left: 0px;
+    right: 0px;
+    bottom: 0;
+    background: #ffffff;
+    border-radius: 0 0px 50px 50px;
+    box-shadow: 0px 3px 10px 0px rgba(246,246,246,1);
+}        
+    
+/*** 
+=============================================
+    Works Area V2 style
+=============================================
+***/ 
+.single-work-slide .text-holder {
+    margin-top: 50px;
+    padding-right: 60px;
+}  
+.single-vertical-carousel:before {
+    position: absolute;
+    top: 60%;
+    bottom: 0;
+}  
+.single-work-slide .img-holder:before {
+    display: none;
+}    
+.works-area-v2 .prev-btn {
+    top: 80%;
+}    
+.works-area-v2 .next-btn {
+    bottom: 20%;
+}    
+    
+/*** 
+=============================================
+    Warranties Sec style
+=============================================
+***/ 
+.warranties-sec {
+    padding: 10px 0 0px;
+}    
+.video-holder {
+    max-width: 570px;
+    min-height: 300px;
+}    
+.video-holder .icon-holder {
+    min-height: 300px;
+}    
+.warranties-content {
+    padding: 0px 0 88px;
+}    
+    
+/*** 
+=============================================
+    Brand area style
+=============================================
+***/       
+.brand-area .brand li {
+    display: block;
+    float: none;
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+}    
+    
+/*** 
+=============================================
+    Fact Counter Area style2 style
+=============================================
+***/ 
+.fact-counter-area.style2 .single-fact-counter {
+    border-right: 0px solid;
+}    
+   
+/*** 
+=============================================
+    Choose Area style
+=============================================
+***/ 
+.single-choose-box .icon-holder span:before {
+    font-size: 60px;
+    line-height: 60px;
+}    
+.single-choose-box {
+    padding: 50px 15px 44px;
+}    
+.single-choose-box h3 {
+    font-size: 16px;
+}    
+.video-holder-box {
+    margin-top: 30px;
+}   
+    
+/*** 
+=============================================
+    Specialities Single Area style
+=============================================
+***/ 
+.transform-smile-content .text-holder {
+    margin-bottom: 40px;
+} 
+.single-team-member {
+    margin-bottom: 30px;
+}    
+.specialities-sidebar {
+    margin-left: 0;
+    margin-top: 70px;
+}            
+    
+/*** 
+=============================================
+    Doctor Area style
+=============================================
+***/  
+.doctor-sidebar{
+    margin-bottom: 100px;
+}     
+.single-doctor-item .text-holder {
+    margin-left: 0;
+    margin-top: 35px;
+}
+.doctor-tab-box .tab-btns .tab-btn span {
+    width: 135px;
+}    
+    
+/*** 
+=============================================
+    Breadcrumb Area style
+=============================================
+***/ 
+.breadcrumb-area {
+    padding: 84px 0 75px;
+}    
+.breadcrumb-area::before {
+    left: -25%;
+}    
+.breadcrumb-area .title {
+    float: none !important;
+    margin-bottom: 16px;
+}    
+.breadcrumb-area .breadcrumb-menu {
+    display: block;
+    float: none !important;
+}    
+
+/*** 
+=============================================
+    Blog Area style
+=============================================
+***/ 
+#blog-area.blog-large-area {
+    padding: 100px 0 40px;
+}    
+.single-blog-post.blog-large .inner-content {
+    padding-left: 15px;
+}    
+#blog-area .sidebar-wrapper {
+    margin-top: 90px;
+    padding-left: 0px;
+}   
+    
+/*** 
+=============================================
+    Blog Single area style
+=============================================
+***/
+.single-blog-post.single_post .text-box2 p {
+    margin: 0 0 21px;
+}    
+.single-blog-post.single_post .text-box2 ul {
+    margin-top: 0px;
+}    
+.single-blog-post.single_post .image-video-gallery-box .video-holder-box2 {
+    padding: 115px 0 115px;
+    margin-top: 30px;
+}       
+.blog-prev-next-option .single.prev {
+    float: none;
+    padding-left: 90px;
+    min-height: 90px;
+    width: 100%;
+}       
+.blog-prev-next-option:before {
+    display: none;
+}    
+.blog-prev-next-option .single.next {
+    float: none;
+    padding-right: 90px;
+    min-height: 90px;
+    width: 100%;
+    margin-top: 40px;
+}     
+
+/*** 
+=============================================
+    Testimonial Sec style4 style
+=============================================
+***/    
+.testimonial-sec.style4 .owl-nav {
+    display: none;
+}    
+       
+/*** 
+=============================================
+    Visit Timetable Area Style
+=============================================
+***/
+.find-doctor-specialities {
+    margin: 0 auto 30px;
+}    
+.find-doctor-specialities .input-box .ui-selectmenu-button{
+    margin-bottom: 20px;
+}   
+      
+/*** 
+=============================================
+    Appointment Area 2 Style
+=============================================
+***/ 
+.appointment-form-left {
+    padding: 50px 30px 20px;
+}    
+.appointment-area2 .appointment-right {
+    margin-top: 70px;
+}   
+.appointment-form-left form .single-box .input-box .ui-selectmenu-button{
+    margin-bottom: 20px;
+}    
+   
+/*** 
+=============================================
+    Contact Info Map Area Style
+=============================================
+***/     
+.contact-info-left{
+    display: block;
+    margin-bottom: 50px;
+} 
+
+/*** 
+=============================================
+    Works Area Plus Mix Style
+=============================================
+***/     
+.works-tab-box .tab-btns li{
+    margin-bottom: 10px;
+}    
+.header-style2-button a {
+    width: 150px;
+}    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+    
+}
+
+/* Wide Mobile Layout: 480px. */
+@media only screen and (min-width: 480px) and (max-width: 767px){}
+
+@media (min-width: 992px){ 
+    
+.navbar-collapse.collapse {
+    display: block !important;
+    height: auto;
+    padding-bottom: 0;
+    overflow: visible !important;
+}
+.navbar-toggle {
+    display: none !important;
+} 
+    
+
+    
+}
+
+
+
+@media only screen and (max-width: 991px){ 
+    
+.mainmenu-area .inner-content{
+    position: relative;
+    display: block;
+}         
+.main-menu {
+    display: block;
+    padding-top: 17px;
+    padding-bottom: 0px;
+    z-index: 5;
+    width: 100%;
+}
+.main-menu .navigation li {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+}   
+.main-menu .collapse {
+    border: none;
+    border-radius: 0px !important;
+    float: none;
+    margin: 0;
+    height: auto;
+    overflow: auto;
+    padding: 0;
+    width: 100%;
+}    
+.main-menu .collapse.in, 
+.main-menu .collapsing {
+    border: none;
+    border-radius: 0px;
+    margin: 0;
+    padding: 0;
+    border-top: none;
+}    
+.main-menu .navbar-header {
+    position: relative;
+    float: none;
+    display: block;
+    text-align: right;
+    width: 100%;
+    padding: 63px 0 0;
+    right: 0px;
+    z-index: 12;
+}    
+.main-menu .navbar-header .navbar-toggle {
+    background: #000100;
+    border: 1px dashed #000100;
+    display: inline-block;
+    border-radius: 3px;
+    float: none;
+    margin: 0;
+    z-index: 7;
+    width: 50px;
+    height: 47px;
+    cursor: pointer;
+    padding: 0 9px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.main-menu .navbar-header .navbar-toggle .icon-bar {
+    display: block;
+    background: #e7e7e7;
+    width: 30px;
+    height: 2px;
+    border-radius: 1px;
+}
+.main-menu .navbar-header .navbar-toggle .icon-bar+.icon-bar {
+    margin-top: 6px;
+}
+.main-menu .navbar-collapse .navigation > li > ul{
+    padding: 0px 0px;        
+}    
+.main-menu .navbar-collapse .navigation > li > ul:before {
+    display: none;
+}   
+.main-menu .navbar-collapse > .navigation {
+    float: none !important;
+    width: 100% !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}   
+.main-menu .navbar-collapse .navigation > li{
+    margin:0px !important;
+    float:none !important;
+    width:100%;
+    padding: 0;
+    border-right: none;
+} 
+.main-menu .navbar-collapse .navigation li::before {
+    display: none;
+}
+.main-menu .navbar-collapse .navigation li::after {
+    display: none;
+}    
+.main-menu .navbar-collapse .navigation li.dropdown > a:after{
+    display:none !important;
+} 
+.main-menu .navbar-collapse .navigation li a:after {
+    display: none;
+} 
+.main-menu .navbar-collapse > .navigation > li > ul,
+.main-menu .navbar-collapse > .navigation > li > ul > li > ul{
+    position:relative;
+    float:none;
+    visibility:visible;
+    opacity:1;
+    display:none;
+    margin:0px;
+    padding: 0;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    width:100%;
+    background: none;
+    border-radius:0px;
+    transition:none !important;
+}       
+.main-menu .navbar-collapse .navigation li,
+.main-menu .navbar-collapse .navigation li ul li,
+.main-menu .navbar-collapse .navigation li ul li ul li{
+    background: #0a2722;
+    border-top: 1px solid #0d322c;
+    opacity:1 !important;
+    top:0px !important;
+    left:0px !important;
+    visibility:visible !important;
+}  
+.main-menu .navbar-collapse > .navigation > li:last-child,
+.main-menu .navbar-collapse > .navigation > li > ul > li:last-child{
+    border-bottom: 1px solid #0d322c;         
+}    
+.main-menu .navbar-collapse > .navigation > li > a {
+    padding: 10px 10px !important;
+    line-height: 22px;
+    color: #ffffff;
+    text-align: left; 
+}
+.main-menu .navbar-collapse .navigation li a::before {
+    display: none;
+}         
+.main-menu .navbar-collapse .navigation li ul li{
+    padding: 0;        
+} 
+.main-menu .navbar-collapse .navigation li ul li:last-child {
+    border-bottom: none;
+}   
+.main-menu .navbar-collapse .navigation li ul li a {
+    padding: 10px 10px !important;
+    line-height: 22px;
+    color: #ffffff;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-family: 'Rubik', sans-serif;
+    border: none;
+}
+.main-menu .navbar-collapse .navigation li ul li a:before {
+    display: none;
+}
+   
+.main-menu .navbar-collapse > .navigation > li > a:hover,
+.main-menu .navbar-collapse > .navigation > li > a:active,
+.main-menu .navbar-collapse > .navigation > li > a:focus{
+    
+} 
+.main-menu .navbar-collapse > .navigation > li:hover > a,
+.main-menu .navbar-collapse > .navigation > li > ul > li:hover > a,
+.main-menu .navbar-collapse > .navigation > li > ul > li > ul > li:hover > a,
+.main-menu .navbar-collapse > .navigation > li.current > a{
+    background: #8bc43f;
+    color: #222222 !important;
+}        
+.main-menu .navbar-collapse > .navigation li.dropdown .dropdown-btn{
+    display:block;
+}
+    
+
+    
+.main-menu.style1.style2 .navbar-collapse .navigation li {
+    position: relative;
+    float: none;
+    margin-right: 0px;
+} 
+.main-menu.style1.style2 .navbar-collapse > .navigation > li > a{
+    padding: 10px 10px !important;
+    line-height: 22px;
+    color: #ffffff;
+    text-align: left; 
+}    
+.main-menu.style1.style2 .navbar-collapse .navigation li ul li a {
+    padding: 10px 10px !important;
+    line-height: 22px;
+    color: #ffffff;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-family: 'Rubik', sans-serif;
+    border: none;
+}    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+.main-menu .navigation > li > ul{
+    border: none;
+}      
+.main-menu .navigation > li > ul > li > ul:before {
+    position: absolute;
+    left: 0px;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-bottom: none;
+    content: "";
+    z-index: -1;
+    border-radius: 0;
+}    
+.main-menu .navigation li ul li.dropdown:after {
+    display: none;
+}
+  
+    
+   
+    
+
+    
+}
+
+
+
+
+
+
+
+
+
+@media only screen and (min-width: 1200px) and (max-width: 1300px) { 
+    
+.main-slider .slide-content.left-slide{ 
+    margin-left: 100px; 
+}
+    
+ 
+}
+
+
+@media only screen and (max-width: 1199px){
+.main-slider .slide-content.left-slide{ 
+    margin-left: 100px; 
+}    
+.main-slider .slide-content .big-title{
+	font-size: 52px;
+}
+.main-slider .slide-content .text{
+	font-size: 15px;
+} 
+    
+    
+    
+}
+
+
+@media only screen and (max-width: 1039px){
+    
+.main-slider .slide-content.left-slide{ 
+    margin-left: 50px; 
+}  
+.main-slider .slide-content .big-title{
+	font-size: 45px;
+}
+.main-slider .slide-content .text{
+	font-size: 15px;
+}       
+.main-slider .slide-content .btn-box a{
+    padding: 20px 30px 20px;
+}
+ 
+    
+    
+}
+
+
+@media only screen and (max-width: 777px){
+
+.tparrows{
+    display:block;
+}     
+.main-slider .slide-content .big-title{
+	font-size: 35px;
+}
+.main-slider .slide-content .text{
+	font-size: 15px;
+}       
+.main-slider .slide-content .btn-box a{
+    padding: 20px 30px 20px;
+}
+.main-slider #rev_slider_two_wrapper .slide-content .border-box{
+    display: none;
+} 
+
+    
+}
+
+
+
+
+@media only screen and (max-width: 599px) {
+/*** 
+=============================================
+    Rev slider wrapper style
+=============================================
+***/ 
+.main-slider {
+    position: relative;
+    margin-top: 0;
+}
+.tparrows{
+    display: block;
+} 
+.main-slider .slide-content.left-slide {
+    margin-left: 0px;
+}    
+.main-slider .slide-content .big-title{
+	font-size: 25px;
+}
+.main-slider .slide-content.middle-slide .big-title{
+	font-size: 25px;
+}    
+.main-slider .slide-content.middle-slide .text{
+	font-size: 14px;
+}       
+.main-slider .slide-content .btn-box a{
+    padding: 17px 20px 17px;
+}
+  
+    
+    
+    
+    
+}
+
+
+
+@media only screen and (max-width: 479px) {    
+.main-slider .slide-content .big-title{
+	font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5em;
+}  
+.main-slider .slide-content .big-title br{
+    display: none;
+}    
+.main-slider .slide-content.middle-slide .big-title{
+	font-size: 16px;
+}
+.main-slider .slide-content .text{
+	font-size: 14px;
+} 
+.main-slider .slide-content.middle-slide .text br{
+    display: none;
+}  
+.main-slider .slide-content .text span{
+    display: none;
+}    
+.main-slider .slide-content.middle-slide .text span{
+    display: none;
+}    
+.main-slider .slide-content .btn-box a{
+    padding: 11px 20px 11px;
+}    
+  
+    
+}
+
+
+
+
+
+
+
+
