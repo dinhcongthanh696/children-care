@@ -1,0 +1,875 @@
+/* Remove Chrome Input Field's Unwanted Yellow Background Color */
+input:-webkit-autofill, 
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+::-webkit-input-placeholder { / Chrome/Opera/Safari /
+    color: #000 !important;
+}
+::-moz-placeholder { / Firefox 19+ /
+    color: #000 !important;
+}
+::-ms-input-placeholder { / IE 10+ /
+    color: #000 !important;
+}
+::-moz-placeholder { / Firefox 18- /
+    color: #000 !important;
+}
+.tp-bannertimer{
+    display: none !important;
+}
+
+
+.single-service-sidebar .sidebar-appoinment .appoinment-form .input-box input::-webkit-input-placeholder {
+    color: #cccccc;
+}
+.single-service-sidebar .sidebar-appoinment .appoinment-form .input-box input:-moz-placeholder {
+    color: #cccccc;
+}
+.single-service-sidebar .sidebar-appoinment .appoinment-form .input-box input::-moz-placeholder {
+    color: #cccccc;
+}
+.single-service-sidebar .sidebar-appoinment .appoinment-form .input-box input:-ms-input-placeholder {
+    color: #cccccc;
+}
+
+
+
+.consultation-area .consultation-form textarea::-webkit-input-placeholder {
+    color: #bababa;
+}
+.consultation-area .consultation-form textarea:-moz-placeholder { /* Firefox 18- */
+    color: #bababa;  
+}
+.consultation-area .consultation-form textarea::-moz-placeholder {  /* Firefox 19+ */
+    color: #bababa;  
+}
+.consultation-area .consultation-form textarea:-ms-input-placeholder {
+    color: #bababa;  
+}
+
+
+/* Jquery ui select css */
+.ui-state-default {
+    width: auto !important;
+}
+.ui-selectmenu-open .ui-widget-content {
+    border: 1px solid #1d1d1d !important;
+    background: #ffffff !important;
+    color: #222222 !important;
+    border-radius: 0 !important;
+}
+/* Jquery ui select hover bg css */
+.ui-selectmenu-open .ui-widget-content .ui-state-focus {
+    border: 1px solid #1d1d1d !important;
+    background: #1d1d1d !important;
+    font-weight: normal !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+}
+/* Jquery ui select hover some change css */
+.ui-selectmenu-open .ui-menu .ui-menu-item {
+    border: 1px solid transparent !important;
+    position: relative !important;
+    margin: 0;
+    padding: 5px 15px !important;
+    cursor: pointer !important;
+    font-size: 13px !important;
+    text-transform: none !important;
+}
+.ui-selectmenu-menu .ui-menu {
+    padding-bottom: 0px !important;
+}
+
+
+
+/*** 
+=============================================
+    Highlights Area Style
+=============================================
+***/
+/* Main field css css */
+.highlights-area .single-middle-box form .input-box .ui-selectmenu-button {
+    position: relative;
+    display: block;
+    background: #33bda7;
+    width: 100% !important;
+    border-radius: 5px !important;
+    border: 1px solid #36c6af;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    height: 35px !important;
+    font-family: 'Rubik', sans-serif;
+}
+.highlights-area .single-middle-box form .input-box .ui-selectmenu-button{
+    border-radius: 5px !important;    
+}                                                                                                                
+.highlights-area .single-middle-box form .input-box .ui-selectmenu-button:focus{
+    outline: none;
+}
+.highlights-area .single-middle-box form .input-box .ui-selectmenu-button span.ui-selectmenu-text {
+    display: block;
+    line-height: 18px;
+    overflow: hidden;
+    text-align: left;
+    padding: 8px 15px 7px;
+}
+/* arrow button css */
+.highlights-area .single-middle-box form .input-box .ui-selectmenu-button span.ui-icon {
+    display: block;
+    float: right;
+    height: 35px;
+    position: absolute;
+    text-indent: 0;
+    top: 7px;
+    width: 40px;
+    right: 0;
+    bottom: 0;
+    background-image: none;
+}
+.highlights-area .single-middle-box form .input-box .ui-selectmenu-button span.ui-icon::before {
+    color: #ffffff;
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 16px;
+    overflow: visible;
+    position: absolute;
+    right: 13px;
+    top: 6px;
+}
+
+
+
+/*** 
+=============================================
+    Appointment Area style
+=============================================
+***/
+/* Main field css css */
+.appointment-form form .input-box .ui-selectmenu-button {
+    position: relative;
+    display: block;
+    padding: 0 20px;
+    background: #ffffff;
+    width: 100% !important;
+    border-radius: 5px !important;
+    border: 1px solid #eeeeee;
+    color: #8b8b8b;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    height: 50px !important;
+    font-family: 'Rubik', sans-serif;
+}                                                                                                               
+.appointment-form form .input-box .ui-selectmenu-button:focus{
+    outline: none;
+}
+.appointment-form form .input-box .ui-selectmenu-button span.ui-selectmenu-text {
+    display: block;
+    line-height: 14px;
+    overflow: hidden;
+    text-align: left;
+    padding: 18px 0px 16px;
+}
+/* arrow button css */
+.appointment-form form .input-box .ui-selectmenu-button span.ui-icon {
+    display: block;
+    float: right;
+    height: 50px;
+    position: absolute;
+    text-indent: 0;
+    top: 7px;
+    width: 45px;
+    right: 0;
+    bottom: 0;
+    background-image: none;
+}
+.appointment-form form .input-box .ui-selectmenu-button span.ui-icon::before {
+    color: #cccccc;
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 20px;
+    overflow: visible;
+    position: absolute;
+    right: 18px;
+    top: 12px;
+}
+
+
+
+/*** 
+=============================================
+    Topbar Style2 Area style
+=============================================
+***/
+.state-select-box .ui-selectmenu-button {
+    position: relative;
+    display: block;
+    background: #ffffff;
+    border-radius: 0px !important;
+    border: 1px solid transparent;
+    color: #8b8b8b;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    height: 30px !important;
+    font-family: 'Rubik', sans-serif;
+}
+.state-select-box .ui-selectmenu-button:focus{
+    outline: none;
+}
+.state-select-box .ui-selectmenu-button span.ui-selectmenu-text {
+    display: block;
+    line-height: 20px;
+    overflow: hidden;
+    text-align: left;
+    padding: 4px 0px 4px;
+    padding-left: 0px;
+}
+/* arrow button css */
+.state-select-box .ui-selectmenu-button span.ui-icon {
+    display: block;
+    float: right;
+    height: 30px;
+    position: absolute;
+    text-indent: 0;
+    top: 7px;
+    width: 15px;
+    right: 10px;
+    bottom: 0;
+    background-image: none;
+}
+.state-select-box .ui-selectmenu-button span.ui-icon::before {
+    color: #8b8b8b;
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 18px;
+    overflow: visible;
+    position: absolute;
+    right: 0px;
+    top: 3px;
+}
+
+
+
+/*** 
+=============================================
+    Doctor Area style
+=============================================
+***/
+/* Main field css css */
+.doctor-tab-box .input-box .ui-selectmenu-button {
+    position: relative;
+    display: block;
+    padding: 0 20px;
+    background: #ffffff;
+    width: 100% !important;
+    height: 50px !important;
+    border-radius: 5px !important;
+    border: 1px solid #e3e3e3;
+    color: #8b8b8b;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-family: 'Rubik', sans-serif;
+}                                                                                                               
+.doctor-tab-box .input-box .ui-selectmenu-button:focus{
+    outline: none;
+}
+.doctor-tab-box .input-box .ui-selectmenu-button span.ui-selectmenu-text {
+    display: block;
+    line-height: 14px;
+    overflow: hidden;
+    text-align: left;
+    padding: 17px 0px 17px;
+}
+/* arrow button css */
+.doctor-tab-box .input-box .ui-selectmenu-button span.ui-icon {
+    display: block;
+    float: right;
+    height: 50px;
+    position: absolute;
+    text-indent: 0;
+    top: 7px;
+    width: 45px;
+    right: 0;
+    bottom: 0;
+    background-image: none;
+}
+.doctor-tab-box .input-box .ui-selectmenu-button span.ui-icon::before {
+    color: #cccccc;
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 20px;
+    overflow: visible;
+    position: absolute;
+    right: 18px;
+    top: 12px;
+}
+
+
+
+/*** 
+=============================================
+    Visit Timetable Area style
+=============================================
+***/
+/* Main field css css */
+.find-doctor-specialities .input-box .ui-selectmenu-button {
+    position: relative;
+    display: block;
+    background: #ffffff;
+    width: 100% !important;
+    height: 50px !important;
+    border-radius: 5px !important;
+    border: 1px solid #eeeeee;
+    color: #8b8b8b;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-family: 'Rubik', sans-serif;
+}                                                                                                               
+.find-doctor-specialities .input-box .ui-selectmenu-button:focus{
+    outline: none;
+}
+.find-doctor-specialities .input-box .ui-selectmenu-button span.ui-selectmenu-text {
+    display: block;
+    line-height: 14px;
+    overflow: hidden;
+    text-align: left;
+    padding: 17px 20px 17px;
+}
+/* arrow button css */
+.find-doctor-specialities .input-box .ui-selectmenu-button span.ui-icon {
+    display: block;
+    float: right;
+    height: 50px;
+    position: absolute;
+    text-indent: 0;
+    top: 7px;
+    width: 45px;
+    right: 0;
+    bottom: 0;
+    background-image: none;
+}
+.find-doctor-specialities .input-box .ui-selectmenu-button span.ui-icon::before {
+    color: #cccccc;
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 20px;
+    overflow: visible;
+    position: absolute;
+    right: 18px;
+    top: 12px;
+}
+
+
+
+
+/*** 
+=============================================
+    Appointment Area style
+=============================================
+***/
+/* Main field css css */
+.appointment-form-left form .single-box .input-box .ui-selectmenu-button {
+    position: relative;
+    display: block;
+    background: #ffffff;
+    width: 100% !important;
+    height: 55px !important;
+    border-radius: 5px !important;
+    border: 1px solid #eeeeee;
+    color: #8b8b8b;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-family: 'Rubik', sans-serif;
+}                                                                                                               
+.appointment-form-left form .single-box .input-box .ui-selectmenu-button:focus{
+    outline: none;
+}
+.appointment-form-left form .single-box .input-box .ui-selectmenu-button span.ui-selectmenu-text {
+    display: block;
+    line-height: 14px;
+    overflow: hidden;
+    text-align: left;
+    padding: 20px 20px 19px;
+}
+/* arrow button css */
+.appointment-form-left form .single-box .input-box .ui-selectmenu-button span.ui-icon {
+    display: block;
+    float: right;
+    height: 55px;
+    position: absolute;
+    text-indent: 0;
+    top: 7px;
+    width: 45px;
+    right: 0;
+    bottom: 0;
+    background-image: none;
+}
+.appointment-form-left form .single-box .input-box .ui-selectmenu-button span.ui-icon::before {
+    color: #cccccc;
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 20px;
+    overflow: visible;
+    position: absolute;
+    right: 18px;
+    top: 15px;
+}
+
+
+
+/*** 
+=============================================
+    Contact Info Map Area style
+=============================================
+***/
+.state-select-box2 {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    max-width: 320px;
+    width: 100%;
+    margin: 0px 0;
+    min-height: 185px;
+}
+.state-select-box2 .ui-selectmenu-button {
+    position: relative;
+    display: block;
+    background: #ffffff;
+    border-radius: 0px !important;
+    border: 1px solid #eeeeee;
+    color: #8b8b8b;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    height: 50px !important;
+    font-family: 'Rubik', sans-serif;
+    width: 100% !important;
+}
+.state-select-box2 .ui-selectmenu-button:focus{
+    outline: none;
+}
+.state-select-box2 .ui-selectmenu-button span.ui-selectmenu-text {
+    display: block;
+    line-height: 28px;
+    overflow: hidden;
+    text-align: left;
+    padding: 10px 20px 10px;
+}
+/* arrow button css */
+.state-select-box2 .ui-selectmenu-button span.ui-icon {
+    display: block;
+    float: right;
+    height: 48px;
+    position: absolute;
+    text-indent: 0;
+    top: 0px;
+    width: 40px;
+    right: 0px;
+    bottom: 0;
+    background-image: none;
+    margin: 0;
+}
+.state-select-box2 .ui-selectmenu-button span.ui-icon::before {
+    color: #8bc43f;
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 20px;
+    overflow: visible;
+    position: absolute;
+    right: 19px;
+    top: 0px;
+    line-height: 20px;
+    margin: 14px 0;
+    font-weight: 700;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.faq-sidebar .sidebar-appoinment .appoinment-form .input-box input::-webkit-input-placeholder {
+    color: #222222;
+}
+.faq-sidebar .sidebar-appoinment .appoinment-form .input-box input:-moz-placeholder {
+    color: #222222;
+}
+.faq-sidebar .sidebar-appoinment .appoinment-form .input-box input::-moz-placeholder {
+    color: #222222;
+}
+.faq-sidebar .sidebar-appoinment .appoinment-form .input-box input:-ms-input-placeholder {
+    color: #222222;
+}
+.faq-sidebar .sidebar-appoinment .appoinment-form .input-box textarea::-webkit-input-placeholder {
+    color: #222222;
+}
+.faq-sidebar .sidebar-appoinment .appoinment-form .input-box textarea:-moz-placeholder { /* Firefox 18- */
+    color: #222222;  
+}
+.faq-sidebar .sidebar-appoinment .appoinment-form .input-box textarea::-moz-placeholder {  /* Firefox 19+ */
+    color: #222222;  
+}
+.faq-sidebar .sidebar-appoinment .appoinment-form .input-box textarea:-ms-input-placeholder {
+    color: #222222;  
+}
+
+
+
+/*** 
+=============================================
+    Contact Form style
+=============================================
+***/
+.contact-form form .input-box input::-webkit-input-placeholder {
+    color: #b2b2b2;
+}
+.contact-form form .input-box input:-moz-placeholder {
+    color: #b2b2b2;
+}
+.contact-form form .input-box input::-moz-placeholder {
+    color: #b2b2b2;
+}
+.contact-form form .input-box input:-ms-input-placeholder {
+    color: #b2b2b2;
+}
+.contact-form form .input-box textarea::-webkit-input-placeholder {
+    color: #b2b2b2;
+}
+.contact-form form .input-box textarea:-moz-placeholder { /* Firefox 18- */
+    color: #b2b2b2;  
+}
+.contact-form form .input-box textarea::-moz-placeholder {  /* Firefox 19+ */
+    color: #b2b2b2;  
+}
+.contact-form form .input-box textarea:-ms-input-placeholder {
+    color: #b2b2b2;  
+}
+
+
+
+
+
+
+
+
+
+
+#contact-form input[type="text"].error{
+    border-color: red;
+}
+#contact-form input[type="email"].error{
+    border-color: red;
+}
+#contact-form select.error {
+    border-color: red;
+}
+#contact-form textarea.error{
+    border-color: red;
+}
+#contact-form label.error {
+    display: none !important;
+}
+
+
+
+#add-comment-form input[type="text"].error{
+    border-color: red;    
+}
+#add-comment-form input[type="email"].error{
+    border-color: red;    
+}
+#add-comment-form select.error {
+    border-color: red;
+}
+#add-comment-form textarea.error{
+    border-color: red;    
+}
+#add-comment-form label.error {
+    display: none !important;
+}
+
+
+
+#appoinment-form input[type="text"].error{
+    border-color: red;    
+}
+#appoinment-form input[type="email"].error{
+    border-color: red;    
+}
+#appoinment-form select.error {
+    border-color: red;
+}
+#appoinment-form textarea.error{
+    border-color: red;    
+}
+#appoinment-form label.error {
+    display: none !important;
+}
+
+
+
+/*__Html 5 lightbox css__*/
+#html5-watermark {
+    background: #ff2b58;
+    display: none !important;
+    z-index: 9999999999;
+}
+#html5box-html5-lightbox #html5-image {
+    border: 10px solid #8bc43f;
+    padding: 0 !important;
+}
+#html5box-html5-lightbox #html5-text{
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+
+
+/*** 
+=============================================
+    Rev Slider Wrapper style
+=============================================
+***/
+.main-slider .slide-content .btn-box a.sb1{
+    transition: all 0.5s ease 0s !important;
+}
+.main-slider .slide-content .btn-box a.sb1:hover{
+    background: #ff612a;
+    color: #ffffff;
+}
+.tparrows {
+    cursor: pointer;
+    background: rgba(255, 255, 255,.95) !important;
+    width: 50px !important;
+    height: 110px !important;
+    position: absolute;
+    display: block;
+    z-index: 1000;
+    border-radius: 0%;
+    font-size: 30px;
+    left: 0px !important;
+    transition: all 500ms ease;
+}
+.tp-rightarrow{
+    left: 100% !important; 
+    margin-right: 0px;
+}
+.tparrows:before {
+    width: 50px !important;
+    height: 110px !important;
+    font-size: 25px !important;
+    color: #222222 !important;
+    display: block !important;
+    line-height: 110px !important;
+    text-align: center;
+}
+.tparrows:hover{
+    background: rgba(53, 182, 161, .90) !important;    
+}
+
+
+
+/*** 
+=============================================
+    Brand Area style
+=============================================
+***/
+.brand-area .brand .single-item img {
+    display: inline-block;
+    max-width: 100% !important;
+    opacity: 1;
+    padding: 0px 0;
+    position: relative;
+    -webkit-transition: all 300ms ease-in 0s;
+    transition: all 300ms ease-in 0s;
+    width: auto !important;
+}
+
+.bootstrap-select {
+    width: 100% !important;
+}
+.bootstrap-select > .dropdown-toggle {
+    background: #252525 none repeat scroll 0 0;
+    border-radius: 0;
+    color: #6d6d6d;
+    cursor: pointer;
+    height: 45px;
+    transition: all 500ms ease 0s;
+    z-index: 1;
+    border: 1px solid #2f2f2f;
+}
+.dropdown-menu {
+    background-color: #fff !important;
+    border: 0px solid #888 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: none;
+    font-size: 14px;
+    margin: 1px 0 0 !important;
+    width: 100%;
+    display: block;
+    padding: 8px 12px !important;
+}
+.bootstrap-select.btn-group .dropdown-menu li {}
+.bootstrap-select.btn-group .dropdown-menu li a {
+    padding: 8px 10px !important;
+}
+
+.default-form .bootstrap-select {
+    border: 1px solid #2f2f2f;
+    background: #252525;
+    color: #ababab;
+    padding: 5px 0;
+    font-size: 16px;
+}
+.bootstrap-select>.dropdown-toggle:focus,
+.bootstrap-select>.dropdown-toggle:hover {
+    color: #ababab;
+    background: #444;
+}
+
+
+
+/*** 
+=============================================
+    Cart Area style
+=============================================
+***/
+.cart-area .cart-table tbody tr .qty .form-control {
+    background-color: #f7f7f7;
+    background-image: none;
+    border: 1px solid #f7f7f7;
+    border-radius: 0 !important;
+    box-shadow: none;
+    color: #222222;
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
+    height: 50px;
+    padding: 6px 0;
+    text-align: center;
+    font-family: 'Titillium Web', sans-serif;
+}
+.cart-bottom .calculate-shipping .ui-state-default {
+    width: 100% !important;
+}
+
+
+
+/*** 
+=============================================
+    Single shop Area style
+=============================================
+***/
+.single-shop-content .content-box .addto-cart-box .form-control {
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #eaeaea;
+    border-radius: 0 !important;
+    box-shadow: none;
+    color: #272727;
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    height: 50px;
+    padding: 6px 0 8px;
+    text-align: center;
+}
+
+
+
+/*** 
+=============================================
+    Shop area style
+=============================================
+***/
+/* Main field css css */
+#shop-area .showing-result-shorting .ui-selectmenu-button {
+    background: #fff !important;
+    width: 200px !important;
+    border-radius: 0px !important;
+    border: 1px solid #f2f2f2 !important;
+    color: #848484 !important;
+    font-size: 15px !important;
+    text-transform: capitalize;
+    height: 40px !important;
+    position: relative;
+    transition: all 500ms ease;
+}
+#shop-area .showing-result-shorting .ui-selectmenu-button:focus{
+    outline: none;
+}
+#shop-area .showing-result-shorting .ui-selectmenu-button span.ui-selectmenu-text {
+    display: block;
+    line-height: 18px;
+    overflow: hidden;
+    text-align: left;
+    padding: 10px 15px 10px;
+    transition: all 500ms ease;
+}
+/* arrow button css */
+#shop-area .showing-result-shorting .ui-selectmenu-button span.ui-icon {
+    display: block;
+    float: right;
+    height: 40px;
+    position: absolute;
+    text-indent: 0;
+    top: 7px;
+    width: 40px;
+    right: 0;
+    bottom: 0;
+    background-image: none;
+}
+#shop-area .showing-result-shorting .ui-selectmenu-button span.ui-icon::before {
+    color: #848484;
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 17px;
+    overflow: visible;
+    position: absolute;
+    right: 14px;
+    top: 7px;
+}
+
+
+
+
+
+.market-update-area .btcwdgt {
+    display: block !important;
+    background-color: #202020 !important;
+    color: #aaa !important;
+    width: auto !important;
+    min-width: 240px !important;
+    max-width: 770px !important;
+    margin: 0px !important;
+    box-shadow: none !important;
+    font-size: 16px !important;
+    font-family: 'museo-sans-rounded', Helvetica, Arial, sans-serif !important;
+    font-weight: 300 !important;
+    line-height: 1.0em !important;
+    border: 1px solid #2a2a2a !important;
+}
+.market-update-area .btcwdgt-chart .btcwdgt-header{
+    display: none !important;
+}
+.market-update-area .btcwdgt-chart .btcwdgt-footer{
+    display: none !important;
+}
