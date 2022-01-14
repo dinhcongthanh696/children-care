@@ -10,7 +10,8 @@ public class ChildrenCareApplication {
 		SpringApplication.run(ChildrenCareApplication.class, args);
 		//test commit
 		// hehehehehehehehehe
-		//asdnfkasdfkasdlfasd
+		//hello duc anh
+		// hello duc 2
 	}
 
 }
