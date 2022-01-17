@@ -13,11 +13,13 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "post_category")
 @AllArgsConstructor
+@NoArgsConstructor
 public class PostCategoryModel {
 	@Id
 	@SequenceGenerator(

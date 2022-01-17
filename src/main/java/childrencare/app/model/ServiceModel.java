@@ -15,11 +15,13 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Service")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ServiceModel {
 	@Id
 	@Column(name = "service_id")

@@ -7,10 +7,12 @@ import javax.persistence.Embeddable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class FeedbackKey implements Serializable{
 	private String username;
 	private String service_id;

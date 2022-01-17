@@ -10,11 +10,13 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Reservation_Service")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ReservationServiceModel {
 	@EmbeddedId
 	private ReservationServiceKey id;
