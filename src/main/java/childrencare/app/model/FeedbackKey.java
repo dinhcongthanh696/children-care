@@ -13,7 +13,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class FeedbackKey implements Serializable{
 	private String username;
-	private String service_id;
+	private int service_id;
 	
 	@Override
 	public int hashCode() {
