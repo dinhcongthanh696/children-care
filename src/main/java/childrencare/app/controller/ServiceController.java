@@ -4,6 +4,7 @@ import childrencare.app.model.ServiceModel;
 import childrencare.app.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,8 +16,9 @@ public class ServiceController {
         this.serviceRepository = serviceRepository;
     }
     @GetMapping("/service/{id}")
-    public ServiceModel getServiceById(@PathVariable(name = "id") int id){
+    public String getServiceById(@PathVariable(name = "id") int id, Model model){
         ServiceModel service = serviceRepository.findById(id).get();
-        return service;
+        model.addAttribute("service", service);
+        return "ServiceDetail";
     }
 }
