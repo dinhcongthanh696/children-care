@@ -38,7 +38,23 @@ public class ServiceModel {
 	private int serviceId;
 	private byte[] thumbnail;
 	private String title;
-	
+
+	public ServiceModel(int serviceId, byte[] thumbnail,
+						String title, String briefInfo,
+						double originalPrice, double salePrice, int quantity, String description) {
+		this.serviceId = serviceId;
+		this.thumbnail = thumbnail;
+		this.title = title;
+		this.briefInfo = briefInfo;
+		this.originalPrice = originalPrice;
+		this.salePrice = salePrice;
+		this.quantity = quantity;
+		this.description = description;
+		this.feedbacks = feedbacks;
+		this.serviceCategory = serviceCategory;
+		this.reservationServices = reservationServices;
+	}
+
 	@Column(name = "brief_info")
 	private String briefInfo;
 	
