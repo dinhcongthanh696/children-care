@@ -27,30 +27,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServiceModel {
-	@Id
-	@Column(name = "service_id")
-	@SequenceGenerator(
-			sequenceName = "service_id_sequence",
-			name = "service_id_sequence",
-			allocationSize = 1
-	)
-	
-	@GeneratedValue(
-			strategy = GenerationType.IDENTITY,
-			generator = "service_id_sequence"
-	)
-	private int serviceId;
-	private byte[] thumbnail;
-	private String title;
-<<<<<<< HEAD
-	@Transient
-	private double avg_star;
-	
-=======
 
-	public ServiceModel(int serviceId, byte[] thumbnail,
-						String title, String briefInfo,
-						double originalPrice, double salePrice, int quantity, String description) {
+	public ServiceModel(int serviceId, byte[] thumbnail, String title, String briefInfo, double originalPrice,
+			double salePrice, int quantity, String description) {
 		this.serviceId = serviceId;
 		this.thumbnail = thumbnail;
 		this.title = title;
@@ -59,37 +38,46 @@ public class ServiceModel {
 		this.salePrice = salePrice;
 		this.quantity = quantity;
 		this.description = description;
-		this.feedbacks = feedbacks;
-		this.serviceCategory = serviceCategory;
-		this.reservationServices = reservationServices;
 	}
 
->>>>>>> 569f13f1b193e7beb3c649d0ef4ddb271ec77361
+	@Id
+	@Column(name = "service_id")
+	@SequenceGenerator(sequenceName = "service_id_sequence", name = "service_id_sequence", allocationSize = 1)
+
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "service_id_sequence")
+
+	private int serviceId;
+	private byte[] thumbnail;
+	private String title;
+	@Transient
+	private double avg_star;
+
 	@Column(name = "brief_info")
 	private String briefInfo;
-	
+
 	@Column(name = "original_price")
 	private double originalPrice;
-	
+
 	@Column(name = "sale_price")
 	private double salePrice;
-	
+
 	private int quantity;
-	
+
 	private String description;
-	
+
 	@Transient
 	private String base64ThumbnailEncode;
-	
+
 	@OneToMany(mappedBy = "service")
 	@JsonIgnore
 	private List<FeedbackModel> feedbacks;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "service_category_id")
 	@JsonIgnore
 	private ServiceCategoryModel serviceCategory;
-	
+
 	@OneToMany(mappedBy = "service")
 	private List<ReservationServiceModel> reservationServices;
+	
 }

@@ -20,6 +20,11 @@
         background: linear-gradient(to right, #eecda3, #ef629f);
         min-height: 100vh;
     }
+    
+    img{
+    	width : 100%;
+    	height : 190px;
+    }
 </style>
 <div class="px-4 px-lg-0">
     <!-- For demo purpose -->
@@ -67,7 +72,7 @@
                                 <tr th:each="info: ${list}">
                                     <th scope="row" class="border-0">
                                         <div class="p-2">
-                                            <img th:src="${info.thumbnail}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">
+                                            <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">
                                             <div class="ml-3 d-inline-block align-middle">
                                                 <span class="text-muted font-weight-normal font-italic d-block">ID</span>
                                                 <h5 class="mb-0"><a th:text="${info.serviceId}" href="#" class="text-dark d-inline-block align-middle"></a></h5>
@@ -85,7 +90,7 @@
 
                                 </tbody>
                             </table>
-                            <div class="back-to-shop"><a href="/ChildrenCare/service/list">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+                            <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
                         </div>
                         <!-- End -->
                     </div>

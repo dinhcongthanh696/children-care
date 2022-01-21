@@ -1,8 +1,8 @@
 package childrencare.app.repository;
 
-<<<<<<< HEAD
 
-import java.awt.print.Pageable;
+
+
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -24,26 +24,18 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer>{
 	@Query(value = serviceRatedDecendingQuery , nativeQuery = true)
 	public List<ServiceModel> findRatedServiceDescending(Integer number);
 	
-	 @Query(value = "SELECT * FROM service WHERE title LIKE ?1",
+	 @Query(value = "SELECT * FROM service WHERE title LIKE ?1 ORDER BY title",
 			    countQuery = "SELECT count(*) FROM service WHERE title = ?1",
 			    nativeQuery = true)
 	 public Page<ServiceModel> findByTitleLike(String title, PageRequest pageable);
 	 
-	 @Query(value = "SELECT * FROM service WHERE title LIKE ?1 AND service_category_id = ?2",
+	 @Query(value = "SELECT * FROM service WHERE title LIKE ?1 AND service_category_id = ?2 ORDER BY title",
 			    countQuery = "SELECT count(*) FROM service WHERE title = ?1 AND service_category_id = ?2",
 			    nativeQuery = true)
 	 public Page<ServiceModel> findByTitleLikeAndCategory(String title,int serviceCategoryId, PageRequest pageable);
 	 
-	 @Query(value = "SELECT * FROM service WHERE service_category_id = ?1",
+	 @Query(value = "SELECT * FROM service WHERE service_category_id = ?1 ORDER BY title",
 			    countQuery = "SELECT count(*) FROM service WHERE service_category_id = ?1",
 			    nativeQuery = true)
 	 public Page<ServiceModel> findByTitleLikeAndCategory(int serviceCategoryId, PageRequest pageable);
-=======
-import childrencare.app.model.ServiceModel;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> {
->>>>>>> 569f13f1b193e7beb3c649d0ef4ddb271ec77361
 }

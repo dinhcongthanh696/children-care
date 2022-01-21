@@ -1,6 +1,5 @@
 package childrencare.app.controller;
 
-<<<<<<< HEAD
 import java.util.Base64;
 import java.util.List;
 
@@ -72,27 +71,5 @@ public class ServiceController {
 		model.addAttribute("categories", categories);
 		return "servicelist";
 	}
-=======
-import childrencare.app.model.ServiceModel;
-import childrencare.app.repository.ServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-@Controller
-public class ServiceController {
-    private final ServiceRepository serviceRepository;
-    @Autowired
-    public ServiceController(ServiceRepository serviceRepository){
-        this.serviceRepository = serviceRepository;
-    }
-    @GetMapping("/service/{id}")
-    public String getServiceById(@PathVariable(name = "id") int id, Model model){
-        ServiceModel service = serviceRepository.findById(id).get();
-        model.addAttribute("service", service);
-        return "ServiceDetail";
-    }
->>>>>>> 569f13f1b193e7beb3c649d0ef4ddb271ec77361
 }
+

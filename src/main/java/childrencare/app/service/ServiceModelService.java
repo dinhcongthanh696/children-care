@@ -3,6 +3,7 @@ package childrencare.app.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import childrencare.app.model.ServiceModel;
@@ -21,7 +22,7 @@ public class ServiceModelService {
 		if (page < 0) {
 				throw new Exception("page must not be negative");
 		}
-		Page<ServiceModel> servicesPageable = serviceRepository.findAll(PageRequest.of(page, size));
+		Page<ServiceModel> servicesPageable = serviceRepository.findAll(PageRequest.of(page, size , Sort.by(Sort.Direction.ASC, "title")));
 		if(page > servicesPageable.getTotalPages()) {
 			throw new Exception("over pages");
 		}
