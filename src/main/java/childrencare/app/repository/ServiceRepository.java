@@ -1,5 +1,6 @@
 package childrencare.app.repository;
 
+<<<<<<< HEAD
 
 import java.awt.print.Pageable;
 import java.util.List;
@@ -37,4 +38,12 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer>{
 			    countQuery = "SELECT count(*) FROM service WHERE service_category_id = ?1",
 			    nativeQuery = true)
 	 public Page<ServiceModel> findByTitleLikeAndCategory(int serviceCategoryId, PageRequest pageable);
+=======
+import childrencare.app.model.ServiceModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> {
+>>>>>>> 569f13f1b193e7beb3c649d0ef4ddb271ec77361
 }

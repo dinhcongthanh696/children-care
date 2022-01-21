@@ -42,9 +42,29 @@ public class ServiceModel {
 	private int serviceId;
 	private byte[] thumbnail;
 	private String title;
+<<<<<<< HEAD
 	@Transient
 	private double avg_star;
 	
+=======
+
+	public ServiceModel(int serviceId, byte[] thumbnail,
+						String title, String briefInfo,
+						double originalPrice, double salePrice, int quantity, String description) {
+		this.serviceId = serviceId;
+		this.thumbnail = thumbnail;
+		this.title = title;
+		this.briefInfo = briefInfo;
+		this.originalPrice = originalPrice;
+		this.salePrice = salePrice;
+		this.quantity = quantity;
+		this.description = description;
+		this.feedbacks = feedbacks;
+		this.serviceCategory = serviceCategory;
+		this.reservationServices = reservationServices;
+	}
+
+>>>>>>> 569f13f1b193e7beb3c649d0ef4ddb271ec77361
 	@Column(name = "brief_info")
 	private String briefInfo;
 	

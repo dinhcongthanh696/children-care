@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+
+
+
+</head>
+<body>
+<style>
+    body {
+        background: #eecda3;
+        background: -webkit-linear-gradient(to right, #eecda3, #ef629f);
+        background: linear-gradient(to right, #eecda3, #ef629f);
+        min-height: 100vh;
+    }
+</style>
+<div class="px-4 px-lg-0">
+    <!-- For demo purpose -->
+    <div class="container text-white py-5 text-center">
+        <h1 class="display-4">Reservation Details</h1>
+
+    </div>
+    <th:block th:if="${#lists.isEmpty(list)}">
+        <h3>No reservation</h3>
+    </th:block>
+    <!-- End -->
+    <th:block th:unless="${#lists.isEmpty(list)}">
+        <div class="pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+
+                        <!-- Shopping cart table -->
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="border-0 bg-light">
+                                        <div class="p-2 px-3 text-uppercase">Service</div>
+                                    </th>
+                                    <th scope="col" class="border-0 bg-light">
+                                        <div class="py-2 text-uppercase">Price</div>
+                                    </th>
+                                    <th scope="col" class="border-0 bg-light">
+                                        <div class="py-2 text-uppercase">Quantity</div>
+                                    </th>
+                                    <th scope="col" class="border-0 bg-light">
+                                        <div class="py-2 text-uppercase">The number of person</div>
+                                    </th>
+                                    <th scope="col" class="border-0 bg-light">
+                                        <div class="py-2 text-uppercase">Total cost</div>
+                                    </th>
+                                    <th scope="col" class="border-0 bg-light">
+                                        <div class="py-2 text-uppercase">Action</div>
+                                    </th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="info: ${list}">
+                                    <th scope="row" class="border-0">
+                                        <div class="p-2">
+                                            <img th:src="${info.thumbnail}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">
+                                            <div class="ml-3 d-inline-block align-middle">
+                                                <span class="text-muted font-weight-normal font-italic d-block">ID</span>
+                                                <h5 class="mb-0"><a th:text="${info.serviceId}" href="#" class="text-dark d-inline-block align-middle"></a></h5>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    <td th:text="${info.originalPrice}" class="border-0 align-middle"></td>
+                                    <td th:text="${info.quantity}" class="border-0 align-middle"><input type="number" min="1" value="1"></td>
+                                    <td class="border-0 align-middle"><strong></strong></td>
+                                    <td class="border-0 align-middle"><strong></strong></td>
+                                    <td class="border-0 align-middle"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                            <div class="back-to-shop"><a href="/ChildrenCare/service/list">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+                        </div>
+                        <!-- End -->
+                    </div>
+
+                </div>
+
+                <div class="row py-5 p-4 bg-white rounded shadow-sm">
+                    <div class="col-lg-6">
+                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Discount code</div>
+                        <div class="p-4">
+                            <p class="font-italic mb-4">If you have a discount code, please enter it in the box below</p>
+                            <div class="input-group mb-4 border rounded-pill p-2">
+                                <input type="text" placeholder="Apply discount" aria-describedby="button-addon3" class="form-control border-0">
+                                <div class="input-group-append border-0">
+                                    <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Apply discount</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller</div>
+                        <div class="p-4">
+                            <p class="font-italic mb-4">If you have some information for the seller you can leave them in the box below</p>
+                            <textarea name="" cols="30" rows="2" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+                        <div class="p-4">
+                            <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
+                            <ul class="list-unstyled mb-4">
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal </strong><strong>$390.00</strong></li>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Shipping and handling</strong><strong>$10.00</strong></li>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tax</strong><strong>$0.00</strong></li>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
+                                    <h5 class="font-weight-bold">$400.00</h5>
+                                </li>
+                            </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </th:block>
+</div>
+</body>
+</html>
