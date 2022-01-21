@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<!-- responsive meta -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- For IE -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- master stylesheet -->
+<link rel="stylesheet" href="../css/style.css">
+<!-- Responsive stylesheet -->
+<link rel="stylesheet" href="../css/responsive.css">
+<!--Color Switcher Mockup-->
+<link rel="stylesheet" href="../css/color-switcher-design.css">
+<!--Color Themes-->
+<link rel="stylesheet" href="../css/color-themes/default-theme.css"
+	id="theme-color-file">
+<!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180"
+	href="../images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="stylesheet" href="../css/list-services.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+	<script type="text/javascript">
+		function viewServiceDetails(service_id){
+			window.location = "/ChildrenCare/service/"+service_id;
+		}
+		
+		function changePage(pageNumber){
+			var search = document.querySelector("#search").value;
+			var categoryId = parseInt(document.querySelector("#filter").value);
+			window.location = "/ChildrenCare/service/services?page="+pageNumber+"&search="+search+"&category="+categoryId;
+		}
+		
+		function renderPages(totalPages,currentPage){
+			var totalPages = parseInt(document.querySelector("#totalPages").value);
+			var currentPage = parseInt(document.querySelector("#currentPage").value);
+			var pageListContainer = document.querySelector("#pages");
+			var search = document.querySelector("#search").value;
+			var categoryId = parseInt(document.querySelector("#filter").value);
+			var gap = 2;
+			if(currentPage > gap + 1){
+				pageListContainer.innerHTML += 
+					"<span class='pageNumberElement' onclick=changePage(\'0\')> 1 </span>"+
+					" <span class='pageNumberElement'> ... </span>"
+			}else if(currentPage === gap + 1){
+				pageListContainer.innerHTML += 
+					"<span class='pageNumberElement' onclick=changePage(\'0\')> 1 </span>"
+			}
+			
+			for(let i = 0 ; i < currentPage ; i++){
+				if(i + gap >= currentPage){
+					pageListContainer.innerHTML += 
+					"<span class='pageNumberElement' onclick=changePage(\'"+ i +"\')> "
+					+(i + 1)
+					+ "</span>"
+				}
+			}
+			// Highlight currentpage
+				pageListContainer.innerHTML += "<span class='pageNumberElement active' > "
+						+ (currentPage + 1)
+						+"</span>"
+			//
+			
+			for(let i = currentPage + 1 ; i < totalPages ; i++){
+				if(i + gap <= totalPages && i <= currentPage + gap){
+					pageListContainer.innerHTML += 
+					"<span class='pageNumberElement' onclick=changePage(\'"+ i +"\')> "
+					+(i + 1)
+					+ "</span>"
+				}
+			}
+						
+			if(currentPage + gap + 1 < totalPages - 1){
+				pageListContainer.innerHTML += " <span class='pageNumberElement'> ... </span>"
+					+"<span class='pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')>"
+					+ totalPages
+					+ "  </span>"
+			}else if(currentPage !== totalPages - 1){
+				pageListContainer.innerHTML += 
+					"<span class='pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')>"
+					+ totalPages
+					+ "  </span>"
+			}			
+	}
+	</script>
+</head>
+
+<body th:onload="renderPages()">
+	<div id="top-bar" th:insert="index :: top-bar"></div>
+	<input type="hidden" th:value="${totalPages}" id="totalPages"/>
+	<div id="form-search" class="container">
+		<form method="POST" action="/ChildrenCare/service/services">
+			<input type="hidden" th:value="${currentPage}" id="currentPage"/>
+			<div class="input-group row">
+				<div class="col-sm-6">
+					<label class="control-label col-sm-2" for="search" style="font-size : 15px;">Search </label>
+					<input type="text" placeholder="Search by title " th:value="${search}" class="form-control form-control-sm" id="search" name="search"/>
+					<div class="input-group-btn">
+      					<button class="btn btn-success" type="submit">
+        					<i class="glyphicon glyphicon-search"></i>
+      					</button>
+   				 	</div>
+   				 </div>
+   				 <div class="col-sm-6">
+   				 	<label for="filter" class="col-sm-3 col-form-label col-form-label-sm" style="font-size : 15px;">Category : </label>
+						<select class="form-select form-select-sm" id="filter" onchange="this.form.submit()" name="category">
+							<option value="0">Category</option>
+  							<option th:each="category : ${categories}" 
+  									th:value="${category.serviceCategoryId}" th:text="${category.serviceCategoryName}" 
+  									th:selected="${category.serviceCategoryId} eq ${categoryId}">
+  							</option>
+						</select>
+				</div>
+  			</div>
+		</form>
+	</div>
+	<div id="body" class="container-fluid">
+		<div class="row">
+			<div class='col-sm-3 service-item' 
+			th:each="service : ${services}" th:onclick="'viewServiceDetails('+${service.serviceId}+')'">
+					<img th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}" class="service-thumbnail"/>
+					<h1 th:text="${'Title : '+service.title}" class="service-title"></h1>
+					<p th:text="${'Brief Info : '+service.briefInfo}"></p>
+					<p th:text="${'Description : '+service.description}"></p>
+					<div>
+						Rated Stars : 
+						<span th:class="${service.avg_star >= 1  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						<span th:class="${service.avg_star >= 2  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						<span th:class="${service.avg_star >= 3  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						<span th:class="${service.avg_star >= 4  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						<span th:class="${service.avg_star == 5  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						<span class="glyphicon glyphicon-shopping-cart"></span>
+						<h5 th:text="'    '+${#numbers.setFormatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' "></h5>
+					</div>
+					<h4 th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}"></h4>			
+			</div>
+		</div>
+	</div>
+	<div id="pages"></div>
+	<div id="footer" th:insert="index :: footer"></div>
+</body>
+</html>

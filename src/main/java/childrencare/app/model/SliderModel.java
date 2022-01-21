@@ -8,12 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "Slide")
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Data
 public class SliderModel {
 	@Id
@@ -29,11 +30,11 @@ public class SliderModel {
 			generator = "slide_id_sequence"
 	)
 	private int slideId;
-	private final String title = "";
-	private final byte[] image = null;
+	private String title;
+	private final byte[] image;
 	@Column(name = "back_link")
-	private final String backLink = "";
-	private final boolean status = false;
-	private final String notes = "";
+	private String backLink;
+	private boolean status;
+	private String notes;
 	
 }

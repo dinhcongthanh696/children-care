@@ -34,7 +34,7 @@ public class ServiceCategoryModel {
 	)
 	private int serviceCategoryId; 
 	@Column(name = "service_category_name")
-	private final String serviceCategoryName = "";
+	private String serviceCategoryName;
 	
 	@OneToMany(mappedBy = "serviceCategory")
 	List<ServiceModel> services;

@@ -1,0 +1,98 @@
+body{
+	font-size: 35px;	
+}
+
+#body{
+	margin-top: 30px;
+}
+
+.col-form-label{
+	font-size: 20px;
+}
+
+#form-search{
+	background-color: #EDEDED;
+	border-radius: 2px;	
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.service-thumbnail{
+    margin-left: 6%;
+    margin-right: 6%;
+    width: 88%;
+    height: 300px;
+    border-radius: 8px;
+}
+
+.glyphicon .glyphicon-search{
+	position: absolute;
+	top : 0;
+	right : 0;
+}
+
+.service-item{
+	border : 2px solid #d4f1f9;
+    height : 600px;
+    padding : 10px;
+    transition: border 1s , box-shadow 1s;
+    margin-left: 1%;
+    margin-right : 1%;
+    margin-bottom : 1%;
+    cursor: pointer;
+}
+
+.service-item:hover{
+    box-shadow: 5px 10px #888888;
+}
+
+.glyphicon-shopping-cart{
+	color : green;
+	cursor : pointer;
+	font-weight: bold;
+	font-size: 20px;
+	transition : font-size 1s;
+	margin-left : 22%;
+}
+
+.glyphicon-shopping-cart:hover{
+	font-size: 25px;
+}
+
+#pages{
+	text-align: center;
+	margin-top : 20px;
+	margin-bottom: 20px;
+}
+
+#pages span.pageNumberElement{
+	padding : 3px;
+	cursor: pointer;
+	transition: border 1s , box-shadow 1s;
+	margin-right: 10px;
+	font-size: 21px;
+}
+
+#pages span.pageNumberElement:hover{
+	box-shadow: 2px 3px #888888;
+}
+
+#pages span.active{
+	padding : 7px;
+	background-color: green;
+	border: 1px solid #ddd;
+}
+
+.service-title{
+	color : red;
+}
+
+.rated{
+	color : yellow;
+	font-weight: bold;
+}
+
+.input-group #search{
+	width : 40%;
+	padding : 10px;
+}

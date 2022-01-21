@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,6 +42,8 @@ public class ServiceModel {
 	private int serviceId;
 	private byte[] thumbnail;
 	private String title;
+	@Transient
+	private double avg_star;
 	
 	@Column(name = "brief_info")
 	private String briefInfo;
@@ -52,11 +58,16 @@ public class ServiceModel {
 	
 	private String description;
 	
+	@Transient
+	private String base64ThumbnailEncode;
+	
 	@OneToMany(mappedBy = "service")
+	@JsonIgnore
 	private List<FeedbackModel> feedbacks;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "service_category_id")
+	@JsonIgnore
 	private ServiceCategoryModel serviceCategory;
 	
 	@OneToMany(mappedBy = "service")

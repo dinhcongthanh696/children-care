@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <!-- Mirrored from st.ourhtmldemo.com/new/Dento/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Jan 2021 02:01:40 GMT -->
 <head>
@@ -38,7 +38,7 @@
 <div class="preloader"></div> 
 
 <!-- Start Top Bar area -->  
-<section class="top-bar-area">
+<section class="top-bar-area" th:fragment="top-bar">
     <div class="container">
         <div class="row">
             <div class="col-xl-7 col-lg-6">
@@ -1740,7 +1740,7 @@
 <!--End footer area-->
 
 <!--Start footer bottom area-->
-<section class="footer-bottom-area">
+<section class="footer-bottom-area" th:fragment="footer">
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">

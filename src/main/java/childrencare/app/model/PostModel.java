@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name = "Post")
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PostModel {
 	@Id
 	@Column(name = "post_id")
@@ -35,21 +37,21 @@ public class PostModel {
 	)
 	private int postId;
 	@Column(nullable = true)
-	private final byte[] thumbnail = null;
-	private final String title = "";
+	private byte[] thumbnail;
+	private String title = "";
 	@Column(name = "brief_info")
-	private final String briefInfo = "";
-	private final String details = "";
+	private String briefInfo;
+	private String details;
 	@Column(name = "create_at")
-	private final Date createAt = null;
+	private Date createAt;
 	@Column(name = "updated_at")
-	private final Date updatedAt = null;
+	private Date updatedAt;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "username")
 	private UserModel author;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_category_id")
 	private PostCategoryModel postCategory;
 	

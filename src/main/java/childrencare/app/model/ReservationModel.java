@@ -13,13 +13,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "Reservation")
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ReservationModel {
 	@Id
 	@Column(name = "reservation_id")
@@ -34,17 +35,17 @@ public class ReservationModel {
 			generator = "reservation_id_sequence"
 	)
 	private int reservationId;
-	private final Date date = null;
+	private Date date;
 	@Column(name = "total_reservation_price")
 	private final double totalReservationPrice = 0;
 	
-	private final String fullname = "";
-	private final boolean gender = false;
-	private final String email = "";
-	private final String phone = "";
-	private final String address = "";
-	private final String notes = "";
-	private final boolean status = false;
+	private String fullname;
+	private boolean gender;
+	private String email;
+	private String phone;
+	private String address;
+	private String notes;
+	private boolean status;
 	
 	@OneToMany(mappedBy = "reservation")
 	private List<ReservationServiceModel> reservationServices; 
