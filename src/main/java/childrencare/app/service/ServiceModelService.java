@@ -1,6 +1,7 @@
 package childrencare.app.service;
 
 
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import childrencare.app.model.ServiceModel;
 import childrencare.app.repository.ServiceRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceModelService {
@@ -43,5 +47,17 @@ public class ServiceModelService {
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
 		return servicesPageable;
 	}
-	
+
+	public ServiceModel getServiceById(int id){
+		ServiceModel service = null;
+		Optional<ServiceModel> optionalservice = serviceRepository.findById(id);
+		if (optionalservice.isPresent()){
+			service = optionalservice.get();
+		}
+		return service;
+	}
+
+	public List<ServiceModel> getServices(int size){
+		return serviceRepository.findRatedServiceDescending(size);
+	}
 }
