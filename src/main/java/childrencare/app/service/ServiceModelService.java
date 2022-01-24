@@ -1,6 +1,7 @@
 package childrencare.app.service;
 
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import childrencare.app.model.ServiceModel;
 import childrencare.app.repository.ServiceRepository;
-
 
 @Service
 public class ServiceModelService {
@@ -47,18 +47,9 @@ public class ServiceModelService {
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
 		return servicesPageable;
 	}
-
-	public ServiceModel getServiceById(int id){
-		ServiceModel service = null;
-		Optional<ServiceModel> optionalservice = serviceRepository.findById(id);
-		if (optionalservice.isPresent()){
-			service = optionalservice.get();
-		}
-		return service;
-	}
-
-	public List<ServiceModel> getServices(int size){
-		return serviceRepository.findRatedServiceDescending(size);
+	
+	public ServiceModel getServicesById(int id){
+		return serviceRepository.findById(id).get();
 	}
 
 }

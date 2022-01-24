@@ -1,8 +1,6 @@
 package childrencare.app.controller;
 
 import childrencare.app.filter.CookieHandler;
-import childrencare.app.model.ReservationModel;
-import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.service.ReservationService;
 import childrencare.app.service.ServiceModelService;
