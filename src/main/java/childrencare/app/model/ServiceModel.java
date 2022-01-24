@@ -40,7 +40,7 @@ public class ServiceModel {
 		this.description = description;
 	}
 
-	@Id
+	@Idsss
 	@Column(name = "service_id")
 	@SequenceGenerator(sequenceName = "service_id_sequence", name = "service_id_sequence", allocationSize = 1)
 

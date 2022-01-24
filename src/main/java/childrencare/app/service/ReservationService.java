@@ -63,4 +63,9 @@ public class ReservationService {
     public void deleteAll() {
         repository.deleteAll();
     }
+
+    // Change Status - KVA
+    public void changeStatus(Integer reservationId){
+        repository.changeStatus(reservationId);
+    }
 }

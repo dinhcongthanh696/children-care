@@ -21,4 +21,9 @@ public class Service_service {
     public Optional<ServiceModel> findById(Integer integer) {
         return serviceRepository.findById(integer);
     }
+
+    // KVA
+    public void updateQuantity(int quantity, int serviceId){
+        serviceRepository.updateQuantity(quantity, serviceId);
+    }
 }
