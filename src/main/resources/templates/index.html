@@ -643,12 +643,12 @@
             <p>Your teeth play an important part in your daily life. It not only helps you to chew and eat your food, but frames your face. Any missing tooth can have a major impact on your quality of life. </p>
         </div>
         <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" th:each="serviceitem : ${serviceitems}">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="services-carousel owl-carousel owl-theme">
                     <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
+                    <div class="single-solution-style1" th:each="serviceitem : ${serviceitems}">
                         <div class="img-holder">
-                            <img src="images/services/1.jpg" alt="Awesome Image">
+                            <img th:src="${'data:image/gif;base64,'+serviceitem.base64ThumbnailEncode}">
                             <div class="icon-holder">
                                 <div class="inner-content">
                                     <div class="box">

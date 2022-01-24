@@ -32,13 +32,8 @@ public class HomeController {
 	public String getCarts(Model model, HttpSession session,
 			@CookieValue(name = "carts", defaultValue = "") String carts) {
 		List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
-		model.addAttribute("list", serviceCarts);
-		return "index";
-	}
-
-	@GetMapping(path = "/")
-	public String getServices(Model model) {
 		model.addAttribute("serviceitems", serviceModelService.getServices(size));
+		model.addAttribute("list", serviceCarts);
 		return "index";
 	}
 

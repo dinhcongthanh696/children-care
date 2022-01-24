@@ -1,6 +1,7 @@
 package childrencare.app.service;
 
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,10 @@ public class ServiceModelService {
 	}
 
 	public List<ServiceModel> getServices(int size){
-		return serviceRepository.findRatedServiceDescending(size);
+		List<ServiceModel> services = serviceRepository.findRatedServiceDescending(size);
+		for(ServiceModel service : services) {
+			service.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(service.getThumbnail()));
+		}
+		return services;
 	}
 }
