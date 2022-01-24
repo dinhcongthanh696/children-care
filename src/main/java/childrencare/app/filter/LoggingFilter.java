@@ -50,7 +50,7 @@ public class LoggingFilter implements Filter {
 			List<ServiceModel> serviceCarts = new ArrayList<>();
 			for (String serviceCart : serviceCarts_split) {
 				serviceCartAttributes = serviceCart.split("[_]");
-				service = serviceModelService.getServicesById(Integer.parseInt(serviceCartAttributes[0]));
+				service = serviceModelService.getServiceById(Integer.parseInt(serviceCartAttributes[0]));
 				service.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(service.getThumbnail()));
 				service.setQuantity(Integer.parseInt(serviceCartAttributes[1]));
 				serviceCarts.add(service);

@@ -3,11 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Service Detail</title>
+    <!-- responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- For IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- master stylesheet -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Responsive stylesheet -->
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <!--Color Switcher Mockup-->
+    <link rel="stylesheet" href="../../css/color-switcher-design.css">
+    <!--Color Themes-->
+    <link rel="stylesheet" href="../../css/color-themes/default-theme.css"
+          id="theme-color-file">
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="../../images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png"
+          href="../../images/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png"
+          href="../../images/favicon/favicon-16x16.png" sizes="16x16">
 </head>
 <body>
+<div th:insert="index :: top-bar">
+
+</div>
     <div>
         <h1 th:text="${service.title}"></h1>
         <p th:text="${service.description}"></p>
     </div>
+<div th:insert="index :: footer">
+
+</div>
 </body>
 </html>

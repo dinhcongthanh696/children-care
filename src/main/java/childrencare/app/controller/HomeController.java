@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import childrencare.app.model.ServiceModel;
-import childrencare.app.service.ReservationService;
 import childrencare.app.service.ServiceModelService;
 
 @Controller
@@ -22,19 +21,26 @@ import childrencare.app.service.ServiceModelService;
 public class HomeController {
 	@Autowired
 	private ServiceModelService serviceModelService;
-	
+	private final int size = 5;
+
 	public HomeController(ServiceModelService serviceModelService) {
 		this.serviceModelService = serviceModelService;
 	}
-	
-	// start thanh code (dispatch to service carts)
-		@GetMapping()
-		public String getCarts(Model model, HttpSession session,
-				@CookieValue(name = "carts", defaultValue = "") String carts) {
-			List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
-			model.addAttribute("list", serviceCarts);
-			return "index";
-		}
 
-		// end thanh code
+	// start thanh code (dispatch to service carts)
+	@GetMapping()
+	public String getCarts(Model model, HttpSession session,
+			@CookieValue(name = "carts", defaultValue = "") String carts) {
+		List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
+		model.addAttribute("list", serviceCarts);
+		return "index";
+	}
+
+	@GetMapping(path = "/")
+	public String getServices(Model model) {
+		model.addAttribute("serviceitems", serviceModelService.getServices(size));
+		return "index";
+	}
+
+	// end thanh code
 }
