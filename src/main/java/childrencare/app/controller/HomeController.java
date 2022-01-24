@@ -28,13 +28,13 @@ public class HomeController {
 	}
 
 	// start thanh code (dispatch to service carts)
-	@GetMapping()
-	public String getCarts(Model model, HttpSession session,
-			@CookieValue(name = "carts", defaultValue = "") String carts) {
-		List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
-		model.addAttribute("list", serviceCarts);
-		return "index";
-	}
+//	@GetMapping()
+//	public String getCarts(Model model, HttpSession session,
+//			@CookieValue(name = "carts", defaultValue = "") String carts) {
+//		List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
+//		model.addAttribute("list", serviceCarts);
+//		return "index";
+//	}
 
 	@GetMapping(path = "/")
 	public String getServices(Model model) {

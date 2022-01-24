@@ -15,12 +15,14 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "Reservation")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ReservationModel {
 	@Id
 	@Column(name = "reservation_id")
@@ -37,7 +39,7 @@ public class ReservationModel {
 	private int reservationId;
 	private Date date;
 	@Column(name = "total_reservation_price")
-	private final double totalReservationPrice = 0;
+	private double totalReservationPrice;
 	
 	private String fullname;
 	private boolean gender;
