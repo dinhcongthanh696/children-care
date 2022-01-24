@@ -1,7 +1,9 @@
 package childrencare.app.service;
 
 
-import jdk.nashorn.internal.runtime.options.Option;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -10,8 +12,6 @@ import org.springframework.stereotype.Service;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.repository.ServiceRepository;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceModelService {
@@ -19,6 +19,10 @@ public class ServiceModelService {
 
 	public ServiceModelService(ServiceRepository serviceRepository) {
 		this.serviceRepository = serviceRepository;
+	}
+	
+	public Optional<ServiceModel> getById(int serviceId) {
+		return serviceRepository.findById(serviceId);
 	}
 
 	// 0-based page

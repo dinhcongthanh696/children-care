@@ -9,7 +9,21 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
 
-
+	<script>
+		function editCartItem(serviceId,value){
+			fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+value);
+		}
+		
+		function removeCartItem(serviceId){
+			fetch("/ChildrenCare/reservation/delete/"+serviceId,{
+				method : 'DELETE'
+			})
+			.then(response => {
+				var removedCartItem = document.querySelector("#item"+serviceId);
+				removedCartItem.style.display = "none";
+			})
+		}
+	</script>
 
 </head>
 <body>
@@ -32,11 +46,11 @@
         <h1 class="display-4">Reservation Details</h1>
 
     </div>
-    <th:block th:if="${#lists.isEmpty(list)}">
+    <th:block th:if="${Order}">
         <h3>No reservation</h3>
     </th:block>
     <!-- End -->
-    <th:block th:unless="${#lists.isEmpty(list)}">
+    <th:block th:unless="${Order}">
         <div class="pb-5">
             <div class="container">
                 <div class="row">
@@ -69,23 +83,45 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="info: ${list}">
+<!--                                nghia's code edit-->
+                                <tr th:each="info: ${Order}">
                                     <th scope="row" class="border-0">
                                         <div class="p-2">
-                                            <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">
+                                            <img th:src="${info.getService().thumbnail}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">
                                             <div class="ml-3 d-inline-block align-middle">
                                                 <span class="text-muted font-weight-normal font-italic d-block">ID</span>
-                                                <h5 class="mb-0"><a th:text="${info.serviceId}" href="#" class="text-dark d-inline-block align-middle"></a></h5>
+                                                <h5 th:text="${info.getService().serviceId}" class="mb-0"><a  href="#" class="text-dark d-inline-block align-middle"></a></h5>
                                             </div>
                                         </div>
                                     </th>
 
-                                    <td th:text="${info.originalPrice}" class="border-0 align-middle"></td>
-                                    <td th:text="${info.quantity}" class="border-0 align-middle"><input type="number" min="1" value="1"></td>
-                                    <td class="border-0 align-middle"><strong></strong></td>
-                                    <td class="border-0 align-middle"><strong></strong></td>
-                                    <td class="border-0 align-middle"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
+                                    <td th:text="${info.getService().originalPrice}" class="border-0 align-middle"></td>
+                                    <td  class="border-0 align-middle"><input th:value="${info.totalPerson}" min="1" type="number"></td>
+                                    <td th:text="${info.totalCost()}" class="border-0 align-middle"><strong></strong></td>
+
+                                    <td class="border-0 align-middle"><a th:href="@{/reservation/delete/{id}(id=${info.getService().serviceId})}"   class="text-dark"><i class="fa fa-trash"></i></a></td>
+
                                 </tr>
+<!--                                nghia's code edit-->
+
+
+<!--                                <tr th:each="info: ${session.list}" th:id="${'item'+info.serviceId}">-->
+<!--                                    <th scope="row" class="border-0">-->
+<!--                                        <div class="p-2">-->
+<!--                                            <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">-->
+<!--                                            <div class="ml-3 d-inline-block align-middle">-->
+<!--                                                <span class="text-muted font-weight-normal font-italic d-block">ID</span>-->
+<!--                                                <h5 class="mb-0"><a th:text="${info.serviceId}" href="#" class="text-dark d-inline-block align-middle"></a></h5>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </th>-->
+
+<!--                                    <td th:text="${info.originalPrice}" class="border-0 align-middle"></td>-->
+<!--                                    <td class="border-0 align-middle"><input type="number" min="1" th:value="${info.quantity}"  th:onchange="'editCartItem('+ ${info.serviceId} +',this.value)'"/></td>-->
+<!--                                    <td class="border-0 align-middle"><strong></strong></td>-->
+<!--                                    <td class="border-0 align-middle"><strong></strong></td>-->
+<!--                                    <td class="border-0 align-middle"><i class="fa fa-trash" th:onclick="'removeCartItem('+ ${info.serviceId} +',)'" style="cursor : pointer;"></i></td>-->
+<!--                                </tr>-->
 
 
                                 </tbody>
@@ -124,9 +160,9 @@
                                 <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Shipping and handling</strong><strong>$10.00</strong></li>
                                 <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tax</strong><strong>$0.00</strong></li>
                                 <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-                                    <h5 class="font-weight-bold">$400.00</h5>
+                                    <h5 th:text="${total}" class="font-weight-bold">/h5>
                                 </li>
-                            </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
+                            </ul><a href="/ChildrenCare/reservation/contact" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
                         </div>
                     </div>
                 </div>

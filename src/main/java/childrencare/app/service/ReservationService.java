@@ -5,63 +5,37 @@ import childrencare.app.model.ReservationModel;
 import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+//Nghia's code
 @Service
 public class ReservationService {
+
 
     @Autowired
     private ReservationRepository repository;
 
+    public void save(ReservationModel entity) {
+        repository.save(entity);
+    }
+
     public List<ReservationModel> findAll() {
-        return (List<ReservationModel>)repository.findAll();
+        return repository.findAll();
     }
 
-    public <S extends ReservationModel> S save(S entity) {
-        return repository.save(entity);
+    @Query(value = "insert into (reservation_service reservation_id,service_id,total_person)" +
+            "values (?1, ?2, ?3)", nativeQuery = true)
+    public void insertReservation_Service(int rId, int sId, int total) {
+        repository.insertReservation_Service(rId, sId, total);
     }
 
-    public <S extends ReservationModel> Iterable<S> saveAll(Iterable<S> entities) {
-        return repository.saveAll(entities);
-    }
-
-    public Optional<ReservationModel> findById(Integer integer) {
-        return repository.findById(integer);
-    }
-
-    public boolean existsById(Integer integer) {
-        return repository.existsById(integer);
-    }
-
-    public Iterable<ReservationModel> findAllById(Iterable<Integer> integers) {
-        return repository.findAllById(integers);
-    }
-
-    public long count() {
-        return repository.count();
-    }
-
-    public void deleteById(Integer integer) {
-        repository.deleteById(integer);
-    }
-
-    public void delete(ReservationModel entity) {
-        repository.delete(entity);
-    }
-
-    public void deleteAllById(Iterable<? extends Integer> integers) {
-        repository.deleteAllById(integers);
-    }
-
-    public void deleteAll(Iterable<? extends ReservationModel> entities) {
-        repository.deleteAll(entities);
-    }
-
-    public void deleteAll() {
-        repository.deleteAll();
+    @Query(value = "select max(reservation_id) from reservation", nativeQuery = true)
+    public int idIdentity() {
+        return repository.idIdentity();
     }
 
     // Change Status - KVA
