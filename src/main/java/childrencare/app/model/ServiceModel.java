@@ -1,7 +1,5 @@
 package childrencare.app.model;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -41,18 +39,6 @@ public class ServiceModel {
 		this.quantity = quantity;
 		this.description = description;
 	}
-	
-	public ServiceModel(int serviceId, String base64ThumbnailEncode, double originalPrice, int quantity) {
-		super();
-		this.serviceId = serviceId;
-		this.base64ThumbnailEncode = base64ThumbnailEncode;
-		this.originalPrice = originalPrice;
-		this.quantity = quantity;
-	}
-	
-	
-	
-	
 
 	@Id
 	@Column(name = "service_id")
@@ -93,10 +79,5 @@ public class ServiceModel {
 
 	@OneToMany(mappedBy = "service")
 	private List<ReservationServiceModel> reservationServices;
-	
-	public String toCookieValue() {
-		return this.getServiceId()+"_"+this.getQuantity();
-	}
-
 	
 }

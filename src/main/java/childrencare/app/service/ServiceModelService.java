@@ -1,9 +1,12 @@
 package childrencare.app.service;
 
 
+<<<<<<< HEAD
 import java.util.List;
 import java.util.Optional;
 
+=======
+>>>>>>> parent of 8c5a9be (finish service list , manage cart items by cookie)
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,10 +22,6 @@ public class ServiceModelService {
 
 	public ServiceModelService(ServiceRepository serviceRepository) {
 		this.serviceRepository = serviceRepository;
-	}
-	
-	public Optional<ServiceModel> getById(int serviceId) {
-		return serviceRepository.findById(serviceId);
 	}
 
 	// 0-based page
@@ -51,6 +50,7 @@ public class ServiceModelService {
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
 		return servicesPageable;
 	}
+<<<<<<< HEAD
 
 	public ServiceModel getServiceById(int id){
 		ServiceModel service = null;
@@ -64,4 +64,7 @@ public class ServiceModelService {
 	public List<ServiceModel> getServices(int size){
 		return serviceRepository.findRatedServiceDescending(size);
 	}
+=======
+	
+>>>>>>> parent of 8c5a9be (finish service list , manage cart items by cookie)
 }

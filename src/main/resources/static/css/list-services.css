@@ -1,3 +1,4 @@
+
 #body {
 	margin-top: 30px;
 }
@@ -102,29 +103,4 @@
 
 .input-group #filter {
 	font-size: 15px;
-}
-
-div#my-modal-success{
-  display : none;
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-div.my-modal-content {
-  background-color: black;
-  margin: 20% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
-  text-align: center;
-  color: green;
-  font-size: 27px;
-  font-weight: bold;
-  border-radius: 10px;
 }

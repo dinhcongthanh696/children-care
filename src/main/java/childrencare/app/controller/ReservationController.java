@@ -1,26 +1,25 @@
 package childrencare.app.controller;
 
-import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.ReservationModel;
 import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.service.ReservationService;
-import childrencare.app.service.ServiceModelService;
 import childrencare.app.service.Service_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+<<<<<<< HEAD
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+=======
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+>>>>>>> parent of 8c5a9be (finish service list , manage cart items by cookie)
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -29,8 +28,6 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/reservation")
 public class ReservationController {
-	// Thanh Code
-	private final int DAYINSECONDS = 3600 * 24;
 
 	//Nghia's code
 	@Autowired
@@ -40,6 +37,7 @@ public class ReservationController {
 	@Autowired
 	private Service_service service;
 
+<<<<<<< HEAD
 
 	// Thanh's code
 	@Autowired
@@ -103,10 +101,16 @@ public class ReservationController {
 		return "redirect:/reservation/cartDetails";
 	} */
 
+=======
+	@GetMapping("/details")
+	public String getHome(Model model) {
+		model.addAttribute("reservations", reservationService.findAll());
+		return "reservationDetails";
+	}
+
+>>>>>>> parent of 8c5a9be (finish service list , manage cart items by cookie)
 	@GetMapping("/add/{sid}")
-	public String addToCart(@PathVariable(value = "sid") int id, Model model, HttpSession session,
-			HttpServletResponse response, HttpServletRequest request , 
-			@RequestParam(name = "quantity" , defaultValue = "1") int quantity) throws IOException {
+	public String addToCart(@PathVariable(value = "sid") int id, Model model, HttpSession session) {
 		Optional<ServiceModel> optinal = service.findById(id);
 		ServiceModel service = null;
 		if (optinal.isPresent()) {
@@ -124,28 +128,21 @@ public class ReservationController {
 		boolean check = false;
 		for (ServiceModel svm : listReservations) {
 			if (svm.getServiceId() == id) {
-				service = svm;
-				service.setQuantity(quantity);
+				svm.setQuantity(svm.getQuantity() + 1);
 				check = true;
 			}
 		}
 		if (check == false) {
-			service.setQuantity(quantity);
+			ServiceModel sv = new ServiceModel(service.getServiceId(), service.getThumbnail(), service.getTitle(),
+					service.getBriefInfo(), service.getOriginalPrice(), service.getSalePrice(), service.getQuantity(),
+					service.getDescription());
 			listReservations.add(service);
 		}
-		// start thanh's code (add service cookie)
-		Cookie cartsCookie = CookieHandler.getCookie("carts", request);
-
-		if (cartsCookie != null) {
-			CookieHandler.editCartsCookie(id, request, response, "/", 7 * DAYINSECONDS, service.toCookieValue());
-		} else {
-			CookieHandler.createNewCookie("carts", request, response, "/", 7 * DAYINSECONDS, service.toCookieValue());
-		}
-		// end thanh's code (Add service cookie)
 		session.setAttribute("list", listReservations);
 		model.addAttribute("list", listReservations);
 		return "reservationDetails";
 	}
+<<<<<<< HEAD
 
 /*	//nghia's code
 	@GetMapping("/delete/{id}")
@@ -215,4 +212,6 @@ public class ReservationController {
 		return "redirect:/reservation/list";
 
 	}
+=======
+>>>>>>> parent of 8c5a9be (finish service list , manage cart items by cookie)
 }
