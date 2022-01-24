@@ -9,7 +9,21 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
 
-
+	<script>
+		function editCartItem(serviceId,value){
+			fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+value);
+		}
+		
+		function removeCartItem(serviceId){
+			fetch("/ChildrenCare/reservation/delete/"+serviceId,{
+				method : 'DELETE'
+			})
+			.then(response => {
+				var removedCartItem = document.querySelector("#item"+serviceId);
+				removedCartItem.style.display = "none";
+			})
+		}
+	</script>
 
 </head>
 <body>
@@ -69,7 +83,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="info: ${list}">
+                                <tr th:each="info: ${session.list}" th:id="${'item'+info.serviceId}">
                                     <th scope="row" class="border-0">
                                         <div class="p-2">
                                             <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">
@@ -81,10 +95,10 @@
                                     </th>
 
                                     <td th:text="${info.originalPrice}" class="border-0 align-middle"></td>
-                                    <td th:text="${info.quantity}" class="border-0 align-middle"><input type="number" min="1" value="1"></td>
+                                    <td class="border-0 align-middle"><input type="number" min="1" th:value="${info.quantity}"  th:onchange="'editCartItem('+ ${info.serviceId} +',this.value)'"/></td>
                                     <td class="border-0 align-middle"><strong></strong></td>
                                     <td class="border-0 align-middle"><strong></strong></td>
-                                    <td class="border-0 align-middle"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
+                                    <td class="border-0 align-middle"><i class="fa fa-trash" th:onclick="'removeCartItem('+ ${info.serviceId} +',)'" style="cursor : pointer;"></i></td>
                                 </tr>
 
 

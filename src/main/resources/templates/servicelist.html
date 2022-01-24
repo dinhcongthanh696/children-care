@@ -32,11 +32,14 @@
 	href="../images/favicon/favicon-32x32.png" sizes="32x32">
 <link rel="icon" type="image/png"
 	href="../images/favicon/favicon-16x16.png" sizes="16x16">
-<link rel="stylesheet" href="../css/list-services.css">
+<link rel="stylesheet" href="../css/service-list.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+	    <!-- Fav icon -->	
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+	
 <script type="text/javascript">
 
 	function viewServiceDetails(event, service_id) {
@@ -46,7 +49,26 @@
 	}
 
 	function addReservationService(event,service_id) {
-		window.location = "/ChildrenCare/reservation/add/"+service_id;
+		var url = "/ChildrenCare/api-reservation/add/"+service_id;
+		fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			var shoppingItemsElement = document.querySelector("span#shopping-cart-items");
+			var shoppingItems = Object.keys(data).length;
+			shoppingItemsElement.innerHTML = shoppingItems;
+			var modalSuccessElement = document.querySelector("#my-modal-success");
+			modalSuccessElement.style.display = "block";
+			setTimeout(() => {
+				modalSuccessElement.style.display = "none";
+			},2700)
+		})
+	}
+	
+	window.onclick = (event) => {
+		var modalSuccessElement = document.querySelector("#my-modal-success");
+		if(event.target.id !== "my-modal-success"){
+			modalSuccessElement.style.display = "none";
+		}
 	}
 
 	function changePage(pageNumber) {
@@ -63,6 +85,18 @@
 		var search = document.querySelector("#search").value;
 		var categoryId = parseInt(document.querySelector("#filter").value);
 		var gap = 2;
+		
+		
+		var prevButton = "";
+		
+		if(currentPage == 0){
+			prevButton = "<span class='glyphicon glyphicon-menu-left pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')> </span>"
+		}else{
+			prevButton = "<span class='glyphicon glyphicon-menu-left pageNumberElement' onclick=changePage(\'"+ (currentPage - 1) +"\') > </span>";
+		}
+		
+		pageListContainer.innerHTML += prevButton;
+		
 		if (currentPage > gap + 1) {
 			pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'0\')> 1 </span>"
 					+ " <span class='pageNumberElement'> ... </span>"
@@ -96,11 +130,26 @@
 			pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'"
 					+ (totalPages - 1) + "\')>" + totalPages + "  </span>"
 		}
+		
+		var nextButton = "";
+		
+		if(currentPage == (totalPages - 1)){
+			nextButton = "<span class='glyphicon glyphicon-menu-right pageNumberElement' onclick=changePage('0')> </span>"
+		}else{
+			nextButton = "<span class='glyphicon glyphicon-menu-right pageNumberElement' onclick=changePage(\'"+ (currentPage + 1) +"\') > </span>";
+		}
+		
+		pageListContainer.innerHTML += nextButton;
 	}
 </script>
 </head>
 
 <body th:onload="renderPages()">
+	<div id="my-modal-success">
+		<div class="my-modal-content">
+			<h1>Added successfully <i class="fas fa-check" style="font-size : 20px;"></i></h1>
+		</div>
+	</div>
 	<div id="top-bar" th:insert="index :: top-bar"></div>
 	<input type="hidden" th:value="${totalPages}" id="totalPages" />
 	<div id="form-search" class="container-fluid">
@@ -148,15 +197,15 @@
 				<p th:text="'Sale price : '+${#numbers.setFormatDecimal(service.salePrice,1,'POINT',0,'POINT')}"></p>
 				<div>
 					Rated Stars : <span
-						th:class="${service.avg_star >= 1  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						th:class="${service.avg_star >= 1  ? 'fas fa-star rated' : 'fas fa-star'}"></span>
 					<span
-						th:class="${service.avg_star >= 2  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						th:class="${service.avg_star >= 2  ? 'fas fa-star rated' : 'fas fa-star'}"></span>
 					<span
-						th:class="${service.avg_star >= 3  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						th:class="${service.avg_star >= 3  ? 'fas fa-star rated' : 'fas fa-star'}"></span>
 					<span
-						th:class="${service.avg_star >= 4  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						th:class="${service.avg_star >= 4  ? 'fas fa-star rated' : 'fas fa-star'}"></span>
 					<span
-						th:class="${service.avg_star == 5  ? 'glyphicon glyphicon-star-empty rated' : 'glyphicon glyphicon-star-empty'}"></span>
+						th:class="${service.avg_star == 5  ? 'fas fa-star rated' : 'fas fa-star'}"></span>
 					<span class="glyphicon glyphicon-shopping-cart"
 						 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
 					</span>

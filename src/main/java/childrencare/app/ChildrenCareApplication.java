@@ -11,6 +11,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import childrencare.app.model.ServiceModel;
+import childrencare.app.service.ServiceModelService;
+
 
 @SpringBootApplication
 @Transactional

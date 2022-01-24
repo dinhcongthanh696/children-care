@@ -38,4 +38,5 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer>{
 			    countQuery = "SELECT count(*) FROM service WHERE service_category_id = ?1",
 			    nativeQuery = true)
 	 public Page<ServiceModel> findByTitleLikeAndCategory(int serviceCategoryId, PageRequest pageable);
+	 
 }
