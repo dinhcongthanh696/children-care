@@ -80,4 +80,7 @@ public class ServiceModel {
 	@OneToMany(mappedBy = "service")
 	private List<ReservationServiceModel> reservationServices;
 	
+	public String toCookieValue() {
+		return this.getServiceId()+"_"+this.getQuantity();
+	}
 }
