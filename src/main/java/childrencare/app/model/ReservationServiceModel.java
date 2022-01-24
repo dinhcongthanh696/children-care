@@ -1,12 +1,6 @@
 package childrencare.app.model;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,4 +27,9 @@ public class ReservationServiceModel {
 	
 	@Column(name = "total_person")
 	private int totalPerson;
+
+	@Transient
+	public double totalCost(){
+		return service.getOriginalPrice() * totalPerson;
+	}
 }

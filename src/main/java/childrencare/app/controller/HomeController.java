@@ -26,16 +26,12 @@ public class HomeController {
 	public HomeController(ServiceModelService serviceModelService) {
 		this.serviceModelService = serviceModelService;
 	}
-
-	// start thanh code (dispatch to service carts)
 	@GetMapping()
 	public String getCarts(Model model, HttpSession session,
 			@CookieValue(name = "carts", defaultValue = "") String carts) {
 		List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
-		model.addAttribute("serviceitems", serviceModelService.getServices(size));
 		model.addAttribute("list", serviceCarts);
 		return "index";
 	}
 
-	// end thanh code
 }
