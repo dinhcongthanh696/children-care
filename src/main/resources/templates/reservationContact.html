@@ -91,19 +91,7 @@
                                         </div>
                                     </div>
                                     <div class="row no-gutters">
-
-                                        <!--                                    <div class="col-sm-6">-->
-                                        <!--                                        <div class="form-group"> <label for="NAME7" class="small text-muted mb-1">ID</label>-->
-                                        <!--                                            <input th:field="*{reservationId}" type="number" class="form-control form-control-sm"  id="NAME7" aria-describedby="helpId" > </div>-->
-                                        <!--                                    </div>-->
-                                        <!--                                    <div class="col-sm-6">-->
-                                        <!--                                        <div class="form-group"> <label for="NAME10" class="small text-muted mb-1">Status</label>-->
-                                        <!--                                            <input th:field="*{status}" type="number" class="form-control form-control-sm"  id="NAME10" aria-describedby="helpId" > </div>-->
-                                        <!--                                    </div>-->
                                     </div>
-                                    <!--                                <div class="row mb-md-5">-->
-                                    <!--                                    <div class="col"> <button type="button" name="" id="" class="btn btn-lg btn-block ">SUBMIT</button> </div>-->
-                                    <!--                                </div>-->
                                 </div>
                             </div>
                         </div>
@@ -118,27 +106,27 @@
                                     <th:block th:each="item: ${orderList}">
                                         <div class="row justify-content-between">
                                             <div class="col-auto col-md-7">
-                                                <div class="media flex-column flex-sm-row"> <img th:src="${item.getService().thumbnail}" class=" img-fluid"  width="62" height="62">
+                                                <div class="media flex-column flex-sm-row"> <img th:src="${'data:image/gif;base64,'+item.base64ThumbnailEncode}" class=" img-fluid"  width="62" height="62">
                                                     <div class="media-body my-auto">
                                                         <div class="row ">
                                                             <div class="col-auto">
                                                                 <p class="mb-0"><b></b></p>
-                                                                <input type="hidden" name="sid" th:value="${item.getService().serviceId}"/>
-                                                                Id:<small  th:text="${item.getService().serviceId}" class="text-muted"></small>
+
+                                                                Id:<small  th:text="${item.serviceId}" class="text-muted"></small>
                                                                 -
-                                                                Title: <small th:text="${item.getService().title}" class="text-muted"></small>
+                                                                Title: <small th:text="${item.title}" class="text-muted"></small>
                                                                 <br>
-                                                                Price: <small th:text="${item.getService().originalPrice}" class="text-muted"></small>
+                                                                Price: <small th:text="${item.originalPrice}" class="text-muted"></small>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class=" pl-0 flex-sm-col col-auto my-auto">
-                                                <p th:text="${item.totalPerson}" class="boxed-1"></p>
+                                                <p th:text="${item.quantity}" class="boxed-1"></p>
                                             </div>
                                             <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                                <p><b th:text="${item.totalCost()}"></b></p>
+                                                <p><b th:text="${item.totalCost}"></b></p>
                                             </div>
                                         </div>
                                         <hr class="my-2">
@@ -167,12 +155,12 @@
                                     <div class="row mb-5 mt-4 ">
                                         <div class="col-md-7 col-lg-6 mx-auto"><button type="submit" class="btn btn-block btn-outline-primary btn-lg">SUBMIT</button></div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-
 
             </div>
 

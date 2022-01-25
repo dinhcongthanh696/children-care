@@ -27,13 +27,11 @@ public class ReservationService {
         return repository.findAll();
     }
 
-    @Query(value = "insert into (reservation_service reservation_id,service_id,total_person)" +
-            "values (?1, ?2, ?3)", nativeQuery = true)
+
     public void insertReservation_Service(int rId, int sId, int total) {
         repository.insertReservation_Service(rId, sId, total);
     }
 
-    @Query(value = "select max(reservation_id) from reservation", nativeQuery = true)
     public int idIdentity() {
         return repository.idIdentity();
     }
