@@ -48,14 +48,14 @@
         <span>
             <h1>  <a href="/ChildrenCare/service/services">Our Services</a> </h1>
             <h4 th:each="ser : ${services}">
-                <a href="/ChildrenCare/service/services/" th:text="${ser.title}"></a> <br>
+                <a th:href="'/ChildrenCare/service/services/'+${ser.serviceId}" th:text="${ser.title}"></a> <br>
             </h4>
         </span>
     </div>
     <div class="col-8">
         <h2 class="price">Price: </h2> <h2 th:text="${service.originalPrice}"></h2>
-
         <h2 class="saleprice">     Sale Price: </h2> <h2 th:text="${service.salePrice}"></h2>
+        <h2 class="servicecategory" >Category: </h2> <h2 th:text="${service.serviceCategory.serviceCategoryName}"></h2>
         <p th:text="${service.description}"></p>
     </div>
 </div>

@@ -39,6 +39,7 @@ public class HomeController {
 	@GetMapping(path = "/")
 	public String getServices(Model model) {
 		model.addAttribute("serviceitems", serviceModelService.getServices(size));
+		model.addAttribute("allservices", serviceModelService.getServices());
 		return "index";
 	}
 
