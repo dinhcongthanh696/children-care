@@ -53,7 +53,7 @@ public class ReservationAPI {
 		for (ServiceModel svm : listReservations) {
 			if (svm.getServiceId() == id) {
 				service = svm;
-				service.setQuantity(quantity);
+				service.setQuantity(service.getQuantity()+quantity);
 				check = true;
 			}
 		}
