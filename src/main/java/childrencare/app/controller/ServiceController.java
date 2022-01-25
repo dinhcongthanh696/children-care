@@ -70,8 +70,9 @@ public class ServiceController {
 		return "servicelist";
 	}
 	@GetMapping(path = "/services/{id}")
-	public String getServiceById(Model model, @PathVariable(name = "id") int id){
-		model.addAttribute("service",serviceModelService.getServiceById(id));
+	public String getServiceById(Model model, @PathVariable(name = "id") int id) {
+		model.addAttribute("service", serviceModelService.getServiceById(id));
+		model.addAttribute("services",serviceModelService.getServices());
 		return "ServiceDetail";
 	}
 }
