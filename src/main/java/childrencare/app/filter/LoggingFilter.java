@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,8 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import childrencare.app.model.ServiceModel;
 import childrencare.app.service.ServiceModelService;
@@ -27,7 +24,7 @@ import childrencare.app.service.ServiceModelService;
 public class LoggingFilter implements Filter {
 	@Autowired
 	private ServiceModelService serviceModelService;
-	
+
 	public LoggingFilter() {
 		super();
 	}
@@ -51,7 +48,7 @@ public class LoggingFilter implements Filter {
 			for (String serviceCart : serviceCarts_split) {
 				serviceCartAttributes = serviceCart.split("[_]");
 				service = serviceModelService.getServicesById(Integer.parseInt(serviceCartAttributes[0]));
-				service.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(service.getThumbnail()));
+				service.setBase64ThumbnailEncode(service.getThumbnail());
 				service.setQuantity(Integer.parseInt(serviceCartAttributes[1]));
 				serviceCarts.add(service);
 			}

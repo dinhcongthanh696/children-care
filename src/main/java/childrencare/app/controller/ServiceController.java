@@ -53,7 +53,7 @@ public class ServiceController {
 		
 		for(ServiceModel service : services) {
 			if(service.getThumbnail() != null)
-			service.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(service.getThumbnail()));
+			service.setBase64ThumbnailEncode(service.getThumbnail());
 			double averageStars = 0;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
 				averageStars += feedback.getRatedStart();

@@ -29,8 +29,8 @@ public class Service_service {
         Optional<ServiceModel> optionalServiceModel =serviceRepository.findById(id);
         ServiceModel serviceById = null;
         if(optionalServiceModel.isPresent()){
-            serviceById =optionalServiceModel.get();
-            serviceById.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(serviceById.getThumbnail()));
+            serviceById = optionalServiceModel.get();
+            serviceById.setBase64ThumbnailEncode(serviceById.getThumbnail());
         }else {
             throw new RuntimeException(" Employee not found for id :: " + id);
         }

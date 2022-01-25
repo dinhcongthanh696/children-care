@@ -1,5 +1,6 @@
 package childrencare.app.model;
 
+import java.util.Base64;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -82,5 +83,11 @@ public class ServiceModel {
 	
 	public String toCookieValue() {
 		return this.getServiceId()+"_"+this.getQuantity();
+	}
+	
+	public void setBase64ThumbnailEncode(byte[] thumbnail) {
+		if(thumbnail != null) {
+			this.base64ThumbnailEncode = Base64.getEncoder().encodeToString(thumbnail);
+		}
 	}
 }

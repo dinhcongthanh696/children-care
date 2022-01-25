@@ -9,8 +9,16 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
 	<script>
-		function editCartItem(serviceId,value){
-			fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+value);
+		function editCartItem(serviceId,newValue){
+			var oldValue = document.querySelector("#oldvalue"+serviceId).value;
+			var updatedQuantity = newValue - oldValue;
+			alert("Updated successfully V");
+			fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
+		}
+		
+		function storeOldValue(serviceId,oldValue){
+			var storeOldValueElement = document.querySelector("#oldvalue"+serviceId);
+			storeOldValueElement.value = oldValue;
 		}
 
 		function removeCartItem(serviceId){
@@ -82,11 +90,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
-
-
                                 <tr th:each="info: ${session.list}" th:id="${'item'+info.serviceId}">
                                    <th scope="row" class="border-0">
+
                                         <div class="p-2">
                                             <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">
                                             <div class="ml-3 d-inline-block align-middle">
@@ -97,7 +103,12 @@
                                     </th>
 
                                     <td th:text="${info.originalPrice}" class="border-0 align-middle"></td>
-                                    <td class="border-0 align-middle"><input type="number" min="1" th:value="${info.quantity}"  th:onchange="'editCartItem('+ ${info.serviceId} +',this.value)'"/></td>
+                                    <td class="border-0 align-middle">
+                                    	<input type="number" min="1" th:value="${info.quantity}" 
+                                    		th:onfocus="'storeOldValue(' + ${info.serviceId} + ',this.value)'" 
+                                    		th:onchange="'editCartItem('+ ${info.serviceId} + ',this.value)'"/>
+                                    	<input type="hidden" th:id="'oldvalue'+${info.serviceId}" />	
+                                    </td>
                                     <td class="border-0 align-middle"><strong></strong></td>
                                     <td class="border-0 align-middle"><strong></strong></td>
                                     <td class="border-0 align-middle"><i class="fa fa-trash" th:onclick="'removeCartItem('+ ${info.serviceId} +',)'" style="cursor : pointer;"></i></td>

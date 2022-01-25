@@ -1,6 +1,8 @@
 package childrencare.app.controller;
 
 import childrencare.app.filter.CookieHandler;
+import childrencare.app.model.ReservationModel;
+import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.service.ReservationService;
 import childrencare.app.service.ServiceModelService;
@@ -18,7 +20,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -27,14 +28,10 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/reservation")
 public class ReservationController {
-	private final int DAYINSECONDS = 24 * 3600;
 	// Nghia's code
 	@Autowired
 	private ReservationService reservationService;
 
-	// Nghia's code
-	@Autowired
-	private Service_service service;
 
 	// Thanh's code
 	@Autowired
@@ -42,6 +39,8 @@ public class ReservationController {
 
 	@GetMapping
 	public String getServiceCarts(Model model, HttpSession session) {
+		List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
+		model.addAttribute("list", services);
 		return "reservationDetails";
 	}
 
@@ -49,11 +48,11 @@ public class ReservationController {
 	public String addToCart(@PathVariable(value = "sid") int id, Model model, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request ,
 			@RequestParam(name = "quantity", defaultValue = "1") int quantity) {
-		Optional<ServiceModel> optinal = service.findById(id);
+		Optional<ServiceModel> optinal = serviceModelService.getServiceById(id);
 		ServiceModel service = null;
 		if (optinal.isPresent()) {
 			service = optinal.get();
-			service.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(service.getThumbnail()));
+			service.setBase64ThumbnailEncode(service.getThumbnail());
 		} else {
 			throw new RuntimeException(" Service not found for id :: " + id);
 		}
@@ -79,12 +78,11 @@ public class ReservationController {
 		Cookie cartsCookie = CookieHandler.getCookie("carts", request);
 
 		if (cartsCookie != null) {
-			CookieHandler.editCartsCookie(id, request, response, "/", 7 * DAYINSECONDS, service.toCookieValue());
+			CookieHandler.editCartsCookie(id, request, response, "/", CookieHandler.COOKIEEXPRIEDTIME, service.toCookieValue());
 		} else {
-			CookieHandler.createNewCookie("carts", request, response, "/", 7 * DAYINSECONDS, service.toCookieValue());
+			CookieHandler.createNewCookie("carts", request, response, "/", CookieHandler.COOKIEEXPRIEDTIME, service.toCookieValue());
 		}
 		// end thanh's code (Add service cookie)
-
 		session.setAttribute("list", listReservations);
 		model.addAttribute("list", listReservations);
 		return "reservationDetails";
@@ -101,7 +99,7 @@ public class ReservationController {
 				break;
 			}
 		}
-		CookieHandler.editCartsCookie(id, request, response, "/", 7 * DAYINSECONDS, "");
+		CookieHandler.editCartsCookie(id, request, response, "/", CookieHandler.COOKIEEXPRIEDTIME, "");
 
 	}
 
