@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <!-- Mirrored from st.ourhtmldemo.com/new/Dento/blog-large.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Jan 2021 02:07:52 GMT -->
 <head>
@@ -277,11 +277,6 @@
                         <!--Start Single blog Post-->
                         <div class="single-blog-post blog-large" th:each="listPost:${listPost}">
                             <div class="left-box">
-                                <div class="post-info-style1">
-                                    <h3 th:text="${listPost.getCreateAt().getDate()}"></h3>
-                                    <div class="borders"></div>
-                                    <p th:text="Thang + ${listPost.getCreateAt().getMonth()}"></p>
-                                </div>
                                 <div class="post-author">
                                     <img src="images/blog/auth-1.png" alt="Awesome Image">
                                 </div>
@@ -319,10 +314,10 @@
                             <ul class="post-pagination2 text-center">
                                 <li><a class="left" href="#"><i class="fa fa-angle-double-left"
                                                                 aria-hidden="true"></i><span>Prev</span></a></li>
-                                <li><a href="#">1</a></li>
+                                <li><a href="/ChildrenCare/blog?page=1">1</a></li>
                                 <li class="active"><a href="#">2</a></li>
                                 <li><a href="#">3</a></li>
-                                <li><a class="right" href="#"><span>Next</span><i class="fa fa-angle-double-right"
+                                <li><a class="right" href="/ChildrenCare/blog?page="><span>Next</span><i class="fa fa-angle-double-right"
                                                                                   aria-hidden="true"></i></a></li>
                             </ul>
                         </div>
@@ -337,6 +332,7 @@
                             <form class="search-form" action="#">
                                 <input placeholder="Search" type="text">
                                 <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+
                             </form>
                         </div>
                         <!--End single sidebar-->
