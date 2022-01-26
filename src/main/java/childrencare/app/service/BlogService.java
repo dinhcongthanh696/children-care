@@ -28,4 +28,8 @@ public class BlogService {
         return listPostSearchByTitle;
     }
 
+    public long count(){
+        return blogRepository.count();
+    }
+
 }

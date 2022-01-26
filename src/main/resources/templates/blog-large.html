@@ -23,11 +23,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
-
+    <script src="../static/js/paging.js"></script>
     <!-- Fixing Internet Explorer-->
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <script src="js/html5shiv.js"></script>
+
     <![endif]-->
 
 </head>
@@ -312,13 +313,22 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <ul class="post-pagination2 text-center">
-                                <li><a class="left" href="#"><i class="fa fa-angle-double-left"
-                                                                aria-hidden="true"></i><span>Prev</span></a></li>
-                                <li><a href="/ChildrenCare/blog?page=1">1</a></li>
-                                <li class="active"><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a class="right" href="/ChildrenCare/blog?page="><span>Next</span><i class="fa fa-angle-double-right"
-                                                                                  aria-hidden="true"></i></a></li>
+                                <li><a class="left" th:href="@{/blog(page=0,title=${titleSearch})}"><i
+                                        class="fa fa-angle-double-left"
+                                        aria-hidden="true"></i><span>FIRST</span></a>
+                                </li>
+                                <li class="page-item active" th:each="pageNumber:${pageNumbers}"
+                                    th:if="${pagingPost.totalPages >1}"
+                                    th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
+                                    <a th:href="@{/blog(page=${pageNumber},title=${titleSearch})}"
+                                       th:text="${pageNumber}"></a>
+                                </li>
+
+                                <li><a class="right"
+                                       th:href="@{/blog(page=${pagingPost.totalPages}-1,title=${titleSearch})}"><span>LAST</span><i
+                                        class="fa fa-angle-double-right"
+                                        aria-hidden="true"></i></a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -329,8 +339,8 @@
                     <div class="sidebar-wrapper">
                         <!--Start single sidebar-->
                         <div class="single-sidebar">
-                            <form class="search-form" action="#">
-                                <input placeholder="Search" type="text">
+                            <form class="search-form" action="/ChildrenCare/blog" method="post">
+                                <input placeholder="Search by title" type="text" name="title" th:value="${titleSearch}">
                                 <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 
                             </form>
@@ -342,7 +352,8 @@
                                 <h3>Categories</h3>
                             </div>
                             <ul class="categories clearfix" th:each="listCategoryPost:${listCategoryPost}">
-                                <li><a href="#" th:text="${listCategoryPost.getPostCategoryName()}">Healthy Teeth <span>(4)</span></a></li>
+                                <li><a href="#" th:text="${listCategoryPost.getPostCategoryName()}"><span>(4)</span></a>
+                                </li>
 
                             </ul>
                         </div>

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class BlogController {
@@ -29,14 +31,31 @@ public class BlogController {
 
     @RequestMapping(value = "/blog", method = {RequestMethod.GET, RequestMethod.POST})
     public String blogHome(Model model
-            , @RequestParam(name = "page", required = false, defaultValue = "0") int page
+            , @RequestParam(name = "page") Optional<Integer> page
             , @RequestParam(name = "title", required = false, defaultValue = "") String title) {
+        int currentPage = page.orElse(0);
+        Page<PostModel> postModels = blogService.getBlogPaging(currentPage, BLOGSIZE, title);
 
-        Page<PostModel> postModels = blogService.getBlogPaging(page, BLOGSIZE, title);
+        int totalPages = postModels.getTotalPages();
+        if (totalPages > 0) {
+            int start = Math.max(0, currentPage - 2);
+            int end = Math.min(currentPage + 2, totalPages-1);
+            if (totalPages > 5) {
+                if (end == totalPages) start = end - 5;
+                else if (start == 1) end = start + 5;
+
+            }
+            List<Integer> pageNumbers = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers",pageNumbers);
+        }
+
 
         //List<PostModel> postModelList = blogService.findAllByUpdateAt();
         model.addAttribute("listPost", postModels.toList());
         model.addAttribute("listCategoryPost", blogCategoryService.findAll());
+        model.addAttribute("titleSearch", title);
+
+        model.addAttribute("pagingPost", postModels);
         return "blog-large";
     }
 
