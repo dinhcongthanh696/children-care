@@ -54,5 +54,7 @@ public class PostModel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_category_id")
 	private PostCategoryModel postCategory;
-	
+
+	public PostModel() {
+	}
 }

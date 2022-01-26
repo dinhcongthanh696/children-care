@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,6 +72,13 @@ public class ServiceController {
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("categories", categories);
 		return "servicelist";
+	}
+	
+	@GetMapping(path = "/services/{id}")
+	public String getServiceById(Model model, @PathVariable(name = "id") int id) {
+		model.addAttribute("service", serviceModelService.getServiceById(id));
+		model.addAttribute("services",serviceModelService.getServices());
+		return "ServiceDetail";
 	}
 }
 

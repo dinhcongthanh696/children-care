@@ -9,7 +9,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
-//Nghia's code
 @Service
 public class Service_service {
 
@@ -17,8 +16,7 @@ public class Service_service {
     private ServiceRepository serviceRepository;
 
     public List<ServiceModel> findAll() {
-        List<ServiceModel> listServiceModels  =serviceRepository.findAll();
-        return listServiceModels;
+        return serviceRepository.findAll();
     }
 
     public Optional<ServiceModel> findById(Integer integer) {
@@ -37,4 +35,7 @@ public class Service_service {
         return serviceById;
     }
 
+    public void updateQuantity(int quantity, int serviceId){
+        serviceRepository.updateQuantity(quantity, serviceId);
+    }
 }

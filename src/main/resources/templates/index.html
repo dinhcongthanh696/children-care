@@ -148,25 +148,18 @@
                         </div>
                         <div class="navbar-collapse collapse clearfix">
                             <ul class="navigation clearfix">
-                                <li class="dropdown current"><a href="index-2.html">Home</a>
-                                    <ul>
-                                        <li><a href="index-2.html">Home Page 01</a></li>
-                                        <li><a href="index-3.html">Home Page 02</a></li>
-                                    </ul>  
+                                <li class="dropdown current"><a href="index.html">Home</a>
                                 </li>
                                 <li><a href="about.html">About Us</a></li>
-                                <li class="dropdown"><a href="specialities.html">Specialities</a>
+                                <li class="dropdown"><a href="/ChildrenCare/service/services">Services</a>
                                     <ul>
-                                        <li><a href="spec-dental-implants.html">Dental Implants</a></li>
-                                        <li><a href="spec-cosmetic-dentistry.html">Cosmetic Dentistry</a></li>
-                                        <li><a href="spec-laser-dentistry.html">Laser Dentistry</a></li>
-                                        <li><a href="spec-orthodontics.html">Orthodontics</a></li>
-                                        <li><a href="spec-endodontics.html">Endodontics</a></li>
-                                        <li><a href="spec-periodontics.html">Periodontics</a></li>
+                                        <li th:each="ser : ${allservices}">
+                                            <a th:href="'/ChildrenCare/service/services/'+${ser.serviceId}" th:text="${ser.title}"></a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li><a href="doctors.html">Doctors</a></li>
-                                <li class="dropdown"><a href="/blog">Blog</a>
+                                <li class="dropdown"><a href="/ChildrenCare/blog">Blog</a>
                                     <ul>
                                         <li><a href="blog.html">Blog Default</a></li>
                                         <li><a href="blog-large.html">Blog Large Image</a></li>

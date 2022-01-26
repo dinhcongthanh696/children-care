@@ -47,15 +47,52 @@
 
 </head>
 <body>
+
+    <script>
+        function storeOldValue(serviceId,oldValue){
+            var storeOldValueElement = document.querySelector("#oldvalue"+serviceId);
+            storeOldValueElement.value = oldValue;
+        }
+
+        function editCartItem(serviceId,newValue){
+            var oldValue = document.querySelector("#oldvalue"+serviceId).value;
+            var updatedQuantity = newValue - oldValue;
+            alert("Updated successfully V");
+            fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
+        }
+
+        function removeCartItem(serviceId){
+            fetch("/ChildrenCare/reservation/delete/"+serviceId,{
+                method : 'DELETE'
+            })
+                .then(response => {
+                    var removedCartItem = document.querySelector("#item"+serviceId);
+                    removedCartItem.style.display = "none";
+                })
+        }
+    </script>
+
+</head>
+<body>
+<style>
+    body {
+        background: #eecda3;
+        background: -webkit-linear-gradient(to right, #eecda3, #ef629f);
+        background: linear-gradient(to right, #eecda3, #ef629f);
+        min-height: 100vh;
+    }
+
+    img{
+        width : 100%;
+        height : 190px;
+    }
+</style>
 <div class="px-4 px-lg-0">
     <!-- For demo purpose -->
     <div class="container text-white py-5 text-center">
         <h1 class="display-4">Reservation Details</h1>
-
+        <h3 th:if="${list} == null">No Reservation</h3>
     </div>
-    <th:block th:if="${Order}">
-        <h3>No reservation</h3>
-    </th:block>
     <!-- End -->
     <th:block th:unless="${Order}">
         <div class="pb-5">
@@ -86,7 +123,6 @@
                                     <th scope="col" class="border-0 bg-light">
                                         <div class="py-2 text-uppercase">Action</div>
                                     </th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -113,54 +149,47 @@
                                     <td class="border-0 align-middle"><strong></strong></td>
                                     <td class="border-0 align-middle"><i class="fa fa-trash" th:onclick="'removeCartItem('+ ${info.serviceId} +',)'" style="cursor : pointer;"></i></td>
                                </tr>
-
-
-                                </tbody>
-                            </table>
-                            <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
-                        </div>
-                        <!-- End -->
+                            </tbody>
+                        </table>
+                        <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
                     </div>
-
-                </div>
-
-                <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                    <div class="col-lg-6">
-                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Discount code</div>
-                        <div class="p-4">
-                            <p class="font-italic mb-4">If you have a discount code, please enter it in the box below</p>
-                            <div class="input-group mb-4 border rounded-pill p-2">
-                                <input type="text" placeholder="Apply discount" aria-describedby="button-addon3" class="form-control border-0">
-                                <div class="input-group-append border-0">
-                                    <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Apply discount</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller</div>
-                        <div class="p-4">
-                            <p class="font-italic mb-4">If you have some information for the seller you can leave them in the box below</p>
-                            <textarea name="" cols="30" rows="2" class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
-                        <div class="p-4">
-                            <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
-                            <ul class="list-unstyled mb-4">
-                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal </strong><strong>$390.00</strong></li>
-                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Shipping and handling</strong><strong>$10.00</strong></li>
-                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tax</strong><strong>$0.00</strong></li>
-                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-                                    <h5 th:text="${total}" class="font-weight-bold">/h5>
-                                </li>
-                            </ul><a href="/ChildrenCare/reservation/contact" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
-                        </div>
-                    </div>
+                    <!-- End -->
                 </div>
 
             </div>
+
+            <div class="row py-5 p-4 bg-white rounded shadow-sm">
+                <div class="col-lg-6">
+                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Discount code</div>
+                    <div class="p-4">
+                        <p class="font-italic mb-4">If you have a discount code, please enter it in the box below</p>
+                        <div class="input-group mb-4 border rounded-pill p-2">
+                            <input type="text" placeholder="Apply discount" aria-describedby="button-addon3" class="form-control border-0">
+                            <div class="input-group-append border-0">
+                                <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Apply discount</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller</div>
+                    <div class="p-4">
+                        <p class="font-italic mb-4">If you have some information for the seller you can leave them in the box below</p>
+                        <textarea name="" cols="30" rows="2" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+                    <div class="p-4">
+                        <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong><h5 th:text="${total}" class="font-weight-bold"></h5></li>
+                        </ul><a href="/ChildrenCare/reservation/contact" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </th:block>
+    </div>
+
 </div>
 </body>
 </html>

@@ -40,6 +40,14 @@ public class ServiceModel {
 		this.quantity = quantity;
 		this.description = description;
 	}
+	
+	public ServiceModel(int serviceId, String base64ThumbnailEncode, double originalPrice, int quantity) {
+		super();
+		this.serviceId = serviceId;
+		this.base64ThumbnailEncode = base64ThumbnailEncode;
+		this.originalPrice = originalPrice;
+		this.quantity = quantity;
+	}
 
 	@Id
 	@Column(name = "service_id")
@@ -83,6 +91,11 @@ public class ServiceModel {
 	
 	public String toCookieValue() {
 		return this.getServiceId()+"_"+this.getQuantity();
+	}
+
+	@Transient
+	public double getTotalCost(){
+		return quantity*originalPrice;
 	}
 	
 	public void setBase64ThumbnailEncode(byte[] thumbnail) {

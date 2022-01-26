@@ -1,6 +1,7 @@
 package childrencare.app.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -54,4 +55,7 @@ public class ServiceModelService {
 		return serviceRepository.findById(id);
 	}
 
+	public List<ServiceModel> getServices(){
+		return serviceRepository.findAll();
+	}
 }
