@@ -49,10 +49,6 @@ public class ServiceModel {
 		this.originalPrice = originalPrice;
 		this.quantity = quantity;
 	}
-	
-	
-	
-	
 
 	@Id
 	@Column(name = "service_id")
@@ -96,6 +92,11 @@ public class ServiceModel {
 	
 	public String toCookieValue() {
 		return this.getServiceId()+"_"+this.getQuantity();
+	}
+
+	@Transient
+	public double getTotalCost(){
+		return quantity*originalPrice;
 	}
 
 	

@@ -24,6 +24,7 @@
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script
             src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180"
           href="../../images/favicon/apple-touch-icon.png">
@@ -31,15 +32,33 @@
           href="../../images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png"
           href="../../images/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="stylesheet" href="../../css/color-themes/ServiceDetailCss.css">
 </head>
 <body>
 <div th:insert="index :: top-bar">
-
 </div>
-    <div>
-        <h1 th:text="${service.title}"></h1>
+<div class="head">
+    <a href="/ChildrenCare">Home </a> <a>> </a> <a href="/ChildrenCare/service/services">Our Services</a><a> > </a> <a th:text="${service.title}"></a>
+</div>
+<div class="servicetitle">
+    <h1 th:text="${service.title}"></h1>
+</div>
+<div class="row">
+    <div class="col-3">
+        <span>
+            <h1>  <a href="/ChildrenCare/service/services">Our Services</a> </h1>
+            <h4 th:each="ser : ${services}">
+                <a th:href="'/ChildrenCare/service/services/'+${ser.serviceId}" th:text="${ser.title}"></a> <br>
+            </h4>
+        </span>
+    </div>
+    <div class="col-8">
+        <h2 class="price">Price: </h2> <h2 th:text="${service.originalPrice}"></h2>
+        <h2 class="saleprice">     Sale Price: </h2> <h2 th:text="${service.salePrice}"></h2>
+        <h2 class="servicecategory" >Category: </h2> <h2 th:text="${service.serviceCategory.serviceCategoryName}"></h2>
         <p th:text="${service.description}"></p>
     </div>
+</div>
 <div th:insert="index :: footer">
 
 </div>

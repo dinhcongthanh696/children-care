@@ -64,4 +64,7 @@ public class ServiceModelService {
 	public List<ServiceModel> getServices(int size){
 		return serviceRepository.findRatedServiceDescending(size);
 	}
+	public List<ServiceModel> getServices(){
+		return serviceRepository.findAll();
+	}
 }

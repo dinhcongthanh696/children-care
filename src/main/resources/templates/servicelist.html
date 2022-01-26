@@ -51,17 +51,18 @@
 	function addReservationService(event,service_id) {
 		var url = "/ChildrenCare/api-reservation/add/"+service_id;
 		fetch(url)
-		.then(response => response.json())
-		.then(data => {
-			var shoppingItemsElement = document.querySelector("span#shopping-cart-items");
-			var shoppingItems = Object.keys(data).length;
-			shoppingItemsElement.innerHTML = shoppingItems;
-			var modalSuccessElement = document.querySelector("#my-modal-success");
-			modalSuccessElement.style.display = "block";
-			setTimeout(() => {
-				modalSuccessElement.style.display = "none";
-			},2700)
-		})
+				.then(response => response.json())
+				.then(data => {
+					var shoppingItemsElement = document.querySelector("span#shopping-cart-items");
+					var shoppingItems = data.length;
+					shoppingItemsElement.innerHTML = shoppingItems;
+					//alert(shoppingItems);
+					var modalSuccessElement = document.querySelector("#my-modal-success");
+					modalSuccessElement.style.display = "block";
+					setTimeout(() => {
+						modalSuccessElement.style.display = "none";
+					},2700)
+				})
 	}
 	
 	window.onclick = (event) => {

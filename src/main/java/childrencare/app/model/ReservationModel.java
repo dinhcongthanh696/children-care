@@ -37,7 +37,7 @@ public class ReservationModel {
 			generator = "reservation_id_sequence"
 	)
 	private int reservationId;
-	private Date date;
+	private String date;
 	@Column(name = "total_reservation_price")
 	private double totalReservationPrice;
 	
