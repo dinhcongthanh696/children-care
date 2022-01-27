@@ -23,12 +23,18 @@ public class BlogService {
     public List<PostModel> findAllByUpdateAt() {
         return (List<PostModel>) blogRepository.findAll(Sort.by("updatedAt").descending());
     }
-    public Page<PostModel> getBlogPaging(int index, int size, String title){
-        Page<PostModel> listPostSearchByTitle = blogRepository.findAllByTitle("%"+title+"%", PageRequest.of(index,size));
+
+    public Page<PostModel> getBlogPaging(int index, int size, String title) {
+        Page<PostModel> listPostSearchByTitle = blogRepository.findAllByTitle("%" + title + "%", PageRequest.of(index, size));
         return listPostSearchByTitle;
     }
 
-    public long count(){
+    public Page<PostModel> getBlogPaging(int index, int size, String title, int postCategoryId) {
+        Page<PostModel> listPostSearchByTitle = blogRepository.findAllByPostCategory("%" + title + "%", postCategoryId, PageRequest.of(index, size));
+        return listPostSearchByTitle;
+    }
+
+    public long count() {
         return blogRepository.count();
     }
 

@@ -11,8 +11,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BlogRepository extends JpaRepository<PostModel,Integer> {
+public interface BlogRepository extends JpaRepository<PostModel, Integer> {
 
-    @Query(value = "select * from post where post.title like ?1 order by post.updated_at desc",nativeQuery = true)
+    @Query(value = "select * from post where post.title like ?1 order by post.updated_at desc", nativeQuery = true)
+
     public Page<PostModel> findAllByTitle(String title, PageRequest pageRequest);
+
+    @Query(value = "select * from post where post.title like ?1 and post.post_category_id = ?2 order by post.updated_at desc", nativeQuery = true)
+    public Page<PostModel> findAllByPostCategory(String title, int postCategoryId, PageRequest pageRequest);
 }

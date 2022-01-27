@@ -313,19 +313,19 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <ul class="post-pagination2 text-center">
-                                <li><a class="left" th:href="@{/blog(page=0,title=${titleSearch})}"><i
+                                <li><a class="left" th:href="@{/blog(page=0,title=${titleSearch},categoryId=${categoryId})}"><i
                                         class="fa fa-angle-double-left"
                                         aria-hidden="true"></i><span>FIRST</span></a>
                                 </li>
                                 <li class="page-item active" th:each="pageNumber:${pageNumbers}"
                                     th:if="${pagingPost.totalPages >1}"
                                     th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
-                                    <a th:href="@{/blog(page=${pageNumber},title=${titleSearch})}"
+                                    <a th:href="@{/blog(page=${pageNumber},title=${titleSearch},categoryId=${categoryId})}"
                                        th:text="${pageNumber}"></a>
                                 </li>
 
                                 <li><a class="right"
-                                       th:href="@{/blog(page=${pagingPost.totalPages}-1,title=${titleSearch})}"><span>LAST</span><i
+                                       th:href="@{/blog(page=${pagingPost.totalPages}-1,title=${titleSearch},categoryId=${categoryId})}"><span>LAST</span><i
                                         class="fa fa-angle-double-right"
                                         aria-hidden="true"></i></a>
                                 </li>
@@ -351,8 +351,8 @@
                             <div class="sidebar-title">
                                 <h3>Categories</h3>
                             </div>
-                            <ul class="categories clearfix" th:each="listCategoryPost:${listCategoryPost}">
-                                <li><a href="#" th:text="${listCategoryPost.getPostCategoryName()}"><span>(4)</span></a>
+                            <ul class="categories clearfix" th:each="listCategory:${listCategoryPost}">
+                                <li><a th:href="@{/blog(page=${pageNumber},title=${titleSearch},categoryId=${listCategory.getPostCategoryId()})}" th:text="${listCategory.getPostCategoryName()}"><span>(4)</span></a>
                                 </li>
 
                             </ul>
@@ -504,20 +504,6 @@
                             <div class="follow-us-instagram">
                                 <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i>Follow Us On Instagram</a>
                             </div>
-                        </div>
-                        <!--End single-sidebar-->
-                        <!--Start single-sidebar-->
-                        <div class="single-sidebar">
-                            <div class="sidebar-title">
-                                <h3>Archives</h3>
-                            </div>
-                            <ul class="archives">
-                                <li><a href="#">August 2018 <span>(4)</span></a></li>
-                                <li><a href="#">July 2018 <span>(2)</span></a></li>
-                                <li><a href="#">March 2018 <span>(2)</span></a></li>
-                                <li><a href="#">February 2018 <span>(3)</span></a></li>
-                                <li><a href="#">December 2017 <span>(1)</span></a></li>
-                            </ul>
                         </div>
                         <!--End single-sidebar-->
                     </div>

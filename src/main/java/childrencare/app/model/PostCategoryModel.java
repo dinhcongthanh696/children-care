@@ -39,4 +39,5 @@ public class PostCategoryModel {
 	
 	@OneToMany(mappedBy = "postCategory")
 	private List<PostModel> posts;
+
 }
