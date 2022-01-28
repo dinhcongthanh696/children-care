@@ -60,11 +60,22 @@ public class BlogController {
         //List<PostModel> postModelList = blogService.findAllByUpdateAt();
         model.addAttribute("listPost", postModels.toList());
         model.addAttribute("listCategoryPost", blogCategoryService.findAll());
+        model.addAttribute("listTop3RecentPost", blogService.findTop3RecentPost());
+
         model.addAttribute("titleSearch", title);
         model.addAttribute("categoryId", categoryId);
 
         model.addAttribute("pagingPost", postModels);
         return "blog-large";
+    }
+
+    @RequestMapping(value = "/blogDetail", method = {RequestMethod.GET, RequestMethod.POST})
+    public String blogDetails(Model model
+    , @RequestParam(name = "postId") int postId){
+        model.addAttribute("postDetail", blogService.getPostByID(postId));
+        model.addAttribute("listCategoryPost", blogCategoryService.findAll());
+        model.addAttribute("listTop3RecentPost", blogService.findTop3RecentPost());
+        return "blog-single";
     }
 
 }

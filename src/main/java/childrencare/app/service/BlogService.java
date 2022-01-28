@@ -37,5 +37,14 @@ public class BlogService {
     public long count() {
         return blogRepository.count();
     }
+    public PostModel getPostByID(int postId){
+        PostModel postModel = blogRepository.getById(postId);
+        return postModel;
+    }
+
+    public List<PostModel> findTop3RecentPost(){
+        List<PostModel> listTop3RecentPost = blogRepository.findTop3RecentPost();
+        return listTop3RecentPost;
+    }
 
 }
