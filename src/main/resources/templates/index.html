@@ -86,7 +86,7 @@
 <!-- End Top Bar area -->  
  
 <!--Start header style1 area-->
-<header class="header-style1-area">
+<header class="header-style1-area" th:fragment="header">
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12">
@@ -133,78 +133,12 @@
 <!--End header style1 area-->
     
 <!--Start mainmenu area-->
-<section class="mainmenu-area stricky">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <nav class="main-menu style1 clearfix">
-                        <div class="navbar-header clearfix">   	
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div class="navbar-collapse collapse clearfix">
-                            <ul class="navigation clearfix">
-                                <li class="dropdown current"><a href="index.html">Home</a>
-                                </li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li class="dropdown"><a href="/ChildrenCare/service/services">Services</a>
-                                    <ul>
-                                        <li th:each="ser : ${allservices}">
-                                            <a th:href="'/ChildrenCare/service/services/'+${ser.serviceId}" th:text="${ser.title}"></a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="doctors.html">Doctors</a></li>
-                                <li class="dropdown"><a href="/ChildrenCare/blog">Blog</a>
-                                    <ul>
-                                        <li><a href="blog.html">Blog Default</a></li>
-                                        <li><a href="blog-large.html">Blog Large Image</a></li>
-                                        <li><a href="blog-single.html">Blog Single Post</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="#">More</a>
-                                    <ul>
-                                        <li><a href="faq.html">FAQ’s</a></li>
-                                        <li><a href="pricing.html">Pricing Plans</a></li>
-                                        <li><a href="testimonials.html">Testimonials</a></li>
-                                        <li><a href="timetable.html">Timetable</a></li>
-                                        <li><a href="apppointment.html">Apppointment</a></li>
-                                        <li><a href="/reservation/details">Reservation Details</a></li>
-                                        <li><a href="/service/list">Service List</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                    
-                    <div class="mainmenu-right">
-                        <div class="search-box-style1">
-                            <form class="search-form" method="post" action="http://st.ourhtmldemo.com/new/Dento/index.html">
-							    <input type="search" name="search" placeholder="Search..." required>
+<section th:replace="mainmenu.html :: mainMenu(~{ :: .search-form})">
+	<form class="search-form" method="post">
+							    <input type="search" name="search" placeholder="Search...">
 							    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 						    </form>        
-                        </div>
-                        <div class="toggler-button">
-                            <div class="nav-toggler hidden-bar-opener">
-                                <div class="inner">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </div>    
-                        </div>
-                    </div> 
-                      
-                </div>
-            </div>
-        </div>
-    </div>
-</section>                 
+</section>                
 <!--End mainmenu area--> 
   
 <!-- Hidden Navigation Bar -->
@@ -633,16 +567,16 @@
     <div class="container">
         <div class="sec-title max-width text-center">
             <h3>Specialities</h3>
-            <h1>Dental Care Services</h1>
-            <p>Your teeth play an important part in your daily life. It not only helps you to chew and eat your food, but frames your face. Any missing tooth can have a major impact on your quality of life. </p>
+            <h1>Services</h1>
+            <p>Dưới đây là các dịch vụ được bình chọn với tỷ lệ cao nhất của hệ thống, được các khách hàng mến yêu của chúng tôi bình chọn !!!! </p>
         </div>
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="services-carousel owl-carousel owl-theme">
                     <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
+                    <div class="single-solution-style1" th:each="serviceitem : ${serviceitems}">
                         <div class="img-holder">
-                            <img src="images/services/1.jpg" alt="Awesome Image">
+                            <img th:src="${'data:image/gif;base64,'+serviceitem.base64ThumbnailEncode}" alt="A Service" style="height : 400px;">
                             <div class="icon-holder">
                                 <div class="inner-content">
                                     <div class="box">
@@ -652,8 +586,8 @@
                             </div>   
                         </div>
                         <div class="text-holder">
-                            <h3>Dental Implants</h3>
-                            <p>Denouncing pleasure & praising pain was born and wewill give you a complete account of the system.</p>
+                            <h3 th:text="${serviceitem.title}">Dental Implants</h3>
+                            <p th:text="${serviceitem.description}"></p>
                             <div class="readmore">
                                 <a href="#"><span class="flaticon-next"></span></a>
                                 <div class="overlay-button">
@@ -663,200 +597,6 @@
                         </div>
                     </div>
                     <!--End single solution style1-->
-                    <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
-                        <div class="img-holder">
-                            <img src="images/services/2.jpg" alt="Awesome Image">
-                            <div class="icon-holder">
-                                <div class="inner-content">
-                                    <div class="box">
-                                        <span class="icon-teeth-2"></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="text-holder">
-                            <h3>Cosmetic Dentistry</h3>
-                            <p>Know how pursue pleasure rationally encounter consequences that extremely anyone loves pursues.</p>
-                            <div class="readmore">
-                                <a href="#"><span class="flaticon-next"></span></a>
-                                <div class="overlay-button">
-                                    <a href="#">Read More</a>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single solution style1-->
-                    <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
-                        <div class="img-holder">
-                            <img src="images/services/3.jpg" alt="Awesome Image">
-                            <div class="icon-holder">
-                                <div class="inner-content">
-                                    <div class="box">
-                                        <span class="icon-dentist"></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="text-holder">
-                            <h3>Laser Dentistry</h3>
-                            <p>To take a trivial example, which us ever undertakes laborious physical exercise, to obtain some advantage.</p>
-                            <div class="readmore">
-                                <a href="#"><span class="flaticon-next"></span></a>
-                                <div class="overlay-button">
-                                    <a href="#">Read More</a>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single solution style1-->
-                    
-                    <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
-                        <div class="img-holder">
-                            <img src="images/services/1.jpg" alt="Awesome Image">
-                            <div class="icon-holder">
-                                <div class="inner-content">
-                                    <div class="box">
-                                        <span class="icon-teeth-1"></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="text-holder">
-                            <h3>Dental Implants</h3>
-                            <p>Denouncing pleasure & praising pain was born and wewill give you a complete account of the system.</p>
-                            <div class="readmore">
-                                <a href="#"><span class="flaticon-next"></span></a>
-                                <div class="overlay-button">
-                                    <a href="#">Read More</a>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single solution style1-->
-                    <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
-                        <div class="img-holder">
-                            <img src="images/services/2.jpg" alt="Awesome Image">
-                            <div class="icon-holder">
-                                <div class="inner-content">
-                                    <div class="box">
-                                        <span class="icon-teeth-2"></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="text-holder">
-                            <h3>Cosmetic Dentistry</h3>
-                            <p>Know how pursue pleasure rationally encounter consequences that extremely anyone loves pursues.</p>
-                            <div class="readmore">
-                                <a href="#"><span class="flaticon-next"></span></a>
-                                <div class="overlay-button">
-                                    <a href="#">Read More</a>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single solution style1-->
-                    <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
-                        <div class="img-holder">
-                            <img src="images/services/3.jpg" alt="Awesome Image">
-                            <div class="icon-holder">
-                                <div class="inner-content">
-                                    <div class="box">
-                                        <span class="icon-dentist"></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="text-holder">
-                            <h3>Laser Dentistry</h3>
-                            <p>To take a trivial example, which us ever undertakes laborious physical exercise, to obtain some advantage.</p>
-                            <div class="readmore">
-                                <a href="#"><span class="flaticon-next"></span></a>
-                                <div class="overlay-button">
-                                    <a href="#">Read More</a>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single solution style1--> 
-                    
-                    <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
-                        <div class="img-holder">
-                            <img src="images/services/1.jpg" alt="Awesome Image">
-                            <div class="icon-holder">
-                                <div class="inner-content">
-                                    <div class="box">
-                                        <span class="icon-teeth-1"></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="text-holder">
-                            <h3>Dental Implants</h3>
-                            <p>Denouncing pleasure & praising pain was born and wewill give you a complete account of the system.</p>
-                            <div class="readmore">
-                                <a href="#"><span class="flaticon-next"></span></a>
-                                <div class="overlay-button">
-                                    <a href="#">Read More</a>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single solution style1-->
-                    <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
-                        <div class="img-holder">
-                            <img src="images/services/2.jpg" alt="Awesome Image">
-                            <div class="icon-holder">
-                                <div class="inner-content">
-                                    <div class="box">
-                                        <span class="icon-teeth-2"></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="text-holder">
-                            <h3>Cosmetic Dentistry</h3>
-                            <p>Know how pursue pleasure rationally encounter consequences that extremely anyone loves pursues.</p>
-                            <div class="readmore">
-                                <a href="#"><span class="flaticon-next"></span></a>
-                                <div class="overlay-button">
-                                    <a href="#">Read More</a>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single solution style1-->
-                    <!--Start single solution style1--> 
-                    <div class="single-solution-style1">
-                        <div class="img-holder">
-                            <img src="images/services/3.jpg" alt="Awesome Image">
-                            <div class="icon-holder">
-                                <div class="inner-content">
-                                    <div class="box">
-                                        <span class="icon-dentist"></span>
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="text-holder">
-                            <h3>Laser Dentistry</h3>
-                            <p>To take a trivial example, which us ever undertakes laborious physical exercise, to obtain some advantage.</p>
-                            <div class="readmore">
-                                <a href="#"><span class="flaticon-next"></span></a>
-                                <div class="overlay-button">
-                                    <a href="#">Read More</a>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single solution style1-->      
                 </div>
             </div>
         </div> 

@@ -24,7 +24,7 @@ public class CookieHandler {
 	public static void editCartsCookie(int serviceId,HttpServletRequest request,HttpServletResponse response,
 			String path,int expriedTime,String modifiedValue) {
 		Cookie cartCookie = getCookie("carts", request);
-		if(cartCookie != null) {
+		if(cartCookie != null && !cartCookie.getValue().isEmpty()) {
 			String cartCookieValue = cartCookie.getValue();
 			String[] serviceCarts = cartCookieValue.split("[-]+");
 			String[] serviceCartAttributes;

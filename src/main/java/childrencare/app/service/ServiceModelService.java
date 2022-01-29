@@ -58,4 +58,8 @@ public class ServiceModelService {
 	public List<ServiceModel> getServices(){
 		return serviceRepository.findAll();
 	}
+	
+	public List<ServiceModel> getHighestRatedStarServices(int size){
+		return serviceRepository.findRatedServiceDescending(size);
+	}
 }

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import childrencare.app.model.ServiceCategoryModel;
 import childrencare.app.model.ServiceModel;
+import childrencare.app.service.ServiceCategoryService;
 import childrencare.app.service.ServiceModelService;
 
 @Controller
@@ -21,6 +23,9 @@ import childrencare.app.service.ServiceModelService;
 public class HomeController {
 	@Autowired
 	private ServiceModelService serviceModelService;
+	
+	@Autowired
+	private ServiceCategoryService serviceCategoryService;
 	private final int size = 5;
 
 	public HomeController(ServiceModelService serviceModelService) {
@@ -28,18 +33,22 @@ public class HomeController {
 	}
 
 	// start thanh code (dispatch to service carts)
-	@GetMapping()
+/*	@GetMapping()
 	public String getCarts(Model model, HttpSession session,
 			@CookieValue(name = "carts", defaultValue = "") String carts) {
 		return "index";
-	}
-
-/*	@GetMapping(path = "/")
-	public String getServices(Model model) {
-		model.addAttribute("serviceitems", serviceModelService.getServices(size));
-		model.addAttribute("allservices", serviceModelService.getServices());
-		return "index";
 	} */
+
+	@GetMapping(path = "/")
+	public String getServices(Model model) {
+		List<ServiceModel> services = serviceModelService.getHighestRatedStarServices(size);
+		for(ServiceModel service : services) {
+			service.setBase64ThumbnailEncode(service.getThumbnail());
+		}	
+		model.addAttribute("serviceitems", serviceModelService.getHighestRatedStarServices(size));
+		model.addAttribute("servicecategories", serviceCategoryService.findAll());
+		return "index";
+	} 
 
 	// end thanh code
 }

@@ -22,6 +22,11 @@ public class ReservationService {
     public void save(ReservationModel entity) {
         repository.save(entity);
     }
+    
+    //Thanh's code
+    public int saveReservation(ReservationModel entity) {
+    	return repository.save(entity).getReservationId();
+    }
 
     public List<ReservationModel> findAll() {
         return repository.findAll();
@@ -40,4 +45,6 @@ public class ReservationService {
     public void changeStatus(Integer reservationId){
         repository.changeStatus(reservationId);
     }
+    
+    
 }

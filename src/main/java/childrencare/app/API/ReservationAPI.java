@@ -2,7 +2,6 @@ package childrencare.app.API;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +51,6 @@ public class ReservationAPI {
 		boolean check = false;
 		for (ServiceModel svm : listReservations) {
 			if (svm.getServiceId() == id) {
-				service = svm;
 				service.setQuantity(service.getQuantity() + quantity);
 				check = true;
 			}

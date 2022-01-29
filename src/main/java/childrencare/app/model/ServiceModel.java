@@ -85,7 +85,8 @@ public class ServiceModel {
 	@JoinColumn(name = "service_category_id")
 	@JsonIgnore
 	private ServiceCategoryModel serviceCategory;
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "service")
 	private List<ReservationServiceModel> reservationServices;
 	

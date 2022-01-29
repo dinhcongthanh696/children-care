@@ -32,7 +32,7 @@
 	href="../images/favicon/favicon-32x32.png" sizes="32x32">
 <link rel="icon" type="image/png"
 	href="../images/favicon/favicon-16x16.png" sizes="16x16">
-<link rel="stylesheet" href="../css/list-services.css">
+<link rel="stylesheet" href="../css/service-list.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -65,7 +65,7 @@
 	}
 	
 	window.onclick = (event) => {
-		var modalSuccessElement = document.querySelector("#my-modal-content");
+		var modalSuccessElement = document.querySelector("#my-modal-success");
 		if(event.target.id !== "my-modal-content"){
 			modalSuccessElement.style.display = "none";
 		}
@@ -73,7 +73,7 @@
 	
 	function changePage(pageNumber) {
 		var search = document.querySelector("#search").value;
-		var categoryId = parseInt(document.querySelector("#filter").value);
+		var categoryId = parseInt(document.querySelector("#categoryId").value);
 		window.location = "/ChildrenCare/service/services?page=" + pageNumber
 				+ "&search=" + search + "&category=" + categoryId;
 	}
@@ -83,14 +83,13 @@
 		var currentPage = parseInt(document.querySelector("#currentPage").value);
 		var pageListContainer = document.querySelector("#pages");
 		var search = document.querySelector("#search").value;
-		var categoryId = parseInt(document.querySelector("#filter").value);
+		var categoryId = parseInt(document.querySelector("#categoryId").value);
 		var gap = 2;
 		
 		var prevButton = "";
-
-		if(currentPage == 0){
+		if(currentPage == 0 && totalPages > 1){
 			prevButton = "<span class='glyphicon glyphicon-menu-left pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')> </span>"
-		}else{
+		}else if(totalPages > 1){
 			prevButton = "<span class='glyphicon glyphicon-menu-left pageNumberElement' onclick=changePage(\'"+ (currentPage - 1) +"\') > </span>";
 		}
 
@@ -125,16 +124,16 @@
 			pageListContainer.innerHTML += " <span class='pageNumberElement'> ... </span>"
 					+ "<span class='pageNumberElement' onclick=changePage(\'"
 					+ (totalPages - 1) + "\')>" + totalPages + "  </span>"
-		} else if (currentPage !== totalPages - 1) {
+		} else if (currentPage !== totalPages - 1 && totalPages !== 0) {
 			pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'"
 					+ (totalPages - 1) + "\')>" + totalPages + "  </span>"
 		}
 		
 		var nextButton = "";
 
-		if(currentPage == (totalPages - 1)){
+		if(currentPage == (totalPages - 1) && totalPages > 1){
 			nextButton = "<span class='glyphicon glyphicon-menu-right pageNumberElement' onclick=changePage('0')> </span>"
-		}else{
+		}else if(totalPages > 1){
 			nextButton = "<span class='glyphicon glyphicon-menu-right pageNumberElement' onclick=changePage(\'"+ (currentPage + 1) +"\') > </span>";
 		}
 
@@ -145,19 +144,17 @@
 
 <body th:onload="renderPages()">
 	<div id="my-modal-success">
-		<div class="my-modal-content">
+		<div id="my-modal-content">
 			<h1>Added successfully <i class="fas fa-check" style="font-size : 20px;"></i></h1>
 		</div>
 	</div>
 	<div id="top-bar" th:insert="index :: top-bar"></div>
-	<input type="hidden" th:value="${totalPages}" id="totalPages" />
-	<div id="form-search" class="container-fluid">
-		<form method="POST" action="/ChildrenCare/service/services">
-			<input type="hidden" th:value="${currentPage}" id="currentPage" />
-			<div class="input-group row">
-				<div class="col-sm-6">
-					<label class="control-label col-sm-2" for="search"
-						style="font-size: 15px;">Search : </label> <input type="text"
+	<header th:insert="index :: header"></header>
+	<section id="main-menu" th:replace="mainmenu.html :: mainMenu(~{ :: .searchbar})">
+		<form method="POST" action="/ChildrenCare/service/services" class="searchbar"> 
+			<div class="input-group">
+				<div>
+						<input type="text"
 						placeholder="Search by title " th:value="${search}"
 						class="form-control form-control-sm" id="search" name="search" />
 					<div class="input-group-btn">
@@ -166,24 +163,13 @@
 						</button>
 					</div>
 				</div>
-				<div class="col-sm-6">
-					<label for="filter"
-						class="col-sm-3 col-form-label col-form-label-sm"
-						style="font-size: 15px;">Category : </label> <select
-						class="form-select form-select-sm" id="filter"
-						onchange="this.form.submit()" name="category">
-						<option value="0">Category</option>
-						<option th:each="category : ${categories}"
-							th:value="${category.serviceCategoryId}"
-							th:text="${category.serviceCategoryName}"
-							th:selected="${category.serviceCategoryId} eq ${categoryId}">
-						</option>
-					</select>
 				</div>
-			</div>
 		</form>
-	</div>
-	<div id="body" class="container-fluid">
+	</section>
+	<input type="hidden" th:value="${totalPages}" id="totalPages" />
+	<input type="hidden" th:value="${categoryId}" id="categoryId"/>
+	<input type="hidden" th:value="${currentPage}" id="currentPage"/>
+	<div id="body" class="container">
 		<div class="row">
 			<div class='col-sm-3 service-item' th:each="service : ${services}"
 				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'">
@@ -205,13 +191,13 @@
 						th:class="${service.avg_star >= 4  ? 'fas fa-star rated' : 'fas fa-star'}"></span>
 					<span
 						th:class="${service.avg_star >= 5  ? 'fas fa-star rated' : 'fas fa-star'}"></span>
-					<span class="glyphicon glyphicon-shopping-cart"
-						 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
-					</span>
 					<h5 th:text="'    '+${#numbers.setFormatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' "></h5>
 				</div>
 				<h4
 					th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}"></h4>
+				<span class="glyphicon glyphicon-shopping-cart"
+						 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
+					</span>	
 			</div>
 		</div>
 	</div>

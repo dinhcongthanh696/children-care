@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Insert title here</title>
+</head>
+<body>
+	<section class="mainmenu-area stricky" th:fragment="mainMenu(searchbar)">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="inner-content clearfix">
+                    <nav class="main-menu style1 clearfix">
+                        <div class="navbar-header clearfix">   	
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="navbar-collapse collapse clearfix">
+                            <ul class="navigation clearfix">
+                                <li class="dropdown current"><a href="/ChildrenCare">Home</a>
+                                </li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li class="dropdown"><a href="/ChildrenCare/service/services">Services</a>
+                                    <ul>
+                                        <li th:each="serviceCategory : ${servicecategories}">
+                                            <a th:href="'/ChildrenCare/service/services?category='+${serviceCategory.serviceCategoryId}" th:text="${serviceCategory.serviceCategoryName}"></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="doctors.html">Doctors</a></li>
+                                <li class="dropdown"><a href="/ChildrenCare/blog">Blog</a>
+                                    <ul>
+                                        <li><a href="blog.html">Blog Default</a></li>
+                                        <li><a href="blog-large.html">Blog Large Image</a></li>
+                                        <li><a href="blog-single.html">Blog Single Post</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown"><a href="#">More</a>
+                                    <ul>
+                                        <li><a href="faq.html">FAQ’s</a></li>
+                                        <li><a href="pricing.html">Pricing Plans</a></li>
+                                        <li><a href="testimonials.html">Testimonials</a></li>
+                                        <li><a href="timetable.html">Timetable</a></li>
+                                        <li><a href="apppointment.html">Apppointment</a></li>
+                                        <li><a href="/reservation/details">Reservation Details</a></li>
+                                        <li><a href="/service/list">Service List</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    
+                    <div class="mainmenu-right">
+                        <div class="search-box-style1">
+                            <form class="search-form" method="post" th:replace="${searchbar}">
+							    <input type="search" name="search" placeholder="Search...">
+							    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+						    </form>        
+                        </div>
+                        <div class="toggler-button">
+                            <div class="nav-toggler hidden-bar-opener">
+                                <div class="inner">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>    
+                        </div>
+                    </div> 
+                      
+                </div>
+            </div>
+        </div>
+    </div>
+</section>                 
+</body>
+</html>

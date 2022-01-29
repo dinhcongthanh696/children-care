@@ -24,7 +24,7 @@ import childrencare.app.service.ServiceModelService;
 public class ServiceController {
 	private final ServiceModelService serviceModelService;
 	private final ServiceCategoryService serviceCategoryService;
-	private final int SERVICESIZE = 3;
+	private final int SERVICESIZE = 5;
 	@Autowired
 	public ServiceController(ServiceModelService serviceModelService,ServiceCategoryService serviceCategoryService) {
 		this.serviceModelService = serviceModelService;
@@ -54,7 +54,6 @@ public class ServiceController {
 		}
 		
 		for(ServiceModel service : services) {
-			if(service.getThumbnail() != null)
 			service.setBase64ThumbnailEncode(service.getThumbnail());
 			double averageStars = 0;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
@@ -70,7 +69,8 @@ public class ServiceController {
 		model.addAttribute("currentPage",services.getNumber());
 		model.addAttribute("search", title);
 		model.addAttribute("categoryId", categoryId);
-		model.addAttribute("categories", categories);
+		model.addAttribute("servicecategories", categories);
+		model.addAttribute("categoryId",categoryId);
 		return "servicelist";
 	}
 	

@@ -2,6 +2,7 @@ package childrencare.app.controller;
 
 import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.ReservationModel;
+import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.service.ReservationService;
 import childrencare.app.service.ServiceModelService;
@@ -23,6 +24,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -103,16 +106,7 @@ public class ReservationController {
 				check = true;
 			}
 		}
-/*		if (!check) {
-			service.setQuantity(quantity);
-			listReservations.add(service);
-=======
-				serviceById = svm;
-				serviceById.setQuantity(serviceById.getQuantity()+quantity);
-				check = true;
-			}
-		} */
-		if (check == false) {
+		if (!check) {
 			serviceById.setQuantity(quantity);
 			listReservations.add(serviceById);
 		}
@@ -167,6 +161,7 @@ public class ReservationController {
 	//done save data to table reservation
 	//save data to reservation_service - not done
 	@PostMapping("/saveData")
+	@Transactional
 	public String saveReservation(@Validated ReservationModel reservationModel, BindingResult result,
 								  RedirectAttributes redirect, HttpSession session){
 		if (result.hasErrors()) {
@@ -177,8 +172,15 @@ public class ReservationController {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		reservationModel.setDate(dtf.format(now));
-		reservationService.save(reservationModel);
-		return "";
+		// thanh's code
+		int rid = reservationService.saveReservation(reservationModel);
+		List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
+		for(ServiceModel serviceLoop : serviceCarts) {
+			reservationService.insertReservation_Service(rid, serviceLoop.getServiceId(),1);
+		}
+		
+		return "redirect:/reservation";
+		// end thanh's code
 
 	}
 }
