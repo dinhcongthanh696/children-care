@@ -40,6 +40,7 @@ public class ServiceModel {
 		this.salePrice = salePrice;
 		this.quantity = quantity;
 		this.description = description;
+
 	}
 	
 	public ServiceModel(int serviceId, String base64ThumbnailEncode, double originalPrice, int quantity) {

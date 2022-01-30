@@ -2,13 +2,7 @@ package childrencare.app.model;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -51,5 +45,9 @@ public class UserModel {
 	@JsonIgnore
 	@OneToMany(mappedBy = "username")
 	private List<FeedbackModel> feedbacks;
-	
+
+	@OneToOne (fetch = FetchType.LAZY,
+		cascade =  CascadeType.ALL,
+		mappedBy = "userModel")
+	private Staff staff;
 }
