@@ -2,13 +2,15 @@ package childrencare.app.controller;
 
 import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.ReservationModel;
-import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceModel;
+import childrencare.app.model.UserModel;
+import childrencare.app.service.LoginService;
 import childrencare.app.service.ReservationService;
 import childrencare.app.service.ServiceModelService;
 import childrencare.app.service.Service_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,9 +25,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/reservation")
@@ -42,13 +42,15 @@ public class ReservationController {
 	@Autowired
 	private Service_service service;
 
-
 	// Thanh's code
 	@Autowired
 	private ServiceModelService serviceModelService;
 
+	@Autowired
+	private LoginService loginService;
 
-	@GetMapping
+
+	@GetMapping("/reser")
 	public String getServiceCarts(Model model, HttpSession session) {
 		List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
 		if (itemList != null) {
@@ -57,7 +59,7 @@ public class ReservationController {
 				toalReservationPrice += sm.getTotalCost();
 			}
 			session.setAttribute("total",toalReservationPrice);
-			model.addAttribute("total", toalReservationPrice);
+			model.addAttribute("size",itemList.size());
 		}
 		model.addAttribute("list", itemList);
 		return "reservationDetails";
@@ -82,6 +84,7 @@ public class ReservationController {
 				check = true;
 			}
 		}
+
 		if (check == false) {
 			serviceById.setQuantity(quantity);
 			listReservations.add(serviceById);
@@ -92,8 +95,6 @@ public class ReservationController {
 
 		if (cartsCookie != null) {
 			CookieHandler.editCartsCookie(id, request, response, "/", 7 * DAYINSECONDS, serviceById.toCookieValue());
-		} else {
-			CookieHandler.createNewCookie("carts", request, response, "/", 7 * DAYINSECONDS, serviceById.toCookieValue());
 		}
 		// end thanh's code (Add service cookie)
 		session.setAttribute("list", listReservations);
@@ -105,13 +106,13 @@ public class ReservationController {
 	public void deleteFromCart(@PathVariable(value = "sid") int id,HttpSession session,
 							   HttpServletResponse response, HttpServletRequest request ) {
 		List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
-		for(ServiceModel service : services) {
-			if(service.getServiceId() == id) {
-				services.remove(service);
-				break;
+			for(ServiceModel service : services) {
+				if(service.getServiceId() == id) {
+					services.remove(service);
+					break;
+				}
 			}
-		}
-		CookieHandler.editCartsCookie(id, request, response, "/", 7 * DAYINSECONDS, "");
+			CookieHandler.editCartsCookie(id, request, response, "/", 7 * DAYINSECONDS, "");
 
 	}
 
@@ -119,18 +120,26 @@ public class ReservationController {
 	@GetMapping("/contact")
 	public String getReservationContact(Model model,HttpSession session) {
 		List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
-		double total = (Double) session.getAttribute("total");
-		model.addAttribute("orderList",itemList);
-		model.addAttribute("totalCheckOut",total);
-		ReservationModel reservationModel = new ReservationModel();
-		model.addAttribute("reservation",reservationModel);
-		return "reservationContact";
+		String username = (String)session.getAttribute("username");
+		UserModel userModel = loginService.getInfo(username);
+		if(itemList!= null){
+			double total = (Double) session.getAttribute("total");
+			model.addAttribute("orderList",itemList);
+			model.addAttribute("total",total);
+			ReservationModel reservationModel = new ReservationModel();
+			model.addAttribute("reservation",reservationModel);
+			model.addAttribute("user",userModel);
+			return "reservationContact";
+		}else{
+			return "redirect:/reservation/reser";
+		}
+
+
 	}
 
 	//nghia's code
-	//done save data to table reservation
-	//save data to reservation_service - not done
 	@PostMapping("/saveData")
+	@Transactional
 	public String saveReservation(@Validated ReservationModel reservationModel, BindingResult result,
 								  RedirectAttributes redirect, HttpSession session){
 		if (result.hasErrors()) {
@@ -141,8 +150,16 @@ public class ReservationController {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		reservationModel.setDate(dtf.format(now));
-		reservationService.save(reservationModel);
-		return "";
+		int rid = reservationService.saveReservation(reservationModel);
+		List<ServiceModel> serviceModelList = (List<ServiceModel>) session.getAttribute("list");
+		for (ServiceModel sm: serviceModelList){
+			reservationService.insertReservation_Service(rid,sm.getServiceId(),sm.getQuantity());
+		}
+		return "redirect:/reservation/reser";
 
 	}
+
+
+
+
 }

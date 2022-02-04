@@ -27,15 +27,7 @@ public class ReservationServiceModel {
 	@MapsId("service_id")
 	private ServiceModel service;
 
-	@ManyToOne
-	@JoinColumn(name = "staff_id")
-	@MapsId("staff_id")
-	private Staff staff;
 
-	@ManyToOne
-	@JoinColumn(name = "slot_id")
-	@MapsId("slot_id")
-	private Slot slot;
 
 	private double price;
 

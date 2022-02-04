@@ -3,6 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <!-- responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- For IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- master stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Responsive stylesheet -->
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!--Color Switcher Mockup-->
+    <link rel="stylesheet" href="../css/color-switcher-design.css">
+    <!--Color Themes-->
+    <link rel="stylesheet" href="../css/color-themes/default-theme.css" id="theme-color-file">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet"
@@ -11,12 +31,11 @@
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
 </head>
 <body>
+<div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
 
-
+<div th:insert="index :: main-menu"></div>
 <div class=" container-fluid my-5 ">
     <div class="row justify-content-center ">
         <div class="col-xl-10">
@@ -37,14 +56,14 @@
                     <div class="col-12 mt-3 ">
                         <nav aria-label="breadcrumb" class="second ">
                             <ol class="breadcrumb indigo lighten-6 first ">
-                                <li class="breadcrumb-item font-weight-bold "><a class="black-text text-uppercase " href="#"><span class="mr-md-3 mr-1">BACK TO SHOP</span></a><i class="fa fa-angle-double-right " aria-hidden="true"></i></li>
-                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase" href="/ChildrenCare/reservation/"><span class="mr-md-3 mr-1">Reservation Detail</span></a><i class="fa fa-angle-double-right text-uppercase " aria-hidden="true"></i></li>
+                                <li class="breadcrumb-item font-weight-bold "><a class="black-text text-uppercase " href="/ChildrenCare/service/services"><span class="mr-md-3 mr-1">BACK TO SHOP</span></a><i class="fa fa-angle-double-right " aria-hidden="true"></i></li>
+                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase" href="/ChildrenCare/reservation/reser"><span class="mr-md-3 mr-1">Reservation Detail</span></a><i class="fa fa-angle-double-right text-uppercase " aria-hidden="true"></i></li>
                                 <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase active-2" href="#"><span class="mr-md-3 mr-1">CHECKOUT</span></a></li>
                             </ol>
                         </nav>
                     </div>
                 </div>
-                <form th:action="@{/reservation/saveData}" th:object="${reservation}" method="post" novalidate="novalidate">
+                <form th:action="@{/reservation/saveData}" th:object="${reservation}"  method="post" novalidate="novalidate">
                     <div class="row justify-content-around">
                         <div class="col-md-5">
                             <div class="card border-0">
@@ -61,33 +80,37 @@
 
                                     </div>
                                     <div class="form-group"> <label for="NAME1" class="small text-muted mb-1">Full name</label>
-                                        <input type="text" th:field="*{fullname}"  class="form-control form-control-sm" id="NAME1" aria-describedby="helpId" > </div>
+                                        <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{fullname}"  class="form-control form-control-sm" id="" aria-describedby="helpId" >
+                                        <input th:if="${user} == null" type="text" th:field="*{fullname}"  class="form-control form-control-sm" id="NAME1" aria-describedby="helpId" >
+                                    </div>
                                     <div class="form-group"> <label  class="small text-muted mb-1">Gender</label>
-                                        <select  class="small text-muted mb-1" th:field="*{gender}">
+                                        <select class="small text-muted mb-1" th:field="*{gender}">
                                             <option value="1">Nam</option>
-                                            <option value="0">Nu</option>
+                                            <option value="0">Nữ</option>
                                         </select>
-
-
                                     </div>
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group"> <label for="NAME3" class="small text-muted mb-1">Email</label>
-                                                <input th:field="*{email}" type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
+                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input th:if="${user} == null" th:field="*{email}" type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group"> <label for="NAME4" class="small text-muted mb-1">Mobile</label>
-                                                <input th:field="*{phone}"  type="text" class="form-control form-control-sm"  id="NAME4" aria-describedby="helpId" > </div>
+                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{phone}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input th:if="${user} == null" th:field="*{phone}"  type="text" class="form-control form-control-sm"  id="NAME4" aria-describedby="helpId" > </div>
                                         </div>
                                     </div>
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group"> <label for="NAME5" class="small text-muted mb-1">Address</label>
-                                                <input th:field="*{address}" type="text" class="form-control form-control-sm"  id="NAME5" aria-describedby="helpId"> </div>
+                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{address}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input th:if="${user} == null" th:field="*{address}" type="text" class="form-control form-control-sm"  id="NAME5" aria-describedby="helpId"> </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group"> <label for="NAME6" class="small text-muted mb-1">Note</label>
-                                                <input th:field="*{notes}" type="text" class="form-control form-control-sm"  id="NAME6" aria-describedby="helpId" > </div>
+                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{notes}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input th:if="${user} == null" th:field="*{notes}" type="text" class="form-control form-control-sm"  id="NAME6" aria-describedby="helpId" > </div>
                                         </div>
                                     </div>
                                     <div class="row no-gutters">
@@ -137,7 +160,6 @@
                                                 <div class="media-body my-auto">
                                                     <div class="row ">
                                                         <div class="col-auto">
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,7 +169,7 @@
 
                                         </div>
                                         <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                            <p><b th:text="${totalCheckOut}"></b></p>
+                                            <p><b th:text="${session.total}"></b></p>
                                         </div>
                                     </div>
 
@@ -167,10 +189,10 @@
         </div>
     </div>
 </div>
+    <div id="footer" th:insert="index :: footer"></div>
+
+
 <style>
-    body {
-        background: linear-gradient(110deg, #BBDEFB 60%, #42A5F5 60%)
-    }
 
     .shop {
         font-size: 10px
@@ -300,6 +322,7 @@
         }
     }
 </style>
+
 
 </body>
 </html>

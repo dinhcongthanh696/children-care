@@ -89,6 +89,7 @@ public class ServiceModel {
 	private ServiceCategoryModel serviceCategory;
 
 	@OneToMany(mappedBy = "service")
+	@JsonIgnore
 	private List<ReservationServiceModel> reservationServices;
 	
 	public String toCookieValue() {
