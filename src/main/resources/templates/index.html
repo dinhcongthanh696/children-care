@@ -30,14 +30,190 @@
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <script src="js/html5shiv.js"></script>
     <![endif]-->
+
+<!--    nghia's use-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--    nghia's use-->
+
 </head>
+
+
+<!--nghia's code-->
+<script>
+    $(window, document, undefined).ready(function() {
+
+        $('.input').blur(function() {
+            var $this = $(this);
+            if ($this.val())
+                $this.addClass('used');
+            else
+                $this.removeClass('used');
+        });
+
+    });
+
+    $('#tab1').on('click' , function(){
+        $('#tab1').addClass('login-shadow');
+        $('#tab2').removeClass('signup-shadow');
+    });
+
+    $('#tab2').on('click' , function(){
+        $('#tab2').addClass('signup-shadow');
+        $('#tab1').removeClass('login-shadow');
+
+
+    });
+</script>
 
 <body>
 <div class="boxed_wrapper">
 
-<div class="preloader"></div> 
+<div class="preloader"></div>
 
-<!-- Start Top Bar area -->  
+    <!-- Modal -->
+    <div class="modal fade bs-modal-sm log-sign" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="bs-example bs-example-tabs">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li id="tab1" class=" active tab-style login-shadow "><a href="#signin" data-toggle="tab">Log In</a></li>
+                        <li id="tab2" class=" tab-style "><a href="#signup" data-toggle="tab">Sign Up</a></li>
+
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="signin">
+                            <form class="form-horizontal"  action="/ChildrenCare/signIn" method="post">
+                                <fieldset>
+                                    <!-- Sign In Form -->
+                                    <!-- Text input-->
+
+                                    <div class="group">
+                                        <input name="username" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                        <label class="label" >User name</label></div>
+
+                                    <div class="group">
+                                        <input name="email" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                        <label class="label" >Email address</label></div>
+                                    <!-- Password input-->
+                                    <div class="group">
+                                        <input name="password" required="" class="input" type="password"><span class="highlight"></span><span class="bar"></span>
+                                        <label class="label" >Password</label>
+                                    </div>
+                                    <em>minimum 6 characters</em>
+
+                                    <div class="forgot-link">
+                                        <a href="#forgot" data-toggle="modal" data-target="#forgot-password"> I forgot my password</a>
+                                    </div>
+
+
+                                    <!-- Button -->
+                                    <div class="control-group">
+                                        <label class="control-label" for="signin"></label>
+                                        <div class="controls">
+                                            <button  name="signin" class="btn btn-primary btn-block">Log In</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="signup">
+                            <form class="form-horizontal"  action="/ChildrenCare/signUp" method="post">
+                                <div class="group">
+                                    <input name="username" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label" >User Name</label></div>
+                                <!-- Sign Up Form -->
+                                <!-- Text input-->
+                                <div class="group">
+                                    <input name="fullname" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Full Name</label></div>
+                                <!-- Text input-->
+                                <div class="group">
+                                    <input name="address" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Address</label></div>
+                                <!-- Password input-->
+                                <div class="group">
+                                    <input name="email" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Email</label></div>
+                                <div class="group">
+                                    <select class="input" name="gender"><span class="highlight"></span><span class="bar"></span>
+                                        <option value="1">Nam</option>
+                                        <option value="0">Nữ</option>
+                                    </select>
+                                    <label class="label">Gender</label>
+                                </div>
+                                <div class="group">
+                                    <input name="notes" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Notes</label></div>
+                                <!-- Text input-->
+                                <div class="group">
+                                    <input name="password" required="" class="input" type="password"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Password</label></div>
+                                <em>1-8 Characters</em>
+                                <div class="group2">
+                                    <input name="phone" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Phone</label></div>
+                                <div class="group2">
+                                    <a href="" >Verify Account</a>
+                                </div>
+
+                                <!-- Button -->
+                                <div class="control-group">
+                                    <label class="control-label" for="confirmsignup"></label>
+                                    <div class="controls">
+                                        <button id="confirmsignup" name="confirmsignup" class="btn btn-primary btn-block">Sign Up</button>
+                                    </div>
+                                </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <center>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal2-->
+    <div class="modal fade bs-modal-sm" id="forgot-password" tabindex="0" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Password will be sent to your email</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <div class="group">
+                                <input required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                <label class="label" >Email address</label></div>
+                            <div class="control-group">
+                                <label class="control-label" ></label>
+                                <div class="controls">
+                                    <button id="forpasswodr" name="forpassword" class="btn btn-primary btn-block">Send</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+<!--nghia's code-->
+
+<!-- Start Top Bar area -->
 <section class="top-bar-area" th:fragment="top-bar">
     <div class="container">
         <div class="row">
@@ -48,15 +224,21 @@
                         <li><a href="#">Special Offers</a></li>
                         <li><a href="#">Teeth Cleaning Tips</a></li>
                     </ul>
-                </div>    
-            </div>   
+                </div>
+            </div>
             <div class="col-xl-5 col-lg-6">
+
                 <div class="top-right">
-                    <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
+<!--                    <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>-->
                     <ul class="sociallinks-style-one">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+<!--                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>-->
+                        <li th:if="${session.username} != null" class="text-white" th:text="'Hello: '+${session.username}"></li>
                         <li>
-                        	<a href="/ChildrenCare/reservation">
+                            <button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign">
+                                <i class="far fa-user text-white"></i></button>
+                        </li>
+                        <li>
+                        	<a href="/ChildrenCare/reservation/reser">
                         		<i class="fas fa-shopping-cart" style="
                         			font-size: 31px;
     								color: white;
@@ -77,12 +259,12 @@
                         	</a>
                         </li>
                     </ul>
-                </div>    
-            </div> 
+                </div>
+            </div>
         </div>
     </div>
 </section>
-<!-- End Top Bar area -->  
+<!-- End Top Bar area -->
  
 <!--Start header style1 area-->
 <header class="header-style1-area">
@@ -132,7 +314,7 @@
 <!--End header style1 area-->
     
 <!--Start mainmenu area-->
-<section class="mainmenu-area stricky">
+<section class="mainmenu-area stricky" th:fragment="main-menu">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -170,8 +352,6 @@
                                         <li><a href="testimonials.html">Testimonials</a></li>
                                         <li><a href="timetable.html">Timetable</a></li>
                                         <li><a href="apppointment.html">Apppointment</a></li>
-                                        <li><a href="/reservation/details">Reservation Details</a></li>
-                                        <li><a href="/service/list">Service List</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="contact.html">Contact</a></li>
@@ -1616,6 +1796,176 @@
     </div>
 </div>
 <!-- /.End Of Color Palate -->
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Raleway');
+
+    body{font-family: 'Raleway', sans-serif ;}
+
+    .tab-style{
+        font-size:20px;
+        width:50%;
+        background-color:#f2f2f2;
+        text-align:center;
+
+
+    }
+    .nav-tabs > li > a {
+        margin-right: 0px;
+        color:grey;
+    }
+
+
+
+    .group2 {
+        position: relative;
+        margin-top: 16px;
+    }
+
+    .btn-block{margin-top:20px;
+        margin-bottom:20px;
+        font-size:18px;}
+
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {   background-color:#e5ecf4;
+        color:#4a89dc;}
+
+    .login-shadow{-webkit-box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
+        -moz-box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
+        box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
+        z-index:1;
+
+    }
+
+    .signup-shadow{-webkit-box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
+        -moz-box-shadow: -5px -5px 6px 0px rgba(82,82,82,0.52);
+        box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
+
+    }
+
+
+    .modal-header{background-color:#e5ecf4;}
+
+    .group {
+        position: relative;
+        margin-top: 30px;
+    }
+
+
+    .input {
+        font-size: 18px;
+        padding: 10px 10px 10px 5px;
+        -webkit-appearance: none;
+        display: block;
+        background: none;
+        color: #636363;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid #757575;
+    }
+
+    .input:focus { outline: none; }
+
+
+    /* Label */
+
+    .label {
+        color: #757575;
+        font-size: 18px;
+        font-weight: normal;
+        position: absolute;
+        pointer-events: none;
+        left: -10px;
+        top: 10px;
+        transition: all 0.2s ease;
+    }
+
+
+    /* active */
+
+    .input:focus ~ .label, .input.used ~ .label {
+        top: -20px;
+        transform: scale(.75); left:-15px;
+        /* font-size: 14px; */
+        color: #4a89dc;
+    }
+
+
+    /* Underline */
+
+    .bar {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+    .bar:before, .bar:after {
+        content: '';
+        height: 2px;
+        width: 0;
+        bottom: 1px;
+        position: absolute;
+        background: #4a89dc;
+        transition: all 0.2s ease;
+    }
+
+    .bar:before { left: 50%; }
+
+    .bar:after { right: 50%; }
+
+
+    /* active */
+
+    .input:focus ~ .bar:before, .input:focus ~ .bar:after { width: 50%; }
+
+
+    /* Highlight */
+
+    .highlight {
+        position: absolute;
+        height: 60%;
+        width: 100px;
+        top: 25%;
+        left: 0;
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+
+    /* active */
+
+    .input:focus ~ .highlight {
+        animation: inputHighlighter 0.3s ease;
+    }
+
+
+    @media  screen and (max-width: 767px) and (min-width: 576px){
+        #myModal{margin-left:20%;
+            margin-right:20%;}
+
+        #forgot-password{margin-left:20%;
+            margin-right:20%;}
+    }
+
+
+    @media screen and (min-width: 768px) {
+
+        #myModal .modal-dialog  {width:500px;}
+
+        #forgot-password .modal-dialog{width:500px;}
+
+        .modal-body{padding-left:50px;
+            padding-right:50px;}
+    }
+
+
+    .modal-body{
+        background-size:cover;
+        z-inedx:4;}
+
+    em{display:none;}
+
+</style>
 
 <!-- main jQuery -->
 <script src="js/jquery.js"></script>

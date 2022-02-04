@@ -37,11 +37,14 @@ public class HomeController {
 //	}
 
 	@GetMapping(path = "/")
-	public String getServices(Model model) {
+	public String getServices(Model model,HttpSession session) {
 		model.addAttribute("serviceitems", serviceModelService.getServices(size));
 		model.addAttribute("allservices", serviceModelService.getServices());
+		session.getAttribute("username");
 		return "index";
 	}
+
+
 
 	// end thanh code
 }
