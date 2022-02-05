@@ -1,5 +1,6 @@
 package childrencare.app.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -52,6 +53,11 @@ public class FeedbackModel {
 	
 	@Column(name = "rated_star")
 	private double ratedStart;
+	
+	private String comment;
+	
+	@Column(name = "feedback_image")
+	private byte[] image;
 	
 	private boolean status;
 }

@@ -4,7 +4,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<section class="mainmenu-area stricky" th:fragment="mainMenu(searchbar)">
+	<section class="mainmenu-area stricky" th:fragment="mainMenu(actionForm,placeholder,current)">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -19,25 +19,23 @@
                         </div>
                         <div class="navbar-collapse collapse clearfix">
                             <ul class="navigation clearfix">
-                                <li class="dropdown current"><a href="/ChildrenCare">Home</a>
+                                <li th:class="${current == 'home' ? 'dropdown current' : 'dropdown'}" style="width : 80px;"><a href="/ChildrenCare">Home</a>
                                 </li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li class="dropdown"><a href="/ChildrenCare/service/services">Services</a>
+                                <li th:class="${current == 'about' ? 'dropdown current' : 'dropdown'}"><a href="about.html">About Us</a></li>
+                                <li th:class="${current == 'services' ? 'dropdown current' : 'dropdown'}"><a href="/ChildrenCare/service/services">Services</a>
                                     <ul>
                                         <li th:each="serviceCategory : ${servicecategories}">
                                             <a th:href="'/ChildrenCare/service/services?category='+${serviceCategory.serviceCategoryId}" th:text="${serviceCategory.serviceCategoryName}"></a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a href="doctors.html">Doctors</a></li>
-                                <li class="dropdown"><a href="/ChildrenCare/blog">Blog</a>
+                                <li th:class="${current == 'doctors' ? 'dropdown current' : 'dropdown'}"><a href="doctors.html">Doctors</a></li>
+                                <li th:class="${current == 'blog' ? 'dropdown current' : 'dropdown'}"><a th:href="@{/blog}">Blog</a>
                                     <ul>
-                                        <li><a href="blog.html">Blog Default</a></li>
-                                        <li><a href="blog-large.html">Blog Large Image</a></li>
-                                        <li><a href="blog-single.html">Blog Single Post</a></li>
+                                        <li><a th:href="@{/blog}">Blog List</a></li>
                                     </ul>
                                 </li>
-                                <li class="dropdown"><a href="#">More</a>
+                                <li th:class="${current == 'more' ? 'dropdown current' : 'dropdown'}"><a href="#">More</a>
                                     <ul>
                                         <li><a href="faq.html">FAQ’s</a></li>
                                         <li><a href="pricing.html">Pricing Plans</a></li>
@@ -48,15 +46,15 @@
                                         <li><a href="/service/list">Service List</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li th:class="${current == 'contact' ? 'dropdown current' : 'dropdown'}"><a href="contact.html">Contact</a></li>
                             </ul>
                         </div>
                     </nav>
                     
                     <div class="mainmenu-right">
                         <div class="search-box-style1">
-                            <form class="search-form" method="post" th:replace="${searchbar}">
-							    <input type="search" name="search" placeholder="Search...">
+                            <form class="search-form" method="post" th:action="${actionForm}">
+							    <input type="search" name="search" th:placeholder="${placeholder}" id="search">
 							    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 						    </form>        
                         </div>

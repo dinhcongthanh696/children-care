@@ -10,8 +10,13 @@ import java.util.List;
 @Service
 public class BlogCategoryService {
 
-    @Autowired
+
     private BlogCategoryRepository blogCategoryRepository;
+
+    @Autowired
+    public BlogCategoryService(BlogCategoryRepository blogCategoryRepository) {
+        this.blogCategoryRepository = blogCategoryRepository;
+    }
 
     public List<PostCategoryModel> findAll() {
         return (List<PostCategoryModel>) blogCategoryRepository.findAll();

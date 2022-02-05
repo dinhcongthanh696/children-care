@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="UTF-8">
+<title>Service List | Children Care From Team2</title>
+<!-- responsive meta -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- For IE -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- master stylesheet -->
+<link rel="stylesheet" href="../css/style.css">
+<!-- Responsive stylesheet -->
+<link rel="stylesheet" href="../css/responsive.css">
+<!--Color Switcher Mockup-->
+<link rel="stylesheet" href="../css/color-switcher-design.css">
+<!--Color Themes-->
+<link rel="stylesheet" href="../css/color-themes/default-theme.css"
+	id="theme-color-file">
+<!-- Bootstrap icons -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180"
+	href="../images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="stylesheet" href="../css/service-list.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+ <!-- Fav icon -->	
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>	
+	
+<script type="text/javascript">
+
+	var lastChosenFeelingElement;
+	var lastChosenFeeling = -1;
+	var lastChosenPreview;
+	var lastChosenServiceId = -1;
+	
+	function startFeedback(title,serviceId){
+		var identifyingUser = document.getElementById("user").value;
+		if(identifyingUser === 'unkown'){
+			const modalContactMenu = document.getElementById("my-modal-contact-menu");
+			modalContactMenu.style.display = "block";
+			return;
+		}
+		
+		lastChosenServiceId = serviceId;
+		
+		
+		fetch("/ChildrenCare/api-service/get-user-services?serviceId="+serviceId)
+		.then(response => response.json())
+		.then(feedbacks => {
+			if(feedbacks.length == 0){
+				alert("Sorry,you have not bought this service.Please buy this service first");	
+			}else{
+				var modalFeedBackStep1Element = document.querySelector("#my-modal-feedback-step1");
+				var feedBackQuestionElement = document.querySelector("#feedback-question");
+				feedBackQuestionElement.innerHTML = "Bạn cảm thấy như thế nào về dịch vụ "+ title  +"? ";
+				modalFeedBackStep1Element.style.display = "block";
+			}
+		})
+	}
+	
+	function startContactModal(event){
+		event.preventDefault();
+		var modalContactMenu = document.getElementById("my-modal-contact-menu");
+		modalContactMenu.style.display = "none"
+		
+		// Triggering modal contact
+		var modalUserContact = document.getElementById("my-modal-contact");
+		modalUserContact.style.display = "block";	
+	}
+	
+	
+	function startFormFeedback(){
+		var modalFeedBackStep2Element = document.querySelector("#my-modal-feedback-step-2");
+		modalFeedBackStep2Element.style.display = "block";
+		
+		// display none modal get user feeling
+		var modalFeedBackStep1Element = document.querySelector("#my-modal-feedback-step1");
+		modalFeedBackStep1Element.style.display = "none";
+	}
+	
+	function saveFeedback(){
+		var imageFileFeedback = document.getElementById("image-feedback-input").files[0];
+		var commentFeedback = document.getElementById("comment").value;
+		 var formData = new FormData();
+		formData.append("imageFeedback",imageFileFeedback);
+		formData.append("commentFeedback",commentFeedback);
+		formData.append("ratedStar",lastChosenFeeling + "");
+		formData.append("serviceId",lastChosenServiceId);  
+		
+		// POST THE FORM TO API 
+		fetch("/ChildrenCare/api-feedback/save-feedback" , {
+			method : 'POST',
+			body : formData
+		})
+		.then(response => response.text())
+		.then(message => {
+			if(message !== "success"){
+				alert(message);	
+			}else{
+				// display modal success
+				var modalSuccessElement = document.querySelector("#my-modal-success");
+				modalSuccessElement.style.display = "block";
+				setTimeout(() => {
+					window.location.reload();
+				},2000)
+			}
+		})
+	}
+
+	function viewServiceDetails(event, service_id) {
+		if (event.target.tagName !== "SPAN" && event.target.id !== 'give-feedback-button') { // EXPLANATION : DIV ONCLICK EVENT WILL ALSO BE TRIGGERD WHEN CLICK SPAN INSIDE IT
+			window.location = "/ChildrenCare/service/services/" + service_id;
+		}
+	}
+	
+	function indentifyCaptchaCode(){
+		
+		var captcha = document.getElementById("answer").value;
+		var username = document.getElementById("user-email").value;
+		var email = document.getElementById("user-email").value;
+		var fullname = document.getElementById("user-fullname").value;
+		var phone = document.getElementById("user-phone").value;
+		var address = document.getElementById("user-address").value;
+		var gender;
+		document.getElementsByName("gender").forEach((radioButton) => {
+			if(radioButton.checked){
+				gender = radioButton.value;
+			}		
+		})
+		
+		var formData = new FormData();
+		formData.append("username",username);
+		formData.append("email",email);
+		formData.append("fullname",fullname);
+		formData.append("phone",phone);
+		formData.append("gender",gender);
+		formData.append("address",address);
+		formData.append("captcha",captcha);
+		
+		// Display waiting modal to wait for fetching api-feedback
+		var modalWaiting = document.getElementById("my-modal-waiting");
+		modalWaiting.style.display = "block";
+		
+		fetch("/ChildrenCare/api-feedback/verify-captcha" , {
+			method : 'POST',
+			body : formData
+		})
+		.then(response => {
+			modalWaiting.style.display = "none";
+			return response.text();
+		})
+		.then(message => {
+			if(message == "success"){
+				alert("We have known you, now you can feedback");
+				document.location.reload();
+			}else{
+				alert("Wrong captcha code!!!!");
+			}
+		})
+	}
+	
+	function identifyUserContact(){
+		var modalUserContact = document.getElementById("my-modal-contact"); 
+		modalUserContact.style.display = "none";
+		
+		var email = document.getElementById("user-email").value;
+		
+		var formData = new FormData();
+		formData.append("email",email);
+		
+		// Display waiting modal to wait for fetching api-feedback
+		var modalWaiting = document.getElementById("my-modal-waiting");
+		modalWaiting.style.display = "block";
+		fetch("/ChildrenCare/api-feedback/generate-captcha" , {
+			method : 'POST',
+			body : formData
+		})
+		.then(response => {
+			modalWaiting.style.display = "none";
+			return response.text();
+		})
+		.then(captcha => {
+			if(captcha !== "verified"){
+				var counter = 90;
+				var modalIdentification = document.getElementById("my-modal-identification");
+				modalIdentification.style.display = "block";
+				var modalHeaderCounter = document.getElementById("modal-header-counter");
+				const captchaInterval = setInterval(() => {
+					modalHeaderCounter.innerHTML = "";
+					modalHeaderCounter.innerHTML = "We have sent you an catpcha code to your email to verify. Code will be expired in :  "+ generateRealTime(counter);
+					if(counter == 0){
+						clearInterval(captchaInterval);
+						if(confirm("Captcha code is expired , Do you want to receive another captcha? ")){
+							identifyUserContact();
+						}else{
+							modalIdentification.style.display = "none";
+						}
+					}
+					counter -= 1;
+				},1500)
+			}else{
+				alert("We have known you , now you can feedback!!!");
+				document.location.reload();
+			}
+		})
+	}
+	
+	function generateRealTime(seconds){
+		var result = "";
+		var minute = Math.floor(seconds / 60);
+		var second = Math.floor(seconds % 60);
+		
+		result += (minute < 10) ? "0" + minute : minute;
+		result += " : ";
+		result += (second < 10) ? "0" + second : second;
+		return result;
+	}
+	
+	
+	function imagePreviewHandler(fileInputElement){
+		if(lastChosenPreview){ 
+			URL.revokeObjectURL(lastChosenPreview);  // for performance
+		}
+		
+		var imageFile = fileInputElement.files[0];
+		lastChosenPreview = URL.createObjectURL(imageFile);
+		var imageFeedbackTag = document.getElementsByClassName("modal-image-feedback")[0];
+		imageFeedbackTag.src = lastChosenPreview;
+	}
+	
+	function ratingStar(ratedStar){
+		if(lastChosenFeelingElement){
+			lastChosenFeelingElement.className = "col-xs-2 feeling";
+		}
+		
+		lastChosenFeelingElement = document.getElementsByClassName("feeling")[ratedStar];
+		lastChosenFeeling = ratedStar;
+		lastChosenFeelingElement.className = 'col-xs-2 feeling chosen';
+		
+		var nextButton = document.getElementById("next-button");
+		nextButton.disabled = false;
+		
+	}
+
+	function addReservationService(event,service_id) {
+		var url = "/ChildrenCare/api-reservation/add/"+service_id;
+		fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			var shoppingItemsElement = document.querySelector("span#shopping-cart-items");
+			var shoppingItems = data.length;
+			shoppingItemsElement.innerHTML = shoppingItems;
+			var modalSuccessElement = document.querySelector("#my-modal-success");
+			modalSuccessElement.style.display = "block";
+			setTimeout(() => {
+				modalSuccessElement.style.display = "none";
+			},2000)
+		})
+	}
+	
+	window.onclick = (event) => {
+		var modalElements = ["my-modal-content","give-feedback-button","next-button","col-xs-2 feeling","col-xs-2 feeling chosen","feeling-description",
+			"far fa-dizzy" , "far fa-angry" , "far fa-frown" , "far fa-meh" , "far fa-grin-alt" , "far fa-grin-beam" , "fas fa-arrow-right" ,
+			"modal-image-feedback" , "modal-label" , "form-control modal-input" , "save-feedback"];
+		var isModalClosed = true;
+		for(let i = 0 ; i < modalElements.length ; i++){
+			const modalElement = modalElements[i];
+			if(event.target.className === modalElement || event.target.id === modalElement){
+				isModalClosed = false;
+				break;
+			}
+		}		
+		
+		var modalSuccessElement = document.querySelector("#my-modal-success");
+		var modalFeedBackStep1Element = document.querySelector("#my-modal-feedback-step1");
+		var nextButton = document.getElementById("next-button"); 
+		var modalFeedBackStep2Element = document.querySelector("#my-modal-feedback-step-2");
+		if(isModalClosed){
+			nextButton.disabled = true; // whenever user close feeling modal , disable next button
+			if(lastChosenFeeling){
+				lastChosenFeeling.className = "col-xs-2 feeling";
+			}  // clear the last chosen feeling
+			
+			if(lastChosenPreview){ 
+				URL.revokeObjectURL(lastChosenPreview);  // for performance
+			} // clear the last preview
+			
+			// close the modal when user click outside of the modal
+				modalSuccessElement.style.display = "none";
+				modalFeedBackStep1Element.style.display = "none";
+				modalFeedBackStep2Element.style.display = "none";
+		}
+	}
+	
+	function changePage(pageNumber) {
+		var search = document.querySelector("#search").value;
+		var categoryId = parseInt(document.querySelector("#categoryId").value);
+		window.location = "/ChildrenCare/service/services?page=" + pageNumber
+				+ "&search=" + search + "&category=" + categoryId;
+	}
+
+	function renderPages(totalPages, currentPage) {
+		var totalPages = parseInt(document.querySelector("#totalPages").value);
+		var currentPage = parseInt(document.querySelector("#currentPage").value);
+		var pageListContainer = document.querySelector("#pages");
+		var search = document.querySelector("#search").value;
+		var categoryId = parseInt(document.querySelector("#categoryId").value);
+		var gap = 2;
+		
+		var prevButton = "";
+		if(currentPage == 0 && totalPages > 1){
+			prevButton = "<span class='glyphicon glyphicon-menu-left pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')> </span>"
+		}else if(totalPages > 1){
+			prevButton = "<span class='glyphicon glyphicon-menu-left pageNumberElement' onclick=changePage(\'"+ (currentPage - 1) +"\') > </span>";
+		}
+
+		pageListContainer.innerHTML += prevButton;
+		
+		if (currentPage > gap + 1) {
+			pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'0\')> 1 </span>"
+					+ " <span class='pageNumberElement'> ... </span>"
+		} else if (currentPage === gap + 1) {
+			pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'0\')> 1 </span>"
+		}
+
+		for (let i = 0; i < currentPage; i++) {
+			if (i + gap >= currentPage) {
+				pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'"
+						+ i + "\')> " + (i + 1) + "</span>"
+			}
+		}
+		// Highlight currentpage
+		pageListContainer.innerHTML += "<span class='pageNumberElement active' > "
+				+ (currentPage + 1) + "</span>"
+		//
+
+		for (let i = currentPage + 1; i < totalPages - 1; i++) {
+			if (i <= currentPage + gap) {
+				pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'"
+						+ i + "\')> " + (i + 1) + "</span>"
+			}
+		}
+
+		if (currentPage + gap + 1 < totalPages - 1) {
+			pageListContainer.innerHTML += " <span class='pageNumberElement'> ... </span>"
+					+ "<span class='pageNumberElement' onclick=changePage(\'"
+					+ (totalPages - 1) + "\')>" + totalPages + "  </span>"
+		} else if (currentPage !== totalPages - 1 && totalPages !== 0) {
+			pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'"
+					+ (totalPages - 1) + "\')>" + totalPages + "  </span>"
+		}
+		
+		var nextButton = "";
+
+		if(currentPage == (totalPages - 1) && totalPages > 1){
+			nextButton = "<span class='glyphicon glyphicon-menu-right pageNumberElement' onclick=changePage('0')> </span>"
+		}else if(totalPages > 1){
+			nextButton = "<span class='glyphicon glyphicon-menu-right pageNumberElement' onclick=changePage(\'"+ (currentPage + 1) +"\') > </span>";
+		}
+
+		pageListContainer.innerHTML += nextButton;
+	}
+</script>
+</head>
+
+<body th:onload="renderPages()">
+	<div id="my-modal-success">
+		<div class="my-modal-content">
+			<h1>Added successfully <i class="fas fa-check" style="font-size : 20px;"></i></h1>
+		</div>
+	</div>
+	<div id="my-modal-feedback-step1">
+		<div class="my-modal-content container">
+			<h1 style="color : black;" id="feedback-question"></h1>
+			<div class="row">
+				<div class="col-xs-2 feeling" onclick="ratingStar(0)">
+					<span class="far fa-dizzy" style="color : #8B0000; font-size : 25px;"></span>
+					<p style="color : #8B0000;" class="feeling-description">Chán không còn gì để lói</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(1)">
+					<span class="far fa-angry" style="color : red; font-size : 25px;"></span>
+					<p style="color : red;" class="feeling-description">Cáu zl</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(2)">
+					<span class="far fa-frown" style="color : grey; font-size : 25px;"></span>
+					<p style="color : grey" class="feeling-description">Thất vọng</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(3)">
+					<span class="far fa-meh" style="color : yellow; font-size : 25px;"></span>
+					<p style="color : yellow;" class="feeling-description">Tạm OK</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(4)">
+					<span class="far fa-grin-alt" style="color : blue; font-size : 25px;"></span>
+					<p style="color : blue" class="feeling-description">Hài lòng</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(5)">
+					<span class="far fa-grin-beam" style="color : green; font-size : 25px;"></span>
+					<p style="color : green" class="feeling-description">Rất hài lòng lun! </p>
+				</div>
+			</div>
+			<div class="my-modal-chaining">
+				<button class="btn btn-success" disabled="disabled" id="next-button" onclick="startFormFeedback()">
+				  <i class="fas fa-arrow-right">Next</i> 
+				</button>
+			</div>
+		</div>
+	</div>
+	<div id="my-modal-feedback-step-2">
+		<div class="my-modal-content" >
+			<label for="image-feedback-input" class="modal-label">Show your image feedback :</label>
+			<input type="file" id="image-feedback-input" class="form-control modal-input" style="font-size : 13px;padding : 5px;" onchange="imagePreviewHandler(this)"/>
+			<img class="modal-image-feedback"/>
+			<label for="comment" class="modal-label">Give your comment here : </label>
+			<textarea rows="10" cols="50" id="comment" class="form-control modal-input" placeholder="Commenting...." style="font-size : 15px;padding : 5px;"></textarea>
+			<button class="btn btn-primary save-feedback" 
+				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()">
+			    Save your feedback
+			</button>
+		</div>
+	</div>
+	<div id="my-modal-contact-menu">
+		<div class="my-modal-content">
+			<h1>Do we know you?</h1>
+			<ul class="list-group">
+				<li class="list-group-item"><a href="#" class="modal-contact-link">Login</a></li>
+				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Give your contact here!</a> </li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="my-modal-waiting">
+		<div class="my-modal-content">
+			<i class="fas fa-circle-notch fa-spin" style="font-size : 50px;color : green;"></i>
+		</div>
+	</div>
+	
+	<div id="my-modal-contact">
+		<div class="my-modal-content">
+			<h1 class="modal-header">Contact</h1>
+			<label for="user-email" class="modal-label">Email</label>
+			<input type="text" class="form-control modal-input" placeholder="Put your email..." id="user-email"/>
+			<label for="user-fullname" class="modal-label">Your full name</label>
+			<input type="text" class="form-control modal-input" placeholder="Put your name..." id="user-fullname"/>
+			<label for="user-address" class="modal-label">You address</label>
+			<input type="text" class="form-control modal-input" placeholder="Put your address..." id="user-address"/>
+			<label for="user-phone" class="modal-label">Your phone number</label>
+			<input type="text" class="form-control modal-input" placeholder="Put your phone(091xxxxxxx)..." id="user-phone"/>
+			<div class="form-check">
+				<input type="radio"  checked="checked" name="gender" class="form-check-input modal-input"  id="male" value="true"/>
+				<label for="male" class="form-check-label">Male</label>
+				<input type="radio"  name="gender" class="form-check-input modal-input"  id="female" value="false"/>
+				<label for="female" class="form-check-label">Female</label>
+			</div>
+			<button class="btn btn-success" id="save-contact-button" onclick="identifyUserContact()">Save your contact</button>
+		</div>
+	</div>
+	
+	<div id="my-modal-identification">
+		<div class="my-modal-content">
+			<h1 class="modal-header" id="modal-header-counter"></h1>
+			<label for="answer">Your answer : </label>
+			<input type="text" class="form-control modal-input" placeholder="Put your name..." id="answer"/>
+			<button class="btn btn-primary" onclick="indentifyCaptchaCode()">Verify</button>
+		</div>
+	</div>
+	
+	<div id="top-bar" th:insert="index :: top-bar"></div>
+	<header th:replace="header.html :: header"></header>
+	<section id="main-menu" th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder='Search By Title ...',current='services')"></section>
+	
+	<!-- start hidden fields -->
+	<input type="hidden" th:value="${totalPages}" id="totalPages" />
+	<input type="hidden" th:value="${categoryId}" id="categoryId"/>
+	<input type="hidden" th:value="${currentPage}" id="currentPage"/>
+	<input type="hidden" th:value="${session.user != null ? session.user.username : 'unkown'}" id="user"/>
+	<!-- end hidden fields -->
+	
+	<div id="body" class="container">
+		<div class="row">
+			<div class='col-sm-3 service-item' th:each="service : ${services}"
+				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'">
+				<img
+					th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}"
+					class="service-thumbnail" />
+				<h1 th:text="${'Title : '+service.title}" class="service-title"></h1>
+				<p th:text="${'Brief Info : '+service.briefInfo}"></p>
+				<p th:text="'Original price : '+${#numbers.setFormatDecimal(service.originalPrice,1,'POINT',0,'POINT')}"></p>
+				<p th:text="'Sale price : '+${#numbers.setFormatDecimal(service.salePrice,1,'POINT',0,'POINT')}"></p>
+				<div>
+					Rated Stars : <span
+						th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+					<span
+						th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+					<span
+						th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+					<span
+						th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+					<span
+						th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+					<h5 th:text="'    '+${#numbers.setFormatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' "></h5>
+				</div>
+				<h4 th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}"></h4>
+					<span class="glyphicon glyphicon-shopping-cart"
+						 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
+					</span>	
+				<span>
+					<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
+					th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
+					id="give-feedback-button">Give Feedback</button>
+				</span>	
+			</div>
+		</div>
+	</div>
+	<div id="pages"></div>
+	<div id="footer" th:insert="index :: footer"></div>
+</body>
+</html>

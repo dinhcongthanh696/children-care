@@ -71,12 +71,12 @@ public class ServiceController {
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("servicecategories", categories);
 		model.addAttribute("categoryId",categoryId);
-		return "servicelist";
+		return "service-list";
 	}
 	
 	@GetMapping(path = "/services/{id}")
 	public String getServiceById(Model model, @PathVariable(name = "id") int id) {
-		model.addAttribute("service", serviceModelService.getServiceById(id));
+		model.addAttribute("service", serviceModelService.getServiceById(id).get());
 		model.addAttribute("services",serviceModelService.getServices());
 		return "ServiceDetail";
 	}

@@ -1,15 +1,14 @@
 package childrencare.app;
 
-import java.awt.print.Pageable;
-import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+
+import childrencare.app.model.ServiceModel;
+import childrencare.app.repository.ServiceRepository;
 
 
 @SpringBootApplication

@@ -5,10 +5,10 @@
 }
 
 .service-thumbnail {
-	width: 100%;
+	width : 100%;
 	margin-bottom : 20px;
 	height: 300px;
-	border-radius: 5px;
+	border-radius: 2px;
 }
 
 .glyphicon .glyphicon-search {
@@ -19,13 +19,13 @@
 
 .service-item {
 	border: 2px solid #EDEDED;
-	padding: 20px;
 	transition: border 1s, box-shadow 1s;
 	margin-left: 10px;
 	margin-right: 40px;
 	margin-bottom: 15px;
 	cursor: pointer;
 	font-size: 17px;
+	padding: 0;
 }
 
 .service-item:hover {
@@ -57,16 +57,21 @@
 	transition: border 1s, box-shadow 1s;
 	margin-right: 10px;
 	font-size: 21px;
+	padding-right : 7px;
+	border-radius: 15px; 
 }
 
 #pages span.pageNumberElement:hover {
 	box-shadow: 2px 3px #888888;
+	color : white;
+	background-color: green;
 }
 
 #pages span.active {
 	padding: 7px;
 	background-color: green;
 	border: 1px solid #ddd;
+	padding-right : 12px;
 }
 
 .service-title {
@@ -95,7 +100,8 @@
 	padding-bottom: 23px;
 }
 
-div#my-modal-success{
+div#my-modal-success,div#my-modal-feedback-step1,div#my-modal-feedback-step-2,
+div#my-modal-contact-menu,div#my-modal-contact,div#my-modal-identification{
   display : none;
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -107,15 +113,72 @@ div#my-modal-success{
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-div#my-modal-content{
-  background-color: black;
+div#my-modal-waiting{
+	display : none;
+  	position: fixed; /* Stay in place */
+  	z-index: 1; /* Sit on top */
+  	left: 0;
+  	top: 0;
+  	width: 100%; /* Full width */
+  	height: 100%; /* Full height */
+  	overflow: auto; /* Enable scroll if needed */
+  	background-color: black; /* Black w/ opacity */
+}
+
+div.my-modal-content{
+  background-color: white;
   margin: 20% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
+  width: 55%; /* Could be more or less, depending on screen size */
   text-align: center;
-  color: green;
-  font-size: 27px;
+  color: black;
+  font-size: 25px;
   font-weight: bold;
   border-radius: 10px;
-} 
+}
+
+.feeling{
+	transition : width 1s;
+	cursor: pointer;
+}
+
+.feeling:hover,div.chosen{
+	width : 95px;
+	background-color: aqua;
+}
+
+.my-modal-chaining{
+	text-align: right;
+}
+
+
+.modal-image-feedback{
+	border-radius: 6px;
+	height : 334px;
+}
+
+.modal-contact-link:hover{
+	text-decoration: none;
+}
+
+li.list-group-item:hover{
+	background-color: aqua;
+	cursor : pointer;
+}
+
+.form-check-label{
+	font-weight: normal;
+	font-size : 15px;
+}
+
+
+#save-contact-button{
+	font-size : 20px;
+	border-radius: 7px;
+}
+
+.modal-input{
+	font-size : 25px;
+	padding : 5px;
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <!-- Mirrored from st.ourhtmldemo.com/new/Dento/blog-large.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Jan 2021 02:07:52 GMT -->
 <head>
@@ -23,11 +23,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
-
+    <script src="../static/js/paging.js"></script>
     <!-- Fixing Internet Explorer-->
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <script src="js/html5shiv.js"></script>
+
     <![endif]-->
 
 </head>
@@ -130,11 +131,7 @@
                             </div>
                             <div class="navbar-collapse collapse clearfix">
                                 <ul class="navigation clearfix">
-                                    <li class="dropdown"><a href="index-2.html">Home</a>
-                                        <ul>
-                                            <li><a href="index-2.html">Home Page 01</a></li>
-                                            <li><a href="index-3.html">Home Page 02</a></li>
-                                        </ul>
+                                    <li class="dropdown"><a th:href="@{/}">Home</a>
                                     </li>
                                     <li><a href="about.html">About Us</a></li>
                                     <li class="dropdown"><a href="specialities.html">Specialities</a>
@@ -148,12 +145,7 @@
                                         </ul>
                                     </li>
                                     <li><a href="doctors.html">Doctors</a></li>
-                                    <li class="dropdown current"><a href="blog.html">Blog</a>
-                                        <ul>
-                                            <li><a href="blog.html">Blog Default</a></li>
-                                            <li><a href="blog-large.html">Blog Large Image</a></li>
-                                            <li><a href="blog-single.html">Blog Single Post</a></li>
-                                        </ul>
+                                    <li class="dropdown current"><a th:href="@{/blog}">Blog</a>
                                     </li>
                                     <li class="dropdown"><a href="#">More</a>
                                         <ul>
@@ -256,9 +248,9 @@
                         </div>
                         <div class="breadcrumb-menu float-right">
                             <ul class="clearfix">
-                                <li><a href="index-2.html">Home</a></li>
+                                <li><a th:href="@{/}">Home</a></li>
                                 <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                                <li class="active">Blog With Sidebar</li>
+                                <li class="active">Blog List</li>
                             </ul>
                         </div>
                     </div>
@@ -277,11 +269,6 @@
                         <!--Start Single blog Post-->
                         <div class="single-blog-post blog-large" th:each="listPost:${listPost}">
                             <div class="left-box">
-                                <div class="post-info-style1">
-                                    <h3 th:text="${listPost.getCreateAt().getDate()}"></h3>
-                                    <div class="borders"></div>
-                                    <p th:text="Thang + ${listPost.getCreateAt().getMonth()}"></p>
-                                </div>
                                 <div class="post-author">
                                     <img src="images/blog/auth-1.png" alt="Awesome Image">
                                 </div>
@@ -307,7 +294,7 @@
                                         <p th:text="${listPost.getBriefInfo()}"></p>
                                     </div>
                                     <div class="readmore-button">
-                                        <a class="btn-one" href="#">Read More</a>
+                                        <a class="btn-one" th:href="@{/blogDetail(postId=${listPost.getPostId()})}">Read More</a>
                                     </div>
                                 </div>
                             </div>
@@ -317,13 +304,23 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <ul class="post-pagination2 text-center">
-                                <li><a class="left" href="#"><i class="fa fa-angle-double-left"
-                                                                aria-hidden="true"></i><span>Prev</span></a></li>
-                                <li><a href="#">1</a></li>
-                                <li class="active"><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a class="right" href="#"><span>Next</span><i class="fa fa-angle-double-right"
-                                                                                  aria-hidden="true"></i></a></li>
+                                <li><a class="left"
+                                       th:href="@{/blog(page=0,title=${titleSearch},categoryId=${categoryId})}"><i
+                                        class="fa fa-angle-double-left"
+                                        aria-hidden="true"></i><span>FIRST</span></a>
+                                </li>
+                                <li class="page-item active" th:each="pageNumber:${pageNumbers}"
+                                    th:if="${pagingPost.totalPages >1}"
+                                    th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
+                                    <a th:href="@{/blog(page=${pageNumber},title=${titleSearch},categoryId=${categoryId})}"
+                                       th:text="${pageNumber}"></a>
+                                </li>
+
+                                <li><a class="right"
+                                       th:href="@{/blog(page=${pagingPost.totalPages}-1,title=${titleSearch},categoryId=${categoryId})}"><span>LAST</span><i
+                                        class="fa fa-angle-double-right"
+                                        aria-hidden="true"></i></a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -334,9 +331,10 @@
                     <div class="sidebar-wrapper">
                         <!--Start single sidebar-->
                         <div class="single-sidebar">
-                            <form class="search-form" action="#">
-                                <input placeholder="Search" type="text">
+                            <form class="search-form" action="/ChildrenCare/blog" method="post">
+                                <input placeholder="Search by title" type="text" name="title" th:value="${titleSearch}">
                                 <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+
                             </form>
                         </div>
                         <!--End single sidebar-->
@@ -345,18 +343,22 @@
                             <div class="sidebar-title">
                                 <h3>Categories</h3>
                             </div>
-                            <ul class="categories clearfix" th:each="listCategoryPost:${listCategoryPost}">
-                                <li><a href="#" th:text="${listCategoryPost.getPostCategoryName()}">Healthy Teeth <span>(4)</span></a></li>
-
+                            <ul class="categories clearfix" th:each="listCategory:${listCategoryPost}">
+                                <li>
+                                    <a
+                                            th:href="@{/blog(page=${pageNumber},title=${titleSearch},categoryId=${listCategory.getPostCategoryId()})}"
+                                            th:text="${listCategory.getPostCategoryName()}">
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <!--End single sidebar-->
-                        <!--Start single sidebar-->
+                        <!--Start single sidebar(Top3 recent post)-->
                         <div class="single-sidebar">
                             <div class="sidebar-title">
                                 <h3>Recent Post</h3>
                             </div>
-                            <ul class="recent-post">
+                            <ul class="recent-post" th:each="listTop3:${listTop3RecentPost}">
                                 <li>
                                     <div class="img-holder">
                                         <img src="images/sidebar/recent-post-1.jpg" alt="Awesome Image">
@@ -369,49 +371,15 @@
                                         </div>
                                     </div>
                                     <div class="title-holder">
-                                        <p><span class="icon-date"></span>14 Nov, 2018</p>
-                                        <h5 class="post-title"><a href="#">Implant care: Single tooth <br>replacement...</a>
+                                        <p><span class="icon-date"
+                                                 th:text="${listTop3.getUpdatedAt().getDate()+'/'+(listTop3.getUpdatedAt().getMonth()+1)+'/'+listTop3.getUpdatedAt().getYear()}"></span>
+                                        </p>
+                                        <h5 class="post-title"><a href="#" th:text="${listTop3.getTitle()}"></a>
                                         </h5>
-                                        <a class="readmore" href="#">Continue Reading...</a>
+                                        <a class="readmore" th:href="@{/blogDetail(postId=${listTop3.getPostId()})}">Continue
+                                            Reading...</a>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="img-holder">
-                                        <img src="images/sidebar/recent-post-2.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="title-holder">
-                                        <p><span class="icon-date"></span>22 Oct, 2018</p>
-                                        <h5 class="post-title"><a href="#">We are amongest most <br>qualified
-                                            dentists...</a></h5>
-                                        <a class="readmore" href="#">Continue Reading...</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="img-holder">
-                                        <img src="images/sidebar/recent-post-3.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="title-holder">
-                                        <p><span class="icon-date"></span>05 Oct, 2018</p>
-                                        <h5 class="post-title"><a href="#">If you need a crown or an <br>implant you
-                                            will pay...</a></h5>
-                                        <a class="readmore" href="#">Continue Reading...</a>
-                                    </div>
-                                </li>
-
                             </ul>
                         </div>
                         <!--End single sidebar-->
@@ -497,20 +465,6 @@
                             <div class="follow-us-instagram">
                                 <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i>Follow Us On Instagram</a>
                             </div>
-                        </div>
-                        <!--End single-sidebar-->
-                        <!--Start single-sidebar-->
-                        <div class="single-sidebar">
-                            <div class="sidebar-title">
-                                <h3>Archives</h3>
-                            </div>
-                            <ul class="archives">
-                                <li><a href="#">August 2018 <span>(4)</span></a></li>
-                                <li><a href="#">July 2018 <span>(2)</span></a></li>
-                                <li><a href="#">March 2018 <span>(2)</span></a></li>
-                                <li><a href="#">February 2018 <span>(3)</span></a></li>
-                                <li><a href="#">December 2017 <span>(1)</span></a></li>
-                            </ul>
                         </div>
                         <!--End single-sidebar-->
                     </div>
