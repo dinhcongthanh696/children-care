@@ -27,12 +27,10 @@ public class ReservationServiceModel {
 	@MapsId("service_id")
 	private ServiceModel service;
 
+	private int totalPerson;
 
-
-	private double price;
-
-//	@Transient
-//	public double totalCost(){
-//		return service.getOriginalPrice()* totalPerson;
-//	}
+	@Transient
+	public double totalCost(){
+		return service.getOriginalPrice()* totalPerson;
+	}
 }
