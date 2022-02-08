@@ -74,7 +74,9 @@ public class ServiceController {
 	
 	@GetMapping(path = "/services/{id}")
 	public String getServiceById(Model model, @PathVariable(name = "id") int id) {
-		model.addAttribute("service", serviceModelService.getServiceById(id).get());
+		ServiceModel service = serviceModelService.getServiceById(id).get();
+		service.setBase64ThumbnailEncode(service.getThumbnail());
+		model.addAttribute("service", service);
 		model.addAttribute("services",serviceModelService.getServices());
 		return "ServiceDetail";
 	}

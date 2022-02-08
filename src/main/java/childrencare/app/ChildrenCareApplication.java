@@ -3,6 +3,7 @@ package childrencare.app;
 
 import javax.transaction.Transactional;
 
+import childrencare.app.repository.FeedbackRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
