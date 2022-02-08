@@ -47,5 +47,4 @@ public class ReservationServiceModel {
 
 
 	private double price;
-
 }

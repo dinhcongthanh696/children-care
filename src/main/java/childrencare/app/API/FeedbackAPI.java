@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class FeedbackAPI {
 	private final FeedbackRepository feedbackRepository;
 	private String captcha;
 	
+	@Autowired
 	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,FeedbackRepository feedbackRepository) {
 		this.mailSender = mailSender;
 		this.userRepository = userRepository;

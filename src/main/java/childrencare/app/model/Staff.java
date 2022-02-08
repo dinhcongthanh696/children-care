@@ -23,7 +23,5 @@ public class Staff {
     @JoinColumn(name = "username")
     private UserModel userModel;
 
-    @OneToMany(mappedBy = "staff")
-    private List<ReservationServiceModel> reservationServices;
 
 }
