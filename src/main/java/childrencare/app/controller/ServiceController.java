@@ -1,8 +1,8 @@
 package childrencare.app.controller;
 
-import java.util.Base64;
 import java.util.List;
 
+import childrencare.app.repository.FeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -24,11 +24,13 @@ import childrencare.app.service.ServiceModelService;
 public class ServiceController {
 	private final ServiceModelService serviceModelService;
 	private final ServiceCategoryService serviceCategoryService;
+	private final FeedbackRepository feedbackRepository;
 	private final int SERVICESIZE = 3;
 	@Autowired
-	public ServiceController(ServiceModelService serviceModelService,ServiceCategoryService serviceCategoryService) {
+	public ServiceController(ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService, FeedbackRepository feedbackRepository) {
 		this.serviceModelService = serviceModelService;
 		this.serviceCategoryService = serviceCategoryService;
+		this.feedbackRepository = feedbackRepository;
 	}
 	
 	@RequestMapping(value = "/services", method = { RequestMethod.GET, RequestMethod.POST })
@@ -76,8 +78,10 @@ public class ServiceController {
 	public String getServiceById(Model model, @PathVariable(name = "id") int id) {
 		ServiceModel service = serviceModelService.getServiceById(id).get();
 		service.setBase64ThumbnailEncode(service.getThumbnail());
+		List<FeedbackModel> feedbackModels = feedbackRepository.findByService(service);
 		model.addAttribute("service", service);
 		model.addAttribute("services",serviceModelService.getServices());
+		model.addAttribute("feedbackModels", feedbackModels);
 		return "ServiceDetail";
 	}
 }
