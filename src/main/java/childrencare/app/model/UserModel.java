@@ -41,6 +41,7 @@ public class UserModel {
 	@Id
 	private String username;
 	
+	@JsonIgnore
 	private String password;
 	
 	private String fullname;
@@ -58,17 +59,20 @@ public class UserModel {
 	
 	private boolean status;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
 	private RoleModel userRole;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "username")
 	private List<FeedbackModel> feedbacks;
-
+	
+	@JsonIgnore
 	@OneToOne (fetch = FetchType.LAZY,
 		cascade =  CascadeType.ALL,
 		mappedBy = "userModel")
