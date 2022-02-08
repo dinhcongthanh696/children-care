@@ -24,21 +24,32 @@
     <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
     	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <!-- Color Login Form -->	
+    <link rel="stylesheet" href="css/authentication.css">	
 
     <!-- Fixing Internet Explorer-->
     <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <script src="js/html5shiv.js"></script>
     <![endif]-->
-    
+	
+	<script>
+		function triggerLoginForm(displayStyle){
+			const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+		    modalBoxWrapper.style.display = displayStyle;
+		}
+	</script>
 </head>
 
+
 <body>
-<div class="boxed_wrapper">
 
-<div class="preloader"></div> 
+<!-- ngia's code -->
+<div class="boxed_wrapper" th:replace="authentication.html :: authentication('')"></div>
+<!--nghia's code-->
 
-<!-- Start Top Bar area -->  
+<div class="preloader"></div>
+<!-- Start Top Bar area -->
 <section class="top-bar-area" th:fragment="top-bar">
     <div class="container">
         <div class="row">
@@ -49,17 +60,23 @@
                         <li><a href="#">Special Offers</a></li>
                         <li><a href="#">Teeth Cleaning Tips</a></li>
                     </ul>
-                </div>    
-            </div>   
+                </div>
+            </div>
             <div class="col-xl-5 col-lg-6">
+
                 <div class="top-right">
-                    <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
+<!--                    <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>-->
                     <ul class="sociallinks-style-one">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+<!--                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>-->
+                        <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
+                        <li th:if="${session.user == null}">
+                            <button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form">
+                                <i class="far fa-user text-white" onclick="triggerLoginForm('block')"></i></button>
+                        </li>
                         <li>
-                        	<a href="/ChildrenCare/reservation">
+                        	<a href="/ChildrenCare/reservation/reser">
                         		<i class="fas fa-shopping-cart" style="
-                        			font-size: 31px;
+                        			font-size: 33px;
     								color: white;
                         		">
                         			<span id="shopping-cart-items" style="
@@ -69,7 +86,7 @@
     									position: absolute;
     									right: 0;
     									top: 0;
-    									font-size: 15px;
+    									font-size: 14px;
     									color: red;
     									border: 1px solid black;
     									padding: 3px;
@@ -80,18 +97,19 @@
                     </ul>
                 </div>    
             </div>   
-        </div>
-    </div>
+                </div>
+            </div>
 </section>
-<!-- End Top Bar area -->  
+<!-- End Top Bar area -->
  
 <!--Start header style1 area-->
 <header th:replace="header.html :: header"></header>  
 <!--End header style1 area-->
     
 <!--Start mainmenu area-->
-<section th:replace="mainmenu.html :: mainMenu(actionForm='',placeholder='Search...',current='home')">
+<section th:replace="mainmenu.html :: mainMenu(actionForm='',placeholder='Search...',current='home',search='')">
 </section>            
+
 <!--End mainmenu area--> 
   
 <!-- Hidden Navigation Bar -->

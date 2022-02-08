@@ -21,29 +21,51 @@ public class ServiceModelService {
 	}
 
 	// 0-based page
-	public Page<ServiceModel> getServicesPaginated(int page, int size) throws Exception {
+	public Page<ServiceModel> getServicesPaginated(int page, int size)  {
 		if (page < 0) {
-				throw new Exception("page must not be negative");
+				page = 0; 
 		}
 		Page<ServiceModel> servicesPageable = serviceRepository.findAll(PageRequest.of(page, size , Sort.by(Sort.Direction.ASC, "title")));
-		if(page > servicesPageable.getTotalPages()) {
-			throw new Exception("over pages");
+		if(page >= servicesPageable.getTotalPages()) {
+			page = servicesPageable.getTotalPages() - 1;
+			servicesPageable = serviceRepository.findAll(PageRequest.of(page, size , Sort.by(Sort.Direction.ASC, "title")));
 		}
 		return servicesPageable;
 	}
 	
 	public Page<ServiceModel> getServicesPaginated(int page , int size , String title) {
+		if (page < 0) {
+			page = 0; 
+		}
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLike("%"+title+"%",PageRequest.of(page, size));
+		if(page >= servicesPageable.getTotalPages()) {
+			page = servicesPageable.getTotalPages() - 1;
+			servicesPageable = serviceRepository.findByTitleLike("%"+title+"%",PageRequest.of(page, size));
+		}
 		return servicesPageable;
 	}
 	
 	public Page<ServiceModel> getServicesPaginated(int page , int size , int serviceCategoryId , String title) {
+		if (page < 0) {
+			page = 0; 
+		}
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+title+"%", serviceCategoryId, PageRequest.of(page, size));
+		if(page >= servicesPageable.getTotalPages()) {
+			page = servicesPageable.getTotalPages() - 1;
+			servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+title+"%", serviceCategoryId, PageRequest.of(page, size));
+		}
 		return servicesPageable;
 	}
 	
 	public Page<ServiceModel> getServicesPaginated(int page , int size , int serviceCategoryId) {
+		if (page < 0) {
+			page = 0; 
+		}
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
+		if(page >= servicesPageable.getTotalPages()) {
+			page = servicesPageable.getTotalPages() - 1;
+			servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
+		}
 		return servicesPageable;
 	}
 	

@@ -39,6 +39,7 @@ public class ServiceModel {
 		this.salePrice = salePrice;
 		this.quantity = quantity;
 		this.description = description;
+
 	}
 	
 	public ServiceModel(int serviceId, String base64ThumbnailEncode, double originalPrice, int quantity) {
@@ -59,7 +60,7 @@ public class ServiceModel {
 	private byte[] thumbnail;
 	private String title;
 	@Transient
-	private double avg_star;
+	private double avg_star = -1;
 
 	@Column(name = "brief_info")
 	private String briefInfo;

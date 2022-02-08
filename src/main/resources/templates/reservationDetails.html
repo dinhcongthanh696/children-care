@@ -4,192 +4,220 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
-	<script>
-		function editCartItem(serviceId,newValue){
-			var oldValue = document.querySelector("#oldvalue"+serviceId).value;
-			var updatedQuantity = newValue - oldValue;
-			alert("Updated successfully V");
-			fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
-		}
-		
-		function storeOldValue(serviceId,oldValue){
-			var storeOldValueElement = document.querySelector("#oldvalue"+serviceId);
-			storeOldValueElement.value = oldValue;
-		}
-
-		function removeCartItem(serviceId){
-			fetch("/ChildrenCare/reservation/delete/"+serviceId,{
-				method : 'DELETE'
-			})
-			.then(response => {
-				var removedCartItem = document.querySelector("#item"+serviceId);
-				removedCartItem.style.display = "none";
-			})
-		}
-	</script>
 	<style>
-    	body {
-        	background: #eecda3;
-        	background: -webkit-linear-gradient(to right, #eecda3, #ef629f);
-        	background: linear-gradient(to right, #eecda3, #ef629f);
-        	min-height: 100vh;
-    	}
-    
-    	img{
-    		width : 100%;
-    		height : 190px;
-    	}
-</style>
-
-</head>
-<body>
-
-    <script>
-        function storeOldValue(serviceId,oldValue){
-            var storeOldValueElement = document.querySelector("#oldvalue"+serviceId);
-            storeOldValueElement.value = oldValue;
-        }
-
-        function editCartItem(serviceId,newValue){
-            var oldValue = document.querySelector("#oldvalue"+serviceId).value;
-            var updatedQuantity = newValue - oldValue;
-            alert("Updated successfully V");
-            fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
-        }
-
-        function removeCartItem(serviceId){
-            fetch("/ChildrenCare/reservation/delete/"+serviceId,{
-                method : 'DELETE'
-            })
-                .then(response => {
-                    var removedCartItem = document.querySelector("#item"+serviceId);
-                    removedCartItem.style.display = "none";
-                })
-        }
-    </script>
-
-</head>
-<body>
-<style>
     body {
         background: #eecda3;
         background: -webkit-linear-gradient(to right, #eecda3, #ef629f);
         background: linear-gradient(to right, #eecda3, #ef629f);
         min-height: 100vh;
+        }
+        
+     .item {
+    	display: flex;
+    	align-items: center;
+    	flex-wrap: wrap;
+  	}
+  	
+  	.btn-pay {
+    	background-color: #C800Da;
+    	border: 0;
+    	color: #fff;
+    	font-weight: 600;
+  	}
+  	.fa-ticket {
+    	color: #0e1fa1;
+  	}
+  	img{
+    	width : 100px;
+    	height : 100px;
+  	}
+   </style>     
+  <!-- responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- For IE -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- master stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+  <!-- Responsive stylesheet -->
+  <link rel="stylesheet" href="../css/responsive.css">
+  <!--Color Switcher Mockup-->
+  <link rel="stylesheet" href="../css/color-switcher-design.css">
+  <!--Color Themes-->
+  <link rel="stylesheet" href="../css/color-themes/default-theme.css" id="theme-color-file">
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- FontAwesome CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+          integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+
+  <script>
+    // nghia's code
+    $(document).ready(function() {
+      var fadeTime = 300;
+      $('.pass-quantity input').change(function() {
+        updateQuantity(this);
+      });
+      $('.remove-item button').click(function() {
+        removeItem(this);
+      });
+      function recalculateCart() {
+        var subtotal = 0;
+        $('.item').each(function() {
+          subtotal += parseFloat($(this).children('.product-line-price').text());
+        });
+        var total = subtotal;
+        $('.totals-value').fadeOut(fadeTime, function() {
+          $('#cart-subtotal').html(subtotal.toFixed(2));
+          $('.cart-total').html(total.toFixed(2));
+          if (total == 0) {
+            $('.checkout').fadeOut(fadeTime);
+          } else {
+            $('.checkout').fadeIn(fadeTime);
+          }
+          $('.totals-value').fadeIn(fadeTime);
+        });
+      }
+      function updateQuantity(quantityInput) {
+        var productRow = $(quantityInput).parent().parent();
+        var price = parseFloat(productRow.children('.product-price').text());
+        var quantity = $(quantityInput).val();
+        var linePrice = price * quantity;
+        productRow.children('.product-line-price').each(function() {
+          $(this).fadeOut(fadeTime, function() {
+            $(this).text(linePrice.toFixed(2));
+            recalculateCart();
+            $(this).fadeIn(fadeTime);
+          });
+        });
+      }
+      function removeItem(removeButton) {
+        var productRow = $(removeButton).parent().parent();
+        productRow.slideUp(fadeTime, function() {
+          productRow.remove();
+          recalculateCart();
+        });
+      }
+    });
+    //thanh's code
+    function storeOldValue(serviceId,oldValue){
+      var storeOldValueElement = document.querySelector("#oldvalue"+serviceId);
+      storeOldValueElement.value = oldValue;
     }
 
-    img{
-        width : 100%;
-        height : 190px;
+    function editCartItem(serviceId,newValue){
+      var oldValue = document.querySelector("#oldvalue"+serviceId).value;
+      var updatedQuantity = newValue - oldValue;
+      fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
     }
-</style>
-<div class="px-4 px-lg-0">
-    <!-- For demo purpose -->
-    <div class="container text-white py-5 text-center">
-        <h1 class="display-4">Reservation Details</h1>
-        <h3 th:if="${list} == null">No Reservation</h3>
-    </div>
-    <!-- End -->
-    <th:block th:unless="${Order}">
-        <div class="pb-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+    
+    function removeCartItem(serviceId){
+        fetch("/ChildrenCare/reservation/delete/"+serviceId,{
+          method : 'DELETE'
+        })
+                .then(response => {
+                  var removedCartItem = document.querySelector("#item"+serviceId);
+                  removedCartItem.style.display = "none";
+                })
+      }
+    </script>
+  </head>
+  
+<body>
+<div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
 
-                        <!-- Shopping cart table -->
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="p-2 px-3 text-uppercase">Service</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="py-2 text-uppercase">Price</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="py-2 text-uppercase">Quantity</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="py-2 text-uppercase">The number of person</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="py-2 text-uppercase">Total cost</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="py-2 text-uppercase">Action</div>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="info: ${session.list}" th:id="${'item'+info.serviceId}">
-                                   <th scope="row" class="border-0">
-
-                                        <div class="p-2">
-                                            <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"  alt="chua co anh" width="70" class="img-fluid rounded shadow-sm">
-                                            <div class="ml-3 d-inline-block align-middle">
-                                                <span class="text-muted font-weight-normal font-italic d-block">ID</span>
-                                                <h5 class="mb-0"><a th:text="${info.serviceId}" href="#" class="text-dark d-inline-block align-middle"></a></h5>
-                                            </div>
-                                        </div>
-                                    </th>
-
-                                    <td th:text="${info.originalPrice}" class="border-0 align-middle"></td>
-                                    <td class="border-0 align-middle">
-                                    	<input type="number" min="1" th:value="${info.quantity}" 
-                                    		th:onfocus="'storeOldValue(' + ${info.serviceId} + ',this.value)'" 
-                                    		th:onchange="'editCartItem('+ ${info.serviceId} + ',this.value)'"/>
-                                    	<input type="hidden" th:id="'oldvalue'+${info.serviceId}" />	
-                                    </td>
-                                    <td class="border-0 align-middle"><strong></strong></td>
-                                    <td class="border-0 align-middle"><strong></strong></td>
-                                    <td class="border-0 align-middle"><i class="fa fa-trash" th:onclick="'removeCartItem('+ ${info.serviceId} +',)'" style="cursor : pointer;"></i></td>
-                               </tr>
-                            </tbody>
-                        </table>
-                        <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
-                    </div>
-                    <!-- End -->
-                </div>
-
-            </div>
-
-            <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                <div class="col-lg-6">
-                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Discount code</div>
-                    <div class="p-4">
-                        <p class="font-italic mb-4">If you have a discount code, please enter it in the box below</p>
-                        <div class="input-group mb-4 border rounded-pill p-2">
-                            <input type="text" placeholder="Apply discount" aria-describedby="button-addon3" class="form-control border-0">
-                            <div class="input-group-append border-0">
-                                <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Apply discount</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller</div>
-                    <div class="p-4">
-                        <p class="font-italic mb-4">If you have some information for the seller you can leave them in the box below</p>
-                        <textarea name="" cols="30" rows="2" class="form-control"></textarea>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
-                    <div class="p-4">
-                        <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
-                        <ul class="list-unstyled mb-4">
-                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong><h5 th:text="${total}" class="font-weight-bold"></h5></li>
-                        </ul><a href="/ChildrenCare/reservation/contact" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
+<div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
+<div class="container text-dark py-5 text-center">
+  <h1 class="display-4">Reservation Details</h1>
+  <h3 th:if="${list} == null">No Reservation</h3>
 </div>
+
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-xl-12 col-lg-8 col-md-7">
+      <tr th:each="info: ${session.list}" th:id="${'item'+info.serviceId}">
+      <div class="border border-gainsboro p-3 mt-3 clearfix item">
+        <div class="text-lg-left">
+          <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"  alt="chua co anh"  class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-lg-5 col-5 text-lg-left">
+          <h3 th:text="'Service Id:'+${info.serviceId}" class="h6 mb-0"></h3><br>
+          <h3 th:text="'Title: '+${info.title}" class="h6 mb-0"></h3><br>
+            <small th:text="'Price: '+${info.originalPrice}"></small>
+        </div>
+        <div th:text="${info.getOriginalPrice()}" class="product-price d-none"></div>
+        <div class="pass-quantity col-lg-3 col-md-4 col-sm-3">
+          <label class="pass-quantity">Total person</label>
+          <input class="form-control" type="number" min="1" th:value="${info.quantity}"
+                 th:onfocus="'storeOldValue('+${info.serviceId}+',this.value)'"
+                 th:onchange="'editCartItem('+ ${info.serviceId} +',this.value)'"/>
+          <input type="hidden" th:id="'oldvalue'+(${info.serviceId})"/>
+        </div>
+        <div class="col-lg-2 col-md-1 col-sm-2 product-line-price pt-4">
+          <span th:text="${info.getTotalCost()}" class="product-line-price"></span>
+        </div>
+        <div class="remove-item pt-4">
+          <button class="remove-product btn-light">
+            <i class="fa fa-trash" th:onclick="'removeCartItem('+ ${info.serviceId} +')'" style="cursor : pointer;"></i>
+          </button>
+        </div>
+      </div>
+      </tr>
+
+    </div>
+    <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted">More Service</span></div>
+
+    <div class="row py-5 p-4 bg-white rounded shadow-sm">
+      <div class="col-lg-6">
+        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Discount code</div>
+        <div class="p-4">
+          <p class="font-italic mb-4">If you have a discount code, please enter it in the box below</p>
+          <div class="input-group mb-4 border rounded-pill p-2">
+            <input type="text" placeholder="Apply discount" aria-describedby="button-addon3" class="form-control border-0">
+            <div class="input-group-append border-0">
+              <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Apply discount</button>
+            </div>
+          </div>
+        </div>
+        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller</div>
+        <div class="p-4">
+          <p class="font-italic mb-4">If you have some information for the seller you can leave them in the box below</p>
+          <textarea name="" cols="30" rows="2" class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+        <div class="p-4">
+          <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
+          <ul class="list-unstyled mb-4">
+            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
+              <p th:text="${session.total}" class="font-weight-bold cart-total totals-value"></p></li>
+          </ul><a href="/ChildrenCare/reservation/contact" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- container -->
+<div id="footer" th:insert="index :: footer"></div>
+
+
 </body>
 </html>

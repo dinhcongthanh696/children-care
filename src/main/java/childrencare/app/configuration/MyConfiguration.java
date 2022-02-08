@@ -13,12 +13,15 @@ import childrencare.app.filter.LoggingFilter;
 
 @Configuration
 public class MyConfiguration {
-	@Autowired
 	private LoggingFilter loggingFilter;
-
+	
+	@Autowired
+	public MyConfiguration(LoggingFilter loggingFilter) {
+		this.loggingFilter = loggingFilter;
+	}
 	@Bean
-	public FilterRegistrationBean filterRegister(){
-		FilterRegistrationBean register = new FilterRegistrationBean();
+	public FilterRegistrationBean<LoggingFilter> filterRegister(){
+		FilterRegistrationBean<LoggingFilter> register = new FilterRegistrationBean<LoggingFilter>();
 		register.setFilter(loggingFilter);
 		register.setOrder(1);
 		register.addUrlPatterns("/*");

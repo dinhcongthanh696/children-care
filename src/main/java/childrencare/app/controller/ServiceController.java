@@ -24,7 +24,7 @@ import childrencare.app.service.ServiceModelService;
 public class ServiceController {
 	private final ServiceModelService serviceModelService;
 	private final ServiceCategoryService serviceCategoryService;
-	private final int SERVICESIZE = 5;
+	private final int SERVICESIZE = 3;
 	@Autowired
 	public ServiceController(ServiceModelService serviceModelService,ServiceCategoryService serviceCategoryService) {
 		this.serviceModelService = serviceModelService;
@@ -46,11 +46,7 @@ public class ServiceController {
 		}else if(categoryId != 0) {
 			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, categoryId);
 		}else {
-			try {
-				services = serviceModelService.getServicesPaginated(page, SERVICESIZE);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			services = serviceModelService.getServicesPaginated(page, SERVICESIZE);
 		}
 		
 		for(ServiceModel service : services) {
@@ -59,8 +55,10 @@ public class ServiceController {
 			for(FeedbackModel feedback : service.getFeedbacks()) {
 				averageStars += feedback.getRatedStart();
 			}
-			averageStars /= service.getFeedbacks().size(); 
-			service.setAvg_star(averageStars);
+			if(averageStars != 0) {
+				averageStars /= service.getFeedbacks().size(); 
+				service.setAvg_star(averageStars);
+			}
 		}
 		List<ServiceCategoryModel> categories = serviceCategoryService.findAll();
 		

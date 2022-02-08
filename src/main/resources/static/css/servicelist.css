@@ -11,37 +11,32 @@
 	border-radius: 2px;
 }
 
-.glyphicon .glyphicon-search {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
 .service-item {
-	border: 2px solid #EDEDED;
+	border: 1px solid #EDEDED;
 	transition: border 1s, box-shadow 1s;
-	margin-left: 10px;
-	margin-right: 40px;
+	margin-left: 1%;
+	margin-right: 7%;
 	margin-bottom: 15px;
 	cursor: pointer;
-	font-size: 17px;
 	padding: 0;
+	text-align: center;
 }
 
 .service-item:hover {
-	box-shadow: 5px 10px #888888;
+	box-shadow: 3px 3px 3px 3px #888888;
 	color: green;
 }
 
-.glyphicon-shopping-cart {
+.fa-shopping-cart {
 	color: green;
 	cursor: pointer;
 	font-weight: bold;
 	font-size: 28px;
 	transition: font-size 1s;
+	position : relative;
 }
 
-.glyphicon-shopping-cart:hover {
+.fa-shopping-cart:hover {
 	font-size: 32px;
 }
 
@@ -75,7 +70,8 @@
 }
 
 .service-title {
-	color: red;
+	color: #32B6A1;
+    font-size: 25px;
 }
 
 .rated {

@@ -2,7 +2,6 @@ package childrencare.app.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -22,7 +21,7 @@ import childrencare.app.service.ServiceModelService;
 
 @Component
 public class LoggingFilter implements Filter {
-	@Autowired
+	@Autowired                              
 	private ServiceModelService serviceModelService;
 
 	public LoggingFilter() {

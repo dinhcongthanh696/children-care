@@ -2,13 +2,15 @@ package childrencare.app.controller;
 
 import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.ReservationModel;
-import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceModel;
+import childrencare.app.model.UserModel;
+import childrencare.app.service.LoginService;
 import childrencare.app.service.ReservationService;
 import childrencare.app.service.ServiceModelService;
 import childrencare.app.service.Service_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -24,15 +26,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/reservation")
@@ -59,8 +58,11 @@ public class ReservationController {
 		List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
 		model.addAttribute("list", services);
 ======= */
+	@Autowired
+	private LoginService loginService;
 
-	@GetMapping
+
+	@GetMapping("/reser")
 	public String getServiceCarts(Model model, HttpSession session) {
 		List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
 		if (itemList != null) {
@@ -69,7 +71,7 @@ public class ReservationController {
 				toalReservationPrice += sm.getTotalCost();
 			}
 			session.setAttribute("total",toalReservationPrice);
-			model.addAttribute("total", toalReservationPrice);
+			model.addAttribute("size",itemList.size());
 		}
 		model.addAttribute("list", itemList);
 		return "reservationDetails";
@@ -106,7 +108,8 @@ public class ReservationController {
 				check = true;
 			}
 		}
-		if (!check) {
+
+		if (check == false) {
 			serviceById.setQuantity(quantity);
 			listReservations.add(serviceById);
 		}
@@ -116,8 +119,6 @@ public class ReservationController {
 
 		if (cartsCookie != null) {
 			CookieHandler.editCartsCookie(id, request, response, "/", 7 * DAYINSECONDS, serviceById.toCookieValue());
-		} else {
-			CookieHandler.createNewCookie("carts", request, response, "/", 7 * DAYINSECONDS, serviceById.toCookieValue());
 		}
 		// end thanh's code (Add service cookie)
 		session.setAttribute("list", listReservations);
@@ -149,17 +150,23 @@ public class ReservationController {
 	@GetMapping("/contact")
 	public String getReservationContact(Model model,HttpSession session) {
 		List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
-		double total = (Double) session.getAttribute("total");
-		model.addAttribute("orderList",itemList);
-		model.addAttribute("totalCheckOut",total);
-		ReservationModel reservationModel = new ReservationModel();
-		model.addAttribute("reservation",reservationModel);
-		return "reservationContact";
+		UserModel userModel = (UserModel) session.getAttribute("user");
+		if(itemList!= null){
+			double total = (Double) session.getAttribute("total");
+			model.addAttribute("orderList",itemList);
+			model.addAttribute("total",total);
+			ReservationModel reservationModel = new ReservationModel();
+			model.addAttribute("reservation",reservationModel);
+			model.addAttribute("user",userModel);
+			return "reservationContact";
+		}else{
+			return "redirect:/reservation/reser";
+		}
+
+
 	}
 
 	//nghia's code
-	//done save data to table reservation
-	//save data to reservation_service - not done
 	@PostMapping("/saveData")
 	@Transactional
 	public String saveReservation(@Validated ReservationModel reservationModel, BindingResult result,
@@ -181,6 +188,9 @@ public class ReservationController {
 		
 		return "redirect:/reservation";
 		// end thanh's code
-
 	}
+
+
+
+
 }

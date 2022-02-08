@@ -32,15 +32,10 @@ public class ReservationService {
         return repository.findAll();
     }
 
-
     public void insertReservation_Service(int rId, int sId, int total) {
         repository.insertReservation_Service(rId, sId, total);
     }
-
-    public int idIdentity() {
-        return repository.idIdentity();
-    }
-
+    
     // Change Status - KVA
     public void changeStatus(Integer reservationId){
         repository.changeStatus(reservationId);

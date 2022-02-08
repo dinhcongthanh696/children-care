@@ -4,8 +4,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<section class="mainmenu-area stricky" th:fragment="mainMenu(actionForm,placeholder,current)">
-    <div class="container">
+	<section class="mainmenu-area stricky" th:fragment="mainMenu(actionForm,placeholder,current,search)">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-xl-12">
                 <div class="inner-content clearfix">
@@ -19,7 +19,7 @@
                         </div>
                         <div class="navbar-collapse collapse clearfix">
                             <ul class="navigation clearfix">
-                                <li th:class="${current == 'home' ? 'dropdown current' : 'dropdown'}" style="width : 80px;"><a href="/ChildrenCare">Home</a>
+                                <li th:class="${current == 'home' ? 'dropdown current' : 'dropdown'}"><a href="/ChildrenCare">Home</a>
                                 </li>
                                 <li th:class="${current == 'about' ? 'dropdown current' : 'dropdown'}"><a href="about.html">About Us</a></li>
                                 <li th:class="${current == 'services' ? 'dropdown current' : 'dropdown'}"><a href="/ChildrenCare/service/services">Services</a>
@@ -54,7 +54,7 @@
                     <div class="mainmenu-right">
                         <div class="search-box-style1">
                             <form class="search-form" method="post" th:action="${actionForm}">
-							    <input type="search" name="search" th:placeholder="${placeholder}" id="search">
+							    <input type="search" name="search" th:placeholder="${placeholder}" id="search" th:value="${search}">
 							    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 						    </form>        
                         </div>

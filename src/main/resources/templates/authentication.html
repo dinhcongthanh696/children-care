@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Insert title here</title>
+<!--nghia's code-->
+<!--    nghia's use-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<!--    nghia's use-->
+
+
+
+<script>
+    $(window, document, undefined).ready(function() {
+
+        $('.input').blur(function() {
+            var $this = $(this);
+            if ($this.val())
+                $this.addClass('used');
+            else
+                $this.removeClass('used');
+        });
+
+    });
+
+    $('#tab1').on('click' , function(){
+        $('#tab1').addClass('login-shadow');
+        $('#tab2').removeClass('signup-shadow');
+    });
+
+    $('#tab2').on('click' , function(){
+        $('#tab2').addClass('signup-shadow');
+        $('#tab1').removeClass('login-shadow');
+
+
+    });
+    
+    function triggerLoginForm(displayStyle){
+		const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+	    modalBoxWrapper.style.display = displayStyle;
+	}
+</script>
+</head>
+<body>
+
+<body>
+<div class="boxed_wrapper" th:fragment="authentication(currentPage)">
+
+    <!-- Modal -->
+    <div class="modal fade bs-modal-sm log-sign" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="bs-example bs-example-tabs">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li id="tab1" class=" active tab-style login-shadow "><a href="#signin" data-toggle="tab">Log In</a></li>
+                        <li id="tab2" class=" tab-style "><a href="#signup" data-toggle="tab">Sign Up</a></li>
+
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="signin">
+                            <form class="form-horizontal"  action="/ChildrenCare/signIn" method="post">
+                                <fieldset>
+                                    <!-- Sign In Form -->
+                                    <!-- Text input-->
+
+                                    <div class="group">
+                                        <input name="username" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                        <label class="label" >User name</label></div>
+
+                                    <div class="group">
+                                        <input name="email" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                        <label class="label" >Email address</label></div>
+                                    <!-- Password input-->
+                                    <div class="group">
+                                        <input name="password" required="" class="input" type="password"><span class="highlight"></span><span class="bar"></span>
+                                        <label class="label" >Password</label>
+                                    </div>
+                                    <em>minimum 6 characters</em>
+
+                                    <div class="forgot-link">
+                                        <a href="#forgot" data-toggle="modal" data-target="#forgot-password"> I forgot my password</a>
+                                    </div>
+
+
+                                    <!-- Button -->
+                                    <div class="control-group">
+                                        <label class="control-label" for="signin"></label>
+                                        <div class="controls">
+                                            <button  name="signin" class="btn btn-primary btn-block">Log In</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- thanh's code -->
+                                    <input type="hidden" name="currentPage" th:value="${currentPage}"/>
+                                </fieldset>
+                            </form>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="signup">
+                            <form class="form-horizontal"  action="/ChildrenCare/signUp" method="post">
+                                <div class="group">
+                                    <input name="username" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label" >User Name</label></div>
+                                <!-- Sign Up Form -->
+                                <!-- Text input-->
+                                <div class="group">
+                                    <input name="fullname" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Full Name</label></div>
+                                <!-- Text input-->
+                                <div class="group">
+                                    <input name="address" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Address</label></div>
+                                <!-- Password input-->
+                                <div class="group">
+                                    <input name="email" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Email</label></div>
+                                <div class="group">
+                                    <select class="input" name="gender"><span class="highlight"></span><span class="bar"></span>
+                                        <option value="1">Nam</option>
+                                        <option value="0">Nữ</option>
+                                    </select>
+                                    <label class="label">Gender</label>
+                                </div>
+                                <div class="group">
+                                    <input name="notes" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Notes</label></div>
+                                <!-- Text input-->
+                                <div class="group">
+                                    <input name="password" required="" class="input" type="password"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Password</label></div>
+                                <em>1-8 Characters</em>
+                                <div class="group2">
+                                    <input name="phone" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <label class="label">Phone</label></div>
+                                <div class="group2">
+                                    <a href="" >Verify Account</a>
+                                </div>
+
+                                <!-- Button -->
+                                <div class="control-group">
+                                    <label class="control-label" for="confirmsignup"></label>
+                                    <div class="controls">
+                                        <button id="confirmsignup" name="confirmsignup" class="btn btn-primary btn-block">Sign Up</button>
+                                    </div>
+                                </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <center>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="triggerLoginForm('none')">Close</button>
+                  </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal2-->
+    <div class="modal fade bs-modal-sm" id="forgot-password" tabindex="0" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Password will be sent to your email</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <div class="group">
+                                <input required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                <label class="label" >Email address</label></div>
+                            <div class="control-group">
+                                <label class="control-label" ></label>
+                                <div class="controls">
+                                    <button id="forpasswodr" name="forpassword" class="btn btn-primary btn-block">Send</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--nghia's code-->
+</body>
+</html>

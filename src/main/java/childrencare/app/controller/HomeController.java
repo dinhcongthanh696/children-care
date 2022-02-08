@@ -50,5 +50,7 @@ public class HomeController {
 		return "index";
 	} 
 
+
+
 	// end thanh code
 }

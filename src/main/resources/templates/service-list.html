@@ -18,13 +18,9 @@
 <!--Color Themes-->
 <link rel="stylesheet" href="../css/color-themes/default-theme.css"
 	id="theme-color-file">
-<!-- Bootstrap icons -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Bootstrap -->
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="180x180"
 	href="../images/favicon/apple-touch-icon.png">
@@ -32,11 +28,8 @@
 	href="../images/favicon/favicon-32x32.png" sizes="32x32">
 <link rel="icon" type="image/png"
 	href="../images/favicon/favicon-16x16.png" sizes="16x16">
-<link rel="stylesheet" href="../css/service-list.css">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="../css/servicelist.css">
+<link rel="stylesheet" href="../css/authentication.css">
  <!-- Fav icon -->	
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>	
 	
@@ -46,6 +39,7 @@
 	var lastChosenFeeling = -1;
 	var lastChosenPreview;
 	var lastChosenServiceId = -1;
+	var captchaInterval;
 	
 	function startFeedback(title,serviceId){
 		var identifyingUser = document.getElementById("user").value;
@@ -70,6 +64,26 @@
 				modalFeedBackStep1Element.style.display = "block";
 			}
 		})
+	}
+	
+	function startLoginForm(){
+	/*	$('#tab1').on('click' , function(){
+	        $('#tab1').addClass('login-shadow');
+	        $('#tab2').removeClass('signup-shadow');
+	    }); */
+	    const modalContactMenu = document.getElementById("my-modal-contact-menu");
+	    modalContactMenu.style.display = "none";
+	    
+	    const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+	    modalBoxWrapper.style.display = "block";
+	    
+	    const triggerLoginForm = document.getElementById("trigger-login-form");
+	    triggerLoginForm.click();
+	}
+	
+	function triggerLoginForm(displayStyle){
+		const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+	    modalBoxWrapper.style.display = displayStyle;
 	}
 	
 	function startContactModal(event){
@@ -165,6 +179,7 @@
 		})
 		.then(message => {
 			if(message == "success"){
+				clearInterval(captchaInterval);
 				alert("We have known you, now you can feedback");
 				document.location.reload();
 			}else{
@@ -199,7 +214,7 @@
 				var modalIdentification = document.getElementById("my-modal-identification");
 				modalIdentification.style.display = "block";
 				var modalHeaderCounter = document.getElementById("modal-header-counter");
-				const captchaInterval = setInterval(() => {
+				captchaInterval = setInterval(() => {
 					modalHeaderCounter.innerHTML = "";
 					modalHeaderCounter.innerHTML = "We have sent you an catpcha code to your email to verify. Code will be expired in :  "+ generateRealTime(counter);
 					if(counter == 0){
@@ -323,9 +338,9 @@
 		
 		var prevButton = "";
 		if(currentPage == 0 && totalPages > 1){
-			prevButton = "<span class='glyphicon glyphicon-menu-left pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')> </span>"
+			prevButton = "<span class='fas fa-arrow-left pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')> </span>"
 		}else if(totalPages > 1){
-			prevButton = "<span class='glyphicon glyphicon-menu-left pageNumberElement' onclick=changePage(\'"+ (currentPage - 1) +"\') > </span>";
+			prevButton = "<span class='fas fa-arrow-left pageNumberElement' onclick=changePage(\'"+ (currentPage - 1) +"\') > </span>";
 		}
 
 		pageListContainer.innerHTML += prevButton;
@@ -358,18 +373,18 @@
 		if (currentPage + gap + 1 < totalPages - 1) {
 			pageListContainer.innerHTML += " <span class='pageNumberElement'> ... </span>"
 					+ "<span class='pageNumberElement' onclick=changePage(\'"
-					+ (totalPages - 1) + "\')>" + totalPages + "  </span>"
+					+ (totalPages - 1) + "\')> " + totalPages + "  </span>"
 		} else if (currentPage !== totalPages - 1 && totalPages !== 0) {
 			pageListContainer.innerHTML += "<span class='pageNumberElement' onclick=changePage(\'"
-					+ (totalPages - 1) + "\')>" + totalPages + "  </span>"
+					+ (totalPages - 1) + "\')> " + totalPages + "  </span>"
 		}
 		
 		var nextButton = "";
 
 		if(currentPage == (totalPages - 1) && totalPages > 1){
-			nextButton = "<span class='glyphicon glyphicon-menu-right pageNumberElement' onclick=changePage('0')> </span>"
+			nextButton = "<span class='fas fa-arrow-right pageNumberElement' onclick=changePage('0')> </span>"
 		}else if(totalPages > 1){
-			nextButton = "<span class='glyphicon glyphicon-menu-right pageNumberElement' onclick=changePage(\'"+ (currentPage + 1) +"\') > </span>";
+			nextButton = "<span class='fas fa-arrow-right pageNumberElement' onclick=changePage(\'"+ (currentPage + 1) +"\') > </span>";
 		}
 
 		pageListContainer.innerHTML += nextButton;
@@ -436,7 +451,7 @@
 		<div class="my-modal-content">
 			<h1>Do we know you?</h1>
 			<ul class="list-group">
-				<li class="list-group-item"><a href="#" class="modal-contact-link">Login</a></li>
+				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startLoginForm()">Login</a></li>
 				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Give your contact here!</a> </li>
 			</ul>
 		</div>
@@ -478,9 +493,13 @@
 		</div>
 	</div>
 	
+	<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
+	
 	<div id="top-bar" th:insert="index :: top-bar"></div>
 	<header th:replace="header.html :: header"></header>
-	<section id="main-menu" th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder='Search By Title ...',current='services')"></section>
+	<section id="main-menu" 
+	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder='Search By Title ...',current='services',search=${search})">
+	</section>
 	
 	<!-- start hidden fields -->
 	<input type="hidden" th:value="${totalPages}" id="totalPages" />
@@ -489,32 +508,32 @@
 	<input type="hidden" th:value="${session.user != null ? session.user.username : 'unkown'}" id="user"/>
 	<!-- end hidden fields -->
 	
-	<div id="body" class="container">
+	<div id="body" class="container-fluid">
 		<div class="row">
-			<div class='col-sm-3 service-item' th:each="service : ${services}"
+			<div class='col-sm-3 service-item pl-0 pr-0' th:each="service : ${services}"
 				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'">
 				<img
 					th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}"
 					class="service-thumbnail" />
 				<h1 th:text="${'Title : '+service.title}" class="service-title"></h1>
 				<p th:text="${'Brief Info : '+service.briefInfo}"></p>
-				<p th:text="'Original price : '+${#numbers.setFormatDecimal(service.originalPrice,1,'POINT',0,'POINT')}"></p>
-				<p th:text="'Sale price : '+${#numbers.setFormatDecimal(service.salePrice,1,'POINT',0,'POINT')}"></p>
+				<p th:text="'Original price : '+${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT')}" style="color : red"></p>
+				<p th:text="'Sale price : '+${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}" style="color : green"> </p>
 				<div>
 					Rated Stars : <span
-						th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+						th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 					<span
-						th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+						th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 					<span
-						th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+						th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 					<span
-						th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
+						th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 					<span
-						th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'fas fa-star'}"></span>
-					<h5 th:text="'    '+${#numbers.setFormatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' "></h5>
+						th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+					<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>
 				</div>
 				<h4 th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}"></h4>
-					<span class="glyphicon glyphicon-shopping-cart"
+					<span class="fas fa-shopping-cart"
 						 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
 					</span>	
 				<span>
@@ -527,5 +546,9 @@
 	</div>
 	<div id="pages"></div>
 	<div id="footer" th:insert="index :: footer"></div>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </body>
 </html>
