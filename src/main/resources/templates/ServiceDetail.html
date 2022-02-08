@@ -37,6 +37,7 @@
 <body>
 <div th:insert="index :: top-bar">
 </div>
+<div th:replace="mainmenu.html :: mainMenu('','Service Detail','services','123')"></div>
 <div class="head">
     <a href="/ChildrenCare">Home </a> <a>> </a> <a href="/ChildrenCare/service/services">Our Services</a><a> > </a> <a th:text="${service.title}"></a>
 </div>
@@ -53,6 +54,7 @@
         </span>
     </div>
     <div class="col-8">
+        <img th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}">
         <h2 class="price">Price: </h2> <h2 th:text="${service.originalPrice}"></h2>
         <h2 class="saleprice">     Sale Price: </h2> <h2 th:text="${service.salePrice}"></h2>
         <h2 class="servicecategory" >Category: </h2> <h2 th:text="${service.serviceCategory.serviceCategoryName}"></h2>
