@@ -32,14 +32,229 @@
 <link rel="stylesheet" href="../css/authentication.css">
  <!-- Fav icon -->	
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>	
+</head>
+
+<body th:onload="renderPages()">
+	<div id="my-modal-success">
+		<div class="my-modal-content">
+			<h1>Added successfully <i class="fas fa-check" style="font-size : 20px;"></i></h1>
+		</div>
+	</div>
+	<div id="my-modal-feedback-step1">
+		<div class="my-modal-content container">
+			<h1 style="color : black;" id="feedback-question"></h1>
+			<div class="row">
+				<div class="col-xs-2 feeling" onclick="ratingStar(0)">
+					<span class="far fa-dizzy" style="color : #8B0000; font-size : 25px;"></span>
+					<p style="color : #8B0000;" class="feeling-description">Chán không còn gì để lói</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(1)">
+					<span class="far fa-angry" style="color : red; font-size : 25px;"></span>
+					<p style="color : red;" class="feeling-description">Cáu zl</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(2)">
+					<span class="far fa-frown" style="color : grey; font-size : 25px;"></span>
+					<p style="color : grey" class="feeling-description">Thất vọng</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(3)">
+					<span class="far fa-meh" style="color : yellow; font-size : 25px;"></span>
+					<p style="color : yellow;" class="feeling-description">Tạm OK</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(4)">
+					<span class="far fa-grin-alt" style="color : blue; font-size : 25px;"></span>
+					<p style="color : blue" class="feeling-description">Hài lòng</p>
+				</div>
+				<div class="col-xs-2 feeling" onclick="ratingStar(5)">
+					<span class="far fa-grin-beam" style="color : green; font-size : 25px;"></span>
+					<p style="color : green" class="feeling-description">Rất hài lòng lun! </p>
+				</div>
+			</div>
+			<div class="my-modal-chaining">
+				<button class="btn btn-success" disabled="disabled" id="next-button" onclick="startFormFeedback()">
+				  <i class="fas fa-arrow-right">Next</i> 
+				</button>
+			</div>
+		</div>
+	</div>
+	<div id="my-modal-feedback-step-2">
+		<div class="my-modal-content" >
+			<label for="image-feedback-input" class="modal-label">Show your image feedback :</label>
+			<input type="file" id="image-feedback-input" class="form-control modal-input" style="font-size : 13px;padding : 5px;" onchange="imagePreviewHandler(this)"/>
+			<img class="modal-image-feedback"/>
+			<label for="comment" class="modal-label">Give your comment here : </label>
+			<textarea rows="10" cols="50" id="comment" class="form-control modal-input" placeholder="Commenting...." style="font-size : 15px;padding : 5px;"></textarea>
+			<button class="btn btn-primary save-feedback" 
+				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()">
+			    Save your feedback
+			</button>
+		</div>
+	</div>
+	<div id="my-modal-contact-menu">
+		<div class="my-modal-content">
+			<h1>Do we know you?</h1>
+			<ul class="list-group">
+				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startLoginForm()">Login</a></li>
+				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Give your contact here!</a> </li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="my-modal-waiting">
+		<div class="my-modal-content">
+			<i class="fas fa-circle-notch fa-spin" style="font-size : 50px;color : green;"></i>
+		</div>
+	</div>
 	
-<script type="text/javascript">
+	<div id="my-modal-contact">
+		<div class="my-modal-content">
+			<h1 class="modal-header">Contact</h1>
+			<label for="user-email" class="modal-label">Email</label>
+			<input type="text" class="form-control modal-input" placeholder="Put your email..." id="user-email" onkeyup="findUserByEmail(this.value)"/>
+			<label for="user-fullname" class="modal-label">Your full name</label>
+			<input type="text" class="form-control modal-input" placeholder="Put your name..." id="user-fullname"/>
+			<label for="user-address" class="modal-label">You address</label>
+			<input type="text" class="form-control modal-input" placeholder="Put your address..." id="user-address"/>
+			<label for="user-phone" class="modal-label">Your phone number</label>
+			<input type="text" class="form-control modal-input" placeholder="Put your phone(091xxxxxxx)..." id="user-phone"/>
+			<div class="form-check">
+				<input type="radio"  name="gender" class="form-check-input modal-input"  id="male" value="true"/>
+				<label for="male" class="form-check-label">Male        </label>
+				<input type="radio"  name="gender" class="form-check-input modal-input"  id="female" value="false"/>
+				<label for="female" class="form-check-label">Female</label>
+			</div>
+			<h5 id="contact-message"></h5>
+			<button class="btn btn-success" id="save-contact-button" onclick="identifyUserContact()">Save your contact</button>
+		</div>
+	</div>
+	
+	<div id="my-modal-identification">
+		<div class="my-modal-content">
+			<h1 class="modal-header" id="modal-header-counter"></h1>
+			<label for="answer">Your answer : </label>
+			<input type="text" class="form-control modal-input" placeholder="Put your name..." id="answer"/>
+			<button class="btn btn-primary" onclick="indentifyCaptchaCode()">Verify</button>
+		</div>
+	</div>
+	
+	<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
+	
+	<div id="top-bar" th:insert="index :: top-bar"></div>
+	<header th:replace="header.html :: header"></header>
+	<section id="main-menu" 
+	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder='Search By Title ...',current='services',search=${search})">
+	</section>
+	
+	<!-- start hidden fields -->
+	<input type="hidden" th:value="${totalPages}" id="totalPages" />
+	<input type="hidden" th:value="${categoryId}" id="categoryId"/>
+	<input type="hidden" th:value="${currentPage}" id="currentPage"/>
+	<input type="hidden" th:value="${session.user != null ? session.user.username : 'unkown'}" id="user"/>
+	<!-- end hidden fields -->
+	
+	<div id="body" class="container-fluid">
+		<div class="row">
+			<div class='col-sm-3 service-item pl-0 pr-0' th:each="service : ${services}"
+				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'">
+				<img
+					th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}"
+					class="service-thumbnail" />
+				<h1 th:text="${'Title : '+service.title}" class="service-title"></h1>
+				<p th:text="${'Brief Info : '+service.briefInfo}"></p>
+				<p th:text="'Original price : '+${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT')}" style="color : red"></p>
+				<p th:text="'Sale price : '+${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}" style="color : green"> </p>
+				<div>
+					Rated Stars : <span
+						th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+					<span
+						th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+					<span
+						th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+					<span
+						th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+					<span
+						th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+					<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>
+				</div>
+				<h4 th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}"></h4>
+					<span class="fas fa-shopping-cart"
+						 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
+					</span>	
+				<span>
+					<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
+					th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
+					id="give-feedback-button">Give Feedback</button>
+				</span>	
+			</div>
+		</div>
+	</div>
+	<div id="pages"></div>
+	<div id="footer" th:insert="index :: footer"></div>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript">
 
 	var lastChosenFeelingElement;
 	var lastChosenFeeling = -1;
 	var lastChosenPreview;
 	var lastChosenServiceId = -1;
 	var captchaInterval;
+	
+	function findUserByEmail(email){
+		const formData = new FormData();
+		formData.append("email",email);
+		fetch("/ChildrenCare/api-user/user",{
+			method : 'POST',
+			body : formData
+		})
+		.then(response => response.text())
+		.then(responseData => {
+			var user = (responseData.length == 0) ? null : JSON.parse(responseData);
+			const userEmailInputElement = document.getElementById("user-email");
+			const userFullnameInputElement = document.getElementById("user-fullname");
+			const userAddressInputElement = document.getElementById("user-address");
+			const userPhoneInputElement = document.getElementById("user-phone");
+			const femaleRadioButton = document.getElementById("female");
+			const maleRadioButton = document.getElementById("male");
+			const saveContactButton = document.getElementById("save-contact-button");
+			const contactMessage = document.getElementById("contact-message");
+			if(user){
+				userEmailInputElement.className = "form-control modal-input email-present";
+				userFullnameInputElement.value = user.fullname;
+				userFullnameInputElement.readOnly = true;
+				userAddressInputElement.value = user.address;
+				userAddressInputElement.readOnly = true;
+				userPhoneInputElement.value = user.phone;
+				userPhoneInputElement.readOnly = true;
+				femaleRadioButton.readOnly = true;
+				maleRadioButton.readOnly = true;
+				if(user.gender){
+					maleRadioButton.checked = true;
+				}else{
+					femaleRadioButton.checked = true;
+				}
+				saveContactButton.innerHTML = "Identify your contact";
+				contactMessage.innerHTML = "User exsist";
+				contactMessage.style.color = "green";
+			}else{
+				if(userEmailInputElement.className !== "form-control modal-input email-absent"){
+					userEmailInputElement.className = "form-control modal-input email-absent";
+					userFullnameInputElement.value = "";
+					userFullnameInputElement.readOnly = false;
+					userAddressInputElement.value = "";
+					userAddressInputElement.readOnly =	false;
+					userPhoneInputElement.value = "";
+					userPhoneInputElement.readOnly = false;
+					femaleRadioButton.readOnly = false;
+					maleRadioButton.readOnly = false;
+					saveContactButton.innerHTML = "Save your contact";
+					contactMessage.innerHTML = "User not exsist";
+					contactMessage.style.color = "red";
+				}
+			}
+		})
+	}
 	
 	function startFeedback(title,serviceId){
 		var identifyingUser = document.getElementById("user").value;
@@ -390,165 +605,5 @@
 		pageListContainer.innerHTML += nextButton;
 	}
 </script>
-</head>
-
-<body th:onload="renderPages()">
-	<div id="my-modal-success">
-		<div class="my-modal-content">
-			<h1>Added successfully <i class="fas fa-check" style="font-size : 20px;"></i></h1>
-		</div>
-	</div>
-	<div id="my-modal-feedback-step1">
-		<div class="my-modal-content container">
-			<h1 style="color : black;" id="feedback-question"></h1>
-			<div class="row">
-				<div class="col-xs-2 feeling" onclick="ratingStar(0)">
-					<span class="far fa-dizzy" style="color : #8B0000; font-size : 25px;"></span>
-					<p style="color : #8B0000;" class="feeling-description">Chán không còn gì để lói</p>
-				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(1)">
-					<span class="far fa-angry" style="color : red; font-size : 25px;"></span>
-					<p style="color : red;" class="feeling-description">Cáu zl</p>
-				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(2)">
-					<span class="far fa-frown" style="color : grey; font-size : 25px;"></span>
-					<p style="color : grey" class="feeling-description">Thất vọng</p>
-				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(3)">
-					<span class="far fa-meh" style="color : yellow; font-size : 25px;"></span>
-					<p style="color : yellow;" class="feeling-description">Tạm OK</p>
-				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(4)">
-					<span class="far fa-grin-alt" style="color : blue; font-size : 25px;"></span>
-					<p style="color : blue" class="feeling-description">Hài lòng</p>
-				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(5)">
-					<span class="far fa-grin-beam" style="color : green; font-size : 25px;"></span>
-					<p style="color : green" class="feeling-description">Rất hài lòng lun! </p>
-				</div>
-			</div>
-			<div class="my-modal-chaining">
-				<button class="btn btn-success" disabled="disabled" id="next-button" onclick="startFormFeedback()">
-				  <i class="fas fa-arrow-right">Next</i> 
-				</button>
-			</div>
-		</div>
-	</div>
-	<div id="my-modal-feedback-step-2">
-		<div class="my-modal-content" >
-			<label for="image-feedback-input" class="modal-label">Show your image feedback :</label>
-			<input type="file" id="image-feedback-input" class="form-control modal-input" style="font-size : 13px;padding : 5px;" onchange="imagePreviewHandler(this)"/>
-			<img class="modal-image-feedback"/>
-			<label for="comment" class="modal-label">Give your comment here : </label>
-			<textarea rows="10" cols="50" id="comment" class="form-control modal-input" placeholder="Commenting...." style="font-size : 15px;padding : 5px;"></textarea>
-			<button class="btn btn-primary save-feedback" 
-				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()">
-			    Save your feedback
-			</button>
-		</div>
-	</div>
-	<div id="my-modal-contact-menu">
-		<div class="my-modal-content">
-			<h1>Do we know you?</h1>
-			<ul class="list-group">
-				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startLoginForm()">Login</a></li>
-				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Give your contact here!</a> </li>
-			</ul>
-		</div>
-	</div>
-
-	<div id="my-modal-waiting">
-		<div class="my-modal-content">
-			<i class="fas fa-circle-notch fa-spin" style="font-size : 50px;color : green;"></i>
-		</div>
-	</div>
-	
-	<div id="my-modal-contact">
-		<div class="my-modal-content">
-			<h1 class="modal-header">Contact</h1>
-			<label for="user-email" class="modal-label">Email</label>
-			<input type="text" class="form-control modal-input" placeholder="Put your email..." id="user-email"/>
-			<label for="user-fullname" class="modal-label">Your full name</label>
-			<input type="text" class="form-control modal-input" placeholder="Put your name..." id="user-fullname"/>
-			<label for="user-address" class="modal-label">You address</label>
-			<input type="text" class="form-control modal-input" placeholder="Put your address..." id="user-address"/>
-			<label for="user-phone" class="modal-label">Your phone number</label>
-			<input type="text" class="form-control modal-input" placeholder="Put your phone(091xxxxxxx)..." id="user-phone"/>
-			<div class="form-check">
-				<input type="radio"  checked="checked" name="gender" class="form-check-input modal-input"  id="male" value="true"/>
-				<label for="male" class="form-check-label">Male</label>
-				<input type="radio"  name="gender" class="form-check-input modal-input"  id="female" value="false"/>
-				<label for="female" class="form-check-label">Female</label>
-			</div>
-			<button class="btn btn-success" id="save-contact-button" onclick="identifyUserContact()">Save your contact</button>
-		</div>
-	</div>
-	
-	<div id="my-modal-identification">
-		<div class="my-modal-content">
-			<h1 class="modal-header" id="modal-header-counter"></h1>
-			<label for="answer">Your answer : </label>
-			<input type="text" class="form-control modal-input" placeholder="Put your name..." id="answer"/>
-			<button class="btn btn-primary" onclick="indentifyCaptchaCode()">Verify</button>
-		</div>
-	</div>
-	
-	<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
-	
-	<div id="top-bar" th:insert="index :: top-bar"></div>
-	<header th:replace="header.html :: header"></header>
-	<section id="main-menu" 
-	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder='Search By Title ...',current='services',search=${search})">
-	</section>
-	
-	<!-- start hidden fields -->
-	<input type="hidden" th:value="${totalPages}" id="totalPages" />
-	<input type="hidden" th:value="${categoryId}" id="categoryId"/>
-	<input type="hidden" th:value="${currentPage}" id="currentPage"/>
-	<input type="hidden" th:value="${session.user != null ? session.user.username : 'unkown'}" id="user"/>
-	<!-- end hidden fields -->
-	
-	<div id="body" class="container-fluid">
-		<div class="row">
-			<div class='col-sm-3 service-item pl-0 pr-0' th:each="service : ${services}"
-				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'">
-				<img
-					th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}"
-					class="service-thumbnail" />
-				<h1 th:text="${'Title : '+service.title}" class="service-title"></h1>
-				<p th:text="${'Brief Info : '+service.briefInfo}"></p>
-				<p th:text="'Original price : '+${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT')}" style="color : red"></p>
-				<p th:text="'Sale price : '+${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}" style="color : green"> </p>
-				<div>
-					Rated Stars : <span
-						th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
-					<span
-						th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
-					<span
-						th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
-					<span
-						th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
-					<span
-						th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
-					<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>
-				</div>
-				<h4 th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}"></h4>
-					<span class="fas fa-shopping-cart"
-						 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
-					</span>	
-				<span>
-					<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
-					th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
-					id="give-feedback-button">Give Feedback</button>
-				</span>	
-			</div>
-		</div>
-	</div>
-	<div id="pages"></div>
-	<div id="footer" th:insert="index :: footer"></div>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </body>
 </html>

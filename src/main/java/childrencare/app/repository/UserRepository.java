@@ -8,6 +8,5 @@ import childrencare.app.model.UserModel;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer>{
 	
-	
 	public UserModel findByEmail(String email);
 }

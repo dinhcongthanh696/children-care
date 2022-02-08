@@ -178,3 +178,19 @@ li.list-group-item:hover{
 	font-size : 25px;
 	padding : 5px;
 }
+
+.email-present{
+	box-shadow: 1px 1px 1px 1px green;
+}
+
+#user-email{
+	transition : box-shadow 1s;
+}
+
+#contact-message{
+	transition : color 1s;
+}
+
+.email-absent{
+	box-shadow : 1px 1px 1px 1px red;
+}
