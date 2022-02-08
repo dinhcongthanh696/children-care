@@ -4,6 +4,7 @@ package childrencare.app.service;
 import java.util.List;
 import java.util.Optional;
 
+import childrencare.app.model.FeedbackModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -84,4 +85,5 @@ public class ServiceModelService {
 	public List<ServiceModel> getHighestRatedStarServices(int size){
 		return serviceRepository.findRatedServiceDescending(size);
 	}
+
 }
