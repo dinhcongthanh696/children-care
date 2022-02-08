@@ -28,4 +28,9 @@ public class FeedbackController {
 
         return "Email Sent!";
     }
+
+    @RequestMapping("/feedback")
+    public String feedback(){
+        return "contact";
+    }
 }
