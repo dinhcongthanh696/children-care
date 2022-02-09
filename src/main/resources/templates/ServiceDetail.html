@@ -17,16 +17,10 @@
     <!--Color Themes-->
     <link rel="stylesheet" href="../../css/color-themes/default-theme.css"
           id="theme-color-file">
-    <!-- Bootstrap icons -->
     <link rel="stylesheet" href="../../css/authentication.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-            
-    <script type="text/javascript">
-    	function triggerLoginForm(displayStyle){
-			const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
-	    	modalBoxWrapper.style.display = displayStyle;
-		}
-    </script>        
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180"
@@ -36,6 +30,7 @@
     <link rel="icon" type="image/png"
           href="../../images/favicon/favicon-16x16.png" sizes="16x16">
     <link rel="stylesheet" href="../../css/color-themes/ServiceDetailCss.css">
+
 </head>
 <body>
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
@@ -63,12 +58,26 @@
         <h2 class="saleprice">     Sale Price: </h2> <h2 th:text="${service.salePrice}"></h2>
         <h2 class="servicecategory" >Category: </h2> <h2 th:text="${service.serviceCategory.serviceCategoryName}"></h2>
         <p th:text="${service.description}"></p>
+        <h2>Feedback</h2>
+        <h4 th:each="feedback : ${feedbackModels}">
+            <h4>Username</h4> <p th:text="${feedback.getUsername().getUsername()}"></p> </p><p th:text="${feedback.getUsername().getUsername()} + ${feedback.getComment()}"></p>
+        </h4>
     </div>
 </div>
 <div th:insert="index :: footer"></div>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<script type="text/javascript">
+    function triggerLoginForm(displayStyle){
+        alert(document.readyState);
+        const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+        alert(modalBoxWrapper.tagName)
+        modalBoxWrapper.style.display = displayStyle;
+    }
+</script>
 </body>
 </html>
