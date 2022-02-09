@@ -37,14 +37,6 @@ public class ReservationServiceModel {
 	@MapsId("slot_id")
 	private Slot slot;
 	
-	@Column(name = "total_person")
-	private int totalPerson;
-
-	@Transient
-	public double totalCost(){
-		return service.getOriginalPrice()* totalPerson;
-	}
 
 
-	private double price;
 }

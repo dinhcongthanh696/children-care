@@ -68,9 +68,6 @@ public class UserModel {
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "username")
-	private List<FeedbackModel> feedbacks;
 	
 	@JsonIgnore
 	@OneToOne (fetch = FetchType.LAZY,
