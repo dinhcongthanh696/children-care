@@ -42,15 +42,15 @@ public class ReservationAPI {
 		} else {
 			throw new RuntimeException(" Service not found for id :: " + id);
 		}
-		List<ServiceModel> listReservations = null;
-		if (session.getAttribute("list") == null) {
+		List<ServiceModel> listReservations = (List<ServiceModel>) session.getAttribute("list");
+		if (listReservations == null) {
 			listReservations = new ArrayList<>();
-		} else {
-			listReservations = (List<ServiceModel>) session.getAttribute("list");
 		}
+		
 		boolean check = false;
 		for (ServiceModel svm : listReservations) {
 			if (svm.getServiceId() == id) {
+				service = svm;
 				service.setQuantity(service.getQuantity() + quantity);
 				check = true;
 			}
@@ -59,9 +59,9 @@ public class ReservationAPI {
 			service.setQuantity(quantity);
 			listReservations.add(service);
 		}
+		
 		// start thanh's code (add service cookie)
 		Cookie cartsCookie = CookieHandler.getCookie("carts", request);
-
 		if (cartsCookie != null) {
 			CookieHandler.editCartsCookie(id, request, response, "/", CookieHandler.COOKIEEXPRIEDTIME, service.toCookieValue());
 		} else {
@@ -69,7 +69,7 @@ public class ReservationAPI {
 		}
 
 		// end thanh's code (Add service cookie)
-
+		session.setAttribute("list", listReservations);
 		return listReservations;
 	}
 }

@@ -37,8 +37,8 @@ public class LoggingFilter implements Filter {
 		Cookie cookieCarts = CookieHandler.getCookie("carts", servletRequest);
 
 		HttpSession session = servletRequest.getSession();
-		Object obj = session.getAttribute("list");
-		if (cookieCarts != null) {
+		List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
+		if (services == null && cookieCarts != null) {
 			String cartsValue = cookieCarts.getValue();
 			String[] serviceCarts_split = cartsValue.split("[-]");
 			String[] serviceCartAttributes;

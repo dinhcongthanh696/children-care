@@ -118,10 +118,12 @@ public class ReservationController {
 		Cookie cartsCookie = CookieHandler.getCookie("carts", request);
 
 		if (cartsCookie != null) {
-			CookieHandler.editCartsCookie(id, request, response, "/", 7 * DAYINSECONDS, serviceById.toCookieValue());
+			CookieHandler.editCartsCookie(id, request, response, "/", CookieHandler.COOKIEEXPRIEDTIME, serviceById.toCookieValue());
+		}else {
+			CookieHandler.createNewCookie("carts", request, response, "/", CookieHandler.COOKIEEXPRIEDTIME, serviceById.toCookieValue());
 		}
 		// end thanh's code (Add service cookie)
-		session.setAttribute("list", listReservations);
+		session.setAttribute("list", listReservations);  
 		model.addAttribute("list", listReservations);
 		return "reservationDetails";
 	}
