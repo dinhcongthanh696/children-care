@@ -28,7 +28,7 @@
 	href="../images/favicon/favicon-32x32.png" sizes="32x32">
 <link rel="icon" type="image/png"
 	href="../images/favicon/favicon-16x16.png" sizes="16x16">
-<link rel="stylesheet" href="../css/servicelist.css">
+<link rel="stylesheet" href="../css/service-list.css">
 <link rel="stylesheet" href="../css/authentication.css">
  <!-- Fav icon -->	
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>	
@@ -38,6 +38,7 @@
 	<div id="my-modal-success">
 		<div class="my-modal-content">
 			<h1>Added successfully <i class="fas fa-check" style="font-size : 20px;"></i></h1>
+			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-success','none')"></span>
 		</div>
 	</div>
 	<div id="my-modal-feedback-step1">
@@ -48,23 +49,23 @@
 					<span class="far fa-dizzy" style="color : #8B0000;"></span>
 					<p style="color : #8B0000;" class="feeling-description">Chán không còn gì để lói</p>
 				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(1)">
+				<div class="col-md-2 feeling" onclick="ratingStar(1)">
 					<span class="far fa-angry" style="color : red;"></span>
 					<p style="color : red;" class="feeling-description">Cáu zl</p>
 				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(2)">
+				<div class="col-md-2 feeling" onclick="ratingStar(2)">
 					<span class="far fa-frown" style="color : grey;"></span>
 					<p style="color : grey" class="feeling-description">Thất vọng</p>
 				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(3)">
+				<div class="col-md-2 feeling" onclick="ratingStar(3)">
 					<span class="far fa-meh" style="color : yellow;"></span>
 					<p style="color : yellow;" class="feeling-description">Tạm OK</p>
 				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(4)">
+				<div class="col-md-2 feeling" onclick="ratingStar(4)">
 					<span class="far fa-grin-alt" style="color : blue;"></span>
 					<p style="color : blue" class="feeling-description">Hài lòng</p>
 				</div>
-				<div class="col-xs-2 feeling" onclick="ratingStar(5)">
+				<div class="col-md-2 feeling" onclick="ratingStar(5)">
 					<span class="far fa-grin-beam" style="color : green;"></span>
 					<p style="color : green" class="feeling-description">Rất hài lòng lun! </p>
 				</div>
@@ -74,6 +75,7 @@
 				  <i class="fas fa-arrow-right">Next</i> 
 				</button>
 			</div>
+			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-feedback-step1','none')"></span>
 		</div>
 	</div>
 	<div id="my-modal-feedback-step-2">
@@ -87,6 +89,7 @@
 				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()">
 			    Save your feedback
 			</button>
+			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-feedback-step-2','none')"></span>
 		</div>
 	</div>
 	<div id="my-modal-contact-menu">
@@ -96,6 +99,7 @@
 				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startLoginForm()">Login</a></li>
 				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Give your contact here!</a> </li>
 			</ul>
+			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-contact-menu','none')"></span>
 		</div>
 	</div>
 
@@ -115,6 +119,7 @@
 			</div>	
 			<h5 id="contact-message"></h5>
 			<button class="btn btn-danger" id="verify-contact-button" onclick="identifyUserContact()" disabled="disabled">Verify your contact <span id="verify-contact-icon" class="fas fa-exclamation"></span></button>
+			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-contact','none')"></span>
 		</div>
 	</div>
 	
@@ -211,6 +216,11 @@
 			buttonVerifyingContact.className = "btn btn-danger";
 			iconVerifyingContact.className = "fas fa-exclamation";
 		}
+	}
+	
+	function triggerModal(modalId,displayStyle){
+		const getModalById = document.getElementById(modalId);
+		getModalById.style.display = displayStyle;
 	}
 	
 	function startFeedback(title,serviceId){

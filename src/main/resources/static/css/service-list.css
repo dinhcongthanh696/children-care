@@ -132,6 +132,7 @@ div.my-modal-content{
   font-size: 25px;
   font-weight: bold;
   border-radius: 10px;
+  position: relative;
 }
 
 .feeling{
@@ -145,6 +146,20 @@ div.my-modal-content{
 
 .my-modal-chaining{
 	text-align: right;
+}
+
+span.close-modal{
+	position: absolute;
+	right : 0;
+	top : 0;
+	cursor: pointer;
+	transition : font-size 1s;
+	padding-right: 2px;
+}
+
+span.close-modal:hover{
+	font-size : 30px;
+	color : red;
 }
 
 
