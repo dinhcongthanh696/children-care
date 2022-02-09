@@ -122,9 +122,16 @@
       storeOldValueElement.value = oldValue;
     }
 
-    function editCartItem(serviceId,newValue){
+    function editCartItem(event,serviceId,newValue){
+     
+      event.target.blur(); // make the input quantity lose focus to recalculate old value
       var oldValue = document.querySelector("#oldvalue"+serviceId).value;
       var updatedQuantity = newValue - oldValue;
+      if(updatedQuantity > 0){
+    	  alert("Increase the quantity by : "+updatedQuantity);
+      }else{
+    	  alert("Decrease the quantity by : "+ (updatedQuantity * -1 ));
+      }
       fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
     }
     
@@ -167,7 +174,7 @@
           <label class="pass-quantity">Total person</label>
           <input class="form-control" type="number" min="1" th:value="${info.quantity}"
                  th:onfocus="'storeOldValue('+${info.serviceId}+',this.value)'"
-                 th:onchange="'editCartItem('+ ${info.serviceId} +',this.value)'"/>
+                 th:onchange="'editCartItem(event,'+ ${info.serviceId} +',this.value)'"/>
           <input type="hidden" th:id="'oldvalue'+(${info.serviceId})"/>
         </div>
         <div class="col-lg-2 col-md-1 col-sm-2 product-line-price pt-4">

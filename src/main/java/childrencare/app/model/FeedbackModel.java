@@ -1,5 +1,7 @@
 package childrencare.app.model;
 
+import java.util.Base64;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -13,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -54,6 +57,8 @@ public class FeedbackModel {
 	@Column(name = "feedback_image")
 	private byte[] image;
 	
+	@Transient
+	private String base64ImageEncode;
 	private boolean status;
 	
 	private String fullname;
@@ -61,5 +66,9 @@ public class FeedbackModel {
 	private String email;
 	private String phone;
 	private String address;
+	
+	public void setBase64ImageEncode(byte[] image) {
+		this.base64ImageEncode = Base64.getEncoder().encodeToString(image);
+	}
 	
 }

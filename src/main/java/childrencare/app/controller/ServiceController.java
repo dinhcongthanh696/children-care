@@ -79,6 +79,9 @@ public class ServiceController {
 		ServiceModel service = serviceModelService.getServiceById(id).get();
 		service.setBase64ThumbnailEncode(service.getThumbnail());
 		List<FeedbackModel> feedbackModels = feedbackRepository.findByService(service);
+		for(FeedbackModel feedback : feedbackModels) {
+			feedback.setBase64ImageEncode(feedback.getImage());
+		}
 		model.addAttribute("service", service);
 		model.addAttribute("services",serviceModelService.getServices());
 		model.addAttribute("feedbackModels", feedbackModels);
