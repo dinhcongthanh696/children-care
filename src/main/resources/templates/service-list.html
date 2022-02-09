@@ -45,27 +45,27 @@
 			<h1 style="color : black;" id="feedback-question"></h1>
 			<div class="row">
 				<div class="col-xs-2 feeling" onclick="ratingStar(0)">
-					<span class="far fa-dizzy" style="color : #8B0000; font-size : 25px;"></span>
+					<span class="far fa-dizzy" style="color : #8B0000;"></span>
 					<p style="color : #8B0000;" class="feeling-description">Chán không còn gì để lói</p>
 				</div>
 				<div class="col-xs-2 feeling" onclick="ratingStar(1)">
-					<span class="far fa-angry" style="color : red; font-size : 25px;"></span>
+					<span class="far fa-angry" style="color : red;"></span>
 					<p style="color : red;" class="feeling-description">Cáu zl</p>
 				</div>
 				<div class="col-xs-2 feeling" onclick="ratingStar(2)">
-					<span class="far fa-frown" style="color : grey; font-size : 25px;"></span>
+					<span class="far fa-frown" style="color : grey;"></span>
 					<p style="color : grey" class="feeling-description">Thất vọng</p>
 				</div>
 				<div class="col-xs-2 feeling" onclick="ratingStar(3)">
-					<span class="far fa-meh" style="color : yellow; font-size : 25px;"></span>
+					<span class="far fa-meh" style="color : yellow;"></span>
 					<p style="color : yellow;" class="feeling-description">Tạm OK</p>
 				</div>
 				<div class="col-xs-2 feeling" onclick="ratingStar(4)">
-					<span class="far fa-grin-alt" style="color : blue; font-size : 25px;"></span>
+					<span class="far fa-grin-alt" style="color : blue;"></span>
 					<p style="color : blue" class="feeling-description">Hài lòng</p>
 				</div>
 				<div class="col-xs-2 feeling" onclick="ratingStar(5)">
-					<span class="far fa-grin-beam" style="color : green; font-size : 25px;"></span>
+					<span class="far fa-grin-beam" style="color : green;"></span>
 					<p style="color : green" class="feeling-description">Rất hài lòng lun! </p>
 				</div>
 			</div>
@@ -108,22 +108,13 @@
 	<div id="my-modal-contact">
 		<div class="my-modal-content">
 			<h1 class="modal-header">Contact</h1>
-			<label for="user-email" class="modal-label">Email</label>
-			<input type="text" class="form-control modal-input" placeholder="Put your email..." id="user-email" onkeyup="findUserByEmail(this.value)"/>
-			<label for="user-fullname" class="modal-label">Your full name</label>
-			<input type="text" class="form-control modal-input" placeholder="Put your name..." id="user-fullname"/>
-			<label for="user-address" class="modal-label">You address</label>
-			<input type="text" class="form-control modal-input" placeholder="Put your address..." id="user-address"/>
-			<label for="user-phone" class="modal-label">Your phone number</label>
-			<input type="text" class="form-control modal-input" placeholder="Put your phone(091xxxxxxx)..." id="user-phone"/>
-			<div class="form-check">
-				<input type="radio"  name="gender" class="form-check-input modal-input"  id="male" value="true"/>
-				<label for="male" class="form-check-label">Male        </label>
-				<input type="radio"  name="gender" class="form-check-input modal-input"  id="female" value="false"/>
-				<label for="female" class="form-check-label">Female</label>
-			</div>
+			<div class="form-group email">
+				<label for="user-email" class="modal-label">Email</label>
+				<input type="text" class="form-control modal-input" placeholder="Put your email..." id="user-email" onkeyup="verifyUserEmail(this.value)"/>
+				<span id="email-verification-message"></span>
+			</div>	
 			<h5 id="contact-message"></h5>
-			<button class="btn btn-success" id="save-contact-button" onclick="identifyUserContact()">Save your contact</button>
+			<button class="btn btn-danger" id="verify-contact-button" onclick="identifyUserContact()" disabled="disabled">Verify your contact <span id="verify-contact-icon" class="fas fa-exclamation"></span></button>
 		</div>
 	</div>
 	
@@ -131,7 +122,7 @@
 		<div class="my-modal-content">
 			<h1 class="modal-header" id="modal-header-counter"></h1>
 			<label for="answer">Your answer : </label>
-			<input type="text" class="form-control modal-input" placeholder="Put your name..." id="answer"/>
+			<input type="text" class="form-control modal-input" placeholder="Put your answer..." id="answer"/>
 			<button class="btn btn-primary" onclick="indentifyCaptchaCode()">Verify</button>
 		</div>
 	</div>
@@ -148,7 +139,6 @@
 	<input type="hidden" th:value="${totalPages}" id="totalPages" />
 	<input type="hidden" th:value="${categoryId}" id="categoryId"/>
 	<input type="hidden" th:value="${currentPage}" id="currentPage"/>
-	<input type="hidden" th:value="${session.user != null ? session.user.username : 'unkown'}" id="user"/>
 	<!-- end hidden fields -->
 	
 	<div id="body" class="container-fluid">
@@ -201,83 +191,52 @@
 	var lastChosenServiceId = -1;
 	var captchaInterval;
 	
-	function findUserByEmail(email){
-		const formData = new FormData();
-		formData.append("email",email);
-		fetch("/ChildrenCare/api-user/user",{
-			method : 'POST',
-			body : formData
-		})
-		.then(response => response.text())
-		.then(responseData => {
-			var user = (responseData.length == 0) ? null : JSON.parse(responseData);
-			const userEmailInputElement = document.getElementById("user-email");
-			const userFullnameInputElement = document.getElementById("user-fullname");
-			const userAddressInputElement = document.getElementById("user-address");
-			const userPhoneInputElement = document.getElementById("user-phone");
-			const femaleRadioButton = document.getElementById("female");
-			const maleRadioButton = document.getElementById("male");
-			const saveContactButton = document.getElementById("save-contact-button");
-			const contactMessage = document.getElementById("contact-message");
-			if(user){
-				userEmailInputElement.className = "form-control modal-input email-present";
-				userFullnameInputElement.value = user.fullname;
-				userFullnameInputElement.readOnly = true;
-				userAddressInputElement.value = user.address;
-				userAddressInputElement.readOnly = true;
-				userPhoneInputElement.value = user.phone;
-				userPhoneInputElement.readOnly = true;
-				femaleRadioButton.readOnly = true;
-				maleRadioButton.readOnly = true;
-				if(user.gender){
-					maleRadioButton.checked = true;
-				}else{
-					femaleRadioButton.checked = true;
-				}
-				saveContactButton.innerHTML = "Identify your contact";
-				contactMessage.innerHTML = "User exsist";
-				contactMessage.style.color = "green";
-			}else{
-				if(userEmailInputElement.className !== "form-control modal-input email-absent"){
-					userEmailInputElement.className = "form-control modal-input email-absent";
-					userFullnameInputElement.value = "";
-					userFullnameInputElement.readOnly = false;
-					userAddressInputElement.value = "";
-					userAddressInputElement.readOnly =	false;
-					userPhoneInputElement.value = "";
-					userPhoneInputElement.readOnly = false;
-					femaleRadioButton.readOnly = false;
-					maleRadioButton.readOnly = false;
-					saveContactButton.innerHTML = "Save your contact";
-					contactMessage.innerHTML = "User not exsist";
-					contactMessage.style.color = "red";
-				}
-			}
-		})
+	function verifyUserEmail(email){
+		const userEmailInput = document.getElementById("user-email");
+		const userEmailVerificationMessage = document.getElementById("email-verification-message");
+		const buttonVerifyingContact = document.getElementById("verify-contact-button");
+		const iconVerifyingContact = document.getElementById("verify-contact-icon");
+		if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
+			userEmailInput.className = "form-control modal-input valid";
+			userEmailVerificationMessage.innerHTML = "Email is valid";
+			userEmailVerificationMessage.style.color = "green";
+			buttonVerifyingContact.disabled = false;
+			buttonVerifyingContact.className = "btn btn-success";
+			iconVerifyingContact.className = "fas fa-check";
+		}else if(userEmailInput.className !== "form-control modal-input invalid"){
+			userEmailInput.className = "form-control modal-input invalid";
+			userEmailVerificationMessage.innerHTML = "Email is invalid , re-enter your email";
+			userEmailVerificationMessage.style.color = "red";
+			buttonVerifyingContact.disabled = true;
+			buttonVerifyingContact.className = "btn btn-danger";
+			iconVerifyingContact.className = "fas fa-exclamation";
+		}
 	}
 	
 	function startFeedback(title,serviceId){
-		var identifyingUser = document.getElementById("user").value;
-		if(identifyingUser === 'unkown'){
-			const modalContactMenu = document.getElementById("my-modal-contact-menu");
-			modalContactMenu.style.display = "block";
-			return;
-		}
-		
-		lastChosenServiceId = serviceId;
-		
-		
-		fetch("/ChildrenCare/api-service/get-user-services?serviceId="+serviceId)
-		.then(response => response.json())
-		.then(feedbacks => {
-			if(feedbacks.length == 0){
-				alert("Sorry,you have not bought this service.Please buy this service first");	
-			}else{
-				var modalFeedBackStep1Element = document.querySelector("#my-modal-feedback-step1");
-				var feedBackQuestionElement = document.querySelector("#feedback-question");
-				feedBackQuestionElement.innerHTML = "Bạn cảm thấy như thế nào về dịch vụ "+ title  +"? ";
-				modalFeedBackStep1Element.style.display = "block";
+		fetch("/ChildrenCare/api-feedback/user-email")
+		.then(response => response.text())
+		.then(email => {
+			if(email === 'not yet'){
+				const modalContactMenu = document.getElementById("my-modal-contact-menu");
+				modalContactMenu.style.display = "block";
+				return;
 			}
+			lastChosenServiceId = serviceId;
+			
+			
+			fetch("/ChildrenCare/api-service/get-user-services?serviceId="+serviceId)
+			.then(response => response.json())
+			.then(feedbacks => {
+				if(feedbacks.length == 0){
+					alert("Sorry,you have not bought this service.Please buy this service first");	
+				}else{
+					var modalFeedBackStep1Element = document.querySelector("#my-modal-feedback-step1");
+					var feedBackQuestionElement = document.querySelector("#feedback-question");
+					feedBackQuestionElement.innerHTML = "Bạn cảm thấy như thế nào về dịch vụ "+ title  +"? ";
+					modalFeedBackStep1Element.style.display = "block";
+				}
+			})
 		})
 	}
 	
@@ -359,25 +318,10 @@
 	function indentifyCaptchaCode(){
 		
 		var captcha = document.getElementById("answer").value;
-		var username = document.getElementById("user-email").value;
 		var email = document.getElementById("user-email").value;
-		var fullname = document.getElementById("user-fullname").value;
-		var phone = document.getElementById("user-phone").value;
-		var address = document.getElementById("user-address").value;
-		var gender;
-		document.getElementsByName("gender").forEach((radioButton) => {
-			if(radioButton.checked){
-				gender = radioButton.value;
-			}		
-		})
 		
 		var formData = new FormData();
-		formData.append("username",username);
 		formData.append("email",email);
-		formData.append("fullname",fullname);
-		formData.append("phone",phone);
-		formData.append("gender",gender);
-		formData.append("address",address);
 		formData.append("captcha",captcha);
 		
 		// Display waiting modal to wait for fetching api-feedback
@@ -393,12 +337,14 @@
 			return response.text();
 		})
 		.then(message => {
-			if(message == "success"){
+			if(message === "success"){
 				clearInterval(captchaInterval);
-				alert("We have known you, now you can feedback");
+				alert("We have known you, now you can feedback on any service that you have bouught");
 				document.location.reload();
-			}else{
+			}else if(message === "fail"){
 				alert("Wrong captcha code!!!!");
+			}else{
+				alert("You are already in the system");  // WHEN USER TRYING TO OPEN VERIFYING CAPTCHACODE MODAL
 			}
 		})
 	}
@@ -430,7 +376,6 @@
 				modalIdentification.style.display = "block";
 				var modalHeaderCounter = document.getElementById("modal-header-counter");
 				captchaInterval = setInterval(() => {
-					modalHeaderCounter.innerHTML = "";
 					modalHeaderCounter.innerHTML = "We have sent you an catpcha code to your email to verify. Code will be expired in :  "+ generateRealTime(counter);
 					if(counter == 0){
 						clearInterval(captchaInterval);
@@ -443,7 +388,7 @@
 					counter -= 1;
 				},1500)
 			}else{
-				alert("We have known you , now you can feedback!!!");
+				alert("We have known you , now you can feedback on the services that you have bought!!!");
 				document.location.reload();
 			}
 		})

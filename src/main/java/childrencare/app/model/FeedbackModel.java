@@ -41,11 +41,6 @@ public class FeedbackModel {
 	private int feedbackId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "username")
-	@MapsId("username")
-	private UserModel username;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "service_id")
 	@MapsId("service_id")
 	@JsonIgnore
@@ -60,4 +55,11 @@ public class FeedbackModel {
 	private byte[] image;
 	
 	private boolean status;
+	
+	private String fullname;
+	private boolean gender;
+	private String email;
+	private String phone;
+	private String address;
+	
 }

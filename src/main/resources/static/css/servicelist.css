@@ -140,7 +140,6 @@ div.my-modal-content{
 }
 
 .feeling:hover,div.chosen{
-	width : 95px;
 	background-color: aqua;
 }
 
@@ -179,7 +178,7 @@ li.list-group-item:hover{
 	padding : 5px;
 }
 
-.email-present{
+.valid{
 	box-shadow: 1px 1px 1px 1px green;
 }
 
@@ -191,6 +190,11 @@ li.list-group-item:hover{
 	transition : color 1s;
 }
 
-.email-absent{
+#verify-contact-icon{
+	transition : color 2s;
+	transition-timing-function: ease-in;
+}
+
+.invalid{
 	box-shadow : 1px 1px 1px 1px red;
 }

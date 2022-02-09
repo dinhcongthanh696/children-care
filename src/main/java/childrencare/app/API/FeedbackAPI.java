@@ -26,9 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import childrencare.app.CaptchaGenerator;
 import childrencare.app.model.FeedbackModel;
+import childrencare.app.model.ReservationModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.model.UserModel;
 import childrencare.app.repository.FeedbackRepository;
+import childrencare.app.repository.ReservationRepository;
+import childrencare.app.repository.ServiceRepository;
 import childrencare.app.repository.UserRepository;
 
 @RestController
@@ -37,69 +40,34 @@ public class FeedbackAPI {
 	private final JavaMailSender mailSender;
 	private final UserRepository userRepository;
 	private final FeedbackRepository feedbackRepository;
+	private final ReservationRepository reservationRepository;
 	private String captcha;
 	
 	@Autowired
-	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,FeedbackRepository feedbackRepository) {
+	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,FeedbackRepository feedbackRepository,ReservationRepository reservationRepository) {
 		this.mailSender = mailSender;
 		this.userRepository = userRepository;
 		this.feedbackRepository = feedbackRepository;
+		this.reservationRepository = reservationRepository;
 	}
 	
 	@PostMapping("/verify-captcha")
-	public String verifyUserContactCaptcha(HttpSession session , 
-			@RequestParam(name = "username") String username , 
-			@RequestParam(name = "email") String email , 
-			@RequestParam(name = "fullname") String fullname ,
-			@RequestParam(name = "phone") String phone , 
-			@RequestParam(name = "gender") boolean gender , 
-			@RequestParam(name = "address") String address , 
+	public String verifyUserContactCaptcha(HttpSession session , @RequestParam(name = "email") String email , 
 			@RequestParam(name = "captcha") String userInputcaptcha) {
-		if(session.getAttribute("user") != null || !userInputcaptcha.equals(captcha)) {
+		if(session.getAttribute("user") != null || session.getAttribute("userEmail") != null) {
+			return "user exsist";
+		}
+		
+		if(!captcha.equals(userInputcaptcha)) {
 			return "fail";
 		}
-		UserModel user = new UserModel(username, captcha, fullname, phone, email, address);
-		
-		userRepository.save(user);
-		session.setAttribute("user", user);
-		
-		// send user account to his/her gmail
-		JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
-		String from = mailSenderImpl.getUsername();
-		String to = email;
-		String subject = "It seems to be your first time in ChildrenCare , Here is your account!!!";
-		
-		MimeMessage mimeMessage = mailSenderImpl.createMimeMessage();
-		try {
-			mimeMessage.setFrom(from);
-			mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-			mimeMessage.setSubject(subject);
-			
-			MimeBodyPart contentPart = new MimeBodyPart();
-			String content = "<h1> Your user name is : "+ email +" , Your password is : "+ captcha +" </h1>" ;
-			contentPart.setContent(content, "text/html; charset=utf-8");
-			
-			Multipart multiPart = new MimeMultipart();
-			multiPart.addBodyPart(contentPart);
-			mimeMessage.setContent(multiPart);
-			mailSender.send(mimeMessage);
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		session.setAttribute("userEmail", email);
 		return "success";
 	}
 	
 	@PostMapping("/generate-captcha")
 	public String generateUserContactCaptcha(HttpSession session ,@RequestParam(name = "email") String email) {
-		UserModel fetchingUser;
-		if(session.getAttribute("user") == null) {
-			fetchingUser = userRepository.findByEmail(email);
-			if(fetchingUser != null) {
-				session.setAttribute("user", fetchingUser);
-				return "verified";
-			}
-		}else {
+		if(session.getAttribute("user") != null || session.getAttribute("userEmail") != null) {
 			return "verified";
 		}
 		// 1. Generate captcha
@@ -118,7 +86,7 @@ public class FeedbackAPI {
 			mimeMessage.setSubject(subject);
 			
 			MimeBodyPart contentPart = new MimeBodyPart();
-			String content = "<h1> Hello"+ email +" , your captcha is : "+ captcha +" </h1>" ;
+			String content = "<h1> Hello "+ email +" , your captcha is : "+ captcha +" </h1>" ;
 			contentPart.setContent(content, "text/html; charset=utf-8");
 			
 			MimeBodyPart referencePart = new MimeBodyPart();
@@ -139,6 +107,20 @@ public class FeedbackAPI {
 		return captcha;
 	}
 	
+	@GetMapping("/user-email")
+	public String getUserEmail(HttpSession session) {
+		UserModel user = (UserModel) session.getAttribute("user");
+		if(user != null) {
+			return user.getEmail(); 
+		}
+		
+		if(session.getAttribute("userEmail") != null) {
+			return (String) session.getAttribute("userEmail");
+		}
+		
+		return "not yet";
+	}
+	
 	@PostMapping("/save-feedback")
 	@Transactional
 	public String saveUserFeedback(@RequestParam(name = "imageFeedback" , required = false) MultipartFile image , 
@@ -148,11 +130,15 @@ public class FeedbackAPI {
 			HttpSession session
 			) {
 		UserModel user = (UserModel) session.getAttribute("user");
-		if(user == null) return "We don't know you,You need to give your contact or login!!!";
+		String email = (user == null) ? (String) session.getAttribute("userEmail") : user.getEmail() ;
+		if(email == null) return "We don't know you,You need to give your contact or login!!!";
 		if(serviceId == -1) return "You don't have chosen any service to feedback!!";
 		try {
+			ReservationModel reservation = reservationRepository.getReservationByEmailAndServiceId(email, serviceId);
+			if(reservation.getReservationServices().isEmpty()) return "fail";
 			byte[] imageBinaryData = (image == null) ? null : image.getBytes();
-			feedbackRepository.saveOnlyFeedback(ratedStar, false, serviceId, user.getUsername(), comment, imageBinaryData);
+			feedbackRepository.saveOnlyFeedback(reservation.getAddress(), comment, email, reservation.getFullname(), reservation.isGender(),
+					imageBinaryData, reservation.getPhone(), ratedStar, false, serviceId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

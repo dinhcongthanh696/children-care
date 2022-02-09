@@ -14,9 +14,10 @@ import childrencare.app.model.ServiceModel;
 public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer>{
 	
 	@Modifying
-	@Query(value = "INSERT INTO feedback VALUES ((select next_val + 1 from feedback_id_sequence) ,?1,?2,?3,?4,?5,?6) "
+	@Query(value = "INSERT INTO feedback VALUES ((select next_val + 1 from feedback_id_sequence) ,?1,?2,?3,?4,?5,?6,?7,?8,?9,?10) "
 			+ "UPDATE feedback_id_sequence SET next_val = next_val + 1", nativeQuery=true)
-	public void saveOnlyFeedback(Integer ratedStar , boolean status , Integer serviceId , String username , String comment , byte[] image);
+	public void saveOnlyFeedback(String address , String comment , String email , String fullname , boolean gender , 
+			 byte[] image , String phone ,	Integer ratedStar , boolean status , Integer serviceId  );
 
 
 	public List<FeedbackModel> findByService(ServiceModel service);
