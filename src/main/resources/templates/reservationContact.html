@@ -40,7 +40,7 @@
 <body>
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('/reservation/contact')"></div>
 <div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
-
+<header th:replace="header.html :: header"></header>
 <div th:replace="mainmenu.html :: mainMenu('','Search...','services','')"></div>
 <div class=" container-fluid my-5 ">
     <div class="row justify-content-center ">
@@ -128,7 +128,7 @@
                         <div class="col-md-5">
                             <div class="card border-0 ">
                                 <div class="card-header card-2">
-                                    <p class="card-text text-muted mt-md-4 mb-2 space">YOUR RESERVATION <a href="/ChildrenCare/reservation/"> -----> CHANGE</a></p>
+                                    <p class="card-text text-muted mt-md-4 mb-2 space">YOUR RESERVATION <a href="/ChildrenCare/reservation/reser"> -----> CHANGE</a></p>
                                     <hr class="my-2">
                                 </div>
                                 <div class="card-body pt-0">
