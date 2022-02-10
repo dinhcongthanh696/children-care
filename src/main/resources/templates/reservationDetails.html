@@ -3,40 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
-
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
-	<style>
-    body {
-        background: #eecda3;
-        background: -webkit-linear-gradient(to right, #eecda3, #ef629f);
-        background: linear-gradient(to right, #eecda3, #ef629f);
-        min-height: 100vh;
-        }
-        
-     .item {
-    	display: flex;
-    	align-items: center;
-    	flex-wrap: wrap;
-  	}
-  	
-  	.btn-pay {
-    	background-color: #C800Da;
-    	border: 0;
-    	color: #fff;
-    	font-weight: 600;
-  	}
-  	.fa-ticket {
-    	color: #0e1fa1;
-  	}
-  	img{
-    	width : 100px;
-    	height : 100px;
-  	}
-   </style>     
   <!-- responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- For IE -->
@@ -67,7 +37,7 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
           integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
-
+  <link href="../css/authentication.css" rel="stylesheet">
   <script>
     // nghia's code
     $(document).ready(function() {
@@ -85,8 +55,8 @@
         });
         var total = subtotal;
         $('.totals-value').fadeOut(fadeTime, function() {
-          $('#cart-subtotal').html(subtotal.toFixed(2));
-          $('.cart-total').html(total.toFixed(2));
+          $('#cart-subtotal').html(subtotal.toFixed(3));
+          $('.cart-total').html(total.toFixed(3));
           if (total == 0) {
             $('.checkout').fadeOut(fadeTime);
           } else {
@@ -145,10 +115,12 @@
                 })
       }
     </script>
+  <link rel="stylesheet" href="../static/css/authentication.css">
   </head>
-  
 <body>
+<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/reservation/reser')"></div>
 <div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
+<header th:replace="header.html :: header"></header>
 
 <div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
 <div class="container text-dark py-5 text-center">
@@ -167,9 +139,9 @@
         <div class="col-lg-5 col-5 text-lg-left">
           <h3 th:text="'Service Id:'+${info.serviceId}" class="h6 mb-0"></h3><br>
           <h3 th:text="'Title: '+${info.title}" class="h6 mb-0"></h3><br>
-            <small th:text="'Price: '+${info.originalPrice}"></small>
+            <small th:text="'Price: '+${#numbers.formatDecimal(info.originalPrice,1,'POINT',0,'POINT')}"></small>
         </div>
-        <div th:text="${info.getOriginalPrice()}" class="product-price d-none"></div>
+        <div th:text="${#numbers.formatDecimal(info.originalPrice,1,'POINT',0,'POINT')}" class="product-price d-none"></div>
         <div class="pass-quantity col-lg-3 col-md-4 col-sm-3">
           <label class="pass-quantity">Total person</label>
           <input class="form-control" type="number" min="1" th:value="${info.quantity}"
@@ -178,7 +150,7 @@
           <input type="hidden" th:id="'oldvalue'+(${info.serviceId})"/>
         </div>
         <div class="col-lg-2 col-md-1 col-sm-2 product-line-price pt-4">
-          <span th:text="${info.getTotalCost()}" class="product-line-price"></span>
+          <span th:text="${#numbers.formatDecimal(info.getTotalCost(),1,'POINT',0,'POINT')}" class="product-line-price"></span>
         </div>
         <div class="remove-item pt-4">
           <button class="remove-product btn-light">
@@ -215,7 +187,7 @@
           <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
           <ul class="list-unstyled mb-4">
             <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-              <p th:text="${session.total}" class="font-weight-bold cart-total totals-value"></p></li>
+              <p th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')}" class="font-weight-bold cart-total totals-value"></p></li>
           </ul><a href="/ChildrenCare/reservation/contact" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
         </div>
       </div>
@@ -224,7 +196,43 @@
   </div>
 </div><!-- container -->
 <div id="footer" th:insert="index :: footer"></div>
+<style>
+  body {
+    min-height: 100vh;
+  }
 
+  .item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-pay {
+    background-color: #C800Da;
+    border: 0;
+    color: #fff;
+    font-weight: 600;
+  }
+  .fa-ticket {
+    color: #0e1fa1;
+  }
+  img{
+    width : 100px;
+    height : 100px;
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  function triggerLoginForm(displayStyle){
+    //alert(document.readyState);
+    const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+    //alert(modalBoxWrapper.tagName)
+    modalBoxWrapper.style.display = displayStyle;
+  }
+</script>
 
 </body>
 </html>
