@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Insert title here</title>
+    <title>Insert title here</title>
+
 </head>
 <body>
 	<section class="mainmenu-area stricky" th:fragment="mainMenu(actionForm,placeholder,current,search)">
@@ -46,7 +47,7 @@
                                         <li><a href="/service/list">Service List</a></li>
                                     </ul>
                                 </li>
-                                <li th:class="${current == 'contact' ? 'dropdown current' : 'dropdown'}"><a href="contact.html">Contact</a></li>
+                                <li th:class="${current == 'contact' ? 'dropdown current' : 'dropdown'}"><a th:href="@{/feedback}">Contact</a></li>
                             </ul>
                         </div>
                     </nav>
