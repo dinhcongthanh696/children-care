@@ -3,6 +3,7 @@ package childrencare.app.repository;
 
 import childrencare.app.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,10 @@ public interface LoginRepository extends JpaRepository<UserModel,String> {
 
     @Query(value = "select * from user_model where username = ?1",nativeQuery = true)
     UserModel getInfo(String username);
+
+    @Modifying
+    @Query(value = "update user_model set password = ?1 where username = ?2",nativeQuery = true)
+    void changePass(String pass,String username);
 
 
 

@@ -45,6 +45,10 @@ public class LoginController {
                          @RequestParam(name = "notes")String notes,
                          @RequestParam(name = "password")String pass,
                          @RequestParam(name = "phone")String phone){
+        UserModel userExist1 = loginService.checkUserExist(username,email,"");
+        if(userExist1 != null){
+            model.addAttribute("messError","Information exist. Please change!");
+        }
         UserModel userModel = new UserModel();
         userModel.setUsername(username);
         userModel.setFullname(fullname);
