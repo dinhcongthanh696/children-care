@@ -67,11 +67,8 @@ public class UserModel {
 	@JsonIgnore
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
-	
-	
-	@JsonIgnore
-	@OneToOne (fetch = FetchType.LAZY,
-		cascade =  CascadeType.ALL,
-		mappedBy = "userModel")
-	private Staff staff;
+
+	@OneToMany(mappedBy = "doctor")
+	private List<ReservationServiceModel> reservationServices;
+
 }
