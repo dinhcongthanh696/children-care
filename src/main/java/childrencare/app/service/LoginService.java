@@ -29,7 +29,10 @@ public class LoginService {
         return loginRepository.getInfo(username);
     }
 
-
+    @Modifying
+    public void changePass(String pass, String username) {
+        loginRepository.changePass(pass, username);
+    }
 
 
 }
