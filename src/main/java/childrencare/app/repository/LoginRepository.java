@@ -25,13 +25,7 @@ public interface LoginRepository extends JpaRepository<UserModel,String> {
     @Query(value = "update user_model set password = ?1 where username = ?2",nativeQuery = true)
     void changePass(String pass,String username);
 
-    @Query(value = "select rs.reservation_id,rs.service_id, email from\n" +
-            "reservation_service rs inner join\n" +
-            "reservation r on rs.reservation_id = r.reservation_id\n" +
-            "inner join [service] s on rs.service_id = s.service_id\n" +
-            "where email = ?1\n" +
-            "group by rs.reservation_id,rs.service_id,email" , nativeQuery = true)
-    public List<ReservationServiceModel> getCustomerReservation(String email);
+
 
 
 
