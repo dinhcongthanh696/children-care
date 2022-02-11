@@ -40,6 +40,11 @@
 
     <link rel="stylesheet" href="../css/myReservation.css">
     <link rel="stylesheet" href="../css/setting.css">
+    <script>
+        function changePass() {
+            alert("Change password successful!");
+        }
+    </script>
 </head>
 <body>
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('/setting/profile')"></div>
@@ -49,44 +54,47 @@
 <div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
 <div class="container mt-5">
     <div class="row">
-       <div class="col-lg-4 pb-5" th:replace="settingLeftSide::left-side"></div>
+        <div class="col-lg-4 pb-5" th:replace="settingLeftSide::left-side"></div>
         <!-- Profile Settings-->
         <div class="col-lg-8 pb-5">
-            <div class="container-lg">
-                <div class="table-responsive">
-                    <div class="table-wrapper">
-                        <div class="table-title">
-                            <div class="row">
-                                <div class="col-sm-8"><h2>My <b>Reservation</b></h2></div>
-                                <div class="col-sm-4">
-                                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-                                </div>
-                            </div>
+            <a data-toggle="modal" data-target="#myModal1" href="#">
+                <i class="fe-icon-map-pin text-muted"></i>Change Password</a>
+            <div class="modal fade" id="myModal1" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Change your password</h4>
                         </div>
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Reservation ID</th>
-                                <th>Reserved Date</th>
-                                <th>Service</th>
-                                <th>Time to check up</th>
-                                <th>Total cost</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="customer: ${customerReser}">
-                                <td th:text="${customer.reservation.reservationId}"></td>
-                                <td th:text="${customer.reservation.date}"></td>
-                                <td th:text="${customer.service.title}"></td>
-                                <td th:text="${customer.slot.start}+'-'+${customer.slot.end}"></td>
-                                <td th:text="${customer.price}"></td>
-                                <td th:utext="${customer.reservation.status} ?'Submited':'Confirmed'"></td>
-                            </tr>
-
-                            </tbody>
-                        </table>
+                        <div class="modal-body">
+                            <form action="/ChildrenCare/setting/changePass" method="post" class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input name="pass" class="form-control" type="password" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >New Password</label>
+                                        <input name="newpass" class="form-control" type="password" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Re-New Password</label>
+                                        <input name="renewpass" class="form-control" type="password" required="">
+                                    </div>
+                                </div>
+                                <button onclick="changePass()"  type="submit" class="btn btn-primary  btn-default" >Change</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -94,7 +102,7 @@
     </div>
 
 </div>
-<div style="margin-top: 50px;" id="footer" th:insert="index :: footer"></div>
+<div style="margin-top: 50px" id="footer" th:insert="index :: footer"></div>
 
 <script type="text/javascript">
     function triggerLoginForm(displayStyle){

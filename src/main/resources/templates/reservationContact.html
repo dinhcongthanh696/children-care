@@ -98,7 +98,7 @@
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group"> <label for="NAME3" class="small text-muted mb-1">Email</label>
-                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input readonly th:if="${user} !=null" th:object="${user}" type="text" th:field="*{email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
                                                 <input th:if="${user} == null" th:field="*{email}" type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
                                         </div>
                                         <div class="col-sm-6">

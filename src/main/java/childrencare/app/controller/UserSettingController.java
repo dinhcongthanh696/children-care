@@ -4,6 +4,7 @@ package childrencare.app.controller;
 import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.UserModel;
 import childrencare.app.service.LoginService;
+import childrencare.app.service.ReservationService_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +24,20 @@ public class UserSettingController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private ReservationService_Service reservationService_service;
+
     @GetMapping("/profile")
     public String profileSetting(HttpSession session, Model model){
         UserModel user = (UserModel) session.getAttribute("user");
         model.addAttribute("userLogin",user);
         return "settings";
+    }
+    @GetMapping("/change")
+    public String change(HttpSession session, Model model){
+        UserModel user = (UserModel) session.getAttribute("user");
+        model.addAttribute("userLogin",user);
+        return "changePass";
     }
     @PostMapping("/changePass")
     @Transactional
@@ -51,7 +61,9 @@ public class UserSettingController {
     @GetMapping("/myReservation")
     public String getmyReservation(Model model,HttpSession session){
         UserModel user = (UserModel) session.getAttribute("user");
+        List<ReservationServiceModel> customerReservation = reservationService_service.getCustomerReservation(user.getEmail());
         model.addAttribute("userLogin",user);
+        model.addAttribute("customerReser",customerReservation);
         return "myReservation";
     }
 

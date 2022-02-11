@@ -19,14 +19,15 @@ public class LoginController {
 
     @RequestMapping(value = "/signIn", method = { RequestMethod.GET, RequestMethod.POST })
     public String signIn(Model model, HttpSession session,
-                         @RequestParam(name = "username")String username,
-                         @RequestParam(name = "email")String email,
+                         @RequestParam(name = "email")String input,
                          @RequestParam(name = "password")String password,
                          @RequestParam(name = "currentPage", required = false , defaultValue = "/") String currentPage){
-        UserModel userExist = loginService.checkUserExist(username,email,password);
+        UserModel userExist = loginService.checkUserExist(input,input,password);
         if(userExist != null){
             model.addAttribute("user",userExist);
             session.setAttribute("user",userExist);
+            session.setAttribute("username",userExist.getUsername());
+            session.setAttribute("email",userExist.getEmail());
             return "redirect:"+currentPage;
         }else{
             model.addAttribute("mess","Wrong information");

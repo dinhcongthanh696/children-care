@@ -48,6 +48,7 @@ public class ReservationModel {
 	private String address;
 	private String notes;
 	private boolean status;
+
 	
 	@OneToMany(mappedBy = "reservation")
 	private List<ReservationServiceModel> reservationServices; 

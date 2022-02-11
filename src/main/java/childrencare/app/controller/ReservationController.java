@@ -158,6 +158,7 @@ public class ReservationController {
 		if (result.hasErrors()) {
 			return "redirect:/reservation/contact";
 		}
+		UserModel user = (UserModel) session.getAttribute("user");
 		reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
 		reservationModel.setStatus(false);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -172,7 +173,7 @@ public class ReservationController {
 		//clear cart from session after click submit button (reservation contact)
 		List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
 		listSubmit.clear();
-		return "redirect:/reservation";
+		return "redirect:/reservation/reser";
 		// end thanh's code
 	}
 
