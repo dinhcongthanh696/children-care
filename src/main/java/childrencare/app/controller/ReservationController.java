@@ -45,7 +45,6 @@ public class ReservationController {
 	@Autowired
 	private ReservationService reservationService;
 
-
 	// Thanh's code
 	@Autowired
 	private ServiceModelService serviceModelService;
@@ -53,11 +52,6 @@ public class ReservationController {
 	@Autowired
 	private Service_service service;
 
-/*	@GetMapping
-	public String getServiceCarts(Model model, HttpSession session) {
-		List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
-		model.addAttribute("list", services);
-======= */
 	@Autowired
 	private LoginService loginService;
 
@@ -79,18 +73,7 @@ public class ReservationController {
 
 	@GetMapping("/add/{sid}")
 	public String addToCart(@PathVariable(value = "sid") int id, Model model, HttpSession session,
-/*<<<<<<< HEAD
-			HttpServletResponse response, HttpServletRequest request ,
-			@RequestParam(name = "quantity", defaultValue = "1") int quantity) {
-		Optional<ServiceModel> optinal = serviceModelService.getServiceById(id);
-		ServiceModel service = null;
-		if (optinal.isPresent()) {
-			service = optinal.get();
-			service.setBase64ThumbnailEncode(service.getThumbnail());
-		} else {
-			throw new RuntimeException(" Service not found for id :: " + id);
-		}
-======= */
+
 		HttpServletResponse response, HttpServletRequest request ,
 		@RequestParam(name = "quantity" , defaultValue = "1") int quantity) throws IOException {
 		ServiceModel serviceById = service.getServiceById(id);
@@ -128,11 +111,6 @@ public class ReservationController {
 		return "reservationDetails";
 	}
 
-/*<<<<<<< HEAD
-// thanh's code
-	@DeleteMapping("/delete/{sid}")
-	public void deleteFromCart(@PathVariable(value = "sid") int id, HttpSession session, HttpServletResponse response,
-			HttpServletRequest request) { */
 	@DeleteMapping("/delete/{sid}")
 	public void deleteFromCart(@PathVariable(value = "sid") int id,HttpSession session,
 							   HttpServletResponse response, HttpServletRequest request ) {
@@ -159,7 +137,11 @@ public class ReservationController {
 			model.addAttribute("total",total);
 			ReservationModel reservationModel = new ReservationModel();
 			model.addAttribute("reservation",reservationModel);
-			model.addAttribute("user",userModel);
+			if(userModel != null){
+				model.addAttribute("user",userModel);
+			}else{
+				model.addAttribute("user",new UserModel());
+			}
 			return "reservationContact";
 		}else{
 			return "redirect:/reservation/reser";
@@ -176,6 +158,7 @@ public class ReservationController {
 		if (result.hasErrors()) {
 			return "redirect:/reservation/contact";
 		}
+		UserModel user = (UserModel) session.getAttribute("user");
 		reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
 		reservationModel.setStatus(false);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -187,8 +170,10 @@ public class ReservationController {
 		for(ServiceModel serviceLoop : serviceCarts) {
 			reservationService.insertReservation_Service(rid, serviceLoop.getServiceId(),1);
 		}
-		
-		return "redirect:/reservation";
+		//clear cart from session after click submit button (reservation contact)
+		List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
+		listSubmit.clear();
+		return "redirect:/reservation/reser";
 		// end thanh's code
 	}
 

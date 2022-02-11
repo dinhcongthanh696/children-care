@@ -44,7 +44,7 @@
 
 <body>
 
-<!-- ngia's code -->
+<!-- nghia's code -->
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('')"></div>
 <!--nghia's code-->
 
@@ -53,7 +53,7 @@
 <section class="top-bar-area" th:fragment="top-bar">
     <div class="container">
         <div class="row">
-            <div class="col-xl-7 col-lg-6">
+            <div class="col-xl-9 col-lg-6">
                 <div class="top-left">
                     <!--<ul>
                         <li><a href="#">Locations</a></li>
@@ -62,12 +62,27 @@
                     </ul> !-->
                 </div>
             </div>
-            <div class="col-xl-5 col-lg-6">
-
+            <div class="col-xl-1 col-lg-6 container-fluid">
+                <div class="inner-content clearfix ">
+                    <nav class="main-menu style1 clearfix">
+                        <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
+                            <ul class="navigation clearfix">
+                                <li >
+                                    <button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1">
+                                        <i class="far fa-user text-white" onclick="triggerLoginForm('block')"></i></button>
+                                    <ul>
+                                        <li><a href="/ChildrenCare/setting/profile">Settings</a></li>
+                                        <li><a href="/ChildrenCare/logout">Log out</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-6">
                 <div class="top-right">
-<!--                    <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>-->
                     <ul class="sociallinks-style-one">
-<!--                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>-->
                         <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
                         <li th:if="${session.user == null}">
                             <button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form">
