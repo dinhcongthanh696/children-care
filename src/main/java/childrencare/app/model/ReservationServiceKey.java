@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class ReservationServiceKey implements Serializable{
 	private int service_id;
 	private int reservation_id;
-	private int staff_id;
+	private String username_doctor;
 	private int slot_id;
 }

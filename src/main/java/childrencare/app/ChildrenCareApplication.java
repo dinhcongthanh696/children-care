@@ -15,11 +15,7 @@ public class ChildrenCareApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(ChildrenCareApplication.class, args);
-		// test commit
-		// hehehehehehehehehe
-		// hello duc anh
-		// hello duc 2
-		// duc anh 16/1
+
 	}
 
 }

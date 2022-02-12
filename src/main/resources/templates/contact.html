@@ -116,84 +116,7 @@
     <!--End header style1 area-->
 
     <!--Start mainmenu area-->
-    <section class="mainmenu-area stricky">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="inner-content clearfix">
-                        <nav class="main-menu style1 clearfix">
-                            <div class="navbar-header clearfix">
-                                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                        data-target=".navbar-collapse">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-                            <div class="navbar-collapse collapse clearfix">
-                                <ul class="navigation clearfix">
-                                    <li class="dropdown"><a href="index-2.html">Home</a>
-                                        <ul>
-                                            <li><a href="index-2.html">Home Page 01</a></li>
-                                            <li><a href="index-3.html">Home Page 02</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li class="dropdown"><a href="specialities.html">Specialities</a>
-                                        <ul>
-                                            <li><a href="spec-dental-implants.html">Dental Implants</a></li>
-                                            <li><a href="spec-cosmetic-dentistry.html">Cosmetic Dentistry</a></li>
-                                            <li><a href="spec-laser-dentistry.html">Laser Dentistry</a></li>
-                                            <li><a href="spec-orthodontics.html">Orthodontics</a></li>
-                                            <li><a href="spec-endodontics.html">Endodontics</a></li>
-                                            <li><a href="spec-periodontics.html">Periodontics</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="doctors.html">Doctors</a></li>
-                                    <li class="dropdown"><a href="blog.html">Blog</a>
-                                        <ul>
-                                            <li><a href="blog.html">Blog Default</a></li>
-                                            <li><a href="blog-large.html">Blog Large Image</a></li>
-                                            <li><a href="blog-single.html">Blog Single Post</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown"><a href="#">More</a>
-                                        <ul>
-                                            <li><a href="faq.html">FAQ’s</a></li>
-                                            <li><a href="pricing.html">Pricing Plans</a></li>
-                                            <li><a href="testimonials.html">Testimonials</a></li>
-                                            <li><a href="timetable.html">Timetable</a></li>
-                                            <li><a href="apppointment.html">Apppointment</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="current"><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </div>
-                        </nav>
-
-                        <div class="mainmenu-right">
-                            <div class="search-box-style1">
-                                <form class="search-form" method="post"
-                                      action="http://st.ourhtmldemo.com/new/Dento/index.html">
-                                    <input type="search" name="search" placeholder="Search..." required>
-                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                            <div class="toggler-button">
-                                <div class="nav-toggler hidden-bar-opener">
-                                    <div class="inner">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section th:replace="mainmenu.html :: mainMenu(actionForm='',placeholder='Search...',current='feedback',search='')">
     </section>
     <!--End mainmenu area-->
 
@@ -288,15 +211,23 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-box">
-                                        <input type="text" name="form_name" value="" placeholder="Your Name*"
+                                        <input type="text" name="fullname" value="" placeholder="Your Name*"
+                                               required="">
+                                    </div>
+                                    <div class="input-box" style="color: #0a2722">
+                                        <input type="radio" name="gender" value="1" checked="">Male
+                                        <input type="radio" name="gender" value="0" >Female
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="email" name="email" value="" placeholder="Your Mail*"
                                                required="">
                                     </div>
                                     <div class="input-box">
-                                        <input type="email" name="form_email" value="" placeholder="Your Mail*"
-                                               required="">
+                                        <input type="text" name="phone" value="" placeholder="Phone">
                                     </div>
-                                    <div class="input-box">
-                                        <input type="text" name="form_phone" value="" placeholder="Phone">
+                                    <div class="input-box" style="color: #0a2722">
+                                        <label for="myfile">Select a file:</label>
+                                        <input type="file" id="myfile" name="myfile"><br><br>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -308,7 +239,7 @@
                                         <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
                                     </div>
                                     <div class="input-box">
-                                        <textarea name="form_message" placeholder="Your Message.."
+                                        <textarea name="message" placeholder="Your Message.."
                                                   required=""></textarea>
                                     </div>
                                     <div class="button-box">

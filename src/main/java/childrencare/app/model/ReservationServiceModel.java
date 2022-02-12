@@ -28,15 +28,15 @@ public class ReservationServiceModel {
 	private ServiceModel service;
 
 	@ManyToOne
-	@JoinColumn(name = "staff_id")
-	@MapsId("staff_id")
-	private Staff staff;
+	@JoinColumn(name = "username_doctor")
+	@MapsId("username_doctor")
+	private UserModel doctor;
 
 	@ManyToOne
 	@JoinColumn(name = "slot_id")
 	@MapsId("slot_id")
 	private Slot slot;
 	
-
+	private double price;
 
 }

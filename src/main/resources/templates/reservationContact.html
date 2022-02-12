@@ -31,11 +31,17 @@
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--login style-->
+    <link href="../css/authentication.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/reservationContact.css">
+
+
 </head>
 <body>
+<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/reservation/contact')"></div>
 <div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
-
-<div th:replace="mainmenu.html :: mainMenu('','Search...','home')"></div>
+<header th:replace="header.html :: header"></header>
+<div th:replace="mainmenu.html :: mainMenu('','Search...','services','')"></div>
 <div class=" container-fluid my-5 ">
     <div class="row justify-content-center ">
         <div class="col-xl-10">
@@ -92,7 +98,7 @@
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group"> <label for="NAME3" class="small text-muted mb-1">Email</label>
-                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input readonly th:if="${user} !=null" th:object="${user}" type="text" th:field="*{email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
                                                 <input th:if="${user} == null" th:field="*{email}" type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -122,7 +128,7 @@
                         <div class="col-md-5">
                             <div class="card border-0 ">
                                 <div class="card-header card-2">
-                                    <p class="card-text text-muted mt-md-4 mb-2 space">YOUR RESERVATION <a href="/ChildrenCare/reservation/"> -----> CHANGE</a></p>
+                                    <p class="card-text text-muted mt-md-4 mb-2 space">YOUR RESERVATION <a href="/ChildrenCare/reservation/reser"> -----> CHANGE</a></p>
                                     <hr class="my-2">
                                 </div>
                                 <div class="card-body pt-0">
@@ -139,7 +145,7 @@
                                                                 -
                                                                 Title: <small th:text="${item.title}" class="text-muted"></small>
                                                                 <br>
-                                                                Price: <small th:text="${item.originalPrice}" class="text-muted"></small>
+                                                                Price: <small th:text="${#numbers.formatDecimal(item.originalPrice,1,'POINT',0,'POINT')}" class="text-muted"></small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -149,7 +155,7 @@
                                                 <p th:text="${item.quantity}" class="boxed-1"></p>
                                             </div>
                                             <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                                <p><b th:text="${item.totalCost}"></b></p>
+                                                <p><b th:text="${#numbers.formatDecimal(item.totalCost,1,'POINT',0,'POINT')}"></b></p>
                                             </div>
                                         </div>
                                         <hr class="my-2">
@@ -169,7 +175,7 @@
 
                                         </div>
                                         <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                            <p><b th:text="${session.total}"></b></p>
+                                            <p><b th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')}"></b></p>
                                         </div>
                                     </div>
 
@@ -194,135 +200,20 @@
 
 <style>
 
-    .shop {
-        font-size: 10px
-    }
 
-    .space {
-        letter-spacing: 0.8px !important
-    }
-
-    .second a:hover {
-        color: rgb(92, 92, 92)
-    }
-
-    .active-2 {
-        color: rgb(92, 92, 92)
-    }
-
-    .breadcrumb>li+li:before {
-        content: "" !important
-    }
-
-    .breadcrumb {
-        padding: 0px;
-        font-size: 10px;
-        color: #aaa !important
-    }
-
-    .first {
-        background-color: white
-    }
-
-    a {
-        text-decoration: none !important;
-        color: #aaa
-    }
-
-    .btn-lg,
-    .form-control-sm:focus,
-    .form-control-sm:active,
-    a:focus,
-    a:active {
-        outline: none !important;
-        box-shadow: none !important
-    }
-
-    .form-control-sm:focus {
-        border: 1.5px solid #4bb8a9
-    }
-
-    .btn-group-lg>.btn,
-    .btn-lg {
-        padding: .5rem 0.1rem;
-        font-size: 1rem;
-        border-radius: 0;
-        color: white !important;
-        background-color: #4bb8a9;
-        height: 2.8rem !important;
-        border-radius: 0.2rem !important
-    }
-
-    .btn-group-lg>.btn:hover,
-    .btn-lg:hover {
-        background-color: #26A69A
-    }
-
-    .btn-outline-primary {
-        background-color: #fff !important;
-        color: #4bb8a9 !important;
-        border-radius: 0.2rem !important;
-        border: 1px solid #4bb8a9
-    }
-
-    .btn-outline-primary:hover {
-        background-color: #4bb8a9 !important;
-        color: #fff !important;
-        border: 1px solid #4bb8a9
-    }
-
-    .card-2 {
-        margin-top: 40px !important
-    }
-
-    .card-header {
-        background-color: #fff;
-        border-bottom: 0px solid #aaaa !important
-    }
-
-    p {
-        font-size: 13px
-    }
-
-    .small {
-        font-size: 9px !important
-    }
-
-    .form-control-sm {
-        height: calc(2.2em + .5rem + 2px);
-        font-size: .875rem;
-        line-height: 1.5;
-        border-radius: 0
-    }
-
-    .cursor-pointer {
-        cursor: pointer
-    }
-
-    .boxed {
-        padding: 0px 8px 0 8px;
-        background-color: #4bb8a9;
-        color: white
-    }
-
-    .boxed-1 {
-        padding: 0px 8px 0 8px;
-        color: black !important;
-        border: 1px solid #aaaa
-    }
-
-    .bell {
-        opacity: 0.5;
-        cursor: pointer
-    }
-
-    @media (max-width: 767px) {
-        .breadcrumb-item+.breadcrumb-item {
-            padding-left: 0
-        }
-    }
 </style>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function triggerLoginForm(displayStyle){
+        //alert(document.readyState);
+        const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+        //alert(modalBoxWrapper.tagName)
+        modalBoxWrapper.style.display = displayStyle;
+    }
+</script>
 
 </body>
 </html>
