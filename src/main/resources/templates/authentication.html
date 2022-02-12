@@ -80,6 +80,10 @@
                                     <div class="forgot-link">
                                         <a href="#forgot" data-toggle="modal" data-target="#forgot-password"> I forgot my password</a>
                                     </div>
+                                    <!--Thai's code-->
+                                    <div class="reset-pass">
+                                        <a href="#reset" data-toggle="modal" data-target="#reset-password" >Reset Password</a>
+                                    </div>
 
 
                                     <!-- Button -->
@@ -188,6 +192,45 @@
                         </fieldset>
                     </form>
 
+                </div>
+                <div class="modal-footer">
+                    <center>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="triggerLoginForm('none')">Close</button>
+                    </center>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--Thai's code-->
+    <!--Modal Reset Password-->
+    <div class="modal fade bs-modal-sm" id="reset-password" tabindex="0" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel1">Link reset will be sent to your email</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="/ChildrenCare/reset" method="post">
+                        <fieldset>
+                            <div class="group">
+                                <input required="" name="email" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                <label class="label" >Email address</label></div>
+                            <div class="control-group">
+                                <label class="control-label" ></label>
+                                <div class="controls">
+                                    <button id="reset" name="buttonreset" class="btn btn-primary btn-block">Send</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <center>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="triggerLoginForm('none')">Close</button>
+                    </center>
                 </div>
             </div>
 

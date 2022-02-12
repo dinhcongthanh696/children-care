@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ADMIN | Setting | User</title>
+<!-- master stylesheet -->
+<link rel="stylesheet" href="../css/style.css">
+<!-- Responsive stylesheet -->
+<link rel="stylesheet" href="../css/responsive.css">
+<!--Color Switcher Mockup-->
+<link rel="stylesheet" href="../css/color-switcher-design.css">
+<!--Color Themes-->
+<link rel="stylesheet" href="../css/color-themes/default-theme.css"
+	id="theme-color-file">
+<!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<!-- Bootstrap -->
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180"
+	href="../images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="stylesheet" href="../css/settinguser.css"> 
+<link rel="stylesheet" href="../css/authentication.css">
+ <!-- Fav icon -->	
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+</head>
+<body onload="renderPages()">
+	<section id="main-menu" 
+	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/setting/users', placeholder='Search User\'s username...',current='services',search=${search})"
+	>
+	</section>
+	
+	<div class="container-fluid">
+		<table class="table table-hover table-striped table-dark table-borderless">
+			<thead>
+				<tr>
+					<th>USERNAME</th>
+					<th th:each="role : ${roles}" th:text="${#strings.toUpperCase(role.roleName)}"></th>
+				</tr>
+			</thead>
+			<tbody>
+					<tr th:each="user : ${users}">
+						<td th:text=${user.username}></td>
+						<td th:each="role : ${roles}">
+								<input type="radio" 
+								th:checked="${user.userRole.roleId == role.roleId}"
+								th:value="${user.username} + ',' + ${role.roleId} + ',' + ${role.roleName}"
+								th:name=${user.username}
+								class="radioRoleFields"
+								style="padding : 10px;"
+							 	/>
+						</td>
+					</tr>
+					<tr>
+						<td th:colspan="${roles.size() + 1}">
+							<button class="btn btn-primary" 
+									type="submit"
+									style="border-radius : 8px; padding : 10px;"
+									onclick="saveSettingsUser()"
+									id="save-setting-button"
+							>Save Your changes</button>
+						</td>
+					</tr>	
+			</tbody>
+		</table>
+	</div>
+	
+	<!-- Input hidden field -->
+		<input type="hidden" id="totalPages" th:value="${totalPages}"/>
+		<input type="hidden" id="currentPage" th:value="${currentPage}"/>
+	<!-- /Input hidden field -->
+	<div id="pages"></div>
+	
+	<script type="text/javascript">
+	function changePage(pageNumber) {
+		var search = document.querySelector("#search").value;
+		window.location = "/ChildrenCare/setting/users?page=" + pageNumber
+				+ "&search=" + search;
+	}
+	
+	function saveSettingsUser(){
+		var users = [];
+		var radioFieldElements = document.getElementsByClassName("radioRoleFields");
+		var user;
+		var radioFieldValueSplit;
+		var totalUser = 0;
+		for(let i = 0 ; i < radioFieldElements.length ; i++){
+			if(radioFieldElements[i].checked){
+				radioFieldValueSplit = radioFieldElements[i].value.split(",");
+				user = {
+					username : radioFieldValueSplit[0] ,
+					userRole : {
+						roleId : parseInt(radioFieldValueSplit[1]),
+						roleName : radioFieldValueSplit[2]
+					}
+				};
+				users[totalUser++] = user;
+			}
+		}
+		// fetching the API
+		fetch("/ChildrenCare/api-setting/users",{
+			method : 'PUT',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			body : JSON.stringify(users)
+		}).then(response => {
+			alert("Save your changes successfully");
+			var saveSettingButton = document.getElementById("save-setting-button");
+			saveSettingButton.blur();
+		})
+	}
+	</script>
+	<script src="../js/pagging.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

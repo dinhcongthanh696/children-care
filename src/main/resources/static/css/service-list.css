@@ -12,7 +12,6 @@
 }
 
 .service-item {
-	border: 1px solid #EDEDED;
 	transition: border 1s, box-shadow 1s;
 	margin-left: 1%;
 	margin-right: 7%;

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -59,7 +60,7 @@ public class UserModel {
 	
 	private boolean status;
 	
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
 	private RoleModel userRole;
@@ -67,7 +68,18 @@ public class UserModel {
 	@JsonIgnore
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
-
+	
+	@JsonIgnore
+	@OneToOne (fetch = FetchType.LAZY,
+		cascade =  CascadeType.ALL,
+		mappedBy = "userModel")
+	private Staff staff;
+	
+	public String toString() {
+		return "User : "+username+" Role : "+userRole.getRoleName();
+	}
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "doctor")
 	private List<ReservationServiceModel> reservationServices;
 

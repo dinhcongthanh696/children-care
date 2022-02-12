@@ -21,8 +21,8 @@ public class ScreenModel {
 	@Column(name = "screen_id")
 	private int screenId;
 	@Column(name = "screen_name")
-	private final String screenName = "";
-	private String url = "";
+	private String screenName;
+	private String url;
 	
 	@OneToMany(mappedBy = "screen")
 	private List<PermissionModel> permissions;

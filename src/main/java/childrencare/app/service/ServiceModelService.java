@@ -27,7 +27,7 @@ public class ServiceModelService {
 				page = 0; 
 		}
 		Page<ServiceModel> servicesPageable = serviceRepository.findAll(PageRequest.of(page, size , Sort.by(Sort.Direction.ASC, "title")));
-		if(page >= servicesPageable.getTotalPages()) {
+		if(servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
 			servicesPageable = serviceRepository.findAll(PageRequest.of(page, size , Sort.by(Sort.Direction.ASC, "title")));
 		}
@@ -39,7 +39,7 @@ public class ServiceModelService {
 			page = 0; 
 		}
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLike("%"+title+"%",PageRequest.of(page, size));
-		if(page >= servicesPageable.getTotalPages()) {
+		if(servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
 			servicesPageable = serviceRepository.findByTitleLike("%"+title+"%",PageRequest.of(page, size));
 		}
@@ -51,7 +51,7 @@ public class ServiceModelService {
 			page = 0; 
 		}
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+title+"%", serviceCategoryId, PageRequest.of(page, size));
-		if(page >= servicesPageable.getTotalPages()) {
+		if( servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
 			servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+title+"%", serviceCategoryId, PageRequest.of(page, size));
 		}
@@ -63,7 +63,7 @@ public class ServiceModelService {
 			page = 0; 
 		}
 		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
-		if(page >= servicesPageable.getTotalPages()) {
+		if(servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
 			servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
 		}
