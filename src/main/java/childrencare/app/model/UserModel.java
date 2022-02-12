@@ -25,9 +25,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserModel {
-	
-	
-	
+
+
+
 
 	public UserModel(String username, String password, String fullname, String phone, String email, String address) {
 		super();
@@ -41,45 +41,34 @@ public class UserModel {
 
 	@Id
 	private String username;
-	
+
 	@JsonIgnore
 	private String password;
-	
+
 	private String fullname;
-	
+
 	private String phone;
-	
+
 	private boolean gender;
-	
+
 	@Column(unique = true)
 	private String email;
-	
+
 	private String address;
-	
+
 	private String notes;
-	
+
 	private boolean status;
-	
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
 	private RoleModel userRole;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
-	
-	@JsonIgnore
-	@OneToOne (fetch = FetchType.LAZY,
-		cascade =  CascadeType.ALL,
-		mappedBy = "userModel")
-	private Staff staff;
-	
-	public String toString() {
-		return "User : "+username+" Role : "+userRole.getRoleName();
-	}
-	
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "doctor")
 	private List<ReservationServiceModel> reservationServices;
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,7 @@ public class ReservationCompleteController {
     UserService userService;
 
     //Reservation Completion - KVA
+    @Transactional
     @PostMapping("/update/{rid}")
     public void reservationComplete(@PathVariable(value="rid") Integer rid ,HttpSession session) {
         // The reservation's status is changed to submitted
@@ -49,6 +51,11 @@ public class ReservationCompleteController {
         model.addAttribute("doctors", doctors);
         List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
         model.addAttribute("services", services);
+        return "apppointment";
+    }
+
+    @GetMapping("/updateSchedule")
+    public String update(){
         return "apppointment";
     }
 }
