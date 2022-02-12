@@ -1,18 +1,31 @@
 package childrencare.app.controller;
 
 
+import childrencare.app.CaptchaGenerator;
+import childrencare.app.configuration.MyConfiguration;
 import childrencare.app.model.RoleModel;
 import childrencare.app.model.UserModel;
 import childrencare.app.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
     private LoginService loginService;
@@ -72,5 +85,40 @@ public class LoginController {
         session.removeAttribute("user");
         return "redirect:/";
     }
+
+    @PostMapping("/reset")
+    public String sendResetLink(@RequestParam(name = "email") String email){
+        JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
+        String from = mailSenderImpl.getUsername();
+        String to = email;
+        String subject = "Email identifycation from Children Care";
+        MimeMessage mimeMessage = mailSenderImpl.createMimeMessage();
+        try {
+            mimeMessage.setFrom(from);
+            mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            mimeMessage.setSubject(subject);
+
+            MimeBodyPart contentPart = new MimeBodyPart();
+            String content = "<h1> Hello "+ email +" , Reset link is : <a href='/ChildrenCare/reset'>link</a> </h1>" ;
+            contentPart.setContent(content, "text/html; charset=utf-8");
+
+            MimeBodyPart referencePart = new MimeBodyPart();
+            String reference = "<a href='http://localhost:8080/ChildrenCare/'> Children Care's Page</a>";
+            referencePart.setContent(reference,"text/html; charset=utf-8");
+
+            Multipart multiPart = new MimeMultipart();
+            multiPart.addBodyPart(contentPart);
+            multiPart.addBodyPart(referencePart);
+
+            mimeMessage.setContent(multiPart);
+            mailSender.send(mimeMessage);
+
+        } catch (MessagingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return "redirect:/signIn";
+    }
+
 
 }
