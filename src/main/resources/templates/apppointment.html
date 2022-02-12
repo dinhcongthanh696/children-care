@@ -28,8 +28,11 @@
     <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <script src="js/html5shiv.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
     <![endif]-->
-    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -280,8 +283,19 @@
         <div class="row">
             <div class="col-xl-8">
                 <div class="appointment-form-left">
-                    <form name="appointment-form" action="#" method="post">
+                    <form name="appointment-form" action="" method="post">
                         <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Date</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        <input type="text" name="date" placeholder="Date" id="datepicker">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-xl-12 col-lg-12">
                                 <div class="single-box">
                                     <div class="title">
@@ -292,12 +306,9 @@
                                             <div class="col-xl-6">
                                                 <select class="selectmenu">
                                                     <!-- Insert user's chosen service -->
-                                                    <option>Dental Implants</option>
-                                                    <option>Cosmetic Dentistry</option>
-                                                    <option>Laser Dentistry</option>
-                                                    <option>Orthodontics</option>
-                                                    <option>Endodontics</option>
-                                                    <option>Periodontics</option>
+                                                    <th:block th:each="service : ${services}">
+                                                        <option th:utext="${service.title}"> </option>
+                                                    </th:block>
                                                 </select>
                                             </div>
                                         </div>
@@ -355,12 +366,6 @@
             <div class="col-xl-4 col-lg-6 col-md-9">
                 <div class="appointment-right">
                     <form name="appointment-right" action="#" method="post">
-                        <div class="input-box">
-                            <input type="text" name="date" placeholder="Date" id="datepicker">
-                            <div class="icon-box">
-                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                            </div>
-                        </div>
                         <div class="confirm-booking">
                             <h3>Your Payment</h3>
                             <div class="tab-content">
@@ -412,7 +417,6 @@
 <footer class="footer-area pdtop80">
     <div class="container">
         <div class="row">
-           
             <!--Start single footer widget-->
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                 <div class="single-footer-widget marbtm50">
