@@ -10,6 +10,32 @@
 
 
 <script>
+    var resetbutton = document.getElementById("reset");
+    resetbutton.addEventListener("click",function(){
+        var email = document.getElementById("reset-email").value;
+        if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
+            var formData = new FormData();
+            formData.append("email",email);
+            fetch("/ChildrenCare/api-login/reset",{
+                method : 'post',
+                body : formData
+            })
+                .then(response => {
+                    return response.text(); //tra ket qua tu server -> text
+                })
+                .then(message => {
+                    if(message === "Success"){
+                        alert("Success");
+                        var closeButton = document.getElementById("big-button-close");
+                        closeButton.click();
+                    }else{
+                        alert("Fail");
+                    }
+                })
+        }else{
+            alert("Invalid Email");
+        }
+    })
     $(window, document, undefined).ready(function() {
 
         $('.input').blur(function() {
@@ -38,6 +64,8 @@
 		const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
 	    modalBoxWrapper.style.display = displayStyle;
 	}
+
+
 </script>
 </head>
 <body>
@@ -163,7 +191,7 @@
                 </div>
                 <div class="modal-footer">
                 <center>
-                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="triggerLoginForm('none')">Close</button>
+                  <button type="button" id="big-button-close" class="btn btn-default" data-dismiss="modal" onclick="triggerLoginForm('none')">Close</button>
                   </center>
                 </div>
             </div>
@@ -212,19 +240,19 @@
                     <h4 class="modal-title" id="myModalLabel1">Link reset will be sent to your email</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" action="/ChildrenCare/reset" method="post">
+
                         <fieldset>
                             <div class="group">
-                                <input required="" name="email" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                <input required="" id="reset-email" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
                                 <label class="label" >Email address</label></div>
                             <div class="control-group">
                                 <label class="control-label" ></label>
                                 <div class="controls">
-                                    <button id="reset" name="buttonreset" class="btn btn-primary btn-block">Send</button>
+                                    <button id="reset" class="btn btn-primary btn-block" >Send</button>
                                 </div>
                             </div>
                         </fieldset>
-                    </form>
+
 
                 </div>
                 <div class="modal-footer">
@@ -241,6 +269,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <!--nghia's code-->
 </body>
 </html>
