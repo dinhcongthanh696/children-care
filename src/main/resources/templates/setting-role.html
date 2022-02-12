@@ -45,6 +45,7 @@
 				<tr>
 					<th>Screen ID</th>
 					<th>Screen Name</th>
+					<th>URL</th>
 					<th>Permission</th>
 				</tr>
 			</thead>
@@ -52,6 +53,7 @@
 				<tr th:each="screenItem : ${screens}">
 					<td th:text=${screenItem.screenId}></td>
 					<td th:text=${screenItem.screenName}></td>
+					<td th:text=${screenItem.url}></td>
 					<td>
 						<div class="form-check">
 							<input type="checkbox" name="permission" 
@@ -64,7 +66,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">
+					<td colspan="4">
 						<button class="btn btn-primary" 
 						style="border-radius : 8px; padding : 10px;"
 						th:onclick="'saveRoleSettings('+ ${currentRole.roleId} +')'"

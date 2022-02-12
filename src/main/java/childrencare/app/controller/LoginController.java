@@ -86,38 +86,9 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/reset")
-    public String sendResetLink(@RequestParam(name = "email") String email){
-        JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
-        String from = mailSenderImpl.getUsername();
-        String to = email;
-        String subject = "Email identifycation from Children Care";
-        MimeMessage mimeMessage = mailSenderImpl.createMimeMessage();
-        try {
-            mimeMessage.setFrom(from);
-            mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            mimeMessage.setSubject(subject);
-
-            MimeBodyPart contentPart = new MimeBodyPart();
-            String content = "<h1> Hello "+ email +" , Reset link is : <a href='/ChildrenCare/reset'>link</a> </h1>" ;
-            contentPart.setContent(content, "text/html; charset=utf-8");
-
-            MimeBodyPart referencePart = new MimeBodyPart();
-            String reference = "<a href='http://localhost:8080/ChildrenCare/'> Children Care's Page</a>";
-            referencePart.setContent(reference,"text/html; charset=utf-8");
-
-            Multipart multiPart = new MimeMultipart();
-            multiPart.addBodyPart(contentPart);
-            multiPart.addBodyPart(referencePart);
-
-            mimeMessage.setContent(multiPart);
-            mailSender.send(mimeMessage);
-
-        } catch (MessagingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return "redirect:/signIn";
+    @GetMapping("/reset")
+    public String reset(){
+        return "resetpassword";
     }
 
 
