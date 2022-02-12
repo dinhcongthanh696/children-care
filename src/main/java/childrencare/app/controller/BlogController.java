@@ -78,7 +78,7 @@ public class BlogController {
     }
     @RequestMapping("/reservationInfor")
     public String reservationInfor(){
-
+//asdasd
         return "reservationInfor";
     }
 
