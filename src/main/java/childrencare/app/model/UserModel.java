@@ -79,5 +79,8 @@ public class UserModel {
 		return "User : "+username+" Role : "+userRole.getRoleName();
 	}
 	
-	
+	@JsonIgnore
+	@OneToMany(mappedBy = "doctor")
+	private List<ReservationServiceModel> reservationServices;
+
 }

@@ -18,15 +18,14 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "values (?1, ?2, ?3)",nativeQuery = true)
     void insertReservation_Service(int rId,int sId, int total);
 
-    @Query(value = "select max(reservation_id) from reservation",nativeQuery = true)
-    int idIdentity();
-    
-    
+
     @Query(value = "select top 1 * from reservation\r\n"
     		+ "inner join reservation_service\r\n"
     		+ "on reservation.reservation_id = reservation_service.reservation_id\r\n"
     		+ "where email = ?1 and service_id = ?2 " , nativeQuery = true)
     public ReservationModel getReservationByEmailAndServiceId(String email , Integer serviceId);
+
+
     
     
     

@@ -3,30 +3,31 @@ package childrencare.app.controller;
 import childrencare.app.model.FeedbackModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.repository.FeedbackRepository;
+import childrencare.app.service.FeedbackService;
 import childrencare.app.service.ServiceModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class FeedbackController {
     private final ServiceModelService serviceModelService;
-    private final FeedbackRepository feedbackRepository;
+    private final FeedbackService feedbackService;
 
-    @Autowired
+
     public JavaMailSender emailSender;
 
-    public FeedbackController(ServiceModelService serviceModelService, FeedbackRepository feedbackRepository) {
+    @Autowired
+    public FeedbackController(ServiceModelService serviceModelService, FeedbackService feedbackService) {
         this.serviceModelService = serviceModelService;
-        this.feedbackRepository = feedbackRepository;
+        this.feedbackService = feedbackService;
     }
 
     @ResponseBody
@@ -45,6 +46,25 @@ public class FeedbackController {
 
         return "Email Sent!";
     }
+
+    @GetMapping("/feedback")
+    public String feedbackHome() {
+        return "contact";
+    }
+
+    @PostMapping("/feedback")
+    public void feedbackHome(@RequestParam("fullname") String fullname,
+                               @RequestParam("gender") Integer get_gender,
+                               @RequestParam("email") String email,
+                               @RequestParam("phone") String phone,
+                               @RequestParam("myfile") MultipartFile myfile,
+                               @RequestParam(value = "rating", defaultValue = "0") Integer ratingstar,
+                               @RequestParam("message") String comment) throws IOException {
+        boolean gender = (get_gender == 1) ? true : false;
+        byte[] imageBinaryData = (myfile == null) ? null : myfile.getBytes();
+        feedbackService.saveGeneralFeedback(fullname, gender, email, phone, imageBinaryData, ratingstar, comment);
+    }
+
 
     /* @GetMapping(path = "/services/{id}")
     public String getServiceFeedback(Model model, @PathVariable(name = "id") int id){

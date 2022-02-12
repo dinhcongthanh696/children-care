@@ -285,15 +285,39 @@
                             <div class="col-xl-12 col-lg-12">
                                 <div class="single-box">
                                     <div class="title">
-                                        <h5>Times for</h5>
+                                        <h5>Your service</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <select class="selectmenu">
+                                                    <!-- Insert user's chosen service -->
+                                                    <option>Dental Implants</option>
+                                                    <option>Cosmetic Dentistry</option>
+                                                    <option>Laser Dentistry</option>
+                                                    <option>Orthodontics</option>
+                                                    <option>Endodontics</option>
+                                                    <option>Periodontics</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Doctor</h5>
                                     </div>
                                     <div class="input-box">
                                         <select class="selectmenu">
-                                            <option selected="selected">Dr. Daryl Cornelius</option>
-                                            <option>Evelynne Mirando</option>
-                                            <option>Dr. Robert B. Moreau</option>
-                                            <option>Dr. Greg House</option>
-                                            <option>Dr. Sarah Johnson</option>
+                                            <!-- Insert available doctor here -->
+                                            <option> Choose for me </option>
+                                            <th:block th:each="doctor : ${doctors}">
+                                                <option th:utext="${doctor.fullname}" th:value="${doctor.username}"> </option>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </div>
@@ -308,6 +332,7 @@
                                     <div class="input-box">
                                         <div class="available-time">
                                             <ul>
+                                                <!-- Insert available time here-->
                                                 <li>9.00am</li>
                                                 <li class="active">11.30am</li>
                                                 <li>12.00pm</li>
@@ -323,56 +348,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Personal Info</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <input type="text" name="p_name" value="" placeholder="Patient Name*" required="">    
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <select class="selectmenu">
-                                                    <option selected="selected">Service</option>
-                                                    <option>Dental Implants</option>
-                                                    <option>Cosmetic Dentistry</option>
-                                                    <option>Laser Dentistry</option>
-                                                    <option>Orthodontics</option>
-                                                    <option>Endodontics</option>
-                                                    <option>Periodontics</option>
-                                                </select>    
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <input type="text" name="phn_num" value="" placeholder="Ph Num*" required="">    
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <input type="text" name="age" value="" placeholder="Age">      
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xl-12">
-                                                <textarea name="form_description..." placeholder="Description..."></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xl-12">
-                                                <div class="button-box">
-                                                    <button class="btn-one" type="submit">Select</button>   
-                                                </div>
-                                            </div>
-                                        </div>    
-                
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                            
                     </form>   
                 </div>
             </div>
@@ -386,14 +362,39 @@
                             </div>
                         </div>
                         <div class="confirm-booking">
-                            <h3>Confirm Your Booking</h3>
-                            <ul>
-                                <li><span>Patient Name</span><b>:</b> George Turner</li>
-                                <li><span>Age</span><b>:</b> 36 Years</li>
-                                <li><span>Service</span><b>:</b> Root Canel</li>
-                                <li><span>Date & Time</span><b>:</b> Nov 22nd, 2018. 11.30am</li>
-                                <li><span>Price</span><b>:</b> $65.00</li>
-                            </ul>    
+                            <h3>Your Payment</h3>
+                            <div class="tab-content">
+                                <!-- credit card info-->
+                                <div id="credit-card" class="tab-pane fade show active pt-3">
+                                    <form role="form" onsubmit="event.preventDefault()">
+                                        <div class="form-group"> <label for="username">
+                                            <h6>Card Owner</h6>
+                                        </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control "> </div>
+                                        <div class="form-group"> <label for="cardNumber">
+                                            <h6>Card number</h6>
+                                        </label>
+                                            <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
+                                                <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <div class="form-group"> <label><span class="hidden-xs">
+                                                            <h6>Expiration Date</h6>
+                                                        </span></label>
+                                                    <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
+                                                    <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
+                                                </label> <input type="text" required class="form-control"> </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer"> <button type="button" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         <div class="button-box">
                             <button class="btn-one" type="submit">Confirm</button>   
