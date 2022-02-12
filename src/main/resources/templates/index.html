@@ -38,7 +38,7 @@
 			const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
 		    modalBoxWrapper.style.display = displayStyle;
 		}
-		
+		//thai's code
 		function resetEmail() {
 			var email = document.getElementById("reset-email").value;
 	    	if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
@@ -53,7 +53,9 @@
 	                	if(message === "Success"){
 	                    	alert("Success");
 	                    	var closeButton = document.getElementById("big-button-close");
+                            var closeReset = document.getElementById("close-reset");
 	                    	closeButton.click();
+                            closeReset.click();
 	                	}else{
 	                    	alert("Fail");
 	                	}
@@ -62,6 +64,7 @@
 	        	alert("Invalid Email");
 	    	}
 		  }
+        //end
 	</script>
 </head>
 
