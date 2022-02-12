@@ -23,5 +23,7 @@ public class Staff {
     @JoinColumn(name = "username")
     private UserModel userModel;
 
-
+    public String toString() {
+		return "";
+	}
 }

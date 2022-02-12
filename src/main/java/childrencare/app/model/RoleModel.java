@@ -13,13 +13,16 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "role")
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoleModel {
 	@Id
 	@Column(name = "role_id")
@@ -35,7 +38,7 @@ public class RoleModel {
 	)
 	private int roleId;
 	@Column(name = "role_name")
-	private final String roleName = "";
+	private String roleName;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "userRole")
@@ -43,4 +46,8 @@ public class RoleModel {
 	
 	@OneToMany(mappedBy = "role")
 	private List<PermissionModel> permissions;
+	
+	public String toString() {
+		return "";
+	}
 }

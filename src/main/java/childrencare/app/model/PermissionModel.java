@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,4 +31,8 @@ public class PermissionModel {
 	@JoinColumn(name = "screen_id")
 	@MapsId("screen_id")
 	private ScreenModel screen;
+	
+	public String toString() {
+		return "";
+	}
 }

@@ -27,12 +27,12 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer>{
 	public List<ServiceModel> findRatedServiceDescending(Integer number);
 	
 	 @Query(value = "SELECT * FROM service WHERE title LIKE ?1 ORDER BY title",
-			    countQuery = "SELECT count(*) FROM service WHERE title = ?1",
+			    countQuery = "SELECT count(*) FROM service WHERE title LIKE ?1",
 			    nativeQuery = true)
 	 public Page<ServiceModel> findByTitleLike(String title, PageRequest pageable);
 	 
 	 @Query(value = "SELECT * FROM service WHERE title LIKE ?1 AND service_category_id = ?2 ORDER BY title",
-			    countQuery = "SELECT count(*) FROM service WHERE title = ?1 AND service_category_id = ?2",
+			    countQuery = "SELECT count(*) FROM service WHERE title LIKE ?1 AND service_category_id = ?2",
 			    nativeQuery = true)
 	 public Page<ServiceModel> findByTitleLikeAndCategory(String title,int serviceCategoryId, PageRequest pageable);
 	 
