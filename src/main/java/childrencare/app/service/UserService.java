@@ -27,10 +27,10 @@ public class UserService {
 		if(page < 0) {
 			page = 0;
 		}
-		Page<UserModel> users = userRepository.findStudentByAttributes("%"+search+"%", PageRequest.of(page, size,Sort.by(Sort.Direction.ASC, "username")));
+		Page<UserModel> users = userRepository.findUserByAttributes("%"+search+"%", PageRequest.of(page, size,Sort.by(Sort.Direction.ASC, "username")));
 		if(users.getTotalPages() > 0 && page >= users.getTotalPages()) {
 			page = users.getTotalPages() - 1;
-			users = userRepository.findStudentByAttributes("%"+search+"%", PageRequest.of(page, size,Sort.by(Sort.Direction.ASC, "username")));
+			users = userRepository.findUserByAttributes("%"+search+"%", PageRequest.of(page, size,Sort.by(Sort.Direction.ASC, "username")));
 		}
 		return users;
 	}
