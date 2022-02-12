@@ -5,6 +5,7 @@ import childrencare.app.model.UserModel;
 import childrencare.app.service.ReservationService;
 import childrencare.app.service.Service_service;
 import childrencare.app.service.UserService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,9 +44,11 @@ public class ReservationCompleteController {
     }
 
     @GetMapping("/getDoctor")
-    public String getAllDoctor(Model model){
+    public String getAllDoctor(Model model, HttpSession session){
         List<UserModel> doctors = userService.findAllDoctor();
         model.addAttribute("doctors", doctors);
+        List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
+        model.addAttribute("services", services);
         return "apppointment";
     }
 }
