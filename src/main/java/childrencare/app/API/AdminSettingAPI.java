@@ -17,12 +17,12 @@ import childrencare.app.service.RoleService;
 import childrencare.app.service.UserService;
 
 @RestController
-@RequestMapping("/api-setting")
-public class SettingAPI {
+@RequestMapping("/admin/api-setting")
+public class AdminSettingAPI {
 	private final RoleService roleService;
 	private final UserService userService;
 	
-	public SettingAPI(RoleService roleService,UserService userService) {
+	public AdminSettingAPI(RoleService roleService,UserService userService) {
 		this.roleService = roleService;
 		this.userService = userService;
 	}

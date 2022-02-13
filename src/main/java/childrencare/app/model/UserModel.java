@@ -69,12 +69,6 @@ public class UserModel {
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
 	
-	@JsonIgnore
-	@OneToOne (fetch = FetchType.LAZY,
-		cascade =  CascadeType.ALL,
-		mappedBy = "userModel")
-	private Staff staff;
-	
 	public String toString() {
 		return "User : "+username+" Role : "+userRole.getRoleName();
 	}

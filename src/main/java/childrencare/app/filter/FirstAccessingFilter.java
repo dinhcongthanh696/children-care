@@ -20,11 +20,11 @@ import childrencare.app.model.ServiceModel;
 import childrencare.app.service.ServiceModelService;
 
 @Component
-public class LoggingFilter implements Filter {
+public class FirstAccessingFilter implements Filter {
 	@Autowired                              
 	private ServiceModelService serviceModelService;
 
-	public LoggingFilter() {
+	public FirstAccessingFilter() {
 		super();
 	}
 
