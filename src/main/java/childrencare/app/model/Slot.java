@@ -23,9 +23,9 @@ public class Slot {
     private int id;
     
     @Column(name = "start_time")
-    private Time start;
+    private double start;
     @Column(name = "end_time")
-    private Time end;
+    private double end;
 
     @OneToMany(mappedBy = "slot")
     private List<ReservationServiceModel> reservationServices;

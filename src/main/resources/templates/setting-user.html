@@ -59,6 +59,8 @@
 							<button class="btn btn-primary" 
 									type="submit"
 									style="border-radius : 8px; padding : 10px;"
+									th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-setting/users']}"
+									th:disabled="${!editaccess.isEmpty()}"
 									onclick="saveSettingsUser()"
 									id="save-setting-button"
 							>Save Your changes</button>
@@ -108,7 +110,16 @@
 			},
 			body : JSON.stringify(users)
 		}).then(response => {
-			alert("Save your changes successfully");
+			switch(response.status){
+				case 200 : 
+					alert("Save changes successfully");
+					break;
+				case 403 : 
+					alert("Your are not allowed to save any changes");
+					break;
+				default :
+					alert("Your changes is not saved");
+			}
 			var saveSettingButton = document.getElementById("save-setting-button");
 			saveSettingButton.blur();
 		})

@@ -25,8 +25,6 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     		+ "where email = ?1 and service_id = ?2 " , nativeQuery = true)
     public ReservationModel getReservationByEmailAndServiceId(String email , Integer serviceId);
 
-
-    
     
     
 }

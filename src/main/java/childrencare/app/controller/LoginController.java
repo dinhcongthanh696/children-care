@@ -86,7 +86,10 @@ public class LoginController {
         return "redirect:/";
     }
 
-
+    @GetMapping("/reset")
+    public String reset(){
+        return "resetpassword";
+    }
 
 
 }
