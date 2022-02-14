@@ -32,8 +32,13 @@
                                 </li>
                                 <li th:class="${current == 'doctors' ? 'dropdown current' : 'dropdown'}"><a href="doctors.html">Doctors</a></li>
                                 <li th:class="${current == 'blog' ? 'dropdown current' : 'dropdown'}"><a th:href="@{/blog}">Blog</a>
-                                    <ul>
-                                        <li><a th:href="@{/blog}">Blog List</a></li>
+                                    <ul >
+                                        <li class="categories clearfix" th:each="listCategory:${listCategoryPost}">
+                                            <a
+                                                    th:href="@{/blog(page=${pageNumber},title=${titleSearch},categoryId=${listCategory.getPostCategoryId()})}"
+                                                    th:text="${listCategory.getPostCategoryName()}">
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li th:class="${current == 'more' ? 'dropdown current' : 'dropdown'}"><a href="#">More</a>
