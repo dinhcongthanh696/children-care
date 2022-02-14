@@ -39,7 +39,19 @@ public class ServiceModel {
 		this.salePrice = salePrice;
 		this.quantity = quantity;
 		this.description = description;
-
+	}
+	
+	public ServiceModel(byte[] thumbnail, String title, String briefInfo, double originalPrice, double salePrice,
+			int quantity, String description, boolean status, ServiceCategoryModel serviceCategory) {
+		this.thumbnail = thumbnail;
+		this.title = title;
+		this.briefInfo = briefInfo;
+		this.originalPrice = originalPrice;
+		this.salePrice = salePrice;
+		this.quantity = quantity;
+		this.description = description;
+		this.status = status;
+		this.serviceCategory = serviceCategory;
 	}
 	
 	public ServiceModel(int serviceId, String base64ThumbnailEncode, double originalPrice, int quantity) {
@@ -74,6 +86,8 @@ public class ServiceModel {
 	private int quantity;
 
 	private String description;
+	
+	private boolean status;
 
 	@Transient
 	private String base64ThumbnailEncode;
@@ -91,6 +105,8 @@ public class ServiceModel {
 	@OneToMany(mappedBy = "service")
 	private List<ReservationServiceModel> reservationServices;
 	
+	
+	
 	public String toCookieValue() {
 		return this.getServiceId()+"_"+this.getQuantity();
 	}
@@ -105,4 +121,7 @@ public class ServiceModel {
 			this.base64ThumbnailEncode = Base64.getEncoder().encodeToString(thumbnail);
 		}
 	}
+
+
+
 }

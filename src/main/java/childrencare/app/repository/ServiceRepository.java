@@ -16,38 +16,42 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> {
-    String serviceRatedDecendingQuery = "select TOP (?1) sv.service_id,sv.title,sv.brief_info,sv.description,sv.original_price,sv.quantity,sv.sale_price\r\n"
+    String serviceRatedDecendingQuery = "select TOP (?1) sv.service_id,sv.title,sv.brief_info,sv.description,sv.original_price,sv.quantity,sv.sale_price,sv.status\r\n"
             + ",AVG(feedback.rated_star) as stars,sv.service_category_id,sv.thumbnail\r\n"
             + "from service as sv\r\n"
             + "left join feedback on sv.service_id = feedback.service_id\r\n"
-            + "group by sv.service_id,sv.title,sv.brief_info,sv.description,sv.original_price,sv.quantity,sv.sale_price\r\n"
+            + "group by sv.service_id,sv.title,sv.brief_info,sv.description,sv.original_price,sv.quantity,sv.sale_price,sv.status\r\n"
             + ",sv.service_category_id,sv.thumbnail \r\n"
             + "ORDER BY stars desc";
 
     @Query(value = serviceRatedDecendingQuery, nativeQuery = true)
     public List<ServiceModel> findRatedServiceDescending(Integer number);
 
-    @Query(value = "SELECT * FROM service WHERE title LIKE ?1 ORDER BY title",
-            countQuery = "SELECT count(*) FROM service WHERE title LIKE ?1",
+    @Query(value = "SELECT * FROM service WHERE title LIKE ?1 OR brief_info LIKE ?1 ORDER BY title , brief_info",
+            countQuery = "SELECT count(*) FROM service WHERE title LIKE ?1 OR brief_info LIKE ?1",
             nativeQuery = true)
-    public Page<ServiceModel> findByTitleLike(String title, PageRequest pageable);
+    public Page<ServiceModel> findByTitleOrBriefInfoLike(String search, PageRequest pageable);
 
-    @Query(value = "SELECT * FROM service WHERE title LIKE ?1 AND service_category_id = ?2 ORDER BY title",
-            countQuery = "SELECT count(*) FROM service WHERE title LIKE ?1 AND service_category_id = ?2",
+    @Query(value = "SELECT * FROM service WHERE (title LIKE ?1 OR brief_info LIKE ?1) AND service_category_id = ?2 ORDER BY title,service_category_id",
+            countQuery = "SELECT count(*) FROM service WHERE (title LIKE ?1 OR brief_info LIKE ?1) AND service_category_id = ?2",
             nativeQuery = true)
-    public Page<ServiceModel> findByTitleLikeAndCategory(String title, int serviceCategoryId, PageRequest pageable);
-
-    @Query(value = "SELECT * FROM service WHERE service_category_id = ?1 ORDER BY title",
-            countQuery = "SELECT count(*) FROM service WHERE service_category_id = ?1",
+    public Page<ServiceModel> findByTitleLikeAndCategory(String search, int serviceCategoryId, PageRequest pageable);
+    
+    
+    @Query(value = "SELECT * FROM service WHERE (title LIKE ?1 OR brief_info LIKE ?1) AND ([status] > ?2 AND [status] < ?3) ",
+            countQuery = "SELECT count(*) FROM service WHERE (title LIKE ?1 OR brief_info LIKE ?1) AND ([status] > ?2 AND [status] < ?3)",
             nativeQuery = true)
-    public Page<ServiceModel> findByTitleLikeAndCategory(int serviceCategoryId, PageRequest pageable);
-
+    public Page<ServiceModel> findByTitleOrBriefInfoLikeAndStatus(String search, int start , int end, PageRequest pageable);
     //Update Quantity
 
     @Modifying
     @Query(value = "UPDATE service set quantity = quantity - ?1  where service_id = ?2",
             nativeQuery = true)
     void updateQuantity(int quantity, int serviceId);
+    
+    @Modifying
+    @Query(value = "UPDATE service set status = ?1 where service_id = ?2" , nativeQuery = true)
+    void updateStatus(boolean status,Integer serviceId);
 
 
     @Query(value = "select sv.brief_info,sv.description,sv.original_price,sv.quantity,sv.sale_price,sv.service_id,sv.thumbnail,sv.title,sv.service_category_id\r\n"
