@@ -8,6 +8,7 @@ import childrencare.app.model.FeedbackModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import childrencare.app.model.ServiceModel;
@@ -22,56 +23,52 @@ public class ServiceModelService {
 	}
 
 	// 0-based page
-	public Page<ServiceModel> getServicesPaginated(int page, int size)  {
+	public Page<ServiceModel> getServicesPaginated(int page,int size, int start , int end , String search , String sortProperty)  {
 		if (page < 0) {
 				page = 0; 
 		}
-		Page<ServiceModel> servicesPageable = serviceRepository.findAll(PageRequest.of(page, size , Sort.by(Sort.Direction.ASC, "title")));
+		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleOrBriefInfoLikeAndStatus(
+				"%"+search+"%", start, end,PageRequest.of(page, size , Sort.by(Direction.ASC, sortProperty))
+				);
 		if(servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
-			servicesPageable = serviceRepository.findAll(PageRequest.of(page, size , Sort.by(Sort.Direction.ASC, "title")));
+			servicesPageable = serviceRepository.findByTitleOrBriefInfoLikeAndStatus(
+				"%"+search+"%", start, end,PageRequest.of(page, size , Sort.by(Sort.Direction.ASC,sortProperty))
+					);
 		}
 		return servicesPageable;
 	}
 	
-	public Page<ServiceModel> getServicesPaginated(int page , int size , String title) {
+	public Page<ServiceModel> getServicesPaginated(int page , int size , String search) {
 		if (page < 0) {
 			page = 0; 
 		}
-		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLike("%"+title+"%",PageRequest.of(page, size));
+		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleOrBriefInfoLike("%"+search+"%",PageRequest.of(page, size));
 		if(servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
-			servicesPageable = serviceRepository.findByTitleLike("%"+title+"%",PageRequest.of(page, size));
+			servicesPageable = serviceRepository.findByTitleOrBriefInfoLike("%"+search+"%",PageRequest.of(page, size));
 		}
 		return servicesPageable;
 	}
 	
-	public Page<ServiceModel> getServicesPaginated(int page , int size , int serviceCategoryId , String title) {
+	public Page<ServiceModel> getServicesPaginated(int page , int size , int serviceCategoryId , String search) {
 		if (page < 0) {
 			page = 0; 
 		}
-		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+title+"%", serviceCategoryId, PageRequest.of(page, size));
+		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+search+"%", serviceCategoryId, PageRequest.of(page, size));
 		if( servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
-			servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+title+"%", serviceCategoryId, PageRequest.of(page, size));
-		}
-		return servicesPageable;
-	}
-	
-	public Page<ServiceModel> getServicesPaginated(int page , int size , int serviceCategoryId) {
-		if (page < 0) {
-			page = 0; 
-		}
-		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
-		if(servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
-			page = servicesPageable.getTotalPages() - 1;
-			servicesPageable = serviceRepository.findByTitleLikeAndCategory(serviceCategoryId, PageRequest.of(page, size));
+			servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+search+"%", serviceCategoryId, PageRequest.of(page, size));
 		}
 		return servicesPageable;
 	}
 	
 	public ServiceModel getServicesById(int id){
 		return serviceRepository.findById(id).get();
+	}
+	
+	public void addNewService(ServiceModel service) {
+		serviceRepository.save(service);
 	}
 	
 	public Optional<ServiceModel> getServiceById(int id){
@@ -84,6 +81,14 @@ public class ServiceModelService {
 	
 	public List<ServiceModel> getHighestRatedStarServices(int size){
 		return serviceRepository.findRatedServiceDescending(size);
+	}
+	
+	public void editService(ServiceModel service) {
+		if(service.getServiceCategory() == null) {
+			serviceRepository.updateStatus(service.isStatus(), service.getServiceId());
+		}else {
+			serviceRepository.save(service);
+		}
 	}
 
 }

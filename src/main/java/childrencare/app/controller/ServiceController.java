@@ -36,19 +36,13 @@ public class ServiceController {
 	@RequestMapping(value = "/services", method = { RequestMethod.GET, RequestMethod.POST })
 	public String searchServiceListByTitle(Model model,
 			@RequestParam(name =  "page",required = false, defaultValue = "0") int page,
-			@RequestParam(name =  "search",required = false, defaultValue = "") String title, 
+			@RequestParam(name =  "search",required = false, defaultValue = "") String search, 
 			@RequestParam(name = "category",required = false, defaultValue =  "0") int categoryId) {
 		Page<ServiceModel> services = null;
-		if(!title.isEmpty()) {
-			if(categoryId == 0)
-				services = serviceModelService.getServicesPaginated(page, SERVICESIZE , title);
-			else {
-				services = serviceModelService.getServicesPaginated(page, SERVICESIZE, categoryId, title);
-			}
-		}else if(categoryId != 0) {
-			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, categoryId);
+		if(categoryId != 0) {
+			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, categoryId, search);
 		}else {
-			services = serviceModelService.getServicesPaginated(page, SERVICESIZE);
+			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, search);
 		}
 		
 		for(ServiceModel service : services) {
@@ -67,7 +61,7 @@ public class ServiceController {
 		model.addAttribute("services",services.toList());
 		model.addAttribute("totalPages",services.getTotalPages());
 		model.addAttribute("currentPage",services.getNumber());
-		model.addAttribute("search", title);
+		model.addAttribute("search", search);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("servicecategories", categories);
 		model.addAttribute("categoryId",categoryId);

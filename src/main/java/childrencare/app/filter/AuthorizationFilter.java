@@ -25,7 +25,6 @@ public class AuthorizationFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// TODO Auto-generated method stub
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpSession session = httpRequest.getSession();
@@ -34,18 +33,14 @@ public class AuthorizationFilter implements Filter{
 			httpResponse.sendError(401);
 			return;
 		}
-		boolean isPermitted = false;
 		String to = httpRequest.getServletPath();
 		for(PermissionModel permission : user.getUserRole().getPermissions()) {
 			if(permission.getScreen().getUrl().equals(to)) {
-				isPermitted = true;
 				chain.doFilter(httpRequest, httpResponse);
 				return;
 			}
 		}
-		if(!isPermitted) {
-			httpResponse.sendError(403);
-		}
+		httpResponse.sendError(403);
 	}
 
 }
