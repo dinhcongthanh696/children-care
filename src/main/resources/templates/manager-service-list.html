@@ -176,7 +176,7 @@
 						th:id="'checkbox'+${service.serviceId}" 
 						th:onclick="'changeServiceStatus('+ ${service.serviceId} +')'"
 						th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
-						th:disabled="${editaccess.?[screen.method == 'PUT'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'" 
+						th:disabled="${editaccess.?[screen.method == 'PUT'].isEmpty()}" 
 						/>
 						<i 	th:class="${service.status ? 'fas fa-eye' : 'fas fa-eye-slash'}" 
 					   		th:text="${service.status ? '-Showing' : '-Hiding'}"
@@ -189,7 +189,7 @@
 						<button  style="border-radius: 5px;padding : 10px;"
 							data-toggle="modal" data-target="#new-service-modal" id="add-service-button"
 							th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
-							th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'" 
+							th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
 							th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
 						>
 						  	<i class="fa fa-plus"></i>Add new Services

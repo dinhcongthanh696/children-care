@@ -40,6 +40,9 @@ public class ReservationService {
     public void changeStatus(Integer reservationId){
         repository.changeStatus(reservationId);
     }
-    
+
+    public void createSchedule(int reservationId,int serviceId, int slotId, String doctor, double price){
+        repository.createSchedule(reservationId, serviceId, slotId, doctor, price);
+    }
     
 }

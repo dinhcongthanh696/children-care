@@ -76,10 +76,10 @@ public class BlogController {
         model.addAttribute("listTop3RecentPost", blogService.findTop3RecentPost());
         return "blog-single";
     }
-    @RequestMapping("/reservationInfor")
+    @RequestMapping("/managerblog")
     public String reservationInfor(){
 //asdasd
-        return "reservationInfor";
+        return "doctors";
     }
 
 }

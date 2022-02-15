@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReservationRepository extends JpaRepository<ReservationModel, Integer> {
 
+    @Modifying
     @Query(value = "UPDATE ReservationModel rm set rm.status = 'true' where rm.reservationId = ?1",
     nativeQuery = true)
     void changeStatus(int reservationId);
@@ -25,6 +26,9 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     		+ "where email = ?1 and service_id = ?2 " , nativeQuery = true)
     public ReservationModel getReservationByEmailAndServiceId(String email , Integer serviceId);
 
-    
-    
+
+    @Modifying
+    @Query(value = "insert into reservation_service " +
+            "values (?1, ?2, ?3, ?4, ?5)",nativeQuery = true)
+    void createSchedule(int reservationId,int serviceId, int slotId, String doctor, double price);
 }

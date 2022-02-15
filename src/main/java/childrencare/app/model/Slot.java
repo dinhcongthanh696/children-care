@@ -24,9 +24,12 @@ public class Slot {
     
     @Column(name = "start_time")
     private double start;
+
     @Column(name = "end_time")
     private double end;
 
     @OneToMany(mappedBy = "slot")
     private List<ReservationServiceModel> reservationServices;
+
+
 }
