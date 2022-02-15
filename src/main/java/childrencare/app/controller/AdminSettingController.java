@@ -25,8 +25,8 @@ import childrencare.app.service.ScreenService;
 import childrencare.app.service.UserService;
 
 @Controller
-@RequestMapping("/setting")
-public class SettingController {
+@RequestMapping("/admin/setting")
+public class AdminSettingController {
 	private final RoleService roleService;
 	private final ScreenService screenService;
 	private final PermissionService permissionService;
@@ -36,7 +36,7 @@ public class SettingController {
 	private Page<ScreenModel> currentScreens;
 	
 	@Autowired
-	public SettingController(RoleService roleService,ScreenService screenService,PermissionService permissionService,UserService userService) {
+	public AdminSettingController(RoleService roleService,ScreenService screenService,PermissionService permissionService,UserService userService) {
 		this.roleService = roleService;
 		this.screenService = screenService;
 		this.permissionService = permissionService;

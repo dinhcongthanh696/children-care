@@ -26,4 +26,6 @@ public class ScreenModel {
 	
 	@OneToMany(mappedBy = "screen")
 	private List<PermissionModel> permissions;
+	
+	private String method;
 }

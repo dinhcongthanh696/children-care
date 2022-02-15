@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.sql.Time;
 
 @Entity
@@ -36,6 +37,8 @@ public class ReservationServiceModel {
 	@JoinColumn(name = "slot_id")
 	@MapsId("slot_id")
 	private Slot slot;
+
+
 	
 	private double price;
 

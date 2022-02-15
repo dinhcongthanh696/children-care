@@ -60,7 +60,7 @@ public class UserModel {
 
 	private boolean status;
 
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
 	private RoleModel userRole;
@@ -68,7 +68,11 @@ public class UserModel {
 	@JsonIgnore
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
-
+	
+	public String toString() {
+		return "User : "+username+" Role : "+userRole.getRoleName();
+	}
+	
 	@OneToMany(mappedBy = "doctor")
 	private List<ReservationServiceModel> reservationServices;
 

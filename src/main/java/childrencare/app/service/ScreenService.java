@@ -30,4 +30,8 @@ public class ScreenService {
 		}
 		return screens;
 	}
+	
+	public ScreenModel getScreenByUrl(String url) {
+		return screenRepository.findByUrl(url);
+	}
 }

@@ -1,6 +1,8 @@
 package childrencare.app.repository;
 
 
+import java.util.HashMap;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +20,5 @@ public interface ScreenRepository extends JpaRepository<ScreenModel, Integer>{
 			nativeQuery = true)
 	public Page<ScreenModel> findByNameContaining(String search,PageRequest pageRequest);
 	
+	public ScreenModel findByUrl(String url);
 }

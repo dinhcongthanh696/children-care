@@ -4,32 +4,32 @@
 <meta charset="UTF-8">
 <title>ADMIN | Setting | Role</title>
 <!-- master stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../../css/style.css">
 <!-- Responsive stylesheet -->
-<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../../css/responsive.css">
 <!--Color Switcher Mockup-->
-<link rel="stylesheet" href="../css/color-switcher-design.css">
+<link rel="stylesheet" href="../../css/color-switcher-design.css">
 <!--Color Themes-->
-<link rel="stylesheet" href="../css/color-themes/default-theme.css"
+<link rel="stylesheet" href="../../css/color-themes/default-theme.css"
 	id="theme-color-file">
 <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 <!-- Bootstrap -->
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="180x180"
-	href="../images/favicon/apple-touch-icon.png">
+	href="../../images/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png"
-	href="../images/favicon/favicon-32x32.png" sizes="32x32">
+	href="../../images/favicon/favicon-32x32.png" sizes="32x32">
 <link rel="icon" type="image/png"
-	href="../images/favicon/favicon-16x16.png" sizes="16x16">
-<link rel="stylesheet" href="../css/settingrole.css">
-<link rel="stylesheet" href="../css/authentication.css">
+	href="../../images/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="stylesheet" href="../../css/settingrole.css">
+<link rel="stylesheet" href="../../css/authentication.css">
  <!-- Fav icon -->	
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 </head>
 <body onload="renderPages()">
 	<section id="main-menu" 
-	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/setting/roles', placeholder='Search By Screen Name ...',current='services',search=${search})">
+	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/admin/setting/roles', placeholder='Search By Screen Name ...',current='services',search=${search})">
 	</section>
 	<div class="container-fluid">
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -69,6 +69,8 @@
 					<td colspan="4">
 						<button class="btn btn-primary" 
 						style="border-radius : 8px; padding : 10px;"
+						th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/setting/roles/edit']}"
+						th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
 						th:onclick="'saveRoleSettings('+ ${currentRole.roleId} +')'"
 						>Save Your changes</button>
 					</td>
@@ -86,7 +88,7 @@
 		function changeRole(roleIndex){
 			const searchQuery = document.getElementsByName("search")[0].value;
 			const currentPage = document.getElementById("currentPage").value;
-			location.href = "/ChildrenCare/setting/roles?currentRoleIndex="+roleIndex+"&search="+searchQuery+"&page="+currentPage;
+			location.href = "/ChildrenCare/admin/setting/roles?currentRoleIndex="+roleIndex+"&search="+searchQuery+"&page="+currentPage;
 		}
 		
 		function saveRoleSettings(roleId){
@@ -101,23 +103,32 @@
 			formData.append("permissionValues",permissionValues);
 			formData.append("roleId",roleId);
 			
-			fetch("/ChildrenCare/setting/roles/edit",{
+			fetch("/ChildrenCare/admin/setting/roles/edit",{
 				method : 'POST',
 				body : formData
 			})
 			.then(response => {
-				alert("Save changes");
+					switch(response.status){
+					case 500 : 
+						alert("Your changes are not save");
+						break;
+					case 403 : 
+						alert("Your are not allowed to save any changes");
+						break;
+					default :
+						alert("Your changes is saved");
+				}
 			}) 
 		}
 		
 		function changePage(pageNumber) {
 			var search = document.querySelector("#search").value;
 			var currentRoleIndex = document.getElementById("currentRoleIndex").value;
-			window.location = "/ChildrenCare/setting/roles?page=" + pageNumber
+			window.location = "/ChildrenCare/admin/setting/roles?page=" + pageNumber
 					+ "&search=" + search + "&currentRoleIndex="+currentRoleIndex;
 		}
 	</script>
-	<script src="../js/pagging.js"></script>
+	<script src="../../js/pagging.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
   	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>

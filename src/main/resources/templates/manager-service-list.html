@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Manager | Services</title>
+<!-- master stylesheet -->
+<link rel="stylesheet" href="../css/style.css">
+<!-- Responsive stylesheet -->
+<link rel="stylesheet" href="../css/responsive.css">
+<!--Color Switcher Mockup-->
+<link rel="stylesheet" href="../css/color-switcher-design.css">
+<!--Color Themes-->
+<link rel="stylesheet" href="../css/color-themes/default-theme.css"
+	id="theme-color-file">
+<!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Bootstrap -->
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180"
+	href="../images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="stylesheet" href="../css/service-list.css">
+<link rel="stylesheet" href="../css/authentication.css">
+ <!-- Fav icon -->	
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>	
+</head>
+<body th:onload="renderPages()">
+	<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
+	
+	<div id="top-bar" th:insert="index :: top-bar"></div>
+	<header th:replace="header.html :: header"></header>
+	<section id="main-menu" 
+	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder='Search By Title Or Brief Info...',current='services',search=${search})">
+	</section>
+	
+	<!-- Add new Service Modal -->
+	<div id="new-service-modal" class="modal fade" role="dialog">
+  	   <div class="modal-dialog">
+
+    	<!-- Modal content-->
+   	 	<div class="modal-content">
+      		<div class="modal-header">
+      			<h4 class="modal-title">Add new Service right now!!</h4>
+        		<button type="button" class="close" data-dismiss="modal">Close&times;</button>
+      		</div>
+      		<div class="modal-body">
+        		<div class="form-group">
+        			<label for="service-title">Title</label>
+    				<input type="text" class="form-control" id="service-title" placeholder="Leave Service Title here.." />
+        		</div>
+        		<div class="form-group">
+        			<label for="service-brief-info">Brief Information</label>
+    				<input type="text" class="form-control" id="service-brief-info" placeholder="Leave Brief Information here.." />
+        		</div>
+        		<div class="form-group">
+        			<label for="service-original-price">Original Price </label>
+    				<input type="number" class="form-control" id="service-original-price" placeholder="Leave Original Price here.." />
+        		</div>
+        		<div class="form-group">
+        			<label for="service-sale-price">Sale Price </label>
+    				<input type="number" class="form-control" id="service-sale-price" placeholder="Leave Sale Price here.." />
+        		</div>
+        		<div class="form-group">
+        			<label for="service-quantity">Quantity </label>
+    				<input type="number" class="form-control" id="service-quantity" placeholder="Leave Quantity here.." />
+        		</div>
+        		<div class="form-group">
+        			<label for="service-category-id">Service Category  </label>
+    				<select class="form-control" id="service-category-id">
+    					<option th:each="category : ${categories}" th:value="${category.serviceCategoryId}" th:text="${category.serviceCategoryName}"></option>
+    				</select>
+        		</div>
+        		<div class="form-group">
+        			<label for="service-description">Description</label>
+    				<textarea class="form-control" id="service-description" placeholder="Leave Service Description here.." cols="20"></textarea>
+        		</div>
+        		<div class="form-group">
+        			<label for="service-file">Image </label>
+        			<img id="service-image" />
+    				<input type="file" class="form-control" id="service-file" onchange="imagePreviewHandler(this)"/>
+        		</div>
+        		<div class="form-check">
+        			<label for="service-status" class="form-check-label">Status(Showing or Hiding)</label>
+    				<input type="checkbox" class="form-check-input" id="service-status" checked="checked" style="margin-left: 5px;"/>
+        		</div>
+        		<button onclick="addNewService()"
+        			th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+					th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'" 
+					th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
+        		>Save your changes</button>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	  </div>
+</div>
+	<!-- End Add new Service Modal -->
+	<!-- start hidden fields -->
+	<input type="hidden" th:value="${totalPages}" id="totalPages" />
+	<input type="hidden" th:value="${currentPage}" id="currentPage"/>
+	<input type="hidden" th:value="${status}"  id="status"/>
+	<!-- end hidden fields -->
+	<div class="container-fluid">
+		<div class="row" style="background-color: #EDEDED;color : black;padding: 25px;">
+			<div class="searching-header col-sm-4 form-check">
+				<label for="status-filter" class="form-check-label">Filter by status</label>
+				<select id="status-filter" class="form-check-input" 
+						style="margin-left: 10px;border-radius: 5px;"
+						th:onchange="'changePage('+ ${currentPage} +')'"
+						>
+					<option value="" th:selected="${status.length == 0}">ALL</option>
+					<option value="false" th:selected="${status == 'false'}">Hiding</option>
+					<option value="true" th:selected="${status == 'true'}">Showing</option>
+				</select>
+			</div>
+			<div class="col-sm-4 form-check">
+				<label for="sort" class="form-check-label">Sort by (Ascending order) : </label>
+				<select id="sort" class="form-check-input"
+					style="margin-left: 10px;border-radius: 5px;"
+					th:onchange="'changePage('+ ${currentPage} + ')'"
+				>
+					<option value="title" th:selected="${sort == 'title'}">Title</option>
+					<option value="brief_info" th:selected="${sort == 'brief_info'}">Brief Information</option>
+					<option value="original_price" th:selected="${sort == 'original_price'}">Original Price</option>
+					<option value="sale_price" th:selected="${sort == 'sale_price'}">Sale Price</option>
+				</select>
+			</div>
+			<div class="col-sm-4">
+				Search box hear....
+			</div>
+		</div>
+		<div class="row">
+		<table class="table table-bordered table-hover table-dark table-striped">
+			<thead>
+				<tr>
+					<th>#Service Id</th>
+					<th>Image</th>
+					<th>Title</th>
+					<th>Category</th>
+					<th>Brief Information</th>
+					<th>Original Price</th>
+					<th>Sale Price</th>
+					<th>Average Star</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody >
+				<tr th:each="service : ${services}" th:id="'service'+${service.serviceId}" 
+					style="transition : display 2s;"
+					class="service_item">
+					<th th:text="${'#'+service.serviceId}"></th>
+					<td><img th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}" style="width : 200px;"/></td>
+					<td th:text="${service.title}"></td>
+					<td th:text="${service.serviceCategory.serviceCategoryName}"></td>
+					<td th:text="${service.briefInfo}"></td>
+					<td th:text="${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT')}"></td>
+					<td th:text="${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}"></td>
+					<td>
+						<span
+							th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+						<span
+							th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+						<span
+							th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+						<span
+							th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+						<span
+							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>		
+					</td>
+					<td>
+						<input type="checkbox" th:checked="${service.status}" 
+						th:id="'checkbox'+${service.serviceId}" 
+						th:onclick="'changeServiceStatus('+ ${service.serviceId} +')'"
+						th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+						th:disabled="${editaccess.?[screen.method == 'PUT'].isEmpty()}" 
+						/>
+						<i 	th:class="${service.status ? 'fas fa-eye' : 'fas fa-eye-slash'}" 
+					   		th:text="${service.status ? '-Showing' : '-Hiding'}"
+					   		style="color : back;"
+					   		th:id="'service-status-icon'+${service.serviceId}"></i>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="9" style="text-align: center;">
+						<button  style="border-radius: 5px;padding : 10px;"
+							data-toggle="modal" data-target="#new-service-modal" id="add-service-button"
+							th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+							th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
+							th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
+						>
+						  	<i class="fa fa-plus"></i>Add new Services
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</div>
+	
+	<div id="pages"></div>
+	<div id="footer" th:insert="index :: footer"></div>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="../js/pagging.js"></script>
+	<script type="text/javascript">
+	var lastChosenPreview;
+	
+	function changePage(pageNumber) {
+		var search = document.querySelector("#search").value;
+		var status = document.getElementById("status-filter").value;
+		var sortProperty = document.getElementById("sort").value;
+		window.location = "/ChildrenCare/admin/services?page=" + pageNumber
+				+ "&search=" + search +"&status="+status+"&sort="+sortProperty;
+	}
+	
+	function changeServiceStatus(serviceId){
+		var statusValue = document.getElementById("checkbox"+serviceId).checked;
+		var status = document.getElementById("status").value;
+		var service = {
+				serviceId : serviceId,
+				status : statusValue
+		}
+		fetch("/ChildrenCare/admin/api-services",{
+			method : "PUT",
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			body : JSON.stringify(service)
+		})
+		.then(response => {
+			if(status.length === 0){
+				const serviceStatusIcon = document.getElementById("service-status-icon"+serviceId);
+				const className = (statusValue) ? 'fas fa-eye' : 'fas fa-eye-slash';
+				serviceStatusIcon.innerHTML = "-Hiding";
+				serviceStatusIcon.className = className;
+			}else{
+				const serviceItem = document.getElementById("service"+serviceId);
+				serviceItem.style.display = "none";
+			}
+			//alert("You have change the state of the service #"+serviceId+" to :"+((statusValue) ? 'showing' : 'hiding'));
+		})
+	}
+	
+	function addNewService(){
+		const serviceTittleInputElement = document.getElementById("service-title");
+		const serviceBriefInfoInputElement = document.getElementById("service-brief-info");
+		const serviceOriginalPriceInputElement = document.getElementById("service-original-price");
+		const serviceSalePriceInputElement = document.getElementById("service-sale-price");
+		const serviceQuantityInputElement = document.getElementById("service-quantity");
+		const serviceCategoryInputElement = document.getElementById("service-category-id");
+		const serviceDescriptionInputElement = document.getElementById("service-description");
+		const serviceFileInputElement = document.getElementById("service-file");
+		const serviceStatusInputElement = document.getElementById("service-status");
+		
+		const formData = new FormData() ;  
+		formData.append("title" , serviceTittleInputElement.value);
+		formData.append("thumbnail",serviceFileInputElement.files[0]);
+		formData.append("briefInfo",serviceBriefInfoInputElement.value);
+		formData.append("originalPrice",serviceOriginalPriceInputElement.value);
+		formData.append("salePrice",serviceSalePriceInputElement.value);
+		formData.append("serviceCategoryId",serviceCategoryInputElement.value);
+		formData.append("quantity",serviceQuantityInputElement.value);
+		formData.append("description",serviceDescriptionInputElement.value);
+		formData.append("status",serviceStatusInputElement.checked);
+		
+		fetch("/ChildrenCare/admin/api-services",{
+			method : "POST",
+			body : formData
+		}).then(response => {
+			alert("Added service successfully");
+			window.location.reload();
+		})
+	}
+	
+	function imagePreviewHandler(fileInputElement){
+		if(lastChosenPreview){ 
+			URL.revokeObjectURL(lastChosenPreview);  // for performance
+		}
+		
+		var imageFile = fileInputElement.files[0];
+		lastChosenPreview = URL.createObjectURL(imageFile);
+		var imageElement = document.getElementById("service-image");
+		imageElement.src = lastChosenPreview;
+	}
+	
+	</script>
+</body>
+</html>

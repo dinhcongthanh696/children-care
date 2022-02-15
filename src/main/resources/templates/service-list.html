@@ -155,8 +155,9 @@
 					class="service-thumbnail" />
 				<h1 th:text="${'Title : '+service.title}" class="service-title"></h1>
 				<p th:text="${'Brief Info : '+service.briefInfo}"></p>
-				<p th:text="'Original price : '+${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT')}" style="color : red"></p>
-				<p th:text="'Sale price : '+${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}" style="color : green"> </p>
+				Price : 
+				<span th:text="${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT')}" style="color : black; text-decoration: line-through;"></span>
+				<span th:text="${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}" style="color : red; font-size : 21px; font-weight: bold;"> </span>
 				<div>
 					Rated Stars : <span
 						th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
@@ -177,7 +178,7 @@
 				<span>
 					<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
 					th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
-					id="give-feedback-button">Give Feedback</button>
+					id="give-feedback-button"><i class="fas fa-comments"></i>Give Feedback</button>
 				</span>	
 			</div>
 		</div>
