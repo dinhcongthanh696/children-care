@@ -1,5 +1,7 @@
 package childrencare.app.controller;
 
+import childrencare.app.model.ReservationServiceKey;
+import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.model.UserModel;
 import childrencare.app.service.ReservationService;
@@ -9,10 +11,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -43,6 +42,10 @@ public class ReservationCompleteController {
             serviceService.updateQuantity(sm.getQuantity(), sm.getServiceId());
         }
         // Assign to active staff
+        List<ReservationServiceModel> serviceSlot = (List<ReservationServiceModel>) session.getAttribute("serviceSlot");
+        for(ReservationServiceModel rs : serviceSlot){
+
+        }
     }
 
     @GetMapping("/getDoctor")
@@ -55,7 +58,27 @@ public class ReservationCompleteController {
     }
 
     @GetMapping("/updateSchedule")
-    public String update(){
+    public String updateSchedule(HttpSession session){
+        List<ReservationServiceModel> serviceSlot = (List<ReservationServiceModel>) session.getAttribute("serviceSlot");
+        for(ReservationServiceModel rs : serviceSlot){
+            int rid = rs.getReservation().getReservationId();
+            int sid = rs.getService().getServiceId();
+            int slotId = rs.getSlot().getId();
+            String doctor = rs.getDoctor().getUsername();
+            if(doctor == "Auto"){
+
+            }
+            reservationService.createSchedule(
+                    rid,
+                    rs.getService().getServiceId(),
+                    rs.getSlot().getId(),
+                    rs.getDoctor().getUsername(),
+                    rs.getPrice()
+            );
+        }
+
+
         return "apppointment";
     }
+
 }

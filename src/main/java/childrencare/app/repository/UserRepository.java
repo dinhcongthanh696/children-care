@@ -26,4 +26,7 @@ public interface UserRepository extends JpaRepository<UserModel, Integer>{
 	@Query(value = "Select * from user_model u inner join role r " +
 			"on u.role_id = r.role_id where r.role_name = ?1", nativeQuery = true)
 	public List<UserModel> findUserModelByUserRole(String roleName);
+
+
+
 }
