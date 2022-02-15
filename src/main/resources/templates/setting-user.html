@@ -60,7 +60,7 @@
 									type="submit"
 									style="border-radius : 8px; padding : 10px;"
 									th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-setting/users']}"
-									th:disabled="${!editaccess.isEmpty()}"
+									th:disabled="${editaccess.?[screen.method == 'PUT'].isEmpty()}"
 									onclick="saveSettingsUser()"
 									id="save-setting-button"
 							>Save Your changes</button>

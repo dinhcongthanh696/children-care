@@ -35,7 +35,7 @@ public class AuthorizationFilter implements Filter{
 		}
 		String to = httpRequest.getServletPath();
 		for(PermissionModel permission : user.getUserRole().getPermissions()) {
-			if(permission.getScreen().getUrl().equals(to)) {
+			if(permission.getScreen().getUrl().equals(to) && httpRequest.getMethod().equalsIgnoreCase(permission.getScreen().getMethod())) {
 				chain.doFilter(httpRequest, httpResponse);
 				return;
 			}

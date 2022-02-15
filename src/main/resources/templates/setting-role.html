@@ -70,7 +70,7 @@
 						<button class="btn btn-primary" 
 						style="border-radius : 8px; padding : 10px;"
 						th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/setting/roles/edit']}"
-						th:disabled="${!editaccess.isEmpty()}"
+						th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
 						th:onclick="'saveRoleSettings('+ ${currentRole.roleId} +')'"
 						>Save Your changes</button>
 					</td>
@@ -109,14 +109,14 @@
 			})
 			.then(response => {
 					switch(response.status){
-					case 200 : 
-						alert("Save changes successfully");
+					case 500 : 
+						alert("Your changes are not save");
 						break;
 					case 403 : 
 						alert("Your are not allowed to save any changes");
 						break;
 					default :
-						alert("Your changes is not saved");
+						alert("Your changes is saved");
 				}
 			}) 
 		}
