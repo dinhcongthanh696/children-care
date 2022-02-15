@@ -207,11 +207,23 @@
                 <div class="col-xl-8">
                     <div class="appointment-form-left">
                         <form name="appointment-form" action="#" method="post">
-                            <div class="row">
+                            <div class="appointment-right">
+                                <div class="confirm-booking">
+                                    <h3>Confirm Your Booking</h3>
+                                    <ul>
+                                        <li><span>Reservation ID</span><b>:</b> <span style="color: #0a1821" th:text="1"></span></li>
+                                        <li><span>Reservation Date</span><b>:</b> <span style="color: #0a1821" th:text="22/2/2222"></span></li>
+                                        <li><span>Time to check up</span><b>:</b> <span style="color: #0a1821" th:text="7.00"></span></li>
+                                        <li><span>Total cost</span><b>:</b> <span style="color: #0a1821" th:text="100.00"></span></li>
+                                        <li><span>Status</span><b>:</b> <span style="color: #0a1821" th:text="Done"></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--<div class="row">
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="single-box">
                                         <div class="title">
-                                            <h5>Reservation ID</h5>
+                                            <h5>Reservation ID<span th:text="1"></span></h5>
                                         </div>
                                         <div class="input-box">
                                             <div class="input-box">
@@ -273,7 +285,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="single-box">
@@ -332,28 +344,31 @@
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-9">
                     <div class="appointment-right">
-                        <form name="appointment-right" action="#" method="post">
-                            <div class="input-box">
-                                <input type="text" name="date" placeholder="Date" id="datepicker">
-                                <div class="icon-box">
-                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                </div>
+                        <!--Start search
+                        <div class="single-sidebar">
+                            <form class="search-form" action="/ChildrenCare/blog" method="post">
+                                <input placeholder="Search by title" type="text" name="title" th:value="${titleSearch}">
+                                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+
+                            </form>
+                        </div>
+                        End search-->
+                        <!--Start Category-->
+                        <div class="single-sidebar">
+                            <div class="sidebar-title">
+                                <h3>Categories</h3>
                             </div>
-                            <div class="confirm-booking">
-                                <h3>Confirm Your Booking</h3>
-                                <ul>
-                                    <li><span>Patient Name</span><b>:</b> George Turner</li>
-                                    <li><span>Age</span><b>:</b> 36 Years</li>
-                                    <li><span>Service</span><b>:</b> Root Canel</li>
-                                    <li><span>Date & Time</span><b>:</b> Nov 22nd, 2018. 11.30am</li>
-                                    <li><span>Price</span><b>:</b> $65.00</li>
-                                </ul>
-                            </div>
-                            <div class="button-box">
-                                <button class="btn-one" type="submit">Confirm</button>
-                                <button class="btn-one" type="submit">Cancel</button>
-                            </div>
-                        </form>
+                            <ul class="categories clearfix" th:each="listCategory:${listCategoryPost}">
+                                <li>
+                                    <a
+                                            th:href="@{/blog(page=${pageNumber},title=${titleSearch},categoryId=${listCategory.getPostCategoryId()})}"
+                                            th:text="${listCategory.getPostCategoryName()}">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--End Category-->
+
                     </div>
                 </div>
             </div>
