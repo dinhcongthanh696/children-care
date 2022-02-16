@@ -37,7 +37,7 @@ public class LoginAPI {
             mimeMessage.setSubject(subject);
 
             MimeBodyPart contentPart = new MimeBodyPart();
-            String content = "<h1> Hello "+ email +" , Reset link is : <a href='/ChildrenCare/reset'>link</a> </h1>" ;
+            String content = "<h1> Hello "+ email +" , Reset link is : <a href='http://localhost:8080/ChildrenCare/reset'>link</a> </h1>" ;
             contentPart.setContent(content, "text/html; charset=utf-8");
 
             MimeBodyPart referencePart = new MimeBodyPart();
