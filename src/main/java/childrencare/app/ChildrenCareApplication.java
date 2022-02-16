@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import childrencare.app.model.ReservationModel;
+import childrencare.app.repository.ReservationRepository;
+import com.sun.javaws.IconUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -24,6 +27,11 @@ public class ChildrenCareApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(ChildrenCareApplication.class, args);
+		ReservationRepository reservationRepository = context.getBean(ReservationRepository.class);
+
+		ReservationModel test = reservationRepository.getReservationModelByReservationId(1);
+		System.out.println("12345678987665432");
+		System.out.println(test.getFullname());
 	}
 
 }

@@ -175,7 +175,10 @@ public class ReservationController {
     }
 
     @RequestMapping("/infor")
-    public String reservationInfor(Model model) {
+    public String reservationInfor(Model model,
+                                   @RequestParam(name = "rid") int rid) {
+
+
         model.addAttribute("listCategoryPost", blogCategoryService.findAll());
         return "reservationInfor";
     }
