@@ -18,11 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.awt.datatransfer.MimeTypeParseException;
 import java.awt.print.Pageable;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -77,11 +80,16 @@ public class UserSettingController {
     public String getmyReservation(Model model,
                                    @PathVariable(name = "pageNum") int pageNum,
                                    HttpSession session){
-        Page<ReservationServiceModel> page = reservationService_service.listAll(pageNum);
         UserModel user = (UserModel) session.getAttribute("user");
-        List<ReservationServiceModel> customerReservation = reservationService_service.getCustomerReservation(user.getEmail());
+        String email = user.getEmail();
+        List<ReservationServiceModel> customerReservation = reservationService_service.findAllByEmail(email);
+        Page<ReservationServiceModel> page = reservationService_service.listAll(pageNum);
+        customerReservation = page.getContent();
         model.addAttribute("userLogin",user);
         model.addAttribute("customerReser",customerReservation);
+        model.addAttribute("currentPage",pageNum);
+        model.addAttribute("totalPages",page.getTotalPages());
+        model.addAttribute("totalItems",page.getTotalElements());
         return "myReservation";
     }
 
