@@ -3,15 +3,7 @@
 <head>
 <title>Insert title here</title>
 <!--nghia's code-->
-<!--    nghia's use-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<!--    nghia's use-->
-
-
-
 <script>
-
-    
     $(window, document, undefined).ready(function() {
 
         $('.input').blur(function() {
@@ -32,19 +24,15 @@
         $('#tab2').addClass('signup-shadow');
         $('#tab1').removeClass('login-shadow');
 
-
     });
-    
     function triggerLoginForm(displayStyle){
 		const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
 	    modalBoxWrapper.style.display = displayStyle;
 	}
-
 </script>
 </head>
 <body>
 
-<body>
 <div class="boxed_wrapper" th:fragment="authentication(currentPage)">
 
     <!-- Modal -->
@@ -234,6 +222,8 @@
         </div>
     </div>
 </div>
+
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

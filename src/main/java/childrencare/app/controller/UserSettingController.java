@@ -119,11 +119,12 @@ public class UserSettingController {
     @PostMapping("/update")
     @Transactional
     public String updateSlider(@RequestParam(name = "id") int id,
+                               @RequestParam(name = "file1") MultipartFile img,
                                @RequestParam(name = "title") String title,
                                @RequestParam(name = "backlink") String backlink,
                                @RequestParam(name = "status") boolean status,
                                @RequestParam(name = "note") String note){
-        slidersService.updateSlider(backlink,note,status,title,id);
+        slidersService.updateSlider(backlink,img,note,status,title,id);
         return "redirect:/setting/sliderManager";
     }
 
