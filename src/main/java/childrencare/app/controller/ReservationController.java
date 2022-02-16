@@ -4,10 +4,7 @@ import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.ReservationModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.model.UserModel;
-import childrencare.app.service.LoginService;
-import childrencare.app.service.ReservationService;
-import childrencare.app.service.ServiceModelService;
-import childrencare.app.service.Service_service;
+import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +49,9 @@ public class ReservationController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private BlogCategoryService blogCategoryService;
 
 
     @GetMapping("/reser")
@@ -175,7 +175,8 @@ public class ReservationController {
     }
 
     @RequestMapping("/infor")
-    public String reservationInfor() {
+    public String reservationInfor(Model model) {
+        model.addAttribute("listCategoryPost", blogCategoryService.findAll());
         return "reservationInfor";
     }
 
