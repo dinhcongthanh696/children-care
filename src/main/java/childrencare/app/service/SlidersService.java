@@ -46,9 +46,7 @@ public class SlidersService  {
     }
 
     public Page<SliderModel> listAll(int pageNum) {
-
         org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNum - 1, 3);
-
         return slidersRepository.findAll(pageable);
     }
 }

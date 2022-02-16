@@ -23,9 +23,4 @@ public interface SlidersRepository extends JpaRepository<SliderModel,Integer> {
             " WHERE slide_id = ?6",nativeQuery = true)
     public void updateSlider(String back_link, MultipartFile img, String notes, boolean status, String title, int slide_id);
 
-
-
-
-
-
 }
