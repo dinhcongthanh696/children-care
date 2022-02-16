@@ -11,6 +11,7 @@ import childrencare.app.repository.ReservationRepository;
 import com.sun.javaws.IconUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import childrencare.app.model.ServiceCategoryModel;
@@ -26,12 +27,12 @@ import childrencare.app.service.ServiceModelService;
 public class ChildrenCareApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(ChildrenCareApplication.class, args);
-		ReservationRepository reservationRepository = context.getBean(ReservationRepository.class);
+		ApplicationContext context = SpringApplication.run(ChildrenCareApplication.class, args);
+		/*ReservationRepository reservationRepository = context.getBean(ReservationRepository.class);
 
 		ReservationModel test = reservationRepository.getReservationModelByReservationId(1);
 		System.out.println("12345678987665432");
-		System.out.println(test.getFullname());
+		System.out.println(test.getFullname());*/
 	}
 
 }
