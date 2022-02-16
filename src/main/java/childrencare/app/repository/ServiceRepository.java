@@ -27,7 +27,7 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
     @Query(value = serviceRatedDecendingQuery, nativeQuery = true)
     public List<ServiceModel> findRatedServiceDescending(Integer number);
 
-    @Query(value = "SELECT * FROM service WHERE title LIKE ?1 OR brief_info LIKE ?1 ORDER BY title , brief_info",
+    @Query(value = "SELECT * FROM service WHERE title LIKE ?1 OR brief_info LIKE ?1",
             countQuery = "SELECT count(*) FROM service WHERE title LIKE ?1 OR brief_info LIKE ?1",
             nativeQuery = true)
     public Page<ServiceModel> findByTitleOrBriefInfoLike(String search, PageRequest pageable);

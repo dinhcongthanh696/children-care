@@ -1,6 +1,9 @@
 package childrencare.app.repository;
 
 import childrencare.app.model.ReservationModel;
+
+import java.util.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,4 +34,11 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     @Query(value = "insert into reservation_service " +
             "values (?1, ?2, ?3, ?4, ?5)",nativeQuery = true)
     void createSchedule(int reservationId,int serviceId, int slotId, String doctor, double price);
+    
+    @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1",nativeQuery = true)
+    int countReservationByStatus(int status);
+    
+    @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1 AND DATEPART(month,date) = DATEPART(MONTH,?2)\r\n"
+    		+ "AND DATEPART(YEAR,date) = DATEPART(YEAR,?2) AND DATEPART(DAY,date) = DATEPART(day,?2)",nativeQuery = true)
+    int countReservationByStatusAndDate(int status,Date date);
 }

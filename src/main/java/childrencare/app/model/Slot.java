@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,10 +24,10 @@ public class Slot {
     private int id;
     
     @Column(name = "start_time")
-    private double start;
+    private Date start;
 
     @Column(name = "end_time")
-    private double end;
+    private Date end;
 
     @OneToMany(mappedBy = "slot")
     private List<ReservationServiceModel> reservationServices;

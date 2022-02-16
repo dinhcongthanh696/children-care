@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,14 @@ public class ReservationService {
     //Thanh's code
     public int saveReservation(ReservationModel entity) {
     	return repository.save(entity).getReservationId();
+    }
+    
+    public int countReservationByStatus(int status) {
+    	return repository.countReservationByStatus(status);
+    }
+    
+    public int countReservationByStatusAndDate(int status , Date date) {
+    	return repository.countReservationByStatusAndDate(status, date);
     }
 
     public List<ReservationModel> findAll() {

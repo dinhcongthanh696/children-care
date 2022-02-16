@@ -36,18 +36,43 @@ public class ServiceModelService {
 				"%"+search+"%", start, end,PageRequest.of(page, size , Sort.by(Sort.Direction.ASC,sortProperty))
 					);
 		}
+		
+		for(ServiceModel service : servicesPageable.toList()) {
+			service.setBase64ThumbnailEncode(service.getThumbnail());
+			double averageStars = 0;
+			for(FeedbackModel feedback : service.getFeedbacks()) {
+				averageStars += feedback.getRatedStart();
+			}
+			if(averageStars != 0) {
+				averageStars /= service.getFeedbacks().size(); 
+				service.setAvg_star(averageStars);
+			}
+		}
 		return servicesPageable;
 	}
 	
-	public Page<ServiceModel> getServicesPaginated(int page , int size , String search) {
+	public Page<ServiceModel> getServicesPaginated(int page , int size , String search , String... sortProperties) {
 		if (page < 0) {
 			page = 0; 
 		}
-		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleOrBriefInfoLike("%"+search+"%",PageRequest.of(page, size));
+		Page<ServiceModel> servicesPageable = 
+		serviceRepository.findByTitleOrBriefInfoLike("%"+search+"%",PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,sortProperties)));
 		if(servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
 			servicesPageable = serviceRepository.findByTitleOrBriefInfoLike("%"+search+"%",PageRequest.of(page, size));
 		}
+		for(ServiceModel service : servicesPageable.toList()) {
+			service.setBase64ThumbnailEncode(service.getThumbnail());
+			double averageStars = 0;
+			for(FeedbackModel feedback : service.getFeedbacks()) {
+				averageStars += feedback.getRatedStart();
+			}
+			if(averageStars != 0) {
+				averageStars /= service.getFeedbacks().size(); 
+				service.setAvg_star(averageStars);
+			}
+		}
+		
 		return servicesPageable;
 	}
 	
@@ -60,6 +85,19 @@ public class ServiceModelService {
 			page = servicesPageable.getTotalPages() - 1;
 			servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+search+"%", serviceCategoryId, PageRequest.of(page, size));
 		}
+		
+		for(ServiceModel service : servicesPageable.toList()) {
+			service.setBase64ThumbnailEncode(service.getThumbnail());
+			double averageStars = 0;
+			for(FeedbackModel feedback : service.getFeedbacks()) {
+				averageStars += feedback.getRatedStart();
+			}
+			if(averageStars != 0) {
+				averageStars /= service.getFeedbacks().size(); 
+				service.setAvg_star(averageStars);
+			}
+		}
+		
 		return servicesPageable;
 	}
 	

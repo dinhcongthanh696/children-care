@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>ADMIN | Dash Board</title>
+<!-- master stylesheet -->
+<link rel="stylesheet" href="../css/style.css">
+<!-- Responsive stylesheet -->
+<link rel="stylesheet" href="../css/responsive.css">
+<!--Color Switcher Mockup-->
+<link rel="stylesheet" href="../css/color-switcher-design.css">
+<!--Color Themes-->
+<link rel="stylesheet" href="../css/color-themes/default-theme.css"
+	id="theme-color-file">
+<!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<!-- Bootstrap -->
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180"
+	href="../images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="stylesheet" href="../css/admin-dashboard.css">
+<link rel="stylesheet" href="../css/service-list.css">
+<link rel="stylesheet" href="../css/authentication.css">
+ <!-- Fav icon -->	
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+</head>
+<body onload="renderPages()">
+	<section id="main-menu" 
+	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/admin/setting/roles', placeholder='Search By Screen Name ...',current='services',search=${search})">
+	</section>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="box-statstic-reservation col-sm-3">
+				<span class="col-sm-6"> 
+					<span class="box-reservation-title">Reservation Success : </span>
+					<span th:text="${reservationsSuccess}" class="box-reservation-number"></span>
+				 </span>  
+				<span class="col-sm-6" style="background-color: #b4e657;border-radius: 5px;padding : 10px;">
+					<i class="fas fa-check" style="color : green; font-size : 25px;"></i>
+				</span>
+			</div>
+			<div class="box-statstic-reservation col-sm-3">
+				<span class="col-sm-6"> 
+					<span class="box-reservation-title">Reservation Canceled : </span>
+					<span th:text="${reservationsCanceled}" class="box-reservation-number"></span>
+				</span>
+				<span class="col-sm-6" style="background-color: #e66557; border-radius: 5px;padding : 10px;">
+					<i class="fas fa-remove" style="color : red; font-size : 25px;"></i>
+				</span>
+			</div>
+			<div class="box-statstic-reservation col-sm-3">
+				<span class="col-sm-6"> 
+					<span class="box-reservation-title">Reservation Submitted : </span>
+					<span th:text="${reservationsCanceled}" class="box-reservation-number"></span>
+				 </span>
+				<span class="col-sm-6" style="background-color: #57e6b9;border-radius: 5px;padding : 10px;"> 
+					<i class="fa fa-paper-plane" style="color : blue; font-size : 25px;"></i>
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="card-item top-left col-sm-4">
+				<h4 style="color : #ed4e4e;">Service Category's Revenue Statistic</h4>
+				<table class="table table-striped col-sm-12">
+					<thead>
+						<tr>
+							<th>
+								<label for="revenueDate">Choose month : </label>
+								<input type="month"	onchange="changeRevenueDate(this.value)" 
+								th:value="${revenueDate}" class="form-control"
+								id="revenueDate"/>							
+								
+							</th>
+						</tr>
+						<tr>
+							<th>Service Category ID</th>
+							<th>Service Category Name </th>
+							<th>Revenue</th>
+						</tr>	
+					</thead>
+					<tbody>
+						<tr th:each="category : ${categories}">
+							<td th:text="'#'+${category.serviceCategoryId}"></td>
+							<td th:text="${category.serviceCategoryName}"></td>
+							<td th:text="${category.totalRevenue}"></td>
+						</tr>
+						<tr>
+							<td colspan="3" th:text="'Total Revenue : '+${#aggregates.sum(categories.![totalRevenue])}" style="text-align : center;font-weight : bold;font-size : 30px;"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="card-item top-right col-sm-7">
+				<h4 style="color : #39abed;">Service Statistic</h4>
+				<table class="table table-striped">
+					<thead>
+				<tr>
+					<th>#Service Id</th>
+					<th>Image</th>
+					<th>Title</th>
+					<th>Category</th>
+					<th>Brief Information</th>
+					<th>Original Price</th>
+					<th>Sale Price</th>
+					<th>Average Star</th>
+				</tr>
+			</thead>
+			<tbody >
+				<tr th:each="service : ${services}" th:id="'service'+${service.serviceId}" 
+					class="service_item">
+					<th th:text="${'#'+service.serviceId}"></th>
+					<td><img th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}" style="width : 150px;"/></td>
+					<td th:text="${service.title}"></td>
+					<td th:text="${service.serviceCategory.serviceCategoryName}"></td>
+					<td th:text="${service.briefInfo}"></td>
+					<td th:text="${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT')}"></td>
+					<td th:text="${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}"></td>
+					<td>
+						<span
+							th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+						<span
+							th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+						<span
+							th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+						<span
+							th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+						<span
+							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>		
+					</td>
+				</tr>
+				</table>
+				<div id="pages"></div>
+			</div>
+		</div>
+		<div class="card-item row">
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Customer's Id</th>
+							<th>Customer's Name</th>
+							<th>Customer's Address</th>
+							<th>Customer's Phone Number</th>
+							<th>Customer's Email</th>
+							<th>Customer's gender</th>
+							<th>Customer's Role</th>
+						</tr>
+					</thead>	
+				</table>
+			</div>
+		</div>
+		<div class="card-item row">
+			<h4 style="color : #39ed9f;">Reservation charts</h4>
+			<canvas id="myChart"></canvas>
+		</div>
+	</div>
+	
+	<!-- start hidden fields -->
+	<input type="hidden" th:value="${totalPages}" id="totalPages" />
+	<input type="hidden" th:value="${currentPage}" id="currentPage"/>
+	<input type="hidden" th:value="${sevenLastDays}" id="sevenLastDays"/>
+	<input type="hidden" th:value="${reservationCanceledNumbers}" id="reservationCanceledNumbers"/>
+	<input type="hidden" th:value="${reservationSuccessNumbers}" id="reservationSuccessNumbers"/>
+	<!-- end hidden fields -->
+	
+	<div id="footer" th:insert="index :: footer"></div>
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  	<script src="../js/pagging.js"></script>	
+  	<script type="text/javascript">
+  	const labels = JSON.parse(document.getElementById("sevenLastDays").value);
+  	  const data = {
+  	    labels: labels,
+  	    datasets: [{
+  	      label: 'Success',
+  	      backgroundColor: 'rgb(62, 240, 116)',
+  	      borderColor: 'rgb(255, 99, 132)',
+  	      data: JSON.parse(document.getElementById("reservationSuccessNumbers").value),
+  	    }, {
+  	  	  label: 'Canceled',
+  	  	  backgroundColor: 'rgb(242, 104, 104)',
+  	  	  borderColor: 'rgb(255, 99, 132)',
+  	  	  data: JSON.parse(document.getElementById("reservationCanceledNumbers").value),
+  	  	    }]
+  	  };
+  	  
+
+  	const config = {
+  		  type: 'bar',
+  		  data: data,
+  		  options: {
+  		    scales: {
+  		      y: {
+  		        beginAtZero: true
+  		      }
+  		    }
+  		  },
+  		};
+  	  
+  	const myChart = new Chart(
+  		    document.getElementById('myChart'),
+  		    config
+  	);
+  	
+  		function changeRevenueDate(revenueDate){
+  			var currentPage = document.getElementById("currentPage").value;
+  			location.href="/ChildrenCare/admin/dashboard?revenueDate="+revenueDate+"&page="+currentPage;
+  		}
+  		
+  		function changePage(pageNumber) {
+  			var revenueDate = document.getElementById("revenueDate").value;
+  			window.location = "/ChildrenCare/admin/dashboard?page=" + pageNumber + "&revenueDate=" + revenueDate;
+  		}
+  	</script>
+</body>
+</html>

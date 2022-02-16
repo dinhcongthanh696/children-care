@@ -33,12 +33,24 @@ public class AuthorizationFilter implements Filter{
 			httpResponse.sendError(401);
 			return;
 		}
-		String to = httpRequest.getServletPath();
+		String[] servletPathSplit = httpRequest.getServletPath().split("/");
+		String[] screenUrlSplit;
 		for(PermissionModel permission : user.getUserRole().getPermissions()) {
-			if(permission.getScreen().getUrl().equals(to) && httpRequest.getMethod().equalsIgnoreCase(permission.getScreen().getMethod())) {
-				chain.doFilter(httpRequest, httpResponse);
-				return;
+			screenUrlSplit = permission.getScreen().getUrl().split("/");
+			int splitCount = 0;
+			int splitHigherLength = ((servletPathSplit.length >= screenUrlSplit.length) ? servletPathSplit.length : screenUrlSplit.length);
+			int splitLength = ((servletPathSplit.length <= screenUrlSplit.length) ? servletPathSplit.length : screenUrlSplit.length);
+			for(int i = 0 ; i < splitLength ; i++ ) {
+				if(screenUrlSplit[i].equals("*") || screenUrlSplit[i].equals(servletPathSplit[i])) {
+					splitCount++;
+				}else {
+					break;
+				}
 			}
+				if(splitCount == splitHigherLength && httpRequest.getMethod().equalsIgnoreCase(permission.getScreen().getMethod())) {
+					chain.doFilter(httpRequest, httpResponse);
+					return;
+				}
 		}
 		httpResponse.sendError(403);
 	}

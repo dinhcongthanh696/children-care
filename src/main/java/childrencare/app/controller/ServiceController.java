@@ -42,20 +42,9 @@ public class ServiceController {
 		if(categoryId != 0) {
 			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, categoryId, search);
 		}else {
-			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, search);
+			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, search , "title");
 		}
-		
-		for(ServiceModel service : services) {
-			service.setBase64ThumbnailEncode(service.getThumbnail());
-			double averageStars = 0;
-			for(FeedbackModel feedback : service.getFeedbacks()) {
-				averageStars += feedback.getRatedStart();
-			}
-			if(averageStars != 0) {
-				averageStars /= service.getFeedbacks().size(); 
-				service.setAvg_star(averageStars);
-			}
-		}
+
 		List<ServiceCategoryModel> categories = serviceCategoryService.findAll();
 		
 		model.addAttribute("services",services.toList());

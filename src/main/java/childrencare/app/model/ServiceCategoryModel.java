@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,9 @@ public class ServiceCategoryModel {
 	private int serviceCategoryId; 
 	@Column(name = "service_category_name")
 	private String serviceCategoryName;
+	
+	@Transient
+	private double totalRevenue;
 	
 	@OneToMany(mappedBy = "serviceCategory")
 	List<ServiceModel> services;

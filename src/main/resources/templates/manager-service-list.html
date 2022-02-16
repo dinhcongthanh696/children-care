@@ -88,7 +88,7 @@
         		</div>
         		<button onclick="addNewService()"
         			th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
-					th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'" 
+					th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
 					th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
         		>Save your changes</button>
       		</div>

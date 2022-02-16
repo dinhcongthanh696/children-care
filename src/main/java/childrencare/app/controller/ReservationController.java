@@ -38,8 +38,6 @@ import java.util.List;
 public class ReservationController {
     // Nghia's code
 
-    // Thanh Code
-    private final int DAYINSECONDS = 3600 * 24;
 
     //Nghia's code
     @Autowired

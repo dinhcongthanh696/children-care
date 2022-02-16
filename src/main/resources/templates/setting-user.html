@@ -75,7 +75,7 @@
 		<input type="hidden" id="currentPage" th:value="${currentPage}"/>
 	<!-- /Input hidden field -->
 	<div id="pages"></div>
-	
+	<div id="footer" th:insert="index :: footer"></div>
 	<script type="text/javascript">
 	function changePage(pageNumber) {
 		var search = document.querySelector("#search").value;
