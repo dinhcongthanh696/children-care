@@ -2,20 +2,33 @@ package childrencare.app.controller;
 
 
 import childrencare.app.model.ReservationServiceModel;
+import childrencare.app.model.SliderModel;
 import childrencare.app.model.UserModel;
 import childrencare.app.service.LoginService;
 import childrencare.app.service.ReservationService_Service;
+import childrencare.app.service.SlidersService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.awt.datatransfer.MimeTypeParseException;
+import java.awt.print.Pageable;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/setting")
@@ -26,6 +39,11 @@ public class UserSettingController {
 
     @Autowired
     private ReservationService_Service reservationService_service;
+
+    @Autowired
+    private SlidersService slidersService;
+
+
 
     @GetMapping("/profile")
     public String profileSetting(HttpSession session, Model model){
@@ -58,13 +76,58 @@ public class UserSettingController {
         }
         return "redirect:/setting/profile";
     }
-    @GetMapping("/myReservation")
-    public String getmyReservation(Model model,HttpSession session){
+    @GetMapping("/myReservation/page/{pageNum}")
+    public String getmyReservation(Model model,
+                                   @PathVariable(name = "pageNum") int pageNum,
+                                   HttpSession session){
         UserModel user = (UserModel) session.getAttribute("user");
-        List<ReservationServiceModel> customerReservation = reservationService_service.getCustomerReservation(user.getEmail());
+        String email = user.getEmail();
+        List<ReservationServiceModel> customerReservation = reservationService_service.findAllByEmail(email);
+        Page<ReservationServiceModel> page = reservationService_service.listAll(pageNum);
+        customerReservation = page.getContent();
         model.addAttribute("userLogin",user);
         model.addAttribute("customerReser",customerReservation);
+        model.addAttribute("currentPage",pageNum);
+        model.addAttribute("totalPages",page.getTotalPages());
+        model.addAttribute("totalItems",page.getTotalElements());
         return "myReservation";
     }
+
+    @GetMapping("/sliderManager/page/{pageNum}")
+    public String viewPage(Model model,@PathVariable(name ="pageNum") int pageNum){
+        Page<SliderModel> page = slidersService.listAll(pageNum);
+        List<SliderModel> slidersList = page.getContent();
+        for (SliderModel slider: slidersList) {
+            slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
+        }
+
+        model.addAttribute("currentPage",pageNum);
+        model.addAttribute("totalPages",page.getTotalPages());
+        model.addAttribute("totalItems",page.getTotalElements());
+        model.addAttribute("slidersList",slidersList);
+
+        return "sliders-manager";
+    }
+
+    @GetMapping ("/changStatus/{id}")
+    @Transactional
+    public String changStatusSlider( @PathVariable(value = "id") int id,Model model){
+        slidersService.updatestatusSlider(true,id);
+        return "redirect:/setting/profile";
+    }
+
+    @PostMapping("/update")
+    @Transactional
+    public String updateSlider(@RequestParam(name = "id") int id,
+                               @RequestParam(name = "title") String title,
+                               @RequestParam(name = "backlink") String backlink,
+                               @RequestParam(name = "status") boolean status,
+                               @RequestParam(name = "note") String note){
+        slidersService.updateSlider(backlink,note,status,title,id);
+        return "redirect:/setting/sliderManager";
+    }
+
+
+
 
 }
