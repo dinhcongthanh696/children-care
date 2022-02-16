@@ -68,7 +68,9 @@ public class FeedbackModel {
 	private String address;
 	
 	public void setBase64ImageEncode(byte[] image) {
-		this.base64ImageEncode = Base64.getEncoder().encodeToString(image);
+		if(image != null) {
+			this.base64ImageEncode = Base64.getEncoder().encodeToString(image);
+		}
 	}
 	
 }
