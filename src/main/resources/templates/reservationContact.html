@@ -23,14 +23,19 @@
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--fix login form not appear when first click-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--    fix login form not appear when first click-->
+<!--    <link rel="stylesheet"-->
+<!--          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet"-->
+<!--          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--    <script-->
+<!--            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>-->
+<!--    <script-->
+<!--            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 <!--login style-->
     <link href="../css/authentication.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/reservationContact.css">
@@ -98,8 +103,8 @@
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group"> <label for="NAME3" class="small text-muted mb-1">Email</label>
-                                                <input readonly th:if="${user} !=null" th:object="${user}" type="text" th:field="*{email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input th:if="${user} == null" th:field="*{email}" type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
+                                                <input readonly th:if="${session.user} !=null" th:object="${user}" type="text" th:field="*{email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input th:if="${session.user} == null" th:field="*{email}" type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group"> <label for="NAME4" class="small text-muted mb-1">Mobile</label>
