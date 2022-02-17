@@ -99,6 +99,10 @@
       event.target.blur(); // make the input quantity lose focus to recalculate old value
       var oldValue = document.querySelector("#oldvalue"+serviceId).value;
       var updatedQuantity = newValue - oldValue;
+      if(newValue < 1){
+        alert("Quantity must be > 1");
+        return;
+      }
       if(updatedQuantity > 0){
     	  alert("Increase the quantity by : "+updatedQuantity);
       }else{
@@ -146,7 +150,7 @@
         <div th:text="${#numbers.formatDecimal(info.originalPrice,1,'POINT',0,'POINT')}" class="product-price d-none"></div>
         <div class="pass-quantity col-lg-3 col-md-4 col-sm-3">
           <label class="pass-quantity">Total person</label>
-          <input class="form-control" type="number" min="1" th:value="${info.quantity}"
+          <input  class="form-control" type="number" min="1" th:value="${info.quantity}"
                  th:onfocus="'storeOldValue('+${info.serviceId}+',this.value)'"
                  th:onchange="'editCartItem(event,'+ ${info.serviceId} +',this.value)'"/>
           <input type="hidden" th:id="'oldvalue'+(${info.serviceId})"/>

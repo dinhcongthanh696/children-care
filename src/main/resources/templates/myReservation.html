@@ -15,13 +15,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- master stylesheet -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../../css/style.css">
     <!-- Responsive stylesheet -->
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../../../css/responsive.css">
     <!--Color Switcher Mockup-->
-    <link rel="stylesheet" href="../css/color-switcher-design.css">
+    <link rel="stylesheet" href="../../../css/color-switcher-design.css">
     <!--Color Themes-->
-    <link rel="stylesheet" href="../css/color-themes/default-theme.css"
+    <link rel="stylesheet" href="../../../css/color-themes/default-theme.css"
           id="theme-color-file">
     <!-- Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
@@ -34,12 +34,12 @@
     <link rel="icon" type="image/png"
           href="../images/favicon/favicon-16x16.png" sizes="16x16">
 
-    <link rel="stylesheet" href="../css/authentication.css">
+    <link rel="stylesheet" href="../../../css/authentication.css">
     <!-- Fav icon -->
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
-    <link rel="stylesheet" href="../css/myReservation.css">
-    <link rel="stylesheet" href="../css/setting.css">
+    <link rel="stylesheet" href="../../../css/myReservation.css">
+    <link rel="stylesheet" href="../../../css/setting.css">
     <!--fix login form not appear when first click-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -47,7 +47,7 @@
     <!--    fix login form not appear when first click-->
 </head>
 <body>
-<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/setting/profile')"></div>
+<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/setting/myReservation/page/1')"></div>
 <div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
 <header th:replace="header.html :: header"></header>
 
@@ -64,7 +64,7 @@
                             <div class="row">
                                 <div class="col-sm-8"><h2>My <b>Reservation</b></h2></div>
                                 <div class="col-sm-4">
-                                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                                    <button type="button" class="btn btn-info add-new">View Only</button>
                                 </div>
                             </div>
                         </div>
@@ -91,6 +91,30 @@
 
                             </tbody>
                         </table>
+                        <div th:if="${totalPages > 1}">
+                            Total Items: [[${totalItems}]]
+                            &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+                            <a th:if="${currentPage > 1}" th:href="@{'/setting/myReservation/page/1'}">First</a>
+                            <span th:unless="${currentPage > 1}">First</span>
+                            &nbsp;&nbsp;
+
+                            <a th:if="${currentPage > 1}" th:href="@{'/setting/myReservation/page/' + ${currentPage - 1} }">Previous</a>
+                            <span th:unless="${currentPage > 1}">Previous</span>
+
+                            &nbsp;&nbsp;
+
+                            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			                  <a th:if="${currentPage != i}" th:href="@{'/setting/myReservation/page/' + ${i}}">[[${i}]]</a>
+			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
+
+                            <a th:if="${currentPage < totalPages}" th:href="@{'/setting/myReservation/page/' + ${currentPage + 1} }">Next</a>
+                            <span th:unless="${currentPage < totalPages}">Next</span>
+                            &nbsp;&nbsp;
+
+                            <a th:if="${currentPage < totalPages}" th:href="@{'/setting/myReservation/page/' + ${totalPages} }">Last</a>
+                            <span th:unless="${currentPage < totalPages}">Last</span>
+                        </div>
                     </div>
                 </div>
             </div>

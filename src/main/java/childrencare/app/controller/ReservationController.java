@@ -71,7 +71,6 @@ public class ReservationController {
 
     @GetMapping("/add/{sid}")
     public String addToCart(@PathVariable(value = "sid") int id, Model model, HttpSession session,
-
                             HttpServletResponse response, HttpServletRequest request,
                             @RequestParam(name = "quantity", defaultValue = "1") int quantity) throws IOException {
         ServiceModel serviceById = service.getServiceById(id);
@@ -128,6 +127,8 @@ public class ReservationController {
     public String getReservationContact(Model model, HttpSession session) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         UserModel userModel = (UserModel) session.getAttribute("user");
+
+
         if (itemList != null) {
             double total = (Double) session.getAttribute("total");
             model.addAttribute("orderList", itemList);
@@ -175,7 +176,10 @@ public class ReservationController {
     }
 
     @RequestMapping("/infor")
-    public String reservationInfor(Model model) {
+    public String reservationInfor(Model model,
+                                   @RequestParam(name = "rid") int rid) {
+
+
         model.addAttribute("listCategoryPost", blogCategoryService.findAll());
         return "reservationInfor";
     }

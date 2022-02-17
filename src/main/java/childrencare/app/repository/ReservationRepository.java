@@ -41,4 +41,12 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1 AND DATEPART(month,date) = DATEPART(MONTH,?2)\r\n"
     		+ "AND DATEPART(YEAR,date) = DATEPART(YEAR,?2) AND DATEPART(DAY,date) = DATEPART(day,?2)",nativeQuery = true)
     int countReservationByStatusAndDate(int status,Date date);
+    @Query(value = "select *\n" +
+            "from reservation r\n" +
+            "inner join reservation_service rc on rc.reservation_id = r.reservation_id\n" +
+            "inner join slot on slot.slot_id = rc.slot_id\n" +
+            "inner join [service] serv on serv.service_id= rc.service_id\n" +
+            "where r.reservation_id = ?1 \n" +
+            "",nativeQuery = true)
+    public ReservationModel getReservationModelByReservationId(int reserID);
 }
