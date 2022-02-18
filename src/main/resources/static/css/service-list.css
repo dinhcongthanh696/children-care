@@ -200,6 +200,10 @@ li.list-group-item:hover{
 	transition : box-shadow 1s;
 }
 
+.modal-header{
+	text-align: center;
+}
+
 #contact-message{
 	transition : color 1s;
 }

@@ -1,5 +1,6 @@
 package childrencare.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,11 +25,12 @@ public class Slot {
     private int id;
     
     @Column(name = "start_time")
-    private Date start;
+    private double start;
 
     @Column(name = "end_time")
-    private Date end;
+    private double end;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "slot")
     private List<ReservationServiceModel> reservationServices;
 

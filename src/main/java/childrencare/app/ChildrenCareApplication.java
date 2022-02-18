@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 
 import childrencare.app.model.ReservationModel;
 import childrencare.app.repository.ReservationRepository;
-import com.sun.javaws.IconUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

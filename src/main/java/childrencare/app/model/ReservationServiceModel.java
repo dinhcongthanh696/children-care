@@ -39,7 +39,6 @@ public class ReservationServiceModel {
 	private Slot slot;
 
 
-	
 	private double price;
 
 }

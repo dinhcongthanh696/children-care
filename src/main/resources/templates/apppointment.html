@@ -280,134 +280,145 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xl-8">
-                <div class="appointment-form-left">
-                    <form name="appointment-form" action="" method="post">
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Date</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                        <input type="text" name="date" placeholder="Date" id="datepicker">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Your service</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <select class="selectmenu">
-                                                    <!-- Insert user's chosen service -->
-                                                    <th:block th:each="service : ${services}">
-                                                        <option th:utext="${service.title}"> </option>
-                                                    </th:block>
-                                                </select>
-                                            </div>
+            <div class="row">
+                <div class="col-xl-8">
+                    <div class="appointment-form-left">
+                        <form name="appointment-form" action="" method="post">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="single-box">
+                                        <div class="title">
+                                            <h5>Your service</h5>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Doctor</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <select class="selectmenu">
-                                            <!-- Insert available doctor here -->
-                                            <option> Choose for me </option>
-                                            <th:block th:each="doctor : ${doctors}">
-                                                <option th:utext="${doctor.fullname}" th:value="${doctor.username}"> </option>
-                                            </th:block>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Available at</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <div class="available-time">
-                                            <ul>
-                                                <!-- Insert available time here-->
-                                                <li>9.00am</li>
-                                                <li class="active">11.30am</li>
-                                                <li>12.00pm</li>
-                                                <li>3.00pm</li>
-                                                <li>4.00pm</li>
-                                                <li>5.00pm</li>
-                                                <li>5.30pm</li>
-                                                <li>6.00pm</li>
-                                                <li>7.00pm</li>
-                                                <li>7.30pm</li>
-                                            </ul>    
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>   
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-9">
-                <div class="appointment-right">
-                    <form name="appointment-right" action="#" method="post">
-                        <div class="confirm-booking">
-                            <h3>Your Payment</h3>
-                            <div class="tab-content">
-                                <!-- credit card info-->
-                                <div id="credit-card" class="tab-pane fade show active pt-3">
-                                    <form role="form" onsubmit="event.preventDefault()">
-                                        <div class="form-group"> <label for="username">
-                                            <h6>Card Owner</h6>
-                                        </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control "> </div>
-                                        <div class="form-group"> <label for="cardNumber">
-                                            <h6>Card number</h6>
-                                        </label>
-                                            <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
-                                                <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <div class="form-group"> <label><span class="hidden-xs">
-                                                            <h6>Expiration Date</h6>
-                                                        </span></label>
-                                                    <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
+                                        <div class="input-box">
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <select class="selectmenu">
+                                                        <!-- Insert user's chosen service -->
+                                                        <th:block th:each="service : ${services}">
+                                                            <option th:utext="${service.title}" th:value ="${service.serviceId}"> </option>
+                                                        </th:block>
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
-                                                    <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
-                                                </label> <input type="text" required class="form-control"> </div>
-                                            </div>
                                         </div>
-                                        <div class="card-footer"> <button type="button" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
-                                    </form>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="single-box">
+                                        <div class="title">
+                                            <h5>Date</h5>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="date" name="bookedDate" placeholder="Date" id="datepicker">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="button-box">
-                            <button class="btn-one" type="submit">Confirm</button>   
-                            <button class="btn-one" type="submit">Cancel</button>   
-                        </div>    
-                    </form>   
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="single-box">
+                                        <div class="title">
+                                            <h5>Doctor</h5>
+                                        </div>
+                                        <div class="input-box">
+                                            <select class="selectmenu" id = "doctorMenu">
+                                                <!-- Insert available doctor here -->
+                                                <option th:value = "0"> Choose for me </option>
+                                                <th:block th:each="doctor : ${doctors}">
+                                                    <option th:utext="${doctor.fullname}" th:value="${doctor.username}"> </option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="single-box">
+                                        <div class="title">
+                                            <h5>Available at</h5>
+                                        </div>
+                                        <div class="input-box">
+                                            <div class="available-time">
+                                                <ul id="available-slot">
+                                                    <!-- Insert available time here-->
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <form action = "#" method="post">
+                            <div class="title">
+                                <h5>Your booked schedule</h5>
+                            </div>
+                            <div class = "row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="input-box">
+                                        <ul>
+                                            <!-- Your booked schedule -->
+                                            <li> Id - Service - Time - Doctor <button type="button" class="btn btn-outline-danger cancel">Cancel</button></li><br>
+                                            <li> Id - Service - Time - Doctor <button type="button" class="btn btn-outline-danger cancel">Cancel</button></li><br>
+                                            <li> Id - Service - Time - Doctor <button type="button" class="btn btn-outline-danger cancel">Cancel</button></li><br>
+                                            <li> Id - Service - Time - Doctor <button type="button" class="btn btn-outline-danger cancel">Cancel</button></li><br>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-outline-success">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+                <div class="col-xl-4 col-lg-6 col-md-9">
+                    <div class="appointment-right">
+                        <form name="appointment-right" action="#" method="post">
+                            <div class="confirm-booking">
+                                <h3>Your Payment</h3>
+                                <div class="tab-content">
+                                    <!-- credit card info-->
+                                    <div id="credit-card" class="tab-pane fade show active pt-3">
+                                        <form role="form" onsubmit="event.preventDefault()">
+                                            <div class="form-group"> <label for="username">
+                                                <h6>Card Owner</h6>
+                                            </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control "> </div>
+                                            <div class="form-group"> <label for="cardNumber">
+                                                <h6>Card number</h6>
+                                            </label>
+                                                <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
+                                                    <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group"> <label><span class="hidden-xs">
+                                                                <h6>Expiration Date</h6>
+                                                            </span></label>
+                                                        <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
+                                                        <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
+                                                    </label> <input type="text" required class="form-control"> </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer"> <button type="button" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-box">
+                                <button class="btn-one" type="submit">Confirm</button>
+                                <button class="btn-one" type="submit">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
@@ -619,7 +630,69 @@
 
 <!-- thm custom script -->
 <script src="js/custom.js"></script>
+<script>
 
+    /*=====  Cancel a booked reservation */
+    $(document).on('click', '.cancel', function () {
+        // your function here
+        deleteRecord();
+    });
+
+
+    function deleteRecord(rId, sId, slotId, time, doctor){
+        //Insert delete function
+
+        alert("Cancel on");
+    }
+
+    /*=====  Pick a date ==================*/
+    $(document).on('change', '#datepicker', function () {
+        // your function here
+        let date = new Date($('#datepicker').val());
+        let dd = String(date.getDate()).padStart(2, '0');
+        let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = date.getFullYear();
+
+        let day = yyyy + '-' + mm + '-' + dd;
+
+        var doctor = $("#doctorMenu").val();
+
+        console.log(doctor);
+
+        let url = '/ChildrenCare/api-slot/slots?bookedDate=' + day;
+
+        fetch(url)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                appendData(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        function appendData(data) {
+            $('#available-slot').empty();
+            var mainContainer = document.getElementById("available-slot")
+
+            for (var i = 0; i < data.length; i++) {
+                var li = document.createElement("li");
+                li.innerHTML = renderHour(data[i].start);
+                mainContainer.appendChild(li);
+            }
+        }
+    });
+
+    function renderHour(hour){
+        if(hour > 12){
+            return hour + ":00 pm";
+        }
+        else{
+            return hour + ":00 am";
+        }
+    }
+
+</script>
 
 
 </body>

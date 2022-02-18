@@ -31,6 +31,144 @@
           href="../../images/favicon/favicon-16x16.png" sizes="16x16">
     <link rel="stylesheet" href="../../css/color-themes/ServiceDetailCss.css">
     <style>
+        .navbar-nav {
+            width: 100%
+        }
+
+        @media(min-width:568px) {
+            .end {
+                margin-left: auto
+            }
+        }
+
+        @media(max-width:768px) {
+            #post {
+                width: 100%
+            }
+        }
+
+        #clicked {
+            padding-top: 1px;
+            padding-bottom: 1px;
+            text-align: center;
+            width: 100%;
+            background-color: #ecb21f;
+            border-color: #a88734 #9c7e31 #846a29;
+            color: black;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 13px
+        }
+
+        #profile {
+            background-color: unset
+        }
+
+        #post {
+            margin: 10px;
+            padding: 6px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            text-align: center;
+            background-color: #ecb21f;
+            border-color: #a88734 #9c7e31 #846a29;
+            color: black;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 13px;
+            width: 50%
+        }
+
+        body {
+            background-color: black
+        }
+
+        #nav-items li a,
+        #profile {
+            text-decoration: none;
+            color: rgb(224, 219, 219);
+            background-color: black
+        }
+
+        .comments {
+            margin-top: 5%;
+            margin-left: 20px
+        }
+
+        .darker {
+            border: 1px solid #ecb21f;
+            background-color: black;
+            float: right;
+            border-radius: 5px;
+            padding-left: 40px;
+            padding-right: 30px;
+            padding-top: 10px
+        }
+
+        .comment {
+            border: 1px solid rgba(16, 46, 46, 1);
+            background-color: rgba(16, 46, 46, 0.973);
+            float: left;
+            border-radius: 5px;
+            padding-left: 40px;
+            padding-right: 30px;
+            padding-top: 10px
+        }
+
+        .comment h4,
+        .comment span,
+        .darker h4,
+        .darker span {
+            display: inline
+        }
+
+        .comment p,
+        .comment span,
+        .darker p,
+        .darker span {
+            color: rgb(184, 183, 183)
+        }
+
+        h1,
+        h4 {
+            color: white;
+            font-weight: bold
+        }
+
+        label {
+            color: rgb(212, 208, 208)
+        }
+
+        #align-form {
+            margin-top: 20px
+        }
+
+        .form-group p a {
+            color: white
+        }
+
+        #checkbx {
+            background-color: black
+        }
+
+        #darker img {
+            margin-right: 15px;
+            position: static
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background-color: black;
+            border: 1px solid rgba(16, 46, 46, 1);
+            border-radius: 12px
+        }
+
+        form {
+            border: 1px solid rgba(16, 46, 46, 1);
+            background-color: rgba(16, 46, 46, 0.973);
+            border-radius: 5px;
+            padding: 20px
+        }
         /* fonts  */
         @import url('https://fonts.googleapis.com/css?family=Abel|Aguafina+Script|Artifika|Athiti|Condiment|Dosis|Droid+Serif|Farsan|Gurajada|Josefin+Sans|Lato|Lora|Merriweather|Noto+Serif|Open+Sans+Condensed:300|Playfair+Display|Rasa|Sahitya|Share+Tech|Text+Me+One|Titillium+Web');
 
@@ -235,7 +373,7 @@
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
 <div th:insert="index :: top-bar">
 </div>
-<section id="main-menu" th:replace="mainmenu.html :: mainMenu('','Service Detail','services','123')"></section>
+<section id="main-menu" th:replace="mainmenu.html :: mainMenu('','Service Detail','services','Search service')"></section>
 <div class="head">
     <a href="/ChildrenCare">Home </a> <a>> </a> <a href="/ChildrenCare/service/services">Our Services</a><a> > </a> <a th:text="${service.title}"></a>
 </div>
@@ -302,7 +440,7 @@
 
          <div class="product-image">
 
-             <img src="https://sc01.alicdn.com/kf/HTB1Cic9HFXXXXbZXpXXq6xXFXXX3/200006212/HTB1Cic9HFXXXXbZXpXXq6xXFXXX3.jpg" alt="Omar Dsoky">
+             <img th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}" alt="Omar Dsoky">
 
              <!--  product Information-->
              <div class="info">
@@ -318,13 +456,7 @@
 
 
      </div>
-     <div id="feedback">
-         <h2>Feedback</h2>
-         <div th:each="feedback : ${feedbackModels}">
-             <h4>Username</h4> <p th:text="${feedback.email}"></p>  Comment : </p><p th:text="${feedback.getComment()}"></p>
-            <!-- Image : <img th:src="${'data:image/gif;base64,'+feedback.base64ImageEncode}" /> -->
-         </div>
-     </div>
+
  <!--   <div class="col-8">
         <img th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}">
         <h2 class="price">Price: </h2> <h2 th:text="${service.originalPrice}"></h2>
@@ -337,6 +469,29 @@
             Image : <img th:src="${'data:image/gif;base64,'+feedback.base64ImageEncode}" />
         </div>
     </div> -->
+</div>
+<div class="row">
+    <div class="col-3"></div>
+    <div id="feedback" class="col-8">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5 col-md-6 col-12 pb-4">
+                    <h1 style="color: black">Feedback</h1>
+                    <div th:each="feedback : ${feedbackModels}">
+                        <div class="comment mt-4 text-justify float-left"> <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+                            <h4 th:text="${feedback.email}"></h4> <br>
+                            <p th:text="${feedback.getComment()}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       <!-- <h2>Feedback</h2>
+        <div th:each="feedback : ${feedbackModels}">
+            <h4>Username</h4> <p th:text="${feedback.email}"></p>  Comment : </p><p th:text="${feedback.getComment()}"></p>
+        Image : <img th:src="${'data:image/gif;base64,'+feedback.base64ImageEncode}" />
+    </div> -->
+</div>
 </div>
 <div th:insert="index :: footer"></div>
 

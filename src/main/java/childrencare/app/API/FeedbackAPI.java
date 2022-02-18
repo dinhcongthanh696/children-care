@@ -1,8 +1,6 @@
 package childrencare.app.API;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -75,7 +73,7 @@ public class FeedbackAPI {
 		
 		// if user does not have account
 		// 2. identify user email
-		JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
+/*		JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
 		String from = mailSenderImpl.getUsername();
 		String to = email;
 		String subject = "Email identifycation from Children Care";
@@ -103,7 +101,7 @@ public class FeedbackAPI {
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}	*/
 		return captcha;
 	}
 	
