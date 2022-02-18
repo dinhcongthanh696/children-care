@@ -17,5 +17,10 @@ public class SlotService {
         return slotRepository.getAvailableSlot(date);
     }
 
+    public Slot getSlotByReservationID(int reserID){
+        Slot slotByRid = slotRepository.getSlotByReservationID(reserID);
+        return slotByRid;
+    }
+
 
 }

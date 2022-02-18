@@ -353,16 +353,16 @@
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="col-auto mt-0">
-                                                            <p><b>Reservation ID: </b><span th:text="1212"></span></p>
+                                                            <p><b>Reservation ID: </b><span th:text="${reservationByReserId.getReservationId()}"></span></p>
                                                         </div>
                                                         <div class="col-auto">
-                                                            <p><b>Date: </b></p>
+                                                            <p><b>Date: </b><span th:text="${reservationByReserId.getDate()}"></span></p>
                                                         </div>
                                                         <div class="col-auto">
-                                                            <p><b>Time to check up: </b></p>
+                                                            <p><b>Time to check up: </b><span th:text="${slotByReserId.getStart()}"></span></p>
                                                         </div>
                                                         <div class="col-auto">
-                                                            <p><b>Status: </b></p>
+                                                            <p><b>Status: </b><span th:text="${reservationByReserId.isStatus()}"></span></p>
                                                         </div>
                                                         <div class="row mt-4">
                                                             <div class="col">
@@ -371,16 +371,16 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-auto mt-0">
-                                                            <p><b>Name: </b></p>
+                                                            <p><b>Name: </b><span th:text="${reservationByReserId.getFullname()}"></span></p>
                                                         </div>
                                                         <div class="col-auto">
-                                                            <p><b>Gender: </b></p>
+                                                            <p><b>Gender: </b><span th:text="${reservationByReserId.isGender()}"></span></p>
                                                         </div>
                                                         <div class="col-auto">
-                                                            <p><b>Phone: </b></p>
+                                                            <p><b>Phone: </b><span th:text="${reservationByReserId.getPhone()}"></span></p>
                                                         </div>
                                                         <div class="col-auto">
-                                                            <p><b>Email: </b></p>
+                                                            <p><b>Email: </b><span th:text="${reservationByReserId.getEmail()}"></span></p>
                                                         </div>
                                                         <div class="row mb-md-5">
                                                             <div class="col">

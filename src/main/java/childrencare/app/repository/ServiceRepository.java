@@ -61,4 +61,9 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
             + "WHERE rv.email = ?1 AND sv.service_id = ?2  "
             + "", nativeQuery = true)
     public List<ServiceModel> findByUserEmailAndServiceId(String email, Integer serviceId);
+
+    @Query(value = "select * from service serv\n" +
+            "inner join reservation_service rc on rc.service_id = serv.service_id\n" +
+            "where rc.reservation_id = ?1", nativeQuery = true)
+    public List<ServiceModel> findListServiceByReservationID(int reserId);
 }

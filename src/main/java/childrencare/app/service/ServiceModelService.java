@@ -129,4 +129,8 @@ public class ServiceModelService {
 		}
 	}
 
+	public List<ServiceModel> getServicesByReservationId(int reserID){
+		return serviceRepository.findListServiceByReservationID(reserID);
+	}
+
 }

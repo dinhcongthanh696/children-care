@@ -20,5 +20,13 @@ public interface SlotRepository extends JpaRepository<Slot, Integer> {
             "having count(*) < (select count(*) from user_model))", nativeQuery = true)
     List<Slot> getAvailableSlot(Date date);
 
+    @Query(value = "select slot.slot_id,slot.start_time,slot.end_time\n" +
+            "from slot\n" +
+            "inner join reservation_service rc on rc.slot_id = slot.slot_id\n" +
+            "inner join reservation r on r.reservation_id = rc.reservation_id\n" +
+            "where r.reservation_id = ?1\n" +
+            "group by slot.slot_id,slot.start_time,slot.end_time", nativeQuery = true)
+    public Slot getSlotByReservationID(int reserID);
+
 
 }
