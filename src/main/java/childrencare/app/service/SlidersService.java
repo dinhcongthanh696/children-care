@@ -22,17 +22,6 @@ public class SlidersService  {
     @Autowired
     private SlidersRepository slidersRepository;
 
-    public List<SliderModel> findAll() {
-        return slidersRepository.findAll();
-    }
-
-    public SliderModel getById(Integer integer) {
-        return slidersRepository.getById(integer);
-    }
-    public void updatestatusSlider(boolean status, int slide_id) {
-        slidersRepository.updatestatusSlider(status, slide_id);
-    }
-
     public void updateSlider(String back_link, MultipartFile img, String notes, boolean status, String title, int slide_id) {
         SliderModel sliderModel = new SliderModel();
         String fileName = StringUtils.cleanPath(img.getOriginalFilename());
@@ -45,8 +34,12 @@ public class SlidersService  {
         slidersRepository.updateSlider(back_link,img, notes, status, title, slide_id);
     }
 
-    public Page<SliderModel> listAll(int pageNum) {
+    public Page<SliderModel> listAll(int pageNum,String keyword) {
         org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNum - 1, 3);
+        if(keyword != null){
+            return slidersRepository.findAll(keyword,pageable);
+        }
         return slidersRepository.findAll(pageable);
     }
+
 }

@@ -11,6 +11,7 @@ import childrencare.app.service.SlidersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,9 +40,6 @@ public class UserSettingController {
 
     @Autowired
     private ReservationService_Service reservationService_service;
-
-    @Autowired
-    private SlidersService slidersService;
 
 
 
@@ -93,40 +91,6 @@ public class UserSettingController {
         return "myReservation";
     }
 
-    @GetMapping("/sliderManager/page/{pageNum}")
-    public String viewPage(Model model,@PathVariable(name ="pageNum") int pageNum){
-        Page<SliderModel> page = slidersService.listAll(pageNum);
-        List<SliderModel> slidersList = page.getContent();
-        for (SliderModel slider: slidersList) {
-            slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
-        }
-
-        model.addAttribute("currentPage",pageNum);
-        model.addAttribute("totalPages",page.getTotalPages());
-        model.addAttribute("totalItems",page.getTotalElements());
-        model.addAttribute("slidersList",slidersList);
-
-        return "sliders-manager";
-    }
-
-    @GetMapping ("/changStatus/{id}")
-    @Transactional
-    public String changStatusSlider( @PathVariable(value = "id") int id,Model model){
-        slidersService.updatestatusSlider(true,id);
-        return "redirect:/setting/profile";
-    }
-
-    @PostMapping("/update")
-    @Transactional
-    public String updateSlider(@RequestParam(name = "id") int id,
-                               @RequestParam(name = "file1") MultipartFile img,
-                               @RequestParam(name = "title") String title,
-                               @RequestParam(name = "backlink") String backlink,
-                               @RequestParam(name = "status") boolean status,
-                               @RequestParam(name = "note") String note){
-        slidersService.updateSlider(backlink,img,note,status,title,id);
-        return "redirect:/setting/sliderManager";
-    }
 
 
 
