@@ -1,14 +1,13 @@
 package childrencare.app.repository;
 
 import childrencare.app.model.ReservationModel;
-import childrencare.app.model.UserModel;
+
+import java.util.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
-import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<ReservationModel, Integer> {
@@ -35,12 +34,19 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     @Query(value = "insert into reservation_service " +
             "values (?1, ?2, ?3, ?4, ?5)",nativeQuery = true)
     void createSchedule(int reservationId,int serviceId, int slotId, String doctor, double price);
-
-
-    @Query(value = "select * from slot \n" +
-            "where slot_id not in \n" +
-            "(select s.slot_id from slot s\n" +
-            "inner join reservation_service rs on rs.slot_id = s.slot_id\n" +
-            "group by s.slot_id)", nativeQuery = true)
-    List<UserModel> getAvailableDoctor(Date date, String doctor);
+    
+    @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1",nativeQuery = true)
+    int countReservationByStatus(int status);
+    
+    @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1 AND DATEPART(month,date) = DATEPART(MONTH,?2)\r\n"
+    		+ "AND DATEPART(YEAR,date) = DATEPART(YEAR,?2) AND DATEPART(DAY,date) = DATEPART(day,?2)",nativeQuery = true)
+    int countReservationByStatusAndDate(int status,Date date);
+    @Query(value = "select *\n" +
+            "from reservation r\n" +
+            "inner join reservation_service rc on rc.reservation_id = r.reservation_id\n" +
+            "inner join slot on slot.slot_id = rc.slot_id\n" +
+            "inner join [service] serv on serv.service_id= rc.service_id\n" +
+            "where r.reservation_id = ?1 \n" +
+            "",nativeQuery = true)
+    public ReservationModel getReservationModelByReservationId(int reserID);
 }

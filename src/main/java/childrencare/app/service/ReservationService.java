@@ -3,7 +3,6 @@ package childrencare.app.service;
 
 import childrencare.app.model.ReservationModel;
 import childrencare.app.model.ReservationServiceModel;
-import childrencare.app.model.UserModel;
 import childrencare.app.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -21,7 +20,6 @@ public class ReservationService {
     @Autowired
     private ReservationRepository repository;
 
-
     public void save(ReservationModel entity) {
         repository.save(entity);
     }
@@ -29,6 +27,14 @@ public class ReservationService {
     //Thanh's code
     public int saveReservation(ReservationModel entity) {
     	return repository.save(entity).getReservationId();
+    }
+    
+    public int countReservationByStatus(int status) {
+    	return repository.countReservationByStatus(status);
+    }
+    
+    public int countReservationByStatusAndDate(int status , Date date) {
+    	return repository.countReservationByStatusAndDate(status, date);
     }
 
     public List<ReservationModel> findAll() {
@@ -47,10 +53,7 @@ public class ReservationService {
     public void createSchedule(int reservationId,int serviceId, int slotId, String doctor, double price){
         repository.createSchedule(reservationId, serviceId, slotId, doctor, price);
     }
+    //Get Infor by RID DucAnh
 
-    public List<UserModel> getAvailableDoctor(Date date, String doctor) {
-        return repository.getAvailableDoctor(date, doctor);
-    }
-
-
+    
 }

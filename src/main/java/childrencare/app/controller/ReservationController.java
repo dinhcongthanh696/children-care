@@ -4,10 +4,7 @@ import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.ReservationModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.model.UserModel;
-import childrencare.app.service.LoginService;
-import childrencare.app.service.ReservationService;
-import childrencare.app.service.ServiceModelService;
-import childrencare.app.service.Service_service;
+import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +35,6 @@ import java.util.List;
 public class ReservationController {
     // Nghia's code
 
-    // Thanh Code
-    private final int DAYINSECONDS = 3600 * 24;
 
     //Nghia's code
     @Autowired
@@ -54,6 +49,9 @@ public class ReservationController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private BlogCategoryService blogCategoryService;
 
 
     @GetMapping("/reser")
@@ -73,7 +71,6 @@ public class ReservationController {
 
     @GetMapping("/add/{sid}")
     public String addToCart(@PathVariable(value = "sid") int id, Model model, HttpSession session,
-
                             HttpServletResponse response, HttpServletRequest request,
                             @RequestParam(name = "quantity", defaultValue = "1") int quantity) throws IOException {
         ServiceModel serviceById = service.getServiceById(id);
@@ -130,6 +127,8 @@ public class ReservationController {
     public String getReservationContact(Model model, HttpSession session) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         UserModel userModel = (UserModel) session.getAttribute("user");
+
+
         if (itemList != null) {
             double total = (Double) session.getAttribute("total");
             model.addAttribute("orderList", itemList);
@@ -177,7 +176,11 @@ public class ReservationController {
     }
 
     @RequestMapping("/infor")
-    public String reservationInfor() {
+    public String reservationInfor(Model model,
+                                   @RequestParam(name = "rid") int rid) {
+
+
+        model.addAttribute("listCategoryPost", blogCategoryService.findAll());
         return "reservationInfor";
     }
 

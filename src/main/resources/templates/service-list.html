@@ -94,7 +94,7 @@
 	</div>
 	<div id="my-modal-contact-menu">
 		<div class="my-modal-content">
-			<h1>Do we know you?</h1>
+			<h1 class="modal-header">Do we know you?</h1>
 			<ul class="list-group">
 				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startLoginForm()">Login</a></li>
 				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Give your contact here!</a> </li>
@@ -126,9 +126,9 @@
 	<div id="my-modal-identification">
 		<div class="my-modal-content">
 			<h1 class="modal-header" id="modal-header-counter"></h1>
-			<label for="answer">Your answer : </label>
+			<label for="answer" id="label-answer">Your answer : </label>
 			<input type="text" class="form-control modal-input" placeholder="Put your answer..." id="answer"/>
-			<button class="btn btn-primary" onclick="indentifyCaptchaCode()">Verify</button>
+			<button class="btn btn-primary" onclick="indentifyCaptchaCode()" id="verify-email">Verify</button>
 		</div>
 	</div>
 	
@@ -197,6 +197,7 @@
 	var lastChosenPreview;
 	var lastChosenServiceId = -1;
 	var captchaInterval;
+	var lastChosenModal;
 	
 	function verifyUserEmail(email){
 		const userEmailInput = document.getElementById("user-email");
@@ -222,6 +223,11 @@
 	
 	function triggerModal(modalId,displayStyle){
 		const getModalById = document.getElementById(modalId);
+		if(displayStyle !== "none"){
+			lastChosenModal = getModalById;
+		}else{
+			lastChosenModal = null;
+		}
 		getModalById.style.display = displayStyle;
 	}
 	
@@ -230,8 +236,7 @@
 		.then(response => response.text())
 		.then(email => {
 			if(email === 'not yet'){
-				const modalContactMenu = document.getElementById("my-modal-contact-menu");
-				modalContactMenu.style.display = "block";
+				triggerModal("my-modal-contact-menu","block");
 				return;
 			}
 			lastChosenServiceId = serviceId;
@@ -243,10 +248,9 @@
 				if(feedbacks.length == 0){
 					alert("Sorry,you have not bought this service.Please buy this service first");	
 				}else{
-					var modalFeedBackStep1Element = document.querySelector("#my-modal-feedback-step1");
 					var feedBackQuestionElement = document.querySelector("#feedback-question");
 					feedBackQuestionElement.innerHTML = "Bạn cảm thấy như thế nào về dịch vụ "+ title  +"? ";
-					modalFeedBackStep1Element.style.display = "block";
+					triggerModal("my-modal-feedback-step1","block");
 				}
 			})
 		})
@@ -257,8 +261,7 @@
 	        $('#tab1').addClass('login-shadow');
 	        $('#tab2').removeClass('signup-shadow');
 	    }); */
-	    const modalContactMenu = document.getElementById("my-modal-contact-menu");
-	    modalContactMenu.style.display = "none";
+	    triggerModal("my-modal-contact-menu","none");
 	    
 	    const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
 	    modalBoxWrapper.style.display = "block";
@@ -274,22 +277,16 @@
 	
 	function startContactModal(event){
 		event.preventDefault();
-		var modalContactMenu = document.getElementById("my-modal-contact-menu");
-		modalContactMenu.style.display = "none"
+		triggerModal("my-modal-contact-menu","none");
 		
 		// Triggering modal contact
-		var modalUserContact = document.getElementById("my-modal-contact");
-		modalUserContact.style.display = "block";	
+		triggerModal("my-modal-contact","block");	
 	}
 	
 	
 	function startFormFeedback(){
-		var modalFeedBackStep2Element = document.querySelector("#my-modal-feedback-step-2");
-		modalFeedBackStep2Element.style.display = "block";
-		
-		// display none modal get user feeling
-		var modalFeedBackStep1Element = document.querySelector("#my-modal-feedback-step1");
-		modalFeedBackStep1Element.style.display = "none";
+		triggerModal("my-modal-feedback-step1","none");
+		triggerModal("my-modal-feedback-step-2","block");
 	}
 	
 	function saveFeedback(){
@@ -312,8 +309,7 @@
 				alert(message);	
 			}else{
 				// display modal success
-				var modalSuccessElement = document.querySelector("#my-modal-success");
-				modalSuccessElement.style.display = "block";
+				triggerModal("my-modal-success","block");
 				setTimeout(() => {
 					window.location.reload();
 				},2000)
@@ -337,15 +333,14 @@
 		formData.append("captcha",captcha);
 		
 		// Display waiting modal to wait for fetching api-feedback
-		var modalWaiting = document.getElementById("my-modal-waiting");
-		modalWaiting.style.display = "block";
+		triggerModal("my-modal-waiting","block");
 		
 		fetch("/ChildrenCare/api-feedback/verify-captcha" , {
 			method : 'POST',
 			body : formData
 		})
 		.then(response => {
-			modalWaiting.style.display = "none";
+			triggerModal("my-modal-waiting","none");
 			return response.text();
 		})
 		.then(message => {
@@ -362,30 +357,26 @@
 	}
 	
 	function identifyUserContact(){
-		var modalUserContact = document.getElementById("my-modal-contact"); 
-		modalUserContact.style.display = "none";
-		
+		triggerModal("my-modal-contact","none");
 		var email = document.getElementById("user-email").value;
 		
 		var formData = new FormData();
 		formData.append("email",email);
 		
 		// Display waiting modal to wait for fetching api-feedback
-		var modalWaiting = document.getElementById("my-modal-waiting");
-		modalWaiting.style.display = "block";
+		triggerModal("my-modal-waiting","block");
 		fetch("/ChildrenCare/api-feedback/generate-captcha" , {
 			method : 'POST',
 			body : formData
 		})
 		.then(response => {
-			modalWaiting.style.display = "none";
+			triggerModal("my-modal-waiting","none");
 			return response.text();
 		})
 		.then(captcha => {
 			if(captcha !== "verified"){
 				var counter = 90;
-				var modalIdentification = document.getElementById("my-modal-identification");
-				modalIdentification.style.display = "block";
+				triggerModal("my-modal-identification","block");
 				var modalHeaderCounter = document.getElementById("modal-header-counter");
 				captchaInterval = setInterval(() => {
 					modalHeaderCounter.innerHTML = "We have sent you an catpcha code to your email to verify. Code will be expired in :  "+ generateRealTime(counter);
@@ -394,7 +385,7 @@
 						if(confirm("Captcha code is expired , Do you want to receive another captcha? ")){
 							identifyUserContact();
 						}else{
-							modalIdentification.style.display = "none";
+							triggerModal("my-modal-identification","none");
 						}
 					}
 					counter -= 1;
@@ -407,11 +398,10 @@
 	}
 	
 	function generateRealTime(seconds){
-		var result = "";
 		var minute = Math.floor(seconds / 60);
 		var second = Math.floor(seconds % 60);
 		
-		result += (minute < 10) ? "0" + minute : minute;
+		var result = (minute < 10) ? "0" + minute : minute;
 		result += " : ";
 		result += (second < 10) ? "0" + second : second;
 		return result;
@@ -440,7 +430,6 @@
 		
 		var nextButton = document.getElementById("next-button");
 		nextButton.disabled = false;
-		
 	}
 
 	function addReservationService(event,service_id) {
@@ -451,8 +440,7 @@
 			var shoppingItemsElement = document.querySelector("span#shopping-cart-items");
 			var shoppingItems = data.length;
 			shoppingItemsElement.innerHTML = shoppingItems;
-			var modalSuccessElement = document.querySelector("#my-modal-success");
-			modalSuccessElement.style.display = "block";
+			triggerModal("my-modal-success","block");
 			setTimeout(() => {
 				modalSuccessElement.style.display = "none";
 			},2000)
@@ -460,37 +448,34 @@
 	}
 	
 	window.onclick = (event) => {
+		if(!lastChosenModal) return;
 		var modalElements = ["my-modal-content","give-feedback-button","next-button","col-xs-2 feeling","col-xs-2 feeling chosen","feeling-description",
 			"far fa-dizzy" , "far fa-angry" , "far fa-frown" , "far fa-meh" , "far fa-grin-alt" , "far fa-grin-beam" , "fas fa-arrow-right" ,
-			"modal-image-feedback" , "modal-label" , "form-control modal-input" , "save-feedback"];
-		var isModalClosed = true;
+			"modal-image-feedback" , "modal-label" , "form-control modal-input" , "save-feedback" 
+			,"list-group","list-group-item","modal-contact-link" , "fa fa-close close-modal" , 
+			"modal-header" , "answer" , "verify-email" , "label-answer"]; 
 		for(let i = 0 ; i < modalElements.length ; i++){
 			const modalElement = modalElements[i];
 			if(event.target.className === modalElement || event.target.id === modalElement){
-				isModalClosed = false;
-				break;
+				return;
 			}
 		}		
-		
-		var modalSuccessElement = document.querySelector("#my-modal-success");
-		var modalFeedBackStep1Element = document.querySelector("#my-modal-feedback-step1");
 		var nextButton = document.getElementById("next-button"); 
-		var modalFeedBackStep2Element = document.querySelector("#my-modal-feedback-step-2");
-		if(isModalClosed){
-			nextButton.disabled = true; // whenever user close feeling modal , disable next button
-			if(lastChosenFeeling){
-				lastChosenFeeling.className = "col-xs-2 feeling";
-			}  // clear the last chosen feeling
+		nextButton.disabled = true; // whenever user close feeling modal , disable next button
+		if(lastChosenFeeling){
+			lastChosenFeeling.className = "col-xs-2 feeling";
+		}  // clear the last chosen feeling
 			
-			if(lastChosenPreview){ 
-				URL.revokeObjectURL(lastChosenPreview);  // for performance
-			} // clear the last preview
-			
-			// close the modal when user click outside of the modal
-				modalSuccessElement.style.display = "none";
-				modalFeedBackStep1Element.style.display = "none";
-				modalFeedBackStep2Element.style.display = "none";
+		if(lastChosenPreview && lastChosenModal.id == "my-modal-feedback-step-2"){ 
+			URL.revokeObjectURL(lastChosenPreview);  // for performance
+		} // clear the last preview
+		
+		if(lastChosenModal.id == "my-modal-identification"){
+			clearInterval(captchaInterval);
 		}
+			
+		// close the modal when user click outside of the modal
+		triggerModal(lastChosenModal.id,"none");
 	}
 	
 	function changePage(pageNumber) {

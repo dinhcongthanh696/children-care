@@ -86,7 +86,11 @@
         			<label for="service-status" class="form-check-label">Status(Showing or Hiding)</label>
     				<input type="checkbox" class="form-check-input" id="service-status" checked="checked" style="margin-left: 5px;"/>
         		</div>
-        		<button class="btn btn-primary" onclick="addNewService()">Save your changes</button>
+        		<button onclick="addNewService()"
+        			th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+					th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
+					th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
+        		>Save your changes</button>
       		</div>
       		<div class="modal-footer">
         		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -171,6 +175,8 @@
 						<input type="checkbox" th:checked="${service.status}" 
 						th:id="'checkbox'+${service.serviceId}" 
 						th:onclick="'changeServiceStatus('+ ${service.serviceId} +')'"
+						th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+						th:disabled="${editaccess.?[screen.method == 'PUT'].isEmpty()}" 
 						/>
 						<i 	th:class="${service.status ? 'fas fa-eye' : 'fas fa-eye-slash'}" 
 					   		th:text="${service.status ? '-Showing' : '-Hiding'}"
@@ -180,8 +186,11 @@
 				</tr>
 				<tr>
 					<td colspan="9" style="text-align: center;">
-						<button class="button btn-primary" style="border-radius: 5px;padding : 10px;"
+						<button  style="border-radius: 5px;padding : 10px;"
 							data-toggle="modal" data-target="#new-service-modal" id="add-service-button"
+							th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+							th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
+							th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
 						>
 						  	<i class="fa fa-plus"></i>Add new Services
 						</button>

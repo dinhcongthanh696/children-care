@@ -66,8 +66,6 @@ public class AdminAPI {
 			e.printStackTrace();
 		}
 		
-		if(service != null) System.out.println(service.toString());
-		
 		serviceModelService.addNewService(service);
 	}
 }

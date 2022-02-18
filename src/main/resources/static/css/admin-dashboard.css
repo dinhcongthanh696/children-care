@@ -1,0 +1,33 @@
+.container-fluid {
+	background-color: #c1f7e9;
+	padding-top : 70px;
+	padding-bottom : 100px;
+}
+
+.box-statstic-reservation,.card-item{
+	border-radius: 8px;
+	background-color: white;
+	padding : 20px;
+	margin-left: 5%;
+	text-align : center;
+	transition : box-shadow 1s;
+	cursor : pointer;
+}
+
+.card-item{
+	margin : 20px;
+	padding : 20px;
+}
+
+.box-statstic-reservation:hover,.card-item:hover{
+	box-shadow: 1px 2px 1px 2px #888888;
+}
+
+.box-reservation-title{
+	font-weight: bold;
+}
+
+.box-reservation-number{
+	font-weight: bold;
+	font-size : 20px;
+}

@@ -24,6 +24,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="../images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../images/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="stylesheet" href="../css/reserinfor.css">
 
     <!-- Fixing Internet Explorer-->
     <!--[if lt IE 9]>
@@ -177,7 +178,7 @@
                 <div class="col-xl-12">
                     <div class="inner-content clearfix">
                         <div class="title float-left">
-                            <h2>Make Apppointment</h2>
+                            <h2>Reservation Information</h2>
                         </div>
                         <div class="breadcrumb-menu float-right">
                             <ul class="clearfix">
@@ -205,61 +206,281 @@
             </div>
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="appointment-form-left">
-                        <form name="appointment-form" action="#" method="post">
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-12">
-                                    <div class="appointment-right">
-                                        <form name="appointment-right" action="#" method="post">
-                                            <div class="confirm-booking">
-                                                <ul>
-                                                    <li><span>Patient Name</span><b>:</b> George Turner</li>
-                                                    <li><span>Age</span><b>:</b> 36 Years</li>
-                                                    <li><span>Service</span><b>:</b> Root Canel</li>
-                                                    <li><span>Date & Time</span><b>:</b> Nov 22nd, 2018. 11.30am</li>
-                                                    <li><span>Price</span><b>:</b> $65.00</li>
-                                                    <li><span>Patient Name</span><b>:</b> George Turner</li>
-                                                    <li><span>Age</span><b>:</b> 36 Years</li>
-                                                    <li><span>Service</span><b>:</b> Root Canel</li>
-                                                    <li><span>Date & Time</span><b>:</b> Nov 22nd, 2018. 11.30am</li>
-                                                    <li><span>Price</span><b>:</b> $65.00</li>
-                                                </ul>
-                                            </div>
-                                        </form>
+                    <form name="appointment-form" action="#" method="post">
+                        <!--<div class="appointment-right">
+                            <div class="confirm-booking">
+                                <h3>Confirm Your Booking</h3>
+                                <ul>
+                                    <li><span>Reservation ID</span><b>:</b> <span style="color: #0a1821" th:text="1"></span></li>
+                                    <li><span>Date</span><b>:</b> <span style="color: #0a1821" th:text="22th"></span></li>
+                                    <li><span>Time to check up</span><b>:</b> <span style="color: #0a1821" th:text="7.00"></span></li>
+                                    <li><span>Total cost</span><b>:</b> <span style="color: #0a1821" th:text="100.00"></span></li>
+                                    <li><span>Status</span><b>:</b> <span style="color: #0a1821" th:text="Done"></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        &lt;!&ndash;<div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Reservation ID<span th:text="1"></span></h5>
                                     </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-12">
-                                    <div class="appointment-right">
-                                        <form name="appointment-right" action="#" method="post">
-                                            <div class="confirm-booking">
-                                                <ul>
-                                                    <li><span>Patient Name</span><b>:</b> George Turner</li>
-                                                    <li><span>Age</span><b>:</b> 36 Years</li>
-                                                    <li><span>Service</span><b>:</b> Root Canel</li>
-                                                    <li><span>Date & Time</span><b>:</b> Nov 22nd, 2018. 11.30am</li>
-                                                    <li><span>Price</span><b>:</b> $65.00</li>
-                                                    <li><span>Patient Name</span><b>:</b> George Turner</li>
-                                                    <li><span>Age</span><b>:</b> 36 Years</li>
-                                                    <li><span>Service</span><b>:</b> Root Canel</li>
-                                                    <li><span>Date & Time</span><b>:</b> Nov 22nd, 2018. 11.30am</li>
-                                                    <li><span>Price</span><b>:</b> $65.00</li>
-                                                </ul>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="button-box">
-                                        <button class="btn-one" type="submit">Confirm</button>
-                                        <button class="btn-one" type="submit">Cancel</button>
+                                    <div class="input-box">
+                                        <div class="input-box">
+                                            <input type="text" name="fullname" value=""
+                                                   placeholder="Patient Name*" required="">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Reservation Date</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="text" name="fullname" value=""
+                                               placeholder="Patient Name*" required="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Time to check up</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="text" name="fullname" value=""
+                                               placeholder="Patient Name*" required="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Total cost</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="text" name="fullname" value=""
+                                               placeholder="Patient Name*" required="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Status</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="text" name="fullname" value=""
+                                               placeholder="Patient Name*" required="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>&ndash;&gt;
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Personal Info</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <input type="text" name="fullname" value=""
+                                                       placeholder="Patient Name*" required="">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <input type="text" name="p_name" value=""
+                                                       placeholder="Gender" required="">
 
-                        </form>
-                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <input type="text" name="phone" value="" placeholder="Phone"
+                                                       required="">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <input type="text" name="email" value="" placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <select class="selectmenu">
+                                                    <option selected="selected">Service</option>
+                                                    <option>Dental Implants</option>
+                                                    <option>Cosmetic Dentistry</option>
+                                                    <option>Laser Dentistry</option>
+                                                    <option>Orthodontics</option>
+                                                    <option>Endodontics</option>
+                                                    <option>Periodontics</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="button-box">
+                                                    <button class="btn-one" type="submit">Confirm</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class=" container-fluid my-5 ">
+                            <div class="row justify-content-center ">
+                                <div class="col-xl-10">
+                                    <div class="card shadow-lg ">
+                                        <div class="row justify-content-around">
+                                            <div class="col-md-5">
+                                                <div class="card border-0">
+                                                    <div class="card-header pb-0">
+                                                        <h2 class="card-title space ">Checkout</h2>
+                                                        <p class="card-text text-muted mt-4 space">RESERVATION
+                                                            DETAILS</p>
+                                                        <hr class="my-0">
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="col-auto mt-0">
+                                                            <p><b>Reservation ID: </b><span th:text="1212"></span></p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <p><b>Date: </b></p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <p><b>Time to check up: </b></p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <p><b>Status: </b></p>
+                                                        </div>
+                                                        <div class="row mt-4">
+                                                            <div class="col">
+                                                                <p class="text-muted mb-2">PERSNAL DETAILS</p>
+                                                                <hr class="mt-0">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto mt-0">
+                                                            <p><b>Name: </b></p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <p><b>Gender: </b></p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <p><b>Phone: </b></p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <p><b>Email: </b></p>
+                                                        </div>
+                                                        <div class="row mb-md-5">
+                                                            <div class="col">
+                                                                <button type="submit" name="" id=""
+                                                                        class="btn btn-lg btn-block ">CONFIRM
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="card border-0 ">
+                                                    <div class="card-header card-2">
+                                                        <p class="card-text text-muted mt-md-4 mb-2 space">SERVICES<span
+                                                                class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span>
+                                                        </p>
+                                                        <hr class="my-2">
+                                                    </div>
+                                                    <div class="card-body pt-0">
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-auto col-md-7">
+                                                                <div class="media flex-column flex-sm-row"><img
+                                                                        class=" img-fluid"
+                                                                        src="https://i.imgur.com/6oHix28.jpg"
+                                                                        width="62" height="62">
+                                                                    <div class="media-body my-auto">
+                                                                        <div class="row ">
+                                                                            <div class="col-auto">
+                                                                                <p class="mb-0"><b>EC-GO Bag
+                                                                                    Standard</b></p><small
+                                                                                    class="text-muted">1 Week
+                                                                                Subscription</small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class=" pl-0 flex-sm-col col-auto my-auto">
+                                                                <p class="boxed-1">2</p>
+                                                            </div>
+                                                            <div class=" pl-0 flex-sm-col col-auto my-auto ">
+                                                                <p><b>179 SEK</b></p>
+                                                            </div>
+                                                        </div>
+                                                        <hr class="my-2">
+                                                        <!--Cost-->
+                                                        <div class="row ">
+                                                            <div class="col">
+                                                                <div class="row justify-content-between">
+                                                                    <div class="col-4">
+                                                                        <p><b>Total</b></p>
+                                                                    </div>
+                                                                    <div class="flex-sm-col col-auto">
+                                                                        <p class="mb-1"><b>537 SEK</b></p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr class="my-0">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
+                <!--<div class="col-xl-4 col-lg-6 col-md-9">
+                    <div class="appointment-right">
+                        &lt;!&ndash;Start search
+                        <div class="single-sidebar">
+                            <form class="search-form" action="/ChildrenCare/blog" method="post">
+                                <input placeholder="Search by title" type="text" name="title" th:value="${titleSearch}">
+                                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 
+                            </form>
+                        </div>
+                        End search&ndash;&gt;
+                        &lt;!&ndash;Start Category&ndash;&gt;
+                        <div class="single-sidebar">
+                            <div class="sidebar-title">
+                                <h3>Categories</h3>
+                            </div>
+                            <ul class="categories clearfix" th:each="listCategory:${listCategoryPost}">
+                                <li>
+                                    <a
+                                            th:href="@{/blog(page=${pageNumber},title=${titleSearch},categoryId=${listCategory.getPostCategoryId()})}"
+                                            th:text="${listCategory.getPostCategoryName()}">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        &lt;!&ndash;End Category&ndash;&gt;
+
+                    </div>
+                </div>-->
             </div>
         </div>
     </div>

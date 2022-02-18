@@ -60,7 +60,7 @@
 									type="submit"
 									style="border-radius : 8px; padding : 10px;"
 									th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-setting/users']}"
-									th:disabled="${!editaccess.isEmpty()}"
+									th:disabled="${editaccess.?[screen.method == 'PUT'].isEmpty()}"
 									onclick="saveSettingsUser()"
 									id="save-setting-button"
 							>Save Your changes</button>
@@ -75,7 +75,7 @@
 		<input type="hidden" id="currentPage" th:value="${currentPage}"/>
 	<!-- /Input hidden field -->
 	<div id="pages"></div>
-	
+	<div id="footer" th:insert="index :: footer"></div>
 	<script type="text/javascript">
 	function changePage(pageNumber) {
 		var search = document.querySelector("#search").value;
