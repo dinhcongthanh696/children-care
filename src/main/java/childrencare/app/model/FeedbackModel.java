@@ -4,7 +4,6 @@ import java.util.Base64;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,16 +29,7 @@ import lombok.NoArgsConstructor;
 public class FeedbackModel {
 	@Id
 	@Column(name = "feedback_id")
-	@SequenceGenerator(
-			sequenceName = "feedback_id_sequence",
-			name = "feedback_id_sequence",
-			allocationSize = 1
-	)
-	
-	@GeneratedValue(
-			strategy = GenerationType.IDENTITY,
-			generator = "feedback_id_sequence"
-	)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private int feedbackId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -61,11 +50,9 @@ public class FeedbackModel {
 	private String base64ImageEncode;
 	private boolean status;
 	
-	private String fullname;
-	private boolean gender;
-	private String email;
-	private String phone;
-	private String address;
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private CustomerModel customer;
 	
 	public void setBase64ImageEncode(byte[] image) {
 		if(image != null) {

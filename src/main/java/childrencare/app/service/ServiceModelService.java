@@ -40,12 +40,16 @@ public class ServiceModelService {
 		for(ServiceModel service : servicesPageable.toList()) {
 			service.setBase64ThumbnailEncode(service.getThumbnail());
 			double averageStars = 0;
+			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
 				averageStars += feedback.getRatedStart();
+				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
 				averageStars /= service.getFeedbacks().size(); 
 				service.setAvg_star(averageStars);
+			}else if(isHavingFeedback) {
+				service.setAvg_star(0);
 			}
 		}
 		return servicesPageable;
@@ -64,12 +68,16 @@ public class ServiceModelService {
 		for(ServiceModel service : servicesPageable.toList()) {
 			service.setBase64ThumbnailEncode(service.getThumbnail());
 			double averageStars = 0;
+			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
 				averageStars += feedback.getRatedStart();
+				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
 				averageStars /= service.getFeedbacks().size(); 
 				service.setAvg_star(averageStars);
+			}else if(isHavingFeedback) {
+				service.setAvg_star(0);
 			}
 		}
 		
@@ -89,12 +97,16 @@ public class ServiceModelService {
 		for(ServiceModel service : servicesPageable.toList()) {
 			service.setBase64ThumbnailEncode(service.getThumbnail());
 			double averageStars = 0;
+			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
 				averageStars += feedback.getRatedStart();
+				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
 				averageStars /= service.getFeedbacks().size(); 
 				service.setAvg_star(averageStars);
+			}else if(isHavingFeedback) {
+				service.setAvg_star(0);
 			}
 		}
 		

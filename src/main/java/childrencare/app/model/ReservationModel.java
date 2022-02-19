@@ -5,18 +5,18 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "Reservation")
@@ -26,26 +26,16 @@ import lombok.RequiredArgsConstructor;
 public class ReservationModel {
 	@Id
 	@Column(name = "reservation_id")
-	@SequenceGenerator(
-			sequenceName = "reservation_id_sequence",
-			name = "reservation_id_sequence",
-			allocationSize = 1
-	)
-	
-	@GeneratedValue(
-			strategy = GenerationType.IDENTITY,
-			generator = "reservation_id_sequence"
-	)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private int reservationId;
 	private String date;
 	@Column(name = "total_reservation_price")
 	private double totalReservationPrice;
 	
-	private String fullname;
-	private boolean gender;
-	private String email;
-	private String phone;
-	private String address;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id")
+	private CustomerModel customer;
+	
 	private String notes;
 	private boolean status;
 

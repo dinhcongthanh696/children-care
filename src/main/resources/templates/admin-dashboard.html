@@ -62,7 +62,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="card-item top-left col-sm-4">
+			<div class="card-item">
 				<h4 style="color : #ed4e4e;">Service Category's Revenue Statistic</h4>
 				<table class="table table-striped col-sm-12">
 					<thead>
@@ -92,8 +92,41 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
-			<div class="card-item top-right col-sm-7">
+		</div>
+		<div class="card-item">
+				<h4 style="color : #ed4e4e;">Service Category's Revenue Statistic</h4>
+				<table class="table table-striped col-sm-12">
+					<thead>
+						<tr>
+							<th>
+								<label for="revenueDate">Choose month : </label>
+								<input type="month"	onchange="changeRevenueDate(this.value)" 
+								th:value="${revenueDate}" class="form-control"
+								id="revenueDate"/>							
+								
+							</th>
+						</tr>
+						<tr>
+							<th>Service Category ID</th>
+							<th>Service Category Name </th>
+							<th>Revenue</th>
+						</tr>	
+					</thead>
+					<tbody>
+						<tr th:each="category : ${categories}">
+							<td th:text="'#'+${category.serviceCategoryId}"></td>
+							<td th:text="${category.serviceCategoryName}"></td>
+							<td th:text="${category.totalRevenue}"></td>
+						</tr>
+						<tr>
+							<td colspan="3" th:text="'Total Revenue : '+${#aggregates.sum(categories.![totalRevenue])}" style="text-align : center;font-weight : bold;font-size : 30px;"></td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+	</div>
+		<div class="row">
+			<div class="card-item">
 				<h4 style="color : #39abed;">Service Statistic</h4>
 				<table class="table table-striped">
 					<thead>
@@ -106,6 +139,7 @@
 					<th>Original Price</th>
 					<th>Sale Price</th>
 					<th>Average Star</th>
+					<th>Edit or Detail</th>
 				</tr>
 			</thead>
 			<tbody >
@@ -128,15 +162,17 @@
 						<span
 							th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 						<span
-							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>		
+							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>	
+						<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>		
 					</td>
+					<td><a href="#">Edit Or Detail</a></td>
 				</tr>
 				</table>
 				<div id="pages"></div>
 			</div>
 		</div>
-		<div class="card-item row">
-			<div>
+		<div class="row">
+			<div class="card-item">
 				<table class="table table-striped">
 					<thead>
 						<tr>

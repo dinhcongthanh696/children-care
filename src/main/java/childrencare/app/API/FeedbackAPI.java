@@ -135,8 +135,7 @@ public class FeedbackAPI {
 			ReservationModel reservation = reservationRepository.getReservationByEmailAndServiceId(email, serviceId);
 			if(reservation.getReservationServices().isEmpty()) return "fail";
 			byte[] imageBinaryData = (image == null) ? null : image.getBytes();
-			feedbackRepository.saveOnlyFeedback(reservation.getAddress(), comment, email, reservation.getFullname(), reservation.isGender(),
-					imageBinaryData, reservation.getPhone(), ratedStar, false, serviceId);
+			feedbackRepository.saveOnlyFeedback(comment, imageBinaryData, ratedStar, false, serviceId , reservation.getCustomer().getCustomer_id()); 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
