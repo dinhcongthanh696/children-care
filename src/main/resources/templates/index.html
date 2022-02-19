@@ -524,12 +524,12 @@
                             </div>   
                         </div>
                         <div class="text-holder">
-                            <h3 th:text="${serviceitem.title}">Dental Implants</h3>
+                            <h3 th:text="${serviceitem.title}"></h3>
                             <p th:text="${serviceitem.description}"></p>
                             <div class="readmore">
                                 <a href="#"><span class="flaticon-next"></span></a>
                                 <div class="overlay-button">
-                                    <a href="#">Read More</a>    
+                                    <a th:href="'/ChildrenCare/service/services/'+${serviceitem.serviceId}">Read More</a>
                                 </div>
                             </div>
                         </div>
