@@ -43,7 +43,7 @@
 		    modalBoxWrapper.style.display = displayStyle;
 		}
 		//thai's code
-		function resetEmail() {
+		 function resetEmail() {
 			var email = document.getElementById("reset-email").value;
 	    	if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
 	        	var formData = new FormData();
@@ -494,86 +494,6 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-12 wow fadeInUp" data-wow-delay="600ms">
-                <!--Start single box-->
-                <div class="single-box float-left text-center">
-                    <div class="icon-holder">
-                        <span class="icon-support-1"></span>    
-                    </div>
-                    <h3>E-Consultation</h3> 
-                    <span class="border-box"></span>
-                    <p>To take  trivial example, which undertakes laborious.</p> 
-                    <a href="#">Start From Here</a>  
-                </div>
-                <!--End single box-->
-                <!--Start single box-->
-                <div class="single-middle-box float-left text-center">
-                    <div class="icon-holder">
-                        <span class="icon-support-1"></span>    
-                    </div>
-                    <h3>E-Consultation</h3>
-                    <form name="visit-form" action="#" method="post">
-                        <div class="row mar-ninus10">
-                            <div class="col-xl-4 pd10">
-                                <div class="input-box">   
-                                    <input type="text" name="form_name" value="" placeholder="Name" required="">
-                                </div>
-                            </div>
-                            <div class="col-xl-4 pd10">
-                                <div class="input-box">   
-                                    <input type="text" name="form_phone" value="" placeholder="Phone">
-                                </div>
-                            </div>
-                            <div class="col-xl-4 pd10">
-                                <div class="input-box">
-                                    <select class="selectmenu">
-                                        <option selected="selected">Department</option>
-                                        <option>Dental Implants</option>
-                                        <option>Cosmetic Dentistry</option>
-                                        <option>Laser Dentistry</option>
-                                        <option>Orthodontics</option>
-                                        <option>Endodontics</option>
-                                        <option>Periodontics</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mar-ninus10">
-                            <div class="col-xl-4 pd10">
-                                <div class="input-box">
-                                    <input type="text" name="time" placeholder="Time">
-                                    <div class="icon-box">
-                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 pd10">
-                                <div class="input-box">
-                                    <input type="text" name="date" placeholder="Date" id="datepicker">
-                                    <div class="icon-box">
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 pd10">
-                                <div class="button-box">
-                                    <button class="btn-one" type="submit">Submit Info</button>   
-                                </div>
-                            </div>
-                        </div>
-                    </form>     
-                </div>
-                <!--End single box-->
-                <!--Start single box-->
-                <div class="single-box float-right text-center">
-                    <div class="icon-holder">
-                        <span class="icon-support-1"></span>    
-                    </div>
-                    <h3>Find a Doctor</h3> 
-                    <span class="border-box"></span>
-                    <p>To take  trivial example, which undertakes laborious.</p> 
-                    <a href="#">Meet Our Team</a>  
-                </div>
-                <!--End single box-->      
             </div>
         </div>
     </div>
@@ -604,12 +524,12 @@
                             </div>   
                         </div>
                         <div class="text-holder">
-                            <h3 th:text="${serviceitem.title}">Dental Implants</h3>
+                            <h3 th:text="${serviceitem.title}"></h3>
                             <p th:text="${serviceitem.description}"></p>
                             <div class="readmore">
                                 <a href="#"><span class="flaticon-next"></span></a>
                                 <div class="overlay-button">
-                                    <a href="#">Read More</a>    
+                                    <a th:href="'/ChildrenCare/service/services/'+${serviceitem.serviceId}">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -1166,95 +1086,25 @@
             <div class="col-xl-12">
                 <div class="testimonial-carousel owl-carousel owl-theme">
                     <!--Start Single Testimonial Item-->
-                    <div class="single-testimonial-item text-center">
+
+                    <div th:each="feedback : ${feedbacks}" class="single-testimonial-item text-center">
                         <div class="text-holder">
-                            <p>It was an experience of lifetime with you guys….it is definitely the best dental clinic I have ever visited.</p>
+                            <p th:text="${feedback.getComment()}"></p>
                             <div class="img-holder">
                                 <img src="images/testimonial/1.png" alt="Awesome Image">
                             </div>
                         </div>
                         <div class="name">
-                            <h3>Erick Frederick</h3>
-                            <span>Denver</span>
+                            <h3 th:text="${feedback.customer.customer_user.email}"></h3>
+                            <span th:text="${feedback.customer.customer_user.address}"></span>
                         </div>    
                     </div>    
                     <!--End Single Testimonial Item-->
-                    <!--Start Single Testimonial Item-->
-                    <div class="single-testimonial-item text-center">
-                        <div class="text-holder">
-                            <p>Now I’ve got my tooth back, I can eat anything I like again.  I would recommend dento centre to everyone.</p>
-                            <div class="img-holder">
-                                <img src="images/testimonial/2.png" alt="Awesome Image">
-                            </div>
-                        </div>
-                        <div class="name">
-                            <h3>Evelynne Celie</h3>
-                            <span>Houston</span>
-                        </div>    
-                    </div>    
-                    <!--End Single Testimonial Item-->
-                    
-                    <!--Start Single Testimonial Item-->
-                    <div class="single-testimonial-item text-center">
-                        <div class="text-holder">
-                            <p>It was an experience of lifetime with you guys….it is definitely the best dental clinic I have ever visited.</p>
-                            <div class="img-holder">
-                                <img src="images/testimonial/1.png" alt="Awesome Image">
-                            </div>
-                        </div>
-                        <div class="name">
-                            <h3>Erick Frederick</h3>
-                            <span>Denver</span>
-                        </div>    
-                    </div>    
-                    <!--End Single Testimonial Item-->
-                    <!--Start Single Testimonial Item-->
-                    <div class="single-testimonial-item text-center">
-                        <div class="text-holder">
-                            <p>Now I’ve got my tooth back, I can eat anything I like again.  I would recommend dento centre to everyone.</p>
-                            <div class="img-holder">
-                                <img src="images/testimonial/2.png" alt="Awesome Image">
-                            </div>
-                        </div>
-                        <div class="name">
-                            <h3>Evelynne Celie</h3>
-                            <span>Houston</span>
-                        </div>    
-                    </div>    
-                    <!--End Single Testimonial Item-->
-                    
-                    <!--Start Single Testimonial Item-->
-                    <div class="single-testimonial-item text-center">
-                        <div class="text-holder">
-                            <p>It was an experience of lifetime with you guys….it is definitely the best dental clinic I have ever visited.</p>
-                            <div class="img-holder">
-                                <img src="images/testimonial/1.png" alt="Awesome Image">
-                            </div>
-                        </div>
-                        <div class="name">
-                            <h3>Erick Frederick</h3>
-                            <span>Denver</span>
-                        </div>    
-                    </div>    
-                    <!--End Single Testimonial Item-->
-                    <!--Start Single Testimonial Item-->
-                    <div class="single-testimonial-item text-center">
-                        <div class="text-holder">
-                            <p>Now I’ve got my tooth back, I can eat anything I like again.  I would recommend dento centre to everyone.</p>
-                            <div class="img-holder">
-                                <img src="images/testimonial/2.png" alt="Awesome Image">
-                            </div>
-                        </div>
-                        <div class="name">
-                            <h3>Evelynne Celie</h3>
-                            <span>Houston</span>
-                        </div>    
-                    </div>    
-                    <!--End Single Testimonial Item-->   
+
                 </div> 
             </div>
         </div>  
-    </div>    
+    </div>
 </section>
 <!--End Testimonial area-->
 

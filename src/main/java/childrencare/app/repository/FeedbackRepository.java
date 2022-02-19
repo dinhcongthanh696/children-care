@@ -25,4 +25,5 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
     public List<FeedbackModel> findByServiceByLastDays(int serviceId,int numberOfDays); 
     
     public List<FeedbackModel> findByService(ServiceModel service);
+
 }
