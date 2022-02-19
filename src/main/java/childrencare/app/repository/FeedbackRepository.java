@@ -25,4 +25,5 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
 
 
     public List<FeedbackModel> findByService(ServiceModel service);
+
 }
