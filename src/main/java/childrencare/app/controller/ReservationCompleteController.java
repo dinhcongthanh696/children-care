@@ -1,11 +1,9 @@
 package childrencare.app.controller;
 
-import childrencare.app.model.ReservationServiceKey;
-import childrencare.app.model.ReservationServiceModel;
-import childrencare.app.model.ServiceModel;
-import childrencare.app.model.UserModel;
+import childrencare.app.model.*;
 import childrencare.app.service.ReservationService;
 import childrencare.app.service.Service_service;
+import childrencare.app.service.SlotService;
 import childrencare.app.service.UserService;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,9 @@ public class ReservationCompleteController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SlotService slotService;
+
     //Reservation Completion - KVA
     @Transactional
     @PostMapping("/update/{rid}")
@@ -52,8 +53,12 @@ public class ReservationCompleteController {
     public String getAllDoctor(Model model, HttpSession session){
         List<UserModel> doctors = userService.findAllDoctor();
         model.addAttribute("doctors", doctors);
+
         List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
         model.addAttribute("services", services);
+
+//        List<Slot> slots = slotService.;
+//        model.addAttribute("slots", slots);
         return "apppointment";
     }
 
@@ -64,7 +69,7 @@ public class ReservationCompleteController {
             int rid = rs.getReservation().getReservationId();
             int sid = rs.getService().getServiceId();
             int slotId = rs.getSlot().getId();
-            String doctor = rs.getDoctor().getUsername();
+            String doctor = rs.getStaff().getStaff_user().getUsername();
             if(doctor == "Auto"){
 
             }
@@ -72,7 +77,7 @@ public class ReservationCompleteController {
                     rid,
                     rs.getService().getServiceId(),
                     rs.getSlot().getId(),
-                    rs.getDoctor().getUsername(),
+                    rs.getStaff().getStaff_user().getUsername(),
                     rs.getPrice()
             );
         }

@@ -43,6 +43,7 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
             nativeQuery = true)
     public Page<ServiceModel> findByTitleOrBriefInfoLikeAndStatus(String search, int start , int end, PageRequest pageable);
     //Update Quantity
+    
 
     @Modifying
     @Query(value = "UPDATE service set quantity = quantity - ?1  where service_id = ?2",
@@ -58,7 +59,13 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
             + "from reservation as rv inner join reservation_service as rssv\r\n"
             + "ON rv.reservation_id = rssv.reservation_id\r\n"
             + "inner join [service] as sv on rssv.service_id = sv.service_id \r\n"
-            + "WHERE rv.email = ?1 AND sv.service_id = ?2  "
+            + "inner join customer on rv.customer_id = customer.customer_id\n"
+            + "WHERE customer.customer_email = ?1 AND sv.service_id = ?2  "
             + "", nativeQuery = true)
     public List<ServiceModel> findByUserEmailAndServiceId(String email, Integer serviceId);
+
+    @Query(value = "select * from service serv\n" +
+            "inner join reservation_service rc on rc.service_id = serv.service_id\n" +
+            "where rc.reservation_id = ?1", nativeQuery = true)
+    public List<ServiceModel> findListServiceByReservationID(int reserId);
 }

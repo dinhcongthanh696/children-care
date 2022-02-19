@@ -41,11 +41,8 @@ public class HomeController {
 
 	@GetMapping(path = "/")
 	public String getServices(Model model) {
-		List<ServiceModel> services = serviceModelService.getHighestRatedStarServices(size);
-		for(ServiceModel service : services) {
-			service.setBase64ThumbnailEncode(service.getThumbnail());
-		}	
-		model.addAttribute("serviceitems", serviceModelService.getHighestRatedStarServices(size));
+		List<ServiceModel> services = serviceModelService.getHighestRatedStarServices(size);	
+		model.addAttribute("serviceitems", services);
 		model.addAttribute("servicecategories", serviceCategoryService.findAll());
 		return "index";
 	} 

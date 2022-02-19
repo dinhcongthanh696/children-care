@@ -1,6 +1,7 @@
 package childrencare.app.model;
 
 import java.util.Base64;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,6 +46,9 @@ public class FeedbackModel {
 	
 	@Column(name = "feedback_image")
 	private byte[] image;
+	
+	@Column(name = "created_date")
+	private Date createdDate;
 	
 	@Transient
 	private String base64ImageEncode;

@@ -54,7 +54,7 @@
 			<div class="box-statstic-reservation col-sm-3">
 				<span class="col-sm-6"> 
 					<span class="box-reservation-title">Reservation Submitted : </span>
-					<span th:text="${reservationsCanceled}" class="box-reservation-number"></span>
+					<span th:text="${reservationsCanceled+reservationsSuccess}" class="box-reservation-number"></span>
 				 </span>
 				<span class="col-sm-6" style="background-color: #57e6b9;border-radius: 5px;padding : 10px;"> 
 					<i class="fa fa-paper-plane" style="color : blue; font-size : 25px;"></i>
@@ -63,7 +63,7 @@
 		</div>
 		<div class="row">
 			<div class="card-item">
-				<h4 style="color : #ed4e4e;">Service Category's Revenue Statistic</h4>
+				<h4 style="color : #ed4e4e;">Service Category's Revenue Statistic By Month</h4>
 				<table class="table table-striped col-sm-12">
 					<thead>
 						<tr>
@@ -94,40 +94,26 @@
 				</table>
 		</div>
 		<div class="card-item">
-				<h4 style="color : #ed4e4e;">Service Category's Revenue Statistic</h4>
-				<table class="table table-striped col-sm-12">
-					<thead>
-						<tr>
-							<th>
-								<label for="revenueDate">Choose month : </label>
-								<input type="month"	onchange="changeRevenueDate(this.value)" 
-								th:value="${revenueDate}" class="form-control"
-								id="revenueDate"/>							
-								
-							</th>
-						</tr>
-						<tr>
-							<th>Service Category ID</th>
-							<th>Service Category Name </th>
-							<th>Revenue</th>
-						</tr>	
-					</thead>
-					<tbody>
-						<tr th:each="category : ${categories}">
-							<td th:text="'#'+${category.serviceCategoryId}"></td>
-							<td th:text="${category.serviceCategoryName}"></td>
-							<td th:text="${category.totalRevenue}"></td>
-						</tr>
-						<tr>
-							<td colspan="3" th:text="'Total Revenue : '+${#aggregates.sum(categories.![totalRevenue])}" style="text-align : center;font-weight : bold;font-size : 30px;"></td>
-						</tr>
-					</tbody>
-				</table>
+			<h4 style="color : #ed4e4e;">Customer's Statistic By Last 7 days</h4>
+			<div style="margin-bottom : 20px;">
+				<span class="box-reservation-title">Customer newly registered : </span>
+				<span th:text="${totalCustomerNewlyRegistered}" class="box-reservation-number"></span>
+				<span style="background-color: #b4e657; border-radius: 5px;padding : 10px;">
+					<i class="fas fa-check" style="color : green; font-size : 25px;"></i>
+				</span>
+			</div>
+			<div>
+				<span class="box-reservation-title">Customer newly reserved : </span>
+				<span th:text="${totalCustomerNewlyReserved}" class="box-reservation-number"></span>
+				<span style="background-color: #b4e657; border-radius: 5px;padding : 10px;">
+					<i class="fas fa-check" style="color : green; font-size : 25px;"></i>
+				</span>
+			</div>
 		</div>
 	</div>
 		<div class="row">
 			<div class="card-item">
-				<h4 style="color : #39abed;">Service Statistic</h4>
+				<h4 style="color : #39abed;">Service's Feedbacks Statistic By Last 7 days</h4>
 				<table class="table table-striped">
 					<thead>
 				<tr>
@@ -139,7 +125,7 @@
 					<th>Original Price</th>
 					<th>Sale Price</th>
 					<th>Average Star</th>
-					<th>Edit or Detail</th>
+					<th>Total Feedbacks</th>
 				</tr>
 			</thead>
 			<tbody >
@@ -165,31 +151,14 @@
 							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>	
 						<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>		
 					</td>
-					<td><a href="#">Edit Or Detail</a></td>
+					<td th:text="${service.feedbacks.size()}" style="font-size : 20px;"></td>
 				</tr>
 				</table>
 				<div id="pages"></div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="card-item">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Customer's Id</th>
-							<th>Customer's Name</th>
-							<th>Customer's Address</th>
-							<th>Customer's Phone Number</th>
-							<th>Customer's Email</th>
-							<th>Customer's gender</th>
-							<th>Customer's Role</th>
-						</tr>
-					</thead>	
-				</table>
-			</div>
-		</div>
 		<div class="card-item row">
-			<h4 style="color : #39ed9f;">Reservation charts</h4>
+			<h4 style="color : #39ed9f;">Reservation charts By Last 7 days</h4>
 			<canvas id="myChart"></canvas>
 		</div>
 	</div>
@@ -198,8 +167,8 @@
 	<input type="hidden" th:value="${totalPages}" id="totalPages" />
 	<input type="hidden" th:value="${currentPage}" id="currentPage"/>
 	<input type="hidden" th:value="${sevenLastDays}" id="sevenLastDays"/>
-	<input type="hidden" th:value="${reservationCanceledNumbers}" id="reservationCanceledNumbers"/>
 	<input type="hidden" th:value="${reservationSuccessNumbers}" id="reservationSuccessNumbers"/>
+	<input type="hidden" th:value="${reservationTotalNumbers}" id="reservationTotalNumbers" />
 	<!-- end hidden fields -->
 	
 	<div id="footer" th:insert="index :: footer"></div>
@@ -220,10 +189,10 @@
   	      borderColor: 'rgb(255, 99, 132)',
   	      data: JSON.parse(document.getElementById("reservationSuccessNumbers").value),
   	    }, {
-  	  	  label: 'Canceled',
-  	  	  backgroundColor: 'rgb(242, 104, 104)',
+  	  	  label: 'Total',
+  	  	  backgroundColor: 'rgb(47, 224, 224)',
   	  	  borderColor: 'rgb(255, 99, 132)',
-  	  	  data: JSON.parse(document.getElementById("reservationCanceledNumbers").value),
+  	  	  data: JSON.parse(document.getElementById("reservationTotalNumbers").value),
   	  	    }]
   	  };
   	  

@@ -90,7 +90,7 @@ public class ServiceModel {
 	private boolean status;
 
 	@Transient
-	private String base64ThumbnailEncode;
+	private String base64ThumbnailEncode; 
 
 	@OneToMany(mappedBy = "service")
 	@JsonIgnore

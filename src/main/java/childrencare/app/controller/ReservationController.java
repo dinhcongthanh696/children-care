@@ -3,6 +3,7 @@ package childrencare.app.controller;
 import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.ReservationModel;
 import childrencare.app.model.ServiceModel;
+import childrencare.app.model.Slot;
 import childrencare.app.model.UserModel;
 import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/reservation")
@@ -43,6 +45,9 @@ public class ReservationController {
     // Thanh's code
     @Autowired
     private ServiceModelService serviceModelService;
+
+    @Autowired
+    private SlotService slotService;
 
     @Autowired
     private Service_service service;
@@ -177,11 +182,25 @@ public class ReservationController {
 
     @RequestMapping("/infor")
     public String reservationInfor(Model model,
-                                   @RequestParam(name = "rid") int rid) {
+                                   @RequestParam(name = "rid") Optional<Integer> reserID) {
+        if(reserID.isPresent()){
+            ReservationModel reservationModel = reservationService.getReservatonInforByID(reserID.get());
+            Slot slot = slotService.getSlotByReservationID(reserID.get());
+            List<ServiceModel> serviceModelList = serviceModelService.getServicesByReservationId(reserID.get());
 
 
-        model.addAttribute("listCategoryPost", blogCategoryService.findAll());
-        return "reservationInfor";
+
+            model.addAttribute("reservationByReserId", reservationModel);
+            model.addAttribute("slotByReserId", slot);
+            model.addAttribute("listServiceByReserId", serviceModelList);
+            model.addAttribute("listCategoryPost", blogCategoryService.findAll());
+            return "reservationInfor";
+        }else {
+            return "redirect:/";
+        }
+
+
+
     }
 
 

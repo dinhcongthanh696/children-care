@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Director | Simple Tables</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="description" content="Developed By M Abdur Rokib Promy">
+    <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
+    <!-- bootstrap 3.0.2 -->
+    <link href="../../../css_admin/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- font Awesome -->
+    <link href="../../../css_admin/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons -->
+    <link href="../../../css_admin/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- google font -->
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <!-- Theme style -->
+    <link href="../../../css_admin/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        var lastChoosenImg;
+        function reviewImg(inputElement,slideId){
+            if(lastChoosenImg)
+                URL.revokeObjectURL(lastChoosenImg);
+            var file = inputElement.files[0];
+            lastChoosenImg = URL.createObjectURL(file);
+            var img = document.getElementById('previewImg'+slideId);
+            img.src = lastChoosenImg;
+
+        }
+
+    </script>
+
+</head>
+<body class="skin-black">
+<!-- header logo: style can be found in header.less -->
+<header class="header">
+    <a href="index.html" class="logo">
+        <!-- Add the class icon to your logo image or logo icon to add the margining -->
+        ChildrenCare
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <div th:replace="header_admin::navbarRight"></div>
+</header>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <!-- Left side column. contains the logo and sidebar -->
+    <div th:replace="navBar_admin::leftSide_admin" ></div>
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side">
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel">
+                        <header class="panel-heading">
+                           Slider Manager
+                        </header>
+                        <!-- <div class="box-header"> -->
+                        <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
+
+                        <!-- </div> -->
+                        <div class="panel-body table-responsive">
+                            <div class="box-tools m-b-15">
+                                <div class="input-group">
+                                    <form class="example" th:action="@{/manager/sliderManager/page/1}" style=" margin:auto;max-width:300px">
+                                        <input th:value="${keyword}" type="text" name="keyword" class="form-control input-sm pull-right" style="width: 150px;"
+                                               placeholder="Search by title/backlink.."/>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Slider ID</th>
+                                    <th>Slider Title</th>
+                                    <th>Slider Image</th>
+                                    <th>Slider BlackLink</th>
+                                    <th>Slider Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="s: ${slidersList}">
+
+                                    <td th:text="${s.slideId}"></td>
+                                    <td th:text="${s.title}"></td>
+                                    <td>
+                                        <div>
+                                            <img style="width: 250px; height: 150px;" th:src="${'data:image/gif;base64,'+s.base64ThumbnailEncode}">
+                                        </div>
+                                    </td>
+                                    <td th:text="${s.backLink}"></td>
+                                    <td th:utext="${s.status} ?'Show':'Hide'"></td>
+                                    <td>
+                                        <a th:attr="data-target='#detailSlider'+${s.slideId}" class="details text-danger" data-toggle="modal">Details</a>
+                                        <!--                                     details modal-->
+                                        <div th:id="${'detailSlider'+ s.slideId}"  class="modal fade">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form>
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Detail Slider</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label>Image</label>
+                                                                <img readonly style="height: 200px"  th:src="${'data:image/gif;base64,'+s.base64ThumbnailEncode}" alt="anh bi loi"  class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Title</label>
+                                                                <input readonly th:value="${s.title}" type="email" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Backlink</label>
+                                                                <input readonly th:value="${s.backLink}" class="form-control" required></input>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Status</label>
+                                                                <input readonly th:value="${s.status}?'Show':'Hide'" type="text" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Notes</label>
+                                                                <input readonly th:value="${s.notes}" type="text" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                    -->
+                                        <a th:attr="data-target='#editSlider'+${s.slideId}"  class="editModal text-primary" data-toggle="modal" >Edit</a>
+                                        <!--  edit modal-->
+                                        <div th:id="${'editSlider'+ s.slideId}" class="modal fade">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Edit Slider</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="/ChildrenCare/setting/update" method="post">
+                                                            <div class="form-group">
+                                                                <label>ID</label>
+                                                                <input readonly th:value="${s.slideId}" name="id" type="text" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Title</label>
+                                                                <input th:value="${s.title}" name="title" type="text" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Image</label>
+                                                                <img  style="height: 200px" th:id="'previewImg'+${s.slideId}" th:src="${'data:image/gif;base64,'+s.base64ThumbnailEncode}" alt="anh bi loi"  class="form-control" required>
+                                                                <input  th:onchange="'reviewImg(this,'+${s.slideId}+')'" type="file">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Backlink</label>
+                                                                <input th:value="${s.backLink}" name="backlink" type="text" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Note</label>
+                                                                <input th:value="${s.notes}" name="note" type="text" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Status</label>
+                                                                <select name="status" class="small text-muted mb-1" >
+                                                                    <option value="1" th:checked="${s.status}">Show</option>
+                                                                    <option value="0" th:checked="not ${s.status}">Hide</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                                <button  type="submit" class="btn btn-primary  btn-default">Save</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                            <div th:if="${totalPages > 1}">
+                                Total Items: [[${totalItems}]]
+                                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+                                <a th:if="${currentPage > 1}" th:href="@{'/manager/sliderManager/page/1'+${keyword != null? '?keyword='+ keyword:  ''}}">First</a>
+                                <span th:unless="${currentPage > 1}">First</span>
+                                &nbsp;&nbsp;
+
+                                <a th:if="${currentPage > 1}" th:href="@{'/manager/sliderManager/page/' + ${currentPage - 1} +${keyword != null? '?keyword='+ keyword:  ''} }">Previous</a>
+                                <span th:unless="${currentPage > 1}">Previous</span>
+
+                                &nbsp;&nbsp;
+
+                                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			                  <a th:if="${currentPage != i}" th:href="@{'/manager/sliderManager/page/'+ ${i} +${keyword != null? '?keyword='+ keyword:  ''}}">[[${i}]]</a>
+			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
+
+                                <a th:if="${currentPage < totalPages}" th:href="@{'/manager/sliderManager/page/' + ${currentPage + 1} +${keyword != null? '?keyword='+ keyword:  ''}}">Next</a>
+                                <span th:unless="${currentPage < totalPages}">Next</span>
+                                &nbsp;&nbsp;
+
+                                <a th:if="${currentPage < totalPages}" th:href="@{'/manager/sliderManager/page/' + ${totalPages}+${keyword != null? '?keyword='+ keyword:  ''} }">Last</a>
+                                <span th:unless="${currentPage < totalPages}">Last</span>
+                            </div>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div>
+            </div>
+        </section><!-- /.content -->
+        <div class="footer-main">
+           Children-Care System Management
+        </div>
+    </aside><!-- /.right-side -->
+</div><!-- ./wrapper -->
+
+
+<!-- jQuery 2.0.2 -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="../../../js_admin/jquery.min.js" type="text/javascript"></script>
+
+<!-- Bootstrap -->
+<script src="../../../js_admin/bootstrap.min.js" type="text/javascript"></script>
+<!-- Director App -->
+<script src="../../../js_admin/Director/app.js" type="text/javascript"></script>
+</body>
+</html>

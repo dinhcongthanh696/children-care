@@ -54,6 +54,9 @@ public class ReservationService {
         repository.createSchedule(reservationId, serviceId, slotId, doctor, price);
     }
     //Get Infor by RID DucAnh
-
+    public ReservationModel getReservatonInforByID(int rid){
+        ReservationModel getreserInfor = repository.getReservationModelByReservationId(rid);
+        return getreserInfor;
+    }
     
 }

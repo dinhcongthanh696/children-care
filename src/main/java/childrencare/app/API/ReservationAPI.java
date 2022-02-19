@@ -2,6 +2,7 @@ package childrencare.app.API;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import childrencare.app.model.Slot;
+import childrencare.app.model.UserModel;
+import childrencare.app.service.ReservationService;
+import childrencare.app.service.SlotService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.ServiceModel;
@@ -28,6 +29,10 @@ public class ReservationAPI {
 	// Thanh's code
 		@Autowired
 		private ServiceModelService serviceModelService;
+
+		@Autowired
+		private ReservationService reservationService;
+
 
 	@GetMapping("/add/{sid}")
 	public List<ServiceModel> addToCart(@PathVariable(value = "sid") int id, HttpSession session,
@@ -72,4 +77,7 @@ public class ReservationAPI {
 		session.setAttribute("list", listReservations);
 		return listReservations;
 	}
+
+
+
 }

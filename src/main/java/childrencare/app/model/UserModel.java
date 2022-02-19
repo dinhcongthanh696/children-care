@@ -80,7 +80,7 @@ public class UserModel {
 	@OneToOne(mappedBy = "customer_user")
 	private CustomerModel customer;
 	
-	@OneToMany(mappedBy = "doctor")
-	private List<ReservationServiceModel> reservationServices;
+	@OneToOne(mappedBy = "staff_user")
+	private StaffModel staff;
 
 }

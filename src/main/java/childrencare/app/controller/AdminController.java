@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import childrencare.app.model.FeedbackModel;
 import childrencare.app.model.ServiceCategoryModel;
 import childrencare.app.model.ServiceModel;
+import childrencare.app.service.CustomerService;
 import childrencare.app.service.ReservationService;
 import childrencare.app.service.ServiceCategoryService;
 import childrencare.app.service.ServiceModelService;
@@ -31,11 +32,15 @@ public class AdminController {
 	private final int SERVICESIZE = 6;
 	private final ServiceCategoryService serviceCategoryService;
 	private final ReservationService reservationService;
-	public AdminController(ServiceModelService serviceModelService,ServiceCategoryService serviceCategoryService,
-			ReservationService reservationService) {
+	private final CustomerService customerService;
+	public AdminController(ServiceModelService serviceModelService,
+			ServiceCategoryService serviceCategoryService,
+			ReservationService reservationService,
+			CustomerService customerService) {
 		this.serviceModelSerivce = serviceModelService;
 		this.serviceCategoryService = serviceCategoryService;
 		this.reservationService = reservationService;
+		this.customerService = customerService;
 	}
 	
 	
@@ -73,6 +78,8 @@ public class AdminController {
 			@RequestParam(name = "page",required = false,defaultValue = "0" ) Integer page) {
 		int totalReservationSuccess = reservationService.countReservationByStatus(1);
 		int totalReservationCanceled = reservationService.countReservationByStatus(0);
+		int totalCustomerNewlyReserved = customerService.getNewCustomerReservedByLastDays(7);
+		int totalCustomerNewlyRegistered = customerService.getNewCustomerRegisterByLastDays(7);
 		
 		Calendar calendar = Calendar.getInstance();
 		String month = "";
@@ -86,23 +93,27 @@ public class AdminController {
 		}
 		List<ServiceCategoryModel> categories = serviceCategoryService.findByDate(calendar);
 		
-		Page<ServiceModel> services = serviceModelSerivce.getServicesPaginated(page, SERVICESIZE, "", "title");
+		Page<ServiceModel> services = serviceModelSerivce.getServicesPaginatedAndFeedbacksByLastDays(page, SERVICESIZE, 7, "title");
 		
 		Calendar currentDate = Calendar.getInstance();
 		currentDate.add(Calendar.DAY_OF_YEAR, -6);
 		List<String> sevenLastDays = new ArrayList<>();
 		
 		List<Integer> reservationSuccessNumbers = new ArrayList<>();
-		List<Integer> reservationCanceledNumbers = new ArrayList<>();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		List<Integer> reservationTotalNumbers = new ArrayList<>();
 		for(int i = 0 ; i < 7 ; i++) {
 			sevenLastDays.add(dateFormatter.format(currentDate.getTime()));
-			reservationSuccessNumbers.add(reservationService.countReservationByStatusAndDate(1, currentDate.getTime()));
-			reservationCanceledNumbers.add(reservationService.countReservationByStatusAndDate(0, currentDate.getTime()));
+			int reservationSuccess = reservationService.countReservationByStatusAndDate(1, currentDate.getTime());
+			int reservationCanceled = reservationService.countReservationByStatusAndDate(0, currentDate.getTime());
+			reservationSuccessNumbers.add(reservationSuccess);
+			reservationTotalNumbers.add(reservationSuccess+reservationCanceled);
 			currentDate.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		ObjectMapper objectMapper = new ObjectMapper();
 		
+		model.addAttribute("totalCustomerNewlyRegistered", totalCustomerNewlyRegistered);
+		model.addAttribute("totalCustomerNewlyReserved", totalCustomerNewlyReserved);
 		model.addAttribute("reservationsSuccess",totalReservationSuccess);
 		model.addAttribute("reservationsCanceled", totalReservationCanceled);
 		model.addAttribute("categories", categories);
@@ -111,7 +122,7 @@ public class AdminController {
 		model.addAttribute("totalPages",services.getTotalPages());
 		model.addAttribute("currentPage",services.getNumber());
 		model.addAttribute("reservationSuccessNumbers", reservationSuccessNumbers);
-		model.addAttribute("reservationCanceledNumbers", reservationCanceledNumbers);
+		model.addAttribute("reservationTotalNumbers", reservationTotalNumbers);
 		try {
 			model.addAttribute("sevenLastDays", objectMapper.writeValueAsString(sevenLastDays));
 		} catch (JsonProcessingException e) {
