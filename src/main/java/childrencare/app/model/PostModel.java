@@ -48,7 +48,7 @@ public class PostModel {
 	private Date updatedAt;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "username")
+	@JoinColumn(name = "email")
 	private UserModel author;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

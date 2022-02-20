@@ -14,9 +14,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservationServiceKey implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int service_id;
 	private int reservation_id;
-	private String username_doctor;
+	private int staff_id;
 	private int slot_id;
 
 }

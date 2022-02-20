@@ -29,9 +29,9 @@ public class ReservationServiceModel {
 	private ServiceModel service;
 
 	@ManyToOne
-	@JoinColumn(name = "username_doctor")
-	@MapsId("username_doctor")
-	private UserModel doctor;
+	@JoinColumn(name = "staff_id")
+	@MapsId("staff_id")
+	private StaffModel staff;
 
 	@ManyToOne
 	@JoinColumn(name = "slot_id")

@@ -84,7 +84,7 @@
 <section class="top-bar-area" th:fragment="top-bar">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 col-lg-6">
+            <div class="col-xl-9 col-lg-3">
                 <div class="top-left">
                     <!--<ul>
                         <li><a href="#">Locations</a></li>
@@ -93,7 +93,7 @@
                     </ul> !-->
                 </div>
             </div>
-            <div class="col-xl-1 col-lg-6 container-fluid">
+            <div class="col-xl-1 col-lg-3 container-fluid">
                 <div class="inner-content clearfix ">
                     <nav class="main-menu style1 clearfix">
                         <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
@@ -111,7 +111,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-6">
+            <div class="col-xl-2 col-lg-9">
                 <div class="top-right">
                     <ul class="sociallinks-style-one">
                         <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
@@ -524,12 +524,12 @@
                             </div>   
                         </div>
                         <div class="text-holder">
-                            <h3 th:text="${serviceitem.title}">Dental Implants</h3>
+                            <h3 th:text="${serviceitem.title}"></h3>
                             <p th:text="${serviceitem.description}"></p>
                             <div class="readmore">
                                 <a href="#"><span class="flaticon-next"></span></a>
                                 <div class="overlay-button">
-                                    <a href="#">Read More</a>    
+                                    <a th:href="'/ChildrenCare/service/services/'+${serviceitem.serviceId}">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -1095,8 +1095,8 @@
                             </div>
                         </div>
                         <div class="name">
-                            <h3 th:text="${feedback.getEmail()}"></h3>
-                            <span th:text="${feedback.getAddress()}"></span>
+                            <h3 th:text="${feedback.customer.customer_user.email}"></h3>
+                            <span th:text="${feedback.customer.customer_user.address}"></span>
                         </div>    
                     </div>    
                     <!--End Single Testimonial Item-->

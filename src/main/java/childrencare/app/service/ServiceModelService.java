@@ -12,14 +12,17 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import childrencare.app.model.ServiceModel;
+import childrencare.app.repository.FeedbackRepository;
 import childrencare.app.repository.ServiceRepository;
 
 @Service
 public class ServiceModelService {
 	private final ServiceRepository serviceRepository;
+	private final FeedbackRepository feedbackRepository;
 
-	public ServiceModelService(ServiceRepository serviceRepository) {
+	public ServiceModelService(ServiceRepository serviceRepository,FeedbackRepository feedbackRepository) {
 		this.serviceRepository = serviceRepository;
+		this.feedbackRepository = feedbackRepository;
 	}
 
 	// 0-based page
@@ -40,12 +43,16 @@ public class ServiceModelService {
 		for(ServiceModel service : servicesPageable.toList()) {
 			service.setBase64ThumbnailEncode(service.getThumbnail());
 			double averageStars = 0;
+			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
 				averageStars += feedback.getRatedStart();
+				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
 				averageStars /= service.getFeedbacks().size(); 
 				service.setAvg_star(averageStars);
+			}else if(isHavingFeedback) {
+				service.setAvg_star(0);
 			}
 		}
 		return servicesPageable;
@@ -64,18 +71,53 @@ public class ServiceModelService {
 		for(ServiceModel service : servicesPageable.toList()) {
 			service.setBase64ThumbnailEncode(service.getThumbnail());
 			double averageStars = 0;
+			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
 				averageStars += feedback.getRatedStart();
+				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
 				averageStars /= service.getFeedbacks().size(); 
 				service.setAvg_star(averageStars);
+			}else if(isHavingFeedback) {
+				service.setAvg_star(0);
 			}
 		}
 		
 		return servicesPageable;
 	}
 	
+	public Page<ServiceModel> getServicesPaginatedAndFeedbacksByLastDays(int page , int size , int numberOfDays , String... sortProperties) {
+		if (page < 0) {
+			page = 0; 
+		}
+		Page<ServiceModel> servicesPageable = 
+		serviceRepository.findByTitleOrBriefInfoLike("%%",PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,sortProperties)));
+		if(servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
+			page = servicesPageable.getTotalPages() - 1;
+			servicesPageable = serviceRepository.findByTitleOrBriefInfoLike("%%",PageRequest.of(page, size));
+		}
+		List<FeedbackModel> feedbacks;
+		for(ServiceModel service : servicesPageable.toList()) {
+			service.setBase64ThumbnailEncode(service.getThumbnail());
+			double averageStars = 0;
+			boolean isHavingFeedback = false;
+			feedbacks = feedbackRepository.findByServiceByLastDays(service.getServiceId(), numberOfDays);
+			service.setFeedbacks(feedbacks);
+			for(FeedbackModel feedback : service.getFeedbacks()) {
+				averageStars += feedback.getRatedStart();
+				isHavingFeedback = true;
+			}
+			if(averageStars != 0) {
+				averageStars /= feedbacks.size(); 
+				service.setAvg_star(averageStars);
+			}else if(isHavingFeedback) {
+				service.setAvg_star(0);
+			}
+		}
+		
+		return servicesPageable;
+	}
 	public Page<ServiceModel> getServicesPaginated(int page , int size , int serviceCategoryId , String search) {
 		if (page < 0) {
 			page = 0; 
@@ -89,17 +131,23 @@ public class ServiceModelService {
 		for(ServiceModel service : servicesPageable.toList()) {
 			service.setBase64ThumbnailEncode(service.getThumbnail());
 			double averageStars = 0;
+			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
 				averageStars += feedback.getRatedStart();
+				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
 				averageStars /= service.getFeedbacks().size(); 
 				service.setAvg_star(averageStars);
+			}else if(isHavingFeedback) {
+				service.setAvg_star(0);
 			}
 		}
 		
 		return servicesPageable;
 	}
+	
+	
 	
 	public ServiceModel getServicesById(int id){
 		return serviceRepository.findById(id).get();
@@ -118,7 +166,11 @@ public class ServiceModelService {
 	}
 	
 	public List<ServiceModel> getHighestRatedStarServices(int size){
-		return serviceRepository.findRatedServiceDescending(size);
+		List<ServiceModel> services =  serviceRepository.findRatedServiceDescending(size);
+		for(ServiceModel service : services) {
+			service.setBase64ThumbnailEncode(service.getThumbnail());
+		}
+		return services;
 	}
 	
 	public void editService(ServiceModel service) {

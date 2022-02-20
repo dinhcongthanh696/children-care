@@ -1,5 +1,6 @@
 package childrencare.app.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -39,7 +40,7 @@ public class UserModel {
 		this.address = address;
 	}
 
-	@Id
+	@Column(unique = true)
 	private String username;
 
 	@JsonIgnore
@@ -50,8 +51,8 @@ public class UserModel {
 	private String phone;
 
 	private boolean gender;
-
-	@Column(unique = true)
+	
+	@Id
 	private String email;
 
 	private String address;
@@ -59,6 +60,9 @@ public class UserModel {
 	private String notes;
 
 	private boolean status;
+	
+	@Column(name = "register_date")
+	private Date regiteredDate;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -73,7 +77,10 @@ public class UserModel {
 		return "User : "+username+" Role : "+userRole.getRoleName();
 	}
 	
-	@OneToMany(mappedBy = "doctor")
-	private List<ReservationServiceModel> reservationServices;
+	@OneToOne(mappedBy = "customer_user")
+	private CustomerModel customer;
+	
+	@OneToOne(mappedBy = "staff_user")
+	private StaffModel staff;
 
 }

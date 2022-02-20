@@ -350,7 +350,10 @@
 				document.location.reload();
 			}else if(message === "fail"){
 				alert("Wrong captcha code!!!!");
-			}else{
+			}else if(message == "not exsist"){
+				alert("Email is not in the system");
+			}
+			else{
 				alert("You are already in the system");  // WHEN USER TRYING TO OPEN VERIFYING CAPTCHACODE MODAL
 			}
 		})
@@ -453,7 +456,8 @@
 			"far fa-dizzy" , "far fa-angry" , "far fa-frown" , "far fa-meh" , "far fa-grin-alt" , "far fa-grin-beam" , "fas fa-arrow-right" ,
 			"modal-image-feedback" , "modal-label" , "form-control modal-input" , "save-feedback" 
 			,"list-group","list-group-item","modal-contact-link" , "fa fa-close close-modal" , 
-			"modal-header" , "answer" , "verify-email" , "label-answer"]; 
+			"modal-header" , "answer" , "verify-email" , "label-answer" , 
+			"verify-contact-icon" , "verify-contact-button"]; 
 		for(let i = 0 ; i < modalElements.length ; i++){
 			const modalElement = modalElements[i];
 			if(event.target.className === modalElement || event.target.id === modalElement){

@@ -37,7 +37,6 @@ public class ServiceCategoryService {
 	public List<ServiceCategoryModel> findByDate(Calendar calendar){
 		int month = calendar.get(Calendar.MONTH) + 1; // 0 - based
 		int year = calendar.get(Calendar.YEAR);
-		System.out.println("Month : "+month);
 		List<ServiceCategoryModel> categories = serviceCategoryRepository.findAll();
 		for(ServiceCategoryModel category : categories) {
 			double totalRevenue = serviceCategoryRepository.getServiceRevenueByDate(month, year, category.getServiceCategoryId());

@@ -25,10 +25,10 @@ public class Slot {
     private int id;
     
     @Column(name = "start_time")
-    private double start;
+    private Date start;
 
     @Column(name = "end_time")
-    private double end;
+    private Date end;
 
     @JsonIgnore
     @OneToMany(mappedBy = "slot")

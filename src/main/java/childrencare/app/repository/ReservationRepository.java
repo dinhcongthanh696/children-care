@@ -26,7 +26,8 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     @Query(value = "select top 1 * from reservation\r\n"
     		+ "inner join reservation_service\r\n"
     		+ "on reservation.reservation_id = reservation_service.reservation_id\r\n"
-    		+ "where email = ?1 and service_id = ?2 " , nativeQuery = true)
+    		+ "inner join customer on reservation.customer_id = customer.customer_id\n"
+    		+ "where customer_email = ?1 and service_id = ?2 " , nativeQuery = true)
     public ReservationModel getReservationByEmailAndServiceId(String email , Integer serviceId);
 
 

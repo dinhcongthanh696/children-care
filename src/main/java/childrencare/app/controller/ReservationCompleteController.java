@@ -69,7 +69,7 @@ public class ReservationCompleteController {
             int rid = rs.getReservation().getReservationId();
             int sid = rs.getService().getServiceId();
             int slotId = rs.getSlot().getId();
-            String doctor = rs.getDoctor().getUsername();
+            String doctor = rs.getStaff().getStaff_user().getUsername();
             if(doctor == "Auto"){
 
             }
@@ -77,7 +77,7 @@ public class ReservationCompleteController {
                     rid,
                     rs.getService().getServiceId(),
                     rs.getSlot().getId(),
-                    rs.getDoctor().getUsername(),
+                    rs.getStaff().getStaff_user().getUsername(),
                     rs.getPrice()
             );
         }
