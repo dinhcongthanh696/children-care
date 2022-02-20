@@ -44,12 +44,12 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     int countReservationByStatusAndDate(int status,Date date);
 
 
-    @Query(value = "select r.reservation_id,r.date,slot.start_time as TimeToCheckUp, r.total_reservation_price,r.status,r.fullname,r.gender,r.phone,r.email,r.address,r.notes\n" +
+    @Query(value = "select r.reservation_id,r.date,r.status,r.notes,r.total_reservation_price,r.customer_id\n" +
             "from reservation r\n" +
             "inner join reservation_service rc on rc.reservation_id = r.reservation_id\n" +
             "inner join slot on slot.slot_id = rc.slot_id\n" +
             "inner join [service] serv on serv.service_id= rc.service_id\n" +
             "where r.reservation_id = ?1 \n" +
-            "group by r.reservation_id,r.date,slot.start_time, r.total_reservation_price,r.status,r.fullname,r.gender,r.phone,r.email,r.address,r.notes",nativeQuery = true)
+            "group by r.reservation_id,r.date,r.status,r.notes, r.total_reservation_price,r.customer_id",nativeQuery = true)
     public ReservationModel getReservationModelByReservationId(int reserID);
 }
