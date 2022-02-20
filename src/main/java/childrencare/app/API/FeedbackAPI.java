@@ -52,20 +52,24 @@ public class FeedbackAPI {
 	@PostMapping("/verify-captcha")
 	public String verifyUserContactCaptcha(HttpSession session , @RequestParam(name = "email") String email , 
 			@RequestParam(name = "captcha") String userInputcaptcha) {
-		if(session.getAttribute("user") != null || session.getAttribute("userEmail") != null) {
+		if(session.getAttribute("user") != null) {
 			return "user exsist";
 		}
 		
 		if(!captcha.equals(userInputcaptcha)) {
 			return "fail";
 		}
-		session.setAttribute("userEmail", email);
+		UserModel user = userRepository.findByEmail(email);
+		if(user == null) {
+			return "not exsist";
+		}
+		session.setAttribute("user", user);
 		return "success";
 	}
 	
 	@PostMapping("/generate-captcha")
 	public String generateUserContactCaptcha(HttpSession session ,@RequestParam(name = "email") String email) {
-		if(session.getAttribute("user") != null || session.getAttribute("userEmail") != null) {
+		if(session.getAttribute("user") != null) {
 			return "verified";
 		}
 		// 1. Generate captcha
@@ -73,7 +77,7 @@ public class FeedbackAPI {
 		
 		// if user does not have account
 		// 2. identify user email
-/*		JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
+		JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
 		String from = mailSenderImpl.getUsername();
 		String to = email;
 		String subject = "Email identifycation from Children Care";
@@ -101,7 +105,7 @@ public class FeedbackAPI {
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	*/
+		}	
 		return captcha;
 	}
 	
@@ -110,10 +114,6 @@ public class FeedbackAPI {
 		UserModel user = (UserModel) session.getAttribute("user");
 		if(user != null) {
 			return user.getEmail(); 
-		}
-		
-		if(session.getAttribute("userEmail") != null) {
-			return (String) session.getAttribute("userEmail");
 		}
 		
 		return "not yet";
@@ -128,11 +128,11 @@ public class FeedbackAPI {
 			HttpSession session
 			) {
 		UserModel user = (UserModel) session.getAttribute("user");
-		String email = (user == null) ? (String) session.getAttribute("userEmail") : user.getEmail() ;
-		if(email == null) return "We don't know you,You need to give your contact or login!!!";
+		if(user == null) return "We don't know you,You need to give your contact or login!!!";
 		if(serviceId == -1) return "You don't have chosen any service to feedback!!";
+		if(user.getCustomer() == null) return "You are not customer";
 		try {
-			ReservationModel reservation = reservationRepository.getReservationByEmailAndServiceId(email, serviceId);
+			ReservationModel reservation = reservationRepository.getReservationByEmailAndServiceId(user.getEmail(), serviceId);
 			if(reservation.getReservationServices().isEmpty()) return "fail";
 			byte[] imageBinaryData = (image == null) ? null : image.getBytes();
 			feedbackRepository.saveOnlyFeedback(comment, imageBinaryData, ratedStar, false, serviceId , reservation.getCustomer().getCustomer_id()); 

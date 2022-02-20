@@ -1,5 +1,6 @@
 package childrencare.app.API;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -25,12 +26,9 @@ public class ServiceAPI {
 	@GetMapping("/get-user-services")
 	public List<ServiceModel> getUserBoughtedServices(@RequestParam(name = "serviceId") Integer serviceId , HttpSession session) {
 		UserModel user = (UserModel) session.getAttribute("user");
-		String email;
-		if(user == null) {
-			email = (String) session.getAttribute("userEmail");
-		}else {
-			email = user.getEmail();
+		if(user == null || user.getCustomer() == null) {
+			return new ArrayList<ServiceModel>();
 		}
-		return serviceRepository.findByUserEmailAndServiceId(email, serviceId);
-	}
+		return serviceRepository.findUserBoughtedServiceByServiceId(user.getEmail(), serviceId);
+	} 
 }
