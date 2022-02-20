@@ -407,7 +407,7 @@
                                                 <div class="card border-0 ">
                                                     <div class="card-header card-2">
                                                         <p class="card-text text-muted mt-md-4 mb-2 space">SERVICES<span
-                                                                class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span>
+                                                                class=" small text-muted ml-2 cursor-pointer">Your Service</span>
                                                         </p>
                                                         <hr class="my-2">
                                                     </div>
@@ -432,10 +432,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class=" pl-0 flex-sm-col col-auto my-auto">
-                                                                    <p class="boxed-1">2</p>
+                                                                    <p class="boxed-1" th:text="${listServiceByReserId.getQuantity()}"></p>
                                                                 </div>
                                                                 <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                                                    <p><b>179 SEK</b></p>
+                                                                    <p><b th:text="${listServiceByReserId.getOriginalPrice()}"></b><b>$</b></p>
                                                                 </div>
                                                             </div>
                                                             <hr class="my-2">
