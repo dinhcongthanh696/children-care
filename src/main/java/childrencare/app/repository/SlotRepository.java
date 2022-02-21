@@ -13,12 +13,20 @@ public interface SlotRepository extends JpaRepository<Slot, Integer> {
 
     @Query(value = "select * from slot \n" +
             "where slot_id not in \n" +
-            "(select s.slot_id from slot s\n" +
-            "inner join reservation_service rs on rs.slot_id = s.slot_id\n" +
-            "where rs.bookedDate = ?1\n" +
-            "group by s.slot_id\n" +
-            "having count(*) < (select count(*) from user_model))", nativeQuery = true)
+            "(select slot_id from reservation_service \n" +
+            "where booked_date = ?1\n" +
+            "group by slot_id\n" +
+            "having count(*) = (select count(*) from staff))", nativeQuery = true)
     List<Slot> getAvailableSlot(Date date);
+
+
+    @Query(value = "select * from slot \n" +
+            "where slot_id not in \n" +
+            "(select slot_id from reservation_service \n" +
+            "where booked_date = ?1 and staff_id = ?2)", nativeQuery = true)
+    List<Slot> getAvailableSlotWithDoctor(Date date, int staff_id);
+
+
 
     @Query(value = "select slot.slot_id,slot.start_time,slot.end_time\n" +
             "from slot\n" +

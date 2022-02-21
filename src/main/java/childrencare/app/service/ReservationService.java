@@ -41,17 +41,19 @@ public class ReservationService {
         return repository.findAll();
     }
 
-    public void insertReservation_Service(int rId, int sId, int total) {
-        repository.insertReservation_Service(rId, sId, total);
-    }
     
     // Change Status - KVA
     public void changeStatus(Integer reservationId){
         repository.changeStatus(reservationId);
     }
 
-    public void createSchedule(int reservationId,int serviceId, int slotId, String doctor, double price){
-        repository.createSchedule(reservationId, serviceId, slotId, doctor, price);
+    public void createSchedule(int reservationId,int serviceId, int slotId,
+                               int staff_id, Date date, double price){
+        repository.createSchedule(reservationId, serviceId, slotId, staff_id, date, price);
+    }
+
+    public void deleteSchedule(int slotId, int staff_id, Date booked_date){
+        repository.deleteSchedule(slotId, staff_id, booked_date);
     }
     //Get Infor by RID DucAnh
     public ReservationModel getReservatonInforByID(int rid){

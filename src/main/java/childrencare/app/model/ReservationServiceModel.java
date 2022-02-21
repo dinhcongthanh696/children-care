@@ -38,7 +38,6 @@ public class ReservationServiceModel {
 	@MapsId("slot_id")
 	private Slot slot;
 
-
 	private double price;
 
 }

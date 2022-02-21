@@ -12,15 +12,25 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReservationRepository extends JpaRepository<ReservationModel, Integer> {
 
+
+    // AKV - ReservationComplete
     @Modifying
     @Query(value = "UPDATE ReservationModel rm set rm.status = 'true' where rm.reservationId = ?1",
     nativeQuery = true)
     void changeStatus(int reservationId);
-    
+
     @Modifying
-    @Query(value = "insert into reservation_service (reservation_id,service_id,total_person)" +
-            "values (?1, ?2, ?3)",nativeQuery = true)
-    void insertReservation_Service(int rId,int sId, int total);
+    @Query(value = "insert into reservation_service(reservation_id, service_id, slot_id, staff_id, booked_date, price) " +
+            "values (?1, ?2, ?3, ?4, ?5, ?6)",nativeQuery = true)
+    void createSchedule(int reservationId,int serviceId, int slot_id,
+                        int staff_id, Date date, double price);
+
+    @Modifying
+    @Query(value = "Delete reservation_service " +
+            " where slot_id = ?1 and staff_id = ?2 and booked_date = ?3",nativeQuery = true)
+    void deleteSchedule(int slot_id, int staff_id, Date date);
+
+
 
 
     @Query(value = "select top 1 * from reservation\r\n"
@@ -30,11 +40,6 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     		+ "where customer_email = ?1 and service_id = ?2 " , nativeQuery = true)
     public ReservationModel getReservationByEmailAndServiceId(String email , Integer serviceId);
 
-
-    @Modifying
-    @Query(value = "insert into reservation_service " +
-            "values (?1, ?2, ?3, ?4, ?5)",nativeQuery = true)
-    void createSchedule(int reservationId,int serviceId, int slotId, String doctor, double price);
     
     @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1",nativeQuery = true)
     int countReservationByStatus(int status);

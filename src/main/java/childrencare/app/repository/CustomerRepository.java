@@ -22,4 +22,6 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 			+ "WHERE DATEDIFF(day , reservation.date , GETDATE()) <= ?1\r\n"
 			+ "GROUP BY customer.customer_id,customer.customer_email) as reservedCustomers" , nativeQuery = true)
 	public int countNewCustomerReservedByLastDays(int days);
+
+
 }
