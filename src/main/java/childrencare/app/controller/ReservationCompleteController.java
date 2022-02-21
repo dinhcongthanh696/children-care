@@ -1,10 +1,7 @@
 package childrencare.app.controller;
 
 import childrencare.app.model.*;
-import childrencare.app.service.ReservationService;
-import childrencare.app.service.Service_service;
-import childrencare.app.service.SlotService;
-import childrencare.app.service.UserService;
+import childrencare.app.service.*;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,67 +20,39 @@ public class ReservationCompleteController {
     ReservationService reservationService;
 
     @Autowired
+    ReservationService_Service reservationService_service;
+
+    @Autowired
     Service_service serviceService;
 
     @Autowired
-    UserService userService;
+    StaffService staffService;
 
     @Autowired
     SlotService slotService;
 
     //Reservation Completion - KVA
-    @Transactional
-    @PostMapping("/update/{rid}")
-    public void reservationComplete(@PathVariable(value="rid") Integer rid ,HttpSession session) {
-        // The reservation's status is changed to submitted
-        reservationService.changeStatus(rid);
-        // Update quantity
-        List<ServiceModel> listService = (List<ServiceModel>) session.getAttribute("list");
-        for (ServiceModel sm : listService) {
-            serviceService.updateQuantity(sm.getQuantity(), sm.getServiceId());
-        }
-        // Assign to active staff
-        List<ReservationServiceModel> serviceSlot = (List<ReservationServiceModel>) session.getAttribute("serviceSlot");
-        for(ReservationServiceModel rs : serviceSlot){
 
-        }
-    }
 
     @GetMapping("/getDoctor")
-    public String getAllDoctor(Model model, HttpSession session){
-        List<UserModel> doctors = userService.findAllDoctor();
-        model.addAttribute("doctors", doctors);
+    public String getAllDoctor(Model model, HttpSession session,
+                               @RequestParam(name="reservationId", required = false) Integer reservationId){
+        List<StaffModel> staffs = staffService.getAllStaff();
+        model.addAttribute("staffs", staffs);
 
         List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
         model.addAttribute("services", services);
 
-//        List<Slot> slots = slotService.;
-//        model.addAttribute("slots", slots);
-        return "apppointment";
-    }
 
-    @GetMapping("/updateSchedule")
-    public String updateSchedule(HttpSession session){
-        List<ReservationServiceModel> serviceSlot = (List<ReservationServiceModel>) session.getAttribute("serviceSlot");
-        for(ReservationServiceModel rs : serviceSlot){
-            int rid = rs.getReservation().getReservationId();
-            int sid = rs.getService().getServiceId();
-            int slotId = rs.getSlot().getId();
-            String doctor = rs.getStaff().getStaff_user().getUsername();
-            if(doctor == "Auto"){
+        List<ReservationServiceModel> schedules =
+                reservationService_service.getAllBookedSchedule(reservationId);
+        model.addAttribute("schedules", schedules);
 
-            }
-            reservationService.createSchedule(
-                    rid,
-                    rs.getService().getServiceId(),
-                    rs.getSlot().getId(),
-                    rs.getStaff().getStaff_user().getUsername(),
-                    rs.getPrice()
-            );
-        }
-
+        model.addAttribute("reservationId", reservationId);
 
         return "apppointment";
     }
+
+
 
 }

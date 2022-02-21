@@ -1,13 +1,12 @@
 package childrencare.app.API;
 
+import childrencare.app.model.UserModel;
+import childrencare.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -16,12 +15,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api-login")
 public class LoginAPI {
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @PostMapping("/reset")
@@ -58,4 +61,6 @@ public class LoginAPI {
         }
         return "Success";
     }
+
+
 }

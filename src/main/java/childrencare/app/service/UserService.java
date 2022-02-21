@@ -38,5 +38,9 @@ public class UserService {
 	public void updateUserRole(UserModel userModel) {
 		userRepository.updateUserRole(userModel.getUserRole().getRoleId(), userModel.getUsername());
 	}
+
+	public UserModel findUserModelByUserReservationId(int reserId){
+		return userRepository.findUserModelByUserReservationId(reserId);
+	}
     
 }

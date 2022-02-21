@@ -58,6 +58,9 @@ public class ReservationController {
     @Autowired
     private BlogCategoryService blogCategoryService;
 
+    @Autowired
+    private UserService userService;
+
 
     @GetMapping("/reser")
     public String getServiceCarts(Model model, HttpSession session) {
@@ -170,35 +173,33 @@ public class ReservationController {
         // thanh's code
         int rid = reservationService.saveReservation(reservationModel);
         List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
-        for (ServiceModel serviceLoop : serviceCarts) {
-            reservationService.insertReservation_Service(rid, serviceLoop.getServiceId(), 1);
-        }
+
         //clear cart from session after click submit button (reservation contact)
         List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
         listSubmit.clear();
-        return "redirect:/reservation/reser";
+        return "redirect:/getDoctor";
         // end thanh's code
     }
 
     @RequestMapping("/infor")
     public String reservationInfor(Model model,
                                    @RequestParam(name = "rid") Optional<Integer> reserID) {
-        if(reserID.isPresent()){
+        if (reserID.isPresent()) {
             ReservationModel reservationModel = reservationService.getReservatonInforByID(reserID.get());
             Slot slot = slotService.getSlotByReservationID(reserID.get());
             List<ServiceModel> serviceModelList = serviceModelService.getServicesByReservationId(reserID.get());
-
+            UserModel userModel = userService.findUserModelByUserReservationId(reserID.get());
 
 
             model.addAttribute("reservationByReserId", reservationModel);
+            model.addAttribute("userByReserId", userModel);
             model.addAttribute("slotByReserId", slot);
             model.addAttribute("listServiceByReserId", serviceModelList);
             model.addAttribute("listCategoryPost", blogCategoryService.findAll());
             return "reservationInfor";
-        }else {
+        } else {
             return "redirect:/";
         }
-
 
 
     }

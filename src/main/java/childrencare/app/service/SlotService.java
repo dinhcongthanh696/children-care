@@ -13,8 +13,13 @@ public class SlotService {
     @Autowired
     SlotRepository slotRepository;
 
-    public List<Slot> getAvailableSlot(Date date){
-        return slotRepository.getAvailableSlot(date);
+    public List<Slot> getAvailableSlot(Date date, Integer staff_id){
+        if(staff_id == 0){
+            return slotRepository.getAvailableSlot(date);
+        }
+        else{
+            return slotRepository.getAvailableSlotWithDoctor(date, staff_id);
+        }
     }
 
     public Slot getSlotByReservationID(int reserID){

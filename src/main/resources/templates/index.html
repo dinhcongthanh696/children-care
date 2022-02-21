@@ -44,30 +44,45 @@
 		}
 		//thai's code
 		 function resetEmail() {
-			var email = document.getElementById("reset-email").value;
-	    	if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
-	        	var formData = new FormData();
-	        	formData.append("email",email);
-	        	fetch("/ChildrenCare/api-login/reset",{
-	            	method : 'post',
-	            	body : formData
-	        	}).then(response => {
-	            	return response.text(); //tra ket qua tu server -> text
-	        	}).then(message => {
-	                	if(message === "Success"){
-	                    	alert("Success");
-	                    	var closeButton = document.getElementById("big-button-close");
-                            var closeReset = document.getElementById("close-reset");
-	                    	closeButton.click();
-                            closeReset.click();
-	                	}else{
-	                    	alert("Fail");
-	                	}
-	            	})
-	    	}else{
-	        	alert("Invalid Email");
-	    	}
-		  }
+             var email = document.getElementById("reset-email").value;
+             if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                 var formData = new FormData();
+                 //var formData1 = new FormData();
+                 formData.append("email", email);
+                 fetch("/ChildrenCare/api-user/user", {
+                     method: 'post',
+                     body: formData
+                 }).then(response => {
+                     return response.text();
+                 }).then(message => {
+                     if (message !== "not exist") {
+                         //formData1.append("email",email);
+                         fetch("/ChildrenCare/api-login/reset",{
+                             method : 'post',
+                             body : formData
+                         }).then(response => {
+                             return response.text(); //tra ket qua tu server -> text
+                         }).then(message => {
+                             if(message === "Success"){
+                                 alert("Success");
+                                 var closeButton = document.getElementById("big-button-close");
+                                 var closeReset = document.getElementById("close-reset");
+                                 closeButton.click();
+                                 closeReset.click();
+                             }else{
+                                 alert("Fail");
+                             }
+                         })
+                     } else{
+                         alert("Email is not in database")
+                     }
+
+                 })
+             } else {
+                 alert("Invalid Email");
+             }
+         }
+
         //end
 	</script>
 </head>

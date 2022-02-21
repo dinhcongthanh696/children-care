@@ -25,4 +25,9 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "inner join user_model us on us.username =rs.username_doctor\n" +
             "where r.email = ?1" , nativeQuery = true)
     List<ReservationServiceModel> findAllByEmail(String email);
+
+    @Query(value = "select * from reservation_service\n" +
+            "where reservation_id = ?1 \n" +
+            "order by service_id", nativeQuery = true)
+    List<ReservationServiceModel> findAllBookedSchedule(int reservation_id);
 }

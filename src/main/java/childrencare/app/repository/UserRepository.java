@@ -28,6 +28,13 @@ public interface UserRepository extends JpaRepository<UserModel, Integer>{
 			"on u.role_id = r.role_id where r.role_name = ?1", nativeQuery = true)
 	public List<UserModel> findUserModelByUserRole(String roleName);
 
+	@Query(value = "select *\n" +
+			"from user_model u\n" +
+			"inner join customer c on c.customer_email = u.email\n" +
+			"inner join reservation r on r.customer_id = c.customer_id\n" +
+			"where r.reservation_id = ?1", nativeQuery = true)
+	public UserModel findUserModelByUserReservationId(int reserId);
+
 
 
 }

@@ -3,18 +3,18 @@
 
 <!-- Mirrored from st.ourhtmldemo.com/new/Dento/apppointment.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Jan 2021 02:08:58 GMT -->
 <head>
-	<meta charset="UTF-8">
-	<title>Apppointment || Dento || Responsive HTML 5 Template</title>
+    <meta charset="UTF-8">
+    <title>Apppointment || Dento || Responsive HTML 5 Template</title>
 
-	<!-- responsive meta -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- For IE -->
+    <!-- responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- For IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-	<!-- master stylesheet -->
-	<link rel="stylesheet" href="css/style.css">
-	<!-- Responsive stylesheet -->
-	<link rel="stylesheet" href="css/responsive.css">
+
+    <!-- master stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive stylesheet -->
+    <link rel="stylesheet" href="css/responsive.css">
     <!--Color Switcher Mockup-->
     <link rel="stylesheet" href="css/color-switcher-design.css">
     <!--Color Themes-->
@@ -23,12 +23,35 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+    <style>
+        #scheduleInfo {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
+        #scheduleInfo td, #scheduleInfo th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #scheduleInfotr:nth-child(even){background-color: #f2f2f2;}
+
+        #scheduleInfo tr:hover {background-color: #ddd;}
+
+        #scheduleInfo th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
     <!-- Fixing Internet Explorer-->
     <!--[if lt IE 9]>
-        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <script src="js/html5shiv.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/html5shiv.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
     <![endif]-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -38,248 +61,248 @@
 <body>
 <div class="boxed_wrapper">
 
-<div class="preloader"></div> 
+    <div class="preloader"></div>
 
-<!-- Start Top Bar area -->  
-<section class="top-bar-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-7 col-lg-6">
-                <div class="top-left">
-                    <ul>
-                        <li><a href="#">Locations</a></li>
-                        <li><a href="#">Special Offers</a></li>
-                        <li><a href="#">Teeth Cleaning Tips</a></li>
-                    </ul>
-                </div>    
-            </div>   
-            <div class="col-xl-5 col-lg-6">
-                <div class="top-right">
-                    <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
-                    <ul class="sociallinks-style-one">
-                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                    </ul>
-                </div>    
-            </div>   
-        </div>
-    </div>
-</section>
-<!-- End Top Bar area -->  
- 
-<!--Start header style1 area-->
-<header class="header-style1-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12">
-                <div class="inner-content clearfix">
-                    <div class="header-style1-logo float-left">
-                        <a href="index-2.html">
-                            <img src="images/resources/logo.png" alt="Awesome Logo">
-                        </a>
-                    </div>   
-                    <div class="header-contact-info float-left">
+    <!-- Start Top Bar area -->
+    <section class="top-bar-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-7 col-lg-6">
+                    <div class="top-left">
                         <ul>
-                            <li>
-                                <div class="single-item">
-                                    <div class="icon">
-                                        <span class="icon-support"></span>    
-                                    </div>
-                                    <div class="text">
-                                        <p>+1 555-7890-123</p> 
-                                        <span>support@example.com</span>   
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single-item">
-                                    <div class="icon">
-                                        <span class="icon-gps"></span>    
-                                    </div>
-                                    <div class="text">
-                                        <p>86 Brattle Street</p> 
-                                        <span>Cambridge, MA 02138</span>   
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>  
+                            <li><a href="#">Locations</a></li>
+                            <li><a href="#">Special Offers</a></li>
+                            <li><a href="#">Teeth Cleaning Tips</a></li>
+                        </ul>
                     </div>
-                    <div class="header-style1-button float-right">
-                        <a href="#"><span class="icon-date"></span>Make Appointment</a>
+                </div>
+                <div class="col-xl-5 col-lg-6">
+                    <div class="top-right">
+                        <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
+                        <ul class="sociallinks-style-one">
+                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>        
-</header>  
-<!--End header style1 area-->
-    
-<!--Start mainmenu area-->
-<section class="mainmenu-area stricky">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <nav class="main-menu style1 clearfix">
-                        <div class="navbar-header clearfix">   	
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
+    </section>
+    <!-- End Top Bar area -->
+
+    <!--Start header style1 area-->
+    <header class="header-style1-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="inner-content clearfix">
+                        <div class="header-style1-logo float-left">
+                            <a href="index-2.html">
+                                <img src="images/resources/logo.png" alt="Awesome Logo">
+                            </a>
                         </div>
-                        <div class="navbar-collapse collapse clearfix">
-                            <ul class="navigation clearfix">
-                                <li class="dropdown"><a href="index-2.html">Home</a>
-                                    <ul>
-                                        <li><a href="index-2.html">Home Page 01</a></li>
-                                        <li><a href="index-3.html">Home Page 02</a></li>
-                                    </ul>  
+                        <div class="header-contact-info float-left">
+                            <ul>
+                                <li>
+                                    <div class="single-item">
+                                        <div class="icon">
+                                            <span class="icon-support"></span>
+                                        </div>
+                                        <div class="text">
+                                            <p>+1 555-7890-123</p>
+                                            <span>support@example.com</span>
+                                        </div>
+                                    </div>
                                 </li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li class="dropdown"><a href="specialities.html">Specialities</a>
-                                    <ul>
-                                        <li><a href="spec-dental-implants.html">Dental Implants</a></li>
-                                        <li><a href="spec-cosmetic-dentistry.html">Cosmetic Dentistry</a></li>
-                                        <li><a href="spec-laser-dentistry.html">Laser Dentistry</a></li>
-                                        <li><a href="spec-orthodontics.html">Orthodontics</a></li>
-                                        <li><a href="spec-endodontics.html">Endodontics</a></li>
-                                        <li><a href="spec-periodontics.html">Periodontics</a></li>
-                                    </ul>
+                                <li>
+                                    <div class="single-item">
+                                        <div class="icon">
+                                            <span class="icon-gps"></span>
+                                        </div>
+                                        <div class="text">
+                                            <p>86 Brattle Street</p>
+                                            <span>Cambridge, MA 02138</span>
+                                        </div>
+                                    </div>
                                 </li>
-                                <li><a href="doctors.html">Doctors</a></li>
-                                <li class="dropdown"><a href="blog.html">Blog</a>
-                                    <ul>
-                                        <li><a href="blog.html">Blog Default</a></li>
-                                        <li><a href="blog-large.html">Blog Large Image</a></li>
-                                        <li><a href="blog-single.html">Blog Single Post</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown current"><a href="#">More</a>
-                                    <ul>
-                                        <li><a href="faq.html">FAQ’s</a></li>
-                                        <li><a href="pricing.html">Pricing Plans</a></li>
-                                        <li><a href="testimonials.html">Testimonials</a></li>
-                                        <li><a href="timetable.html">Timetable</a></li>
-                                        <li><a href="apppointment.html">Apppointment</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </div>
-                    </nav>
-                    
-                    <div class="mainmenu-right">
-                        <div class="search-box-style1">
-                            <form class="search-form" method="post" action="http://st.ourhtmldemo.com/new/Dento/index.html">
-							    <input type="search" name="search" placeholder="Search..." required>
-							    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-						    </form>        
+                        <div class="header-style1-button float-right">
+                            <a href="#"><span class="icon-date"></span>Make Appointment</a>
                         </div>
-                        <div class="toggler-button">
-                            <div class="nav-toggler hidden-bar-opener">
-                                <div class="inner">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--End header style1 area-->
+
+    <!--Start mainmenu area-->
+    <section class="mainmenu-area stricky">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="inner-content clearfix">
+                        <nav class="main-menu style1 clearfix">
+                            <div class="navbar-header clearfix">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="navbar-collapse collapse clearfix">
+                                <ul class="navigation clearfix">
+                                    <li class="dropdown"><a href="index-2.html">Home</a>
+                                        <ul>
+                                            <li><a href="index-2.html">Home Page 01</a></li>
+                                            <li><a href="index-3.html">Home Page 02</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li class="dropdown"><a href="specialities.html">Specialities</a>
+                                        <ul>
+                                            <li><a href="spec-dental-implants.html">Dental Implants</a></li>
+                                            <li><a href="spec-cosmetic-dentistry.html">Cosmetic Dentistry</a></li>
+                                            <li><a href="spec-laser-dentistry.html">Laser Dentistry</a></li>
+                                            <li><a href="spec-orthodontics.html">Orthodontics</a></li>
+                                            <li><a href="spec-endodontics.html">Endodontics</a></li>
+                                            <li><a href="spec-periodontics.html">Periodontics</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="doctors.html">Doctors</a></li>
+                                    <li class="dropdown"><a href="blog.html">Blog</a>
+                                        <ul>
+                                            <li><a href="blog.html">Blog Default</a></li>
+                                            <li><a href="blog-large.html">Blog Large Image</a></li>
+                                            <li><a href="blog-single.html">Blog Single Post</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown current"><a href="#">More</a>
+                                        <ul>
+                                            <li><a href="faq.html">FAQ’s</a></li>
+                                            <li><a href="pricing.html">Pricing Plans</a></li>
+                                            <li><a href="testimonials.html">Testimonials</a></li>
+                                            <li><a href="timetable.html">Timetable</a></li>
+                                            <li><a href="apppointment.html">Apppointment</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <div class="mainmenu-right">
+                            <div class="search-box-style1">
+                                <form class="search-form" method="post" action="http://st.ourhtmldemo.com/new/Dento/index.html">
+                                    <input type="search" name="search" placeholder="Search..." required>
+                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                            <div class="toggler-button">
+                                <div class="nav-toggler hidden-bar-opener">
+                                    <div class="inner">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
-                    </div> 
-                      
-                </div>
-            </div>
-        </div>
-    </div>
-</section>                 
-<!--End mainmenu area--> 
-  
-<!-- Hidden Navigation Bar -->
-<section class="hidden-bar right-align">
-    <div class="hidden-bar-closer">
-        <button><span class="flaticon-remove"></span></button>
-    </div>
-    <div class="hidden-bar-wrapper">
-        <div class="logo">
-            <a href="index-2.html"><img src="images/resources/logo-3.png" alt=""/></a>
-        </div>
-        <div class="contact-info-box">
-            <h3>Contact Info</h3>
-            <ul>
-                <li>
-                    <h5>Address</h5>
-                    <p>Romanian  9520 Faires Farm Road,<br> Carlsbad, NC 28213.</p>
-                </li>
-                <li>
-                    <h5>Phone</h5>
-                    <p>Phone 1: +1 555-7890-123</p>
-                </li>
-                <li>
-                    <h5>Email</h5>
-                    <p>supportyou@example.com</p>
-                </li>
-            </ul>
-        </div>       
-        <div class="newsletter-form-box">
-            <h3>Newsletter Subscribe</h3>
-            <span>Get healthy tips & latest updates in inbox.</span>
-            <form action="#">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <input type="email" name="email" placeholder="Email Address..."> 
-                        <button type="submit"><span class="flaticon-arrow"></span></button>    
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="offer-box text-center" style="background-image: url(images/resources/offer-box.jpg);">
-            <div class="big-title">50% <span>Offer</span></div>
-            <h3>5 Years Warranty</h3>
-            <a class="btn-one" href="#">Pricing Plans</a>    
-        </div>
-        <div class="copy-right-text">
-            <p>© Dento 2018, All Rights Reserved.</p>
-        </div> 
-    </div>
-</section>
-<!-- End Hidden Bar -->     
 
-<!--Start breadcrumb area-->     
-<section class="breadcrumb-area" style="background-image: url(images/resources/breadcrumb-bg.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <div class="title float-left">
-                       <h2>Make Apppointment</h2>
-                    </div>
-                    <div class="breadcrumb-menu float-right">
-                        <ul class="clearfix">
-                            <li><a href="index-2.html">Home</a></li>
-                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                            <li class="active">Make Apppointment</li>
-                        </ul>    
                     </div>
                 </div>
             </div>
         </div>
-	</div>
-</section>
-<!--End breadcrumb area-->  
+    </section>
+    <!--End mainmenu area-->
 
-<!--Start Appointment area -->
-<div class="appointment-area2">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="sec-title max-width text-center">
-                    <h1>Make an Appointment</h1>
-                    <p>Here you can get doctors available time & you can get your perfect visiting time to hospital.</p>
+    <!-- Hidden Navigation Bar -->
+    <section class="hidden-bar right-align">
+        <div class="hidden-bar-closer">
+            <button><span class="flaticon-remove"></span></button>
+        </div>
+        <div class="hidden-bar-wrapper">
+            <div class="logo">
+                <a href="index-2.html"><img src="images/resources/logo-3.png" alt=""/></a>
+            </div>
+            <div class="contact-info-box">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li>
+                        <h5>Address</h5>
+                        <p>Romanian  9520 Faires Farm Road,<br> Carlsbad, NC 28213.</p>
+                    </li>
+                    <li>
+                        <h5>Phone</h5>
+                        <p>Phone 1: +1 555-7890-123</p>
+                    </li>
+                    <li>
+                        <h5>Email</h5>
+                        <p>supportyou@example.com</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="newsletter-form-box">
+                <h3>Newsletter Subscribe</h3>
+                <span>Get healthy tips & latest updates in inbox.</span>
+                <form action="#">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <input type="email" name="email" placeholder="Email Address...">
+                            <button type="submit"><span class="flaticon-arrow"></span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="offer-box text-center" style="background-image: url(images/resources/offer-box.jpg);">
+                <div class="big-title">50% <span>Offer</span></div>
+                <h3>5 Years Warranty</h3>
+                <a class="btn-one" href="#">Pricing Plans</a>
+            </div>
+            <div class="copy-right-text">
+                <p>© Dento 2018, All Rights Reserved.</p>
+            </div>
+        </div>
+    </section>
+    <!-- End Hidden Bar -->
+
+    <!--Start breadcrumb area-->
+    <section class="breadcrumb-area" style="background-image: url(images/resources/breadcrumb-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="inner-content clearfix">
+                        <div class="title float-left">
+                            <h2>Make Apppointment</h2>
+                        </div>
+                        <div class="breadcrumb-menu float-right">
+                            <ul class="clearfix">
+                                <li><a href="index-2.html">Home</a></li>
+                                <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
+                                <li class="active">Make Apppointment</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
+    <!--End breadcrumb area-->
+
+    <!--Start Appointment area -->
+    <div class="appointment-area2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sec-title max-width text-center">
+                        <h1>Make an Appointment</h1>
+                        <p>Here you can get doctors available time & you can get your perfect visiting time to hospital.</p>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-8">
                     <div class="appointment-form-left">
@@ -287,13 +310,14 @@
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="single-box">
+                                        <input type="hidden" th:value="${reservationId}" id="reservationId">
                                         <div class="title">
                                             <h5>Your service</h5>
                                         </div>
                                         <div class="input-box">
                                             <div class="row">
                                                 <div class="col-xl-6">
-                                                    <select class="selectmenu">
+                                                    <select class="selectmenu" id="chosenService">
                                                         <!-- Insert user's chosen service -->
                                                         <th:block th:each="service : ${services}">
                                                             <option th:utext="${service.title}" th:value ="${service.serviceId}"> </option>
@@ -322,11 +346,11 @@
                                             <h5>Doctor</h5>
                                         </div>
                                         <div class="input-box">
-                                            <select class="selectmenu" id = "doctorMenu">
+                                            <select class="selectmenu" id = "staffMenu">
                                                 <!-- Insert available doctor here -->
-                                                <option th:value = "0"> Choose for me </option>
-                                                <th:block th:each="doctor : ${doctors}">
-                                                    <option th:utext="${doctor.fullname}" th:value="${doctor.username}"> </option>
+                                                <option th:value = "0"> Automatically </option>
+                                                <th:block th:each="staff : ${staffs}">
+                                                    <option th:utext="${staff.staff_user.fullname}" th:value="${staff.staff_id}"> </option>
                                                 </th:block>
                                             </select>
                                         </div>
@@ -358,13 +382,25 @@
                             <div class = "row">
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="input-box">
-                                        <ul>
-                                            <!-- Your booked schedule -->
-                                            <li> Id - Service - Time - Doctor <button type="button" class="btn btn-outline-danger cancel">Cancel</button></li><br>
-                                            <li> Id - Service - Time - Doctor <button type="button" class="btn btn-outline-danger cancel">Cancel</button></li><br>
-                                            <li> Id - Service - Time - Doctor <button type="button" class="btn btn-outline-danger cancel">Cancel</button></li><br>
-                                            <li> Id - Service - Time - Doctor <button type="button" class="btn btn-outline-danger cancel">Cancel</button></li><br>
-                                        </ul>
+                                        <table id = 'scheduleInfo'>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Slot</th>
+                                                <th>Doctor</th>
+                                                <th>Service</th>
+                                                <th></th>
+                                            </tr>
+                                            <th:block th:each="sc : ${schedules}">
+                                                <tr>
+                                                    <td th:utext="${sc.id.bookedDate}" th:value="${sc.id.bookedDate}">              </td>
+                                                    <td th:utext="${sc.slot.start}" th:value="${sc.id.slot_id}">                    </td>
+                                                    <td th:utext="${sc.staff.staff_user.fullname}" th:value="${sc.id.staff_id}">    </td>
+                                                    <td th:utext="${sc.service.title}" th:value="${sc.id.staff_id}">    </td>
+                                                    <td> <button type="button" class="btn btn-danger cancel"
+                                                    id = "${sc.id.bookedDate}${sc.id.slot_id}${sc.id.staff_id}">Cancel</button>        </td>
+                                                </tr>
+                                            </th:block>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -383,10 +419,10 @@
                                     <!-- credit card info-->
                                     <div id="credit-card" class="tab-pane fade show active pt-3">
                                         <form role="form" onsubmit="event.preventDefault()">
-                                            <div class="form-group"> <label for="username">
+                                            <div class="form-group"> <label>
                                                 <h6>Card Owner</h6>
                                             </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control "> </div>
-                                            <div class="form-group"> <label for="cardNumber">
+                                            <div class="form-group"> <label>
                                                 <h6>Card number</h6>
                                             </label>
                                                 <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
@@ -419,128 +455,128 @@
                         </form>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
-</div>
-<!--End Appointment area -->
+    <!--End Appointment area -->
 
-<!--Start footer area-->  
-<footer class="footer-area pdtop80">
-    <div class="container">
-        <div class="row">
-            <!--Start single footer widget-->
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                <div class="single-footer-widget marbtm50">
-                    <div class="about-us">
-                        <div class="footer-logo fix">
-                            <a href="index-2.html">
-                                <img src="images/resources/logo-2.png" alt="Awesome Logo">
-                            </a>
-                        </div>  
-                        <div class="text-box fix">
-                            <p>Dento was started in the year 1995 as a small private dental clinic in Binghamton, NY, USA. Looking for affordable dental care?</p>
-                            <p class="bottom-text">To take a trivial example, which of us ever undertakes laborious physical 
-                            exercise, except to obtain.</p>
+    <!--Start footer area-->
+    <footer class="footer-area pdtop80">
+        <div class="container">
+            <div class="row">
+                <!--Start single footer widget-->
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <div class="single-footer-widget marbtm50">
+                        <div class="about-us">
+                            <div class="footer-logo fix">
+                                <a href="index-2.html">
+                                    <img src="images/resources/logo-2.png" alt="Awesome Logo">
+                                </a>
+                            </div>
+                            <div class="text-box fix">
+                                <p>Dento was started in the year 1995 as a small private dental clinic in Binghamton, NY, USA. Looking for affordable dental care?</p>
+                                <p class="bottom-text">To take a trivial example, which of us ever undertakes laborious physical
+                                    exercise, except to obtain.</p>
+                            </div>
+                            <div class="button fix">
+                                <a class="btn-one" href="#">Read More</a>
+                            </div>
                         </div>
-                        <div class="button fix">
-                            <a class="btn-one" href="#">Read More</a>
-                        </div>   
                     </div>
                 </div>
-            </div>
-            <!--End single footer widget-->
-            
-            <!--Start single footer widget-->
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                <div class="single-footer-widget martop6 marbtm50">
-                    <div class="title">
-                        <h3>Specialities</h3>
-                    </div>
-                    <ul class="specialities">
-                        <li><a href="#">Dental Implants</a></li>
-                        <li><a href="#">Laser Dentistry</a></li>
-                        <li><a href="#">Cosmetic Dentistry</a></li>
-                        <li><a href="#">Orthodontics</a></li>
-                        <li><a href="#">Pedodontics</a></li>
-                        <li><a href="#">Prosthodontics</a></li>
-                        <li><a href="#">Oral & Maxsillosacial</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!--End single footer widget-->
-            
-            <!--Start single footer widget-->
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                <div class="single-footer-widget martop6 pdbtm50">
-                    <div class="title">
-                        <h3>Facilities</h3>
-                    </div>
-                    <ul class="facilities">
-                        <li><a href="#">Individual Tooth X-Ray</a></li>
-                        <li><a href="#">Intensive Care Unit</a></li>
-                        <li><a href="#">Blood Bank</a></li>
-                        <li><a href="#">Critical Care Areas</a></li>
-                        <li><a href="#">Laboratories</a></li>
-                        <li><a href="#">Scale and Clean</a></li>
-                        <li><a href="#">Fissure Sealants</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!--End single footer widget-->
-            
-            <!--Start single footer widget-->
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                <div class="single-footer-widget martop6 pdtop-50">
-                    <div class="title">
-                        <h3>Opening Hours</h3>
-                    </div>
-                    <ul class="opening-hours">
-                        <li>Monday <span class="float-right">8.30am–6.30pm</span></li>
-                        <li>Tuesday <span class="float-right">10.00am–8.00pm</span></li>
-                        <li>Wednesday <span class="float-right">8.30am–6.30pm</span></li>
-                        <li>Thursday <span class="float-right">8.30am–7.00pm</span></li>
-                        <li>Friday <span class="float-right">8.30am–3.00pm</span></li>
-                        <li>Saturday <span class="float-right">8.30am–2.00pm</span></li>
-                        <li>Sunday <span class="float-right clr-green">Closed</span></li>
-                    </ul>   
-                </div>
-            </div>
-            <!--End single footer widget-->
-            
-        </div>
-    </div>
-</footer>   
-<!--End footer area-->
+                <!--End single footer widget-->
 
-<!--Start footer bottom area-->
-<section class="footer-bottom-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="inner clearfix">
-                    <div class="footer-social-links float-left">
-                        <ul class="sociallinks-style-one">
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+                <!--Start single footer widget-->
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <div class="single-footer-widget martop6 marbtm50">
+                        <div class="title">
+                            <h3>Specialities</h3>
+                        </div>
+                        <ul class="specialities">
+                            <li><a href="#">Dental Implants</a></li>
+                            <li><a href="#">Laser Dentistry</a></li>
+                            <li><a href="#">Cosmetic Dentistry</a></li>
+                            <li><a href="#">Orthodontics</a></li>
+                            <li><a href="#">Pedodontics</a></li>
+                            <li><a href="#">Prosthodontics</a></li>
+                            <li><a href="#">Oral & Maxsillosacial</a></li>
                         </ul>
                     </div>
-                    <div class="copyright-text text-center">
-                        <p>© <a href="#">Dento</a> 2018, All Rights Reserved.</p>
+                </div>
+                <!--End single footer widget-->
+
+                <!--Start single footer widget-->
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <div class="single-footer-widget martop6 pdbtm50">
+                        <div class="title">
+                            <h3>Facilities</h3>
+                        </div>
+                        <ul class="facilities">
+                            <li><a href="#">Individual Tooth X-Ray</a></li>
+                            <li><a href="#">Intensive Care Unit</a></li>
+                            <li><a href="#">Blood Bank</a></li>
+                            <li><a href="#">Critical Care Areas</a></li>
+                            <li><a href="#">Laboratories</a></li>
+                            <li><a href="#">Scale and Clean</a></li>
+                            <li><a href="#">Fissure Sealants</a></li>
+                        </ul>
                     </div>
-                    <ul class="footer-menu float-right">
-                        <li><a href="#">Terms & Condition</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>   
+                </div>
+                <!--End single footer widget-->
+
+                <!--Start single footer widget-->
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <div class="single-footer-widget martop6 pdtop-50">
+                        <div class="title">
+                            <h3>Opening Hours</h3>
+                        </div>
+                        <ul class="opening-hours">
+                            <li>Monday <span class="float-right">8.30am–6.30pm</span></li>
+                            <li>Tuesday <span class="float-right">10.00am–8.00pm</span></li>
+                            <li>Wednesday <span class="float-right">8.30am–6.30pm</span></li>
+                            <li>Thursday <span class="float-right">8.30am–7.00pm</span></li>
+                            <li>Friday <span class="float-right">8.30am–3.00pm</span></li>
+                            <li>Saturday <span class="float-right">8.30am–2.00pm</span></li>
+                            <li>Sunday <span class="float-right clr-green">Closed</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--End single footer widget-->
+
             </div>
         </div>
-    </div>    
-</section>
-<!--End footer bottom area-->   
+    </footer>
+    <!--End footer area-->
+
+    <!--Start footer bottom area-->
+    <section class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="inner clearfix">
+                        <div class="footer-social-links float-left">
+                            <ul class="sociallinks-style-one">
+                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="copyright-text text-center">
+                            <p>© <a href="#">Dento</a> 2018, All Rights Reserved.</p>
+                        </div>
+                        <ul class="footer-menu float-right">
+                            <li><a href="#">Terms & Condition</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End footer bottom area-->
 
 </div>
 
@@ -606,10 +642,10 @@
 <!-- jQuery timepicker js -->
 <script src="assets/timepicker/timePicker.js"></script>
 <!-- Bootstrap select picker js -->
-<script src="assets/bootstrap-sl-1.12.1/bootstrap-select.js"></script> 
-<!-- html5lightbox js -->                              
+<script src="assets/bootstrap-sl-1.12.1/bootstrap-select.js"></script>
+<!-- html5lightbox js -->
 <script src="assets/html5lightbox/html5lightbox.js"></script>
-<!-- html5lightbox js -->                              
+<!-- html5lightbox js -->
 <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <!--Color Switcher-->
 <script src="js/color-settings.js"></script>
@@ -634,33 +670,19 @@
 
     /*=====  Cancel a booked reservation */
     $(document).on('click', '.cancel', function () {
-        // your function here
-        deleteRecord();
+
     });
 
 
-    function deleteRecord(rId, sId, slotId, time, doctor){
-        //Insert delete function
-
-        alert("Cancel on");
-    }
-
-    /*=====  Pick a date ==================*/
-    $(document).on('change', '#datepicker', function () {
+    /*=======  Pick a schedule =========*/
+    $(document).on('change', '#datepicker, #staffMenu', function () {
         // your function here
-        let date = new Date($('#datepicker').val());
-        let dd = String(date.getDate()).padStart(2, '0');
-        let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-        let yyyy = date.getFullYear();
 
-        let day = yyyy + '-' + mm + '-' + dd;
+        let booked_date = getPickedDate();
+        let staff_id = $("#staffMenu").val();
 
-        var doctor = $("#doctorMenu").val();
-
-        console.log(doctor);
-
-        let url = '/ChildrenCare/api-slot/slots?bookedDate=' + day;
-
+        let url = '/ChildrenCare/api-slot/slots?booked_date=' + booked_date + '&staff_id=' + staff_id;
+        console.log(url);
         fetch(url)
             .then(function (response) {
                 return response.json();
@@ -673,15 +695,25 @@
             });
         function appendData(data) {
             $('#available-slot').empty();
-            var mainContainer = document.getElementById("available-slot")
+            var mainContainer = document.getElementById("available-slot");
 
             for (var i = 0; i < data.length; i++) {
                 var li = document.createElement("li");
+                li.id = data[i].id;
+                li.classList.add('slot_Booked');
                 li.innerHTML = renderHour(data[i].start);
                 mainContainer.appendChild(li);
             }
         }
     });
+
+    function getPickedDate(){
+        let date = new Date($('#datepicker').val());
+        let dd = String(date.getDate()).padStart(2, '0');
+        let mm = String(date.getMonth() + 1).padStart(2, '0');
+        let yyyy = date.getFullYear();
+        return yyyy + '-' + mm + '-' + dd;
+    }
 
     function renderHour(hour){
         if(hour > 12){
@@ -691,7 +723,50 @@
             return hour + ":00 am";
         }
     }
+    /* ====== Create a schedule ====== */
+    $(document).on('click', '.slot_Booked', function () {
+        let slot_id = this.id;
+        let booked_date = getPickedDate();
+        let staff_id = $("#staffMenu").val();
+        let service_id = $("#chosenService").val();
+        let reservation_id = $("#reservationId").val();
 
+        let formData = new FormData();
+        formData.append("reservation_id", reservation_id);
+        formData.append("service_id", service_id);
+        formData.append("slot_id", slot_id);
+        formData.append("booked_date", booked_date);
+        formData.append("staff_id", staff_id);
+        formData.append("price", '100');
+
+        let bookedInfo = '';
+        bookedInfo += "Service: " + $("#chosenService").find(":selected").text();
+        bookedInfo += "-Doctor: " + $("#staffMenu").find(":selected").text();
+        bookedInfo += "-Time: " + booked_date + " - " + $(this).text();
+
+        let serviceName = $("#chosenService").find(":selected").text();
+        let staffName = $("#staffMenu").find(":selected").text();
+
+        alert(bookedInfo);
+
+        fetch("/ChildrenCare/api-reservation/createSchedule",{
+            method : 'PUT',
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            body : formData
+        })
+            .then(response => {
+                switch(response.status){
+                    case 403 :
+                        alert("Your are not allowed to save any changes");
+                        break;
+                    case 200 :
+                        //
+                        $(this).hide();
+                        location.reload();
+                }
+            })
+    });
 </script>
 
 
