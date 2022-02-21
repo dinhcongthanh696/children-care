@@ -20,6 +20,9 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 			+ "(select customer.customer_id,customer.customer_email from customer \r\n"
 			+ "inner join reservation on customer.customer_id = reservation.customer_id\r\n"
 			+ "WHERE DATEDIFF(day , reservation.date , GETDATE()) <= ?1\r\n"
+			+ "AND customer.customer_email NOT IN (SELECT DISTINCT c.customer_email FROM customer as c "
+			+ "inner join reservation as r on c.customer_id = r.customer_id \r\n"
+			+ "WHERE DATEDIFF(day, r.date , GETDATE()) > ?1 ) "
 			+ "GROUP BY customer.customer_id,customer.customer_email) as reservedCustomers" , nativeQuery = true)
 	public int countNewCustomerReservedByLastDays(int days);
 }

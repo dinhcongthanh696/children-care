@@ -163,12 +163,13 @@
             border-radius: 12px
         }
 
-        form {
+       /* form {
             border: 1px solid rgba(16, 46, 46, 1);
             background-color: rgba(16, 46, 46, 0.973);
             border-radius: 5px;
             padding: 20px
-        }
+        } */
+        
         /* fonts  */
         @import url('https://fonts.googleapis.com/css?family=Abel|Aguafina+Script|Artifika|Athiti|Condiment|Dosis|Droid+Serif|Farsan|Gurajada|Josefin+Sans|Lato|Lora|Merriweather|Noto+Serif|Open+Sans+Condensed:300|Playfair+Display|Rasa|Sahitya|Share+Tech|Text+Me+One|Titillium+Web');
 
@@ -270,7 +271,7 @@
 
         }
         /* the Button */
-        .btn {
+        #buy-now {
             transform: translateY(0px);
             transition: 0.3s linear;
             background: #49C608;
@@ -418,7 +419,7 @@
              <div class="control">
 
                  <!-- Start Button buying -->
-                 <button class="btn">
+                 <button class="btn" id="buy-now">
                      <!--    the Price -->
                      <span class="price" th:text="${service.originalPrice}"></span>
                      <!--    shopping cart icon-->
@@ -479,7 +480,7 @@
                     <h1 style="color: black">Feedback</h1>
                     <div th:each="feedback : ${feedbackModels}">
                         <div class="comment mt-4 text-justify float-left"> <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
-                            <h4 th:text="${feedback.email}"></h4> <br>
+                            <h4 th:text="${feedback.customer.customer_user.email}"></h4> <br>
                             <p th:text="${feedback.getComment()}"></p>
                             <img th:src="${'data:image/gif;base64,'+feedback.base64ImageEncode}" />
                         </div>

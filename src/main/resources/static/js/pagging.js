@@ -2,7 +2,6 @@ function renderPages() {
 		var totalPages = parseInt(document.querySelector("#totalPages").value);
 		var currentPage = parseInt(document.querySelector("#currentPage").value);
 		var pageListContainer = document.querySelector("#pages");
-		var search = document.querySelector("#search").value;
 		var gap = 2;
 		
 		var prevButton = "";

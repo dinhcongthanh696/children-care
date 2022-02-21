@@ -27,7 +27,7 @@ public class ServiceController {
 	private final ServiceModelService serviceModelService;
 	private final ServiceCategoryService serviceCategoryService;
 	private final FeedbackRepository feedbackRepository;
-	private final int SERVICESIZE = 3;
+	private final int SERVICESIZE = 9;
 	@Autowired
 	public ServiceController(ServiceCategoryRepository serviceCategoryRepository, ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService, FeedbackRepository feedbackRepository) {
 		this.serviceCategoryRepository = serviceCategoryRepository;
