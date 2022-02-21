@@ -60,5 +60,8 @@ public class ReservationService {
         ReservationModel getreserInfor = repository.getReservationModelByReservationId(rid);
         return getreserInfor;
     }
-    
+
+    public ReservationModel getreservationDetail(int reserID) {
+        return repository.getreservationDetail(reserID);
+    }
 }
