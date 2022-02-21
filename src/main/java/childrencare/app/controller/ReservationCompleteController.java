@@ -20,6 +20,9 @@ public class ReservationCompleteController {
     ReservationService reservationService;
 
     @Autowired
+    ReservationService_Service reservationService_service;
+
+    @Autowired
     Service_service serviceService;
 
     @Autowired
@@ -39,6 +42,11 @@ public class ReservationCompleteController {
 
         List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
         model.addAttribute("services", services);
+
+
+        List<ReservationServiceModel> schedules =
+                reservationService_service.getAllBookedSchedule(reservationId);
+        model.addAttribute("schedules", schedules);
 
         model.addAttribute("reservationId", reservationId);
 

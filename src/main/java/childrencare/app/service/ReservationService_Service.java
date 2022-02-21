@@ -31,4 +31,8 @@ public class ReservationService_Service {
     public List<ReservationServiceModel> findAllByEmail(String email) {
         return reservationServiceRepository.findAllByEmail(email);
     }
+
+    public List<ReservationServiceModel> getAllBookedSchedule(int reservationId){
+        return reservationServiceRepository.findAllBookedSchedule(reservationId);
+    }
 }
