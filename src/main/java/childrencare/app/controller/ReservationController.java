@@ -173,13 +173,11 @@ public class ReservationController {
         // thanh's code
         int rid = reservationService.saveReservation(reservationModel);
         List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
-        for (ServiceModel serviceLoop : serviceCarts) {
-            reservationService.insertReservation_Service(rid, serviceLoop.getServiceId(), 1);
-        }
+
         //clear cart from session after click submit button (reservation contact)
         List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
         listSubmit.clear();
-        return "redirect:/reservation/reser";
+        return "redirect:/getDoctor";
         // end thanh's code
     }
 

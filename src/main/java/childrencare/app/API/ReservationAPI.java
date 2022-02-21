@@ -10,6 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import childrencare.app.model.Slot;
 import childrencare.app.model.UserModel;
@@ -79,5 +80,27 @@ public class ReservationAPI {
 	}
 
 
+	@Transactional
+	@PutMapping ("/createSchedule")
+	public void addSchedule(@RequestParam(name = "reservation_id") Integer reservationId,
+							@RequestParam(name = "service_id") Integer serviceId,
+							@RequestParam(name = "slot_id") Integer slotId,
+							@RequestParam(name = "staff_id") Integer staffId,
+							@RequestParam(name = "booked_date") Date date,
+							@RequestParam(name = "price") double price
+	) {
+		reservationService.createSchedule(reservationId, serviceId, slotId, staffId, date, price);
+	}
 
+
+	//Delete reservation service
+	@Transactional
+	@DeleteMapping("/deleteSchedule")
+	public void deleteSchedule(
+							   @RequestParam(name = "slot_id") Integer slot_id,
+							   @RequestParam(name = "staff_id") Integer staff_id,
+							   @RequestParam(name = "booked_date") Date booked_date
+	) {
+		reservationService.deleteSchedule(slot_id, staff_id, booked_date);
+	}
 }
