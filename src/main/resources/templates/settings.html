@@ -62,7 +62,7 @@
         <div class="col-lg-4 pb-5" th:insert="settingLeftSide::left-side"></div>
         <!-- Profile Settings-->
         <div class="col-lg-8 pb-5">
-            <form action="" class="row" method="post">
+            <form action="/ChildrenCare/profile/update" class="row" method="post">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn">User name</label>
@@ -84,7 +84,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-ln">Gender</label>
-                        <input th:value="${userLogin.gender}" class="form-control" name="gender" type="text" id="account-ln"   required="">
+                        <input th:value="${userLogin.gender}" class="form-control" readonly type="text" id="account-ln"   required="">
 
                     </div>
                 </div>
