@@ -13,13 +13,32 @@
 
 .service-item {
 	transition: border 1s, box-shadow 1s;
-	margin-left: 1%;
-	margin-right: 7%;
+	margin-right: 2%;
+	margin-left : 5%;
 	margin-bottom: 15px;
 	cursor: pointer;
 	padding: 0;
 	text-align: center;
+	border-radius : 7px;
+	border : 1px solid #cbd0d6;
+	position: relative;
 }
+
+.service-tooltip{
+	position: absolute;
+	right : 0;
+	color : #73767a;
+	background-color : white;
+	border-radius: 6px; 
+	padding : 3px;
+	display : none;
+	font-weight: bold;
+}
+
+.service-tooltip:hover{
+	color : #71d997;
+}
+
 
 .service-item:hover {
 	box-shadow: 3px 3px 3px 3px #888888;

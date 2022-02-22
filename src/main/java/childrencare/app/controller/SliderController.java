@@ -21,11 +21,6 @@ public class SliderController {
     @Autowired
     private SlidersService slidersService;
 
-    @GetMapping("/sliderAdmin/page/{pageNum}")
-    public String viewAdminSlider(Model model, @PathVariable(name ="pageNum") int pageNum,
-                                  @Param("keyword") String keyword){
-        return "slider_manager";
-    }
 
     @GetMapping("/sliderManager/page/{pageNum}")
     public String viewPage(Model model,@PathVariable(name ="pageNum") int pageNum,
@@ -48,12 +43,36 @@ public class SliderController {
     @PostMapping("/update")
     @Transactional
     public String updateSlider(@RequestParam(name = "id") int id,
-                               @RequestParam(name = "file1") MultipartFile img,
+                               @RequestParam(name = "imgUpdate") MultipartFile imgUpdate,
                                @RequestParam(name = "title") String title,
                                @RequestParam(name = "backlink") String backlink,
                                @RequestParam(name = "status") boolean status,
-                               @RequestParam(name = "note") String note){
-        slidersService.updateSlider(backlink,img,note,status,title,id);
-        return "redirect:/setting/sliderManager";
+                               @RequestParam(name = "note") String note) throws Exception {
+
+        byte[] imgConvertUpdate = (imgUpdate == null) ? null : imgUpdate.getBytes();
+        slidersService.updateSlider(backlink,imgConvertUpdate,note,status,title,id);
+        return "redirect:/manager/sliderManager/page/1";
     }
+
+    @PostMapping("/addSlider")
+    @Transactional
+    public String addSlider(@RequestParam(name = "imgAdd") MultipartFile imgAdd,
+                               @RequestParam(name = "titleAdd") String titleAdd,
+                               @RequestParam(name = "backLinkAdd") String backLinkAdd,
+                               @RequestParam(name = "statusAdd") boolean statusAdd,
+                               @RequestParam(name = "noteAdd") String noteAdd) throws Exception {
+        byte[] imgConvertAdd = (imgAdd == null) ? null : imgAdd.getBytes();
+        SliderModel sliderModel = new SliderModel();
+        sliderModel.setTitle(titleAdd);
+        sliderModel.setBackLink(backLinkAdd);
+        sliderModel.setStatus(statusAdd);
+        sliderModel.setImage(imgConvertAdd);
+        sliderModel.setNotes(noteAdd);
+        slidersService.save(sliderModel);
+        return "redirect:/manager/sliderManager/page/1";
+    }
+
+
+
+
 }

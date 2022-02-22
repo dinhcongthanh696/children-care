@@ -74,7 +74,7 @@
                         </nav>
                     </div>
                 </div>
-                <form th:action="@{/reservation/saveData}" th:object="${reservation}"  method="post">
+                <form th:action="@{/reservation/saveData}" method="post">
                     <div class="row justify-content-around">
                         <div class="col-md-5">
                             <div class="card border-0">
@@ -91,38 +91,41 @@
 
                                     </div>
                                     <div class="form-group"> <label for="NAME1" class="small text-muted mb-1">Full name</label>
-                                        <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{fullname}"  class="form-control form-control-sm" id="" aria-describedby="helpId" >
-                                        <input placeholder="nguyen van a" required pattern="[A-Z\sa-z]{3,20}" th:if="${user} == null" type="text" th:field="*{fullname}"  class="form-control form-control-sm" id="NAME1" aria-describedby="helpId" >
+                                        <input th:if="${user} !=null" th:value="${user.fullname}" class="form-control form-control-sm" id="" aria-describedby="helpId" >
+                                        <input  required pattern="[A-Z\sa-z]{3,20}" th:if="${user} == null" type="text"  class="form-control form-control-sm" id="NAME1" aria-describedby="helpId" >
                                     </div>
                                     <div class="form-group"> <label  class="small text-muted mb-1">Gender</label>
-                                        <select class="small text-muted mb-1" th:object="${user}" th:field="*{gender}">
-                                            <option value="1" th:checked="${gender}">Nam</option>
-                                            <option value="0" th:checked="not ${gender}">Nữ</option>
+                                        <select th:if="${user!= null}" class="small text-muted mb-1">
+                                            <option value="1" th:checked="${user.gender}">Nam</option>
+                                            <option value="0" th:checked="not ${user.gender}">Nữ</option>
+                                        </select>
+                                        <select th:if="${user == null}" class="small text-muted mb-1">
+                                            <option value="1">Nam</option>
+                                            <option value="0">Nữ</option>
                                         </select>
                                     </div>
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group"> <label for="NAME3" class="small text-muted mb-1">Email</label>
-                                                <input readonly th:if="${session.user} !=null" th:object="${user}" type="text" th:field="*{email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input placeholder="nghianxhe153281@fpt.edu.vn" required pattern="(\d{3})-?\s?(\d{3})-?\s?(\d{4})" th:if="${session.user} == null" th:field="*{email}" type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
-<!--                                                 correct email://nghianxhe153281@fpt.edu.vn-->
+                                                <input readonly th:if="${user} !=null"  type="text" th:value="${user.email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input th:if="${user} == null"  type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group"> <label for="NAME4" class="small text-muted mb-1">Mobile</label>
-                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{phone}"  class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input placeholder="0928329202" required pattern="[0][0-9]{9}"  th:if="${user} == null" th:field="*{phone}"  type="text" class="form-control form-control-sm"  id="NAME4" aria-describedby="helpId" > </div>
+                                                <input th:if="${user} !=null" th:value="${user.phone}" type="text"   class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input th:if="${user} == null" type="text" class="form-control form-control-sm"  id="NAME4" aria-describedby="helpId" > </div>
                                         </div>
                                     </div>
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group"> <label for="NAME5" class="small text-muted mb-1">Address</label>
-                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{address}"  class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input required  th:if="${user} == null" th:field="*{address}" type="text" class="form-control form-control-sm"  id="NAME5" aria-describedby="helpId"> </div>
+                                                <input th:if="${user} !=null" type="text" th:value="${user.address}" class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input required  th:if="${user} == null" type="text" class="form-control form-control-sm"  id="NAME5" aria-describedby="helpId"> </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group"> <label for="NAME6" class="small text-muted mb-1">Note</label>
-                                                <input th:if="${user} !=null" th:object="${user}" type="text" th:field="*{notes}"  class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input th:if="${user} == null" th:field="*{notes}" type="text" class="form-control form-control-sm"  id="NAME6" aria-describedby="helpId" > </div>
+                                                <input th:if="${user} !=null" type="text" th:value="${user.notes}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input th:if="${user} == null"  type="text" class="form-control form-control-sm"  id="NAME6" aria-describedby="helpId" > </div>
                                         </div>
                                     </div>
                                     <div class="row no-gutters">

@@ -129,7 +129,7 @@ public class AdminController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "admin-dashboard";
+		return "index_admin";
 	}
 	
 }

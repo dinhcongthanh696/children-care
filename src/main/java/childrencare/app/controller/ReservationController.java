@@ -135,19 +135,11 @@ public class ReservationController {
     public String getReservationContact(Model model, HttpSession session) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         UserModel userModel = (UserModel) session.getAttribute("user");
-
-
         if (itemList != null) {
             double total = (Double) session.getAttribute("total");
             model.addAttribute("orderList", itemList);
             model.addAttribute("total", total);
-            ReservationModel reservationModel = new ReservationModel();
-            model.addAttribute("reservation", reservationModel);
-            if (userModel != null) {
-                model.addAttribute("user", userModel);
-            } else {
-                model.addAttribute("user", new UserModel());
-            }
+            model.addAttribute("user", userModel);
             return "reservationContact";
         } else {
             return "redirect:/reservation/reser";
