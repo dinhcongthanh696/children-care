@@ -56,6 +56,11 @@ public class HomeController {
 		model.addAttribute("feedbacks", feedbacks);
 		return "index";
 	} 
+	
+	@GetMapping("/abc")
+	public String toLiveChat() {
+		return "live-chat";
+	}
 
 
 

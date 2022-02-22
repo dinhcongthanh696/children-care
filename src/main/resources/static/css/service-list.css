@@ -156,10 +156,11 @@ div.my-modal-content{
 .feeling{
 	transition : width 1s;
 	cursor: pointer;
+	font-weight: bold;
 }
 
 .feeling:hover,div.chosen{
-	background-color: aqua;
+	background-color: #2ee6b5;
 }
 
 .my-modal-chaining{
