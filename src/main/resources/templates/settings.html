@@ -62,7 +62,7 @@
         <div class="col-lg-4 pb-5" th:insert="settingLeftSide::left-side"></div>
         <!-- Profile Settings-->
         <div class="col-lg-8 pb-5">
-            <form class="row">
+            <form action="" class="row" method="post">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn">User name</label>
@@ -71,46 +71,39 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="account-fn1">Email</label>
-                        <input th:value="${userLogin.email}" class="form-control" type="text" id="account-fn1" readonly   required="">
-
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
                         <label for="account-fn2">Address</label>
-                        <input th:value="${userLogin.address}" class="form-control" type="text" id="account-fn2"  readonly  required="">
+                        <input th:value="${userLogin.address}" class="form-control" name="address" type="text" id="account-fn2"    required="">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn3">Full name</label>
-                        <input th:value="${userLogin.fullname}" class="form-control" type="text" id="account-fn3" readonly  required="">
+                        <input th:value="${userLogin.fullname}" class="form-control" name="fullname" type="text" id="account-fn3"   required="">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-ln">Gender</label>
-                        <input th:value="${userLogin.username}" class="form-control" type="text" id="account-ln" readonly  required="">
+                        <input th:value="${userLogin.gender}" class="form-control" name="gender" type="text" id="account-ln"   required="">
 
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-email">Email(Don't change the email)</label>
-                        <input th:value="${userLogin.email}" class="form-control" type="email" id="account-email" readonly disabled="">
+                        <input th:value="${userLogin.email}" class="form-control" type="email"  id="account-email" readonly disabled="">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-phone">Phone</label>
-                        <input  th:value="${userLogin.phone}" class="form-control" type="text" id="account-phone" readonly required="">
+                        <input  th:value="${userLogin.phone}" class="form-control" name="phone" type="text" id="account-phone"  required="">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-phone">Password</label>
-                        <input th:value="${userLogin.password}" class="form-control"  type="password"  readonly required="">
+                        <input th:value="${userLogin.password}" class="form-control" readonly type="password"   required="">
                     </div>
                 </div>
 
