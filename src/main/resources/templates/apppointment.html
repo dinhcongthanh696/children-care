@@ -674,7 +674,28 @@
 
     /*=====  Cancel a booked reservation */
     function deleteSchedule(booked_date, slot_id, staff_id){
-        console.log(getPickedDate(booked_date) + "_" + slot_id + "_" + staff_id);
+        console.log(booked_date + "_" + slot_id + "_" + staff_id);
+        var formData = new FormData();
+        formData.append("booked_date", booked_date);
+        formData.append("slot_id", slot_id);
+        formData.append("staff_id", staff_id);
+
+        fetch("/ChildrenCare/api-reservation/schedule",{
+            method : 'DELETE',
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            body : formData
+        })
+            .then(response => {
+                switch(response.status){
+                    case 403 :
+                        alert("Your are not allowed to save any changes");
+                        break;
+                    case 200 :
+                        alert("Delete success");
+                        location.reload();l
+                }
+            })
     }
 
 
@@ -753,7 +774,7 @@
 
         alert(bookedInfo);
 
-        fetch("/ChildrenCare/api-reservation/createSchedule",{
+        fetch("/ChildrenCare/api-reservation/schedule",{
             method : 'PUT',
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
