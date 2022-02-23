@@ -17,7 +17,6 @@ public class ReservationServiceKey implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private int staff_id;
 	private int slot_id;
 	private Date bookedDate;

@@ -7,7 +7,10 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import childrencare.app.model.ReservationModel;
+import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.repository.ReservationRepository;
+import childrencare.app.repository.ReservationServiceRepository;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -32,6 +35,7 @@ public class ChildrenCareApplication {
 		ReservationModel test = reservationRepository.getReservationModelByReservationId(1);
 		System.out.println("12345678987665432");
 		System.out.println(test.getFullname());*/
+		
 		
 	}
 

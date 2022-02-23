@@ -1,8 +1,13 @@
 package childrencare.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import childrencare.app.repository.FeedbackRepository;
+import childrencare.app.repository.ReservationRepository;
+import childrencare.app.repository.ReservationServiceRepository;
 import childrencare.app.repository.ServiceCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import childrencare.app.model.FeedbackModel;
+import childrencare.app.model.ReservationModel;
+import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceCategoryModel;
 import childrencare.app.model.ServiceModel;
+import childrencare.app.model.UserModel;
 import childrencare.app.service.ServiceCategoryService;
 import childrencare.app.service.ServiceModelService;
 
@@ -29,7 +37,9 @@ public class ServiceController {
 	private final FeedbackRepository feedbackRepository;
 	private final int SERVICESIZE = 9;
 	@Autowired
-	public ServiceController(ServiceCategoryRepository serviceCategoryRepository, ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService, FeedbackRepository feedbackRepository) {
+	public ServiceController(ServiceCategoryRepository serviceCategoryRepository,
+			ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService,
+			FeedbackRepository feedbackRepository) {
 		this.serviceCategoryRepository = serviceCategoryRepository;
 		this.serviceModelService = serviceModelService;
 		this.serviceCategoryService = serviceCategoryService;
@@ -40,7 +50,8 @@ public class ServiceController {
 	public String searchServiceListByTitle(Model model,
 			@RequestParam(name =  "page",required = false, defaultValue = "0") int page,
 			@RequestParam(name =  "search",required = false, defaultValue = "") String search, 
-			@RequestParam(name = "category",required = false, defaultValue =  "0") int categoryId) {
+			@RequestParam(name = "category",required = false, defaultValue =  "0") int categoryId,
+			HttpSession session) {
 		Page<ServiceModel> services = null;
 		if(categoryId != 0) {
 			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, categoryId, search);
@@ -49,6 +60,17 @@ public class ServiceController {
 		}
 
 		List<ServiceCategoryModel> categories = serviceCategoryService.findAll();
+		List<ReservationServiceModel> reservationServices = new ArrayList<>();
+		if(session != null) {
+			UserModel user = (UserModel) session.getAttribute("user");
+			if(user != null && user.getCustomer() != null) {
+				for(ReservationModel reservation : user.getCustomer().getReservations()) {
+					for(ReservationServiceModel reservationService : reservation.getReservationServices()) {
+						reservationServices.add(reservationService);
+					}
+				}
+			}
+		}
 		
 		model.addAttribute("services",services.toList());
 		model.addAttribute("totalPages",services.getTotalPages());
@@ -57,6 +79,7 @@ public class ServiceController {
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("servicecategories", categories);
 		model.addAttribute("categoryId",categoryId);
+		model.addAttribute("userReservationServices", reservationServices);
 		return "service-list";
 	}
 	
