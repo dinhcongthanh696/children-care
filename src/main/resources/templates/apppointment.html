@@ -397,7 +397,11 @@
                                                     <td th:utext="${sc.staff.staff_user.fullname}" th:value="${sc.id.staff_id}">    </td>
                                                     <td th:utext="${sc.service.title}" th:value="${sc.id.staff_id}">    </td>
                                                     <td> <button type="button" class="btn btn-danger cancel"
-                                                    id = "${sc.id.bookedDate}${sc.id.slot_id}${sc.id.staff_id}">Cancel</button>        </td>
+                                                        th:onclick="deleteSchedule([[${sc.id.bookedDate}]],
+                                                                                   [[${sc.id.slot_id}]],
+                                                                                   [[${sc.id.staff_id}]]) ">
+                                                        Cancel</button>
+                                                    </td>
                                                 </tr>
                                             </th:block>
                                         </table>
@@ -669,16 +673,37 @@
 <script>
 
     /*=====  Cancel a booked reservation */
-    $(document).on('click', '.cancel', function () {
+    function deleteSchedule(booked_date, slot_id, staff_id){
+        console.log(booked_date + "_" + slot_id + "_" + staff_id);
+        var formData = new FormData();
+        formData.append("booked_date", booked_date);
+        formData.append("slot_id", slot_id);
+        formData.append("staff_id", staff_id);
 
-    });
+        fetch("/ChildrenCare/api-reservation/schedule",{
+            method : 'DELETE',
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            body : formData
+        })
+            .then(response => {
+                switch(response.status){
+                    case 403 :
+                        alert("Your are not allowed to save any changes");
+                        break;
+                    case 200 :
+                        alert("Delete success");
+                        location.reload();l
+                }
+            })
+    }
 
 
     /*=======  Pick a schedule =========*/
     $(document).on('change', '#datepicker, #staffMenu', function () {
         // your function here
-
-        let booked_date = getPickedDate();
+        let date = new Date($('#datepicker').val());
+        let booked_date = getPickedDate(date);
         let staff_id = $("#staffMenu").val();
 
         let url = '/ChildrenCare/api-slot/slots?booked_date=' + booked_date + '&staff_id=' + staff_id;
@@ -707,8 +732,7 @@
         }
     });
 
-    function getPickedDate(){
-        let date = new Date($('#datepicker').val());
+    function getPickedDate(date){
         let dd = String(date.getDate()).padStart(2, '0');
         let mm = String(date.getMonth() + 1).padStart(2, '0');
         let yyyy = date.getFullYear();
@@ -726,7 +750,8 @@
     /* ====== Create a schedule ====== */
     $(document).on('click', '.slot_Booked', function () {
         let slot_id = this.id;
-        let booked_date = getPickedDate();
+        let date = new Date($('#datepicker').val());
+        let booked_date = getPickedDate(date);
         let staff_id = $("#staffMenu").val();
         let service_id = $("#chosenService").val();
         let reservation_id = $("#reservationId").val();
@@ -749,7 +774,7 @@
 
         alert(bookedInfo);
 
-        fetch("/ChildrenCare/api-reservation/createSchedule",{
+        fetch("/ChildrenCare/api-reservation/schedule",{
             method : 'PUT',
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",

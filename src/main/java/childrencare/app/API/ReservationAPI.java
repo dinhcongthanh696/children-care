@@ -81,7 +81,7 @@ public class ReservationAPI {
 
 
 	@Transactional
-	@PutMapping ("/createSchedule")
+	@PutMapping ("/schedule")
 	public void addSchedule(@RequestParam(name = "reservation_id") Integer reservationId,
 							@RequestParam(name = "service_id") Integer serviceId,
 							@RequestParam(name = "slot_id") Integer slotId,
@@ -95,7 +95,7 @@ public class ReservationAPI {
 
 	//Delete reservation service
 	@Transactional
-	@DeleteMapping("/deleteSchedule")
+	@DeleteMapping("/schedule")
 	public void deleteSchedule(
 							   @RequestParam(name = "slot_id") Integer slot_id,
 							   @RequestParam(name = "staff_id") Integer staff_id,

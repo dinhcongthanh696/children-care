@@ -109,8 +109,10 @@
     	  alert("Decrease the quantity by : "+ (updatedQuantity * -1 ));
       }
       fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
+
     }
-    
+
+
     function removeCartItem(serviceId){
         fetch("/ChildrenCare/reservation/delete/"+serviceId,{
           method : 'DELETE'
