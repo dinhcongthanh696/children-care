@@ -17,6 +17,8 @@
 	margin-left : 5%;
 	margin-bottom: 15px;
 	cursor: pointer;
+	color : black;
+	font-family: Arial, Helvetica, sans-serif;
 	padding: 0;
 	text-align: center;
 	border-radius : 7px;
@@ -154,7 +156,6 @@ div.my-modal-content{
 }
 
 .feeling{
-	transition : width 1s;
 	cursor: pointer;
 	font-weight: bold;
 }
