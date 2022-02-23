@@ -4,6 +4,7 @@ package childrencare.app.controller;
 import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.SliderModel;
 import childrencare.app.model.UserModel;
+import childrencare.app.repository.UserRepository;
 import childrencare.app.service.LoginService;
 import childrencare.app.service.ReservationService_Service;
 import childrencare.app.service.SlidersService;
@@ -41,7 +42,8 @@ public class UserSettingController {
     @Autowired
     private ReservationService_Service reservationService_service;
 
-
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/profile")
     public String profileSetting(HttpSession session, Model model){

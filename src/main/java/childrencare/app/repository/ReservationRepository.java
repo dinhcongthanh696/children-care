@@ -3,6 +3,7 @@ package childrencare.app.repository;
 import childrencare.app.model.ReservationModel;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,7 +16,7 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
 
     // AKV - ReservationComplete
     @Modifying
-    @Query(value = "UPDATE ReservationModel rm set rm.status = 'true' where rm.reservationId = ?1",
+    @Query(value = "UPDATE reservation set status = 'true' where reservation_id = ?1",
     nativeQuery = true)
     void changeStatus(int reservationId);
 

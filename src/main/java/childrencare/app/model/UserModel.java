@@ -60,6 +60,11 @@ public class UserModel {
 	private String notes;
 
 	private boolean status;
+
+	private byte[] avatar;
+
+	@Transient
+	private String base64AvatarEncode;
 	
 	@Column(name = "register_date")
 	private Date regiteredDate;

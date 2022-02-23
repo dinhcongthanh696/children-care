@@ -21,6 +21,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpSession;
+import java.util.Base64;
 
 @Controller
 public class LoginController {
@@ -39,6 +40,8 @@ public class LoginController {
         if(userExist != null){
             model.addAttribute("user",userExist);
             session.setAttribute("user",userExist);
+            if(userExist.getAvatar() != null)
+            userExist.setBase64AvatarEncode(Base64.getEncoder().encodeToString(userExist.getAvatar()));
             session.setAttribute("username",userExist.getUsername());
             session.setAttribute("email",userExist.getEmail());
             return "redirect:"+currentPage;

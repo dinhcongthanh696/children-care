@@ -24,6 +24,11 @@ public interface UserRepository extends JpaRepository<UserModel, Integer>{
 	@Query(value = "UPDATE user_model SET role_id = ?1 WHERE username = ?2",nativeQuery = true)
 	public void updateUserRole(Integer roleId,String username);
 
+	@Modifying
+	@Query(value = "Update user_model SET fullname = ?1, phone = ?2, gender = ?3 " +
+			"WHERE email = ?4", nativeQuery = true )
+	void updateInfo(String fullName, String mobile, boolean gender, String email);
+
 	@Query(value = "Select * from user_model u inner join role r " +
 			"on u.role_id = r.role_id where r.role_name = ?1", nativeQuery = true)
 	public List<UserModel> findUserModelByUserRole(String roleName);
