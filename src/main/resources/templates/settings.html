@@ -48,7 +48,26 @@
             alert("Change password successful!");
         }
         function update(){
-            alert("Update successful!");
+            var address = document.getElementById("account-fn2").value;
+            var fullname = document.getElementById("account-fn3").value;
+            var gender = document.getElementById("account-ln").value;
+            var phone = document.getElementById("account-phone").value;
+            var avatar = document.getElementById("avatar").files[0];
+            alert(address + " " + fullname + " " + gender + " " + phone)
+            var formData = new FormData();
+            formData.append("address",address);
+            formData.append("fullname",fullname);
+            formData.append("gender",gender);
+            formData.append("phone", phone);
+            formData.append("avatar",avatar);
+            fetch("/ChildrenCare/api-user/update",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+            })
         }
         var lastPreviewAvarta;
         function previewAvatar(inputFileElement){
@@ -79,8 +98,8 @@
                     <a class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title="" data-original-title="You currently have 290 Reward points to spend"><i class="fa fa-award text-md"></i>&nbsp;290 points</a></div>
                 <div class="author-card-profile">
 
-                    <img class="img-circle" src="" id="form-avarta" alt="ai do">
-                    <form action="/ChildrenCare/setting/update" class="row" method="post" enctype="multipart/form-data">
+                    <img class="img-circle" th:src="${'data:image/gif;base64,'+session.user.base64AvatarEncode}" style="width: 190px" id="form-avarta" alt="ai do">
+
                     <input  name="avatar" type="file" id="avatar" onchange="previewAvatar(this)">
                     <div class="author-card-details">
                         <h5 th:text="${session.email}" class="author-card-name text-dark text-lg"></h5><span th:text="${session.username}" class="author-card-position"></span>
@@ -151,7 +170,7 @@
                         <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly." onclick="update()">Update Profile</button>
                     </div>
                 </div>
-            </form>
+            <
         </div>
     </div>
 
