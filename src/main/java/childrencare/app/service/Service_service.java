@@ -35,6 +35,9 @@ public class Service_service {
         return serviceById;
     }
 
+    public List<ServiceModel> findAllServiceByReservation(int rid){
+        return serviceRepository.findListServiceByReservationID(rid);
+    }
     public void updateQuantity(int quantity, int serviceId){
         serviceRepository.updateQuantity(quantity, serviceId);
     }

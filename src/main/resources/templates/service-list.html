@@ -42,32 +42,32 @@
 		</div>
 	</div>
 	<div id="my-modal-feedback-step1">
-		<div class="my-modal-content container">
-			<h1 style="color : black;" id="feedback-question"></h1>
+		<div class="my-modal-content container-fluid">
+			<h3 style="color : black;" id="feedback-question"></h3>
 			<div class="row">
-				<div class="col-xs-2 feeling" onclick="ratingStar(0)">
-					<span class="far fa-dizzy" style="color : #8B0000;"></span>
-					<p style="color : #8B0000;" class="feeling-description">Chán không còn gì để lói</p>
+				<div class="col-md-2 feeling" onclick="ratingStar(0)">
+					<span class="far fa-dizzy" style="color : #1f0c0c;"></span>
+					<p style="color : #1f0c0c;" class="feeling-description">Chán không còn gì để lói</p>
 				</div>
 				<div class="col-md-2 feeling" onclick="ratingStar(1)">
-					<span class="far fa-angry" style="color : red;"></span>
-					<p style="color : red;" class="feeling-description">Cáu zl</p>
+					<span class="far fa-angry" style="color : #fc0505;"></span>
+					<p style="color : #fc0505;" class="feeling-description">Cáu zl</p>
 				</div>
 				<div class="col-md-2 feeling" onclick="ratingStar(2)">
-					<span class="far fa-frown" style="color : grey;"></span>
-					<p style="color : grey" class="feeling-description">Thất vọng</p>
+					<span class="far fa-frown" style="color : #5c5050;"></span>
+					<p style="color : #5c5050" class="feeling-description">Thất vọng</p>
 				</div>
 				<div class="col-md-2 feeling" onclick="ratingStar(3)">
-					<span class="far fa-meh" style="color : yellow;"></span>
-					<p style="color : yellow;" class="feeling-description">Tạm OK</p>
+					<span class="far fa-meh" style="color : #91f23d;"></span>
+					<p style="color : #91f23d;" class="feeling-description">Tạm OK</p>
 				</div>
 				<div class="col-md-2 feeling" onclick="ratingStar(4)">
-					<span class="far fa-grin-alt" style="color : blue;"></span>
-					<p style="color : blue" class="feeling-description">Hài lòng</p>
+					<span class="far fa-grin-alt" style="color : #3b7ded;"></span>
+					<p style="color : #3b7ded" class="feeling-description">Hài lòng</p>
 				</div>
 				<div class="col-md-2 feeling" onclick="ratingStar(5)">
-					<span class="far fa-grin-beam" style="color : green;"></span>
-					<p style="color : green" class="feeling-description">Rất hài lòng lun! </p>
+					<span class="far fa-grin-beam" style="color : #00d157;"></span>
+					<p style="color : #00d157" class="feeling-description">Rất hài lòng lun! </p>
 				</div>
 			</div>
 			<div class="my-modal-chaining">
@@ -128,7 +128,7 @@
 			<h1 class="modal-header" id="modal-header-counter"></h1>
 			<label for="answer" id="label-answer">Your answer : </label>
 			<input type="text" class="form-control modal-input" placeholder="Put your answer..." id="answer"/>
-			<button class="btn btn-primary" onclick="indentifyCaptchaCode()" id="verify-email">Verify</button>
+			<button class="btn btn-primary" onclick="indentifyCaptchaCode()" id="verify-email" disabled="disabled">Verify</button>
 		</div>
 	</div>
 	
@@ -149,7 +149,12 @@
 	<div id="body" class="container-fluid">
 		<div class="row">
 			<div class='col-sm-3 service-item pl-0 pr-0' th:each="service : ${services}"
-				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'">
+				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'"
+				th:onmouseover="'triggerToolTips('+ ${service.serviceId} +',\'inline\')'"
+				th:onmouseout="'triggerToolTips('+ ${service.serviceId} +',\'none\')'"
+				>
+				<span class="service-tooltip" 
+					th:id="'serviceToolTip' + ${service.serviceId}">Xem chi tiết dịch vụ</span>
 				<img
 					th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}"
 					class="service-thumbnail" />
@@ -171,15 +176,20 @@
 						th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 					<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>
 				</div>
-				<h4 th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}"></h4>
-					<span class="fas fa-shopping-cart"
-						 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
-					</span>	
-				<span>
-					<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
-					th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
-					id="give-feedback-button"><i class="fas fa-comments"></i>Give Feedback</button>
-				</span>	
+				<h4 th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}" style="margin-top : 8px;margin-bottom : 8px;"></h4>
+					<div>
+						<span class="fas fa-shopping-cart"
+							 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
+							 <span style="font-size : 20px;"> ADD TO CART </span>
+						</span>
+					</div>	
+				<div>
+					<span>
+						<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
+						th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
+						id="give-feedback-button"><i class="fas fa-comments"></i>Give Feedback</button>
+					</span>
+				</div>	
 			</div>
 		</div>
 	</div>
@@ -198,6 +208,11 @@
 	var lastChosenServiceId = -1;
 	var captchaInterval;
 	var lastChosenModal;
+	
+	function triggerToolTips(serviceToopTipId,displayProperty){
+		var serviceToolTipElement = document.getElementById("serviceToolTip"+serviceToopTipId);
+		serviceToolTipElement.style.display = displayProperty; 
+	}
 	
 	function verifyUserEmail(email){
 		const userEmailInput = document.getElementById("user-email");
@@ -223,6 +238,10 @@
 	
 	function triggerModal(modalId,displayStyle){
 		const getModalById = document.getElementById(modalId);
+		if(lastChosenFeelingElement){
+			lastChosenFeelingElement.className = "col-md-2 feeling";
+		}  // clear the last chosen feeling
+		
 		if(displayStyle !== "none"){
 			lastChosenModal = getModalById;
 		}else{
@@ -318,7 +337,8 @@
 	}
 
 	function viewServiceDetails(event, service_id) {
-		if (event.target.tagName !== "SPAN" && event.target.id !== 'give-feedback-button') { // EXPLANATION : DIV ONCLICK EVENT WILL ALSO BE TRIGGERD WHEN CLICK SPAN INSIDE IT
+		if (event.target.tagName !== "SPAN" && event.target.id !== 'give-feedback-button'
+			||event.target.className === "service-tooltip"	) { // EXPLANATION : DIV ONCLICK EVENT WILL ALSO BE TRIGGERD WHEN CLICK SPAN INSIDE IT
 			window.location = "/ChildrenCare/service/services/" + service_id;
 		}
 	}
@@ -350,10 +370,7 @@
 				document.location.reload();
 			}else if(message === "fail"){
 				alert("Wrong captcha code!!!!");
-			}else if(message == "not exsist"){
-				alert("Email is not in the system");
-			}
-			else{
+			}else{
 				alert("You are already in the system");  // WHEN USER TRYING TO OPEN VERIFYING CAPTCHACODE MODAL
 			}
 		})
@@ -362,41 +379,49 @@
 	function identifyUserContact(){
 		triggerModal("my-modal-contact","none");
 		var email = document.getElementById("user-email").value;
-		
 		var formData = new FormData();
 		formData.append("email",email);
-		
-		// Display waiting modal to wait for fetching api-feedback
-		triggerModal("my-modal-waiting","block");
-		fetch("/ChildrenCare/api-feedback/generate-captcha" , {
-			method : 'POST',
-			body : formData
-		})
-		.then(response => {
-			triggerModal("my-modal-waiting","none");
-			return response.text();
-		})
-		.then(captcha => {
-			if(captcha !== "verified"){
-				var counter = 90;
-				triggerModal("my-modal-identification","block");
-				var modalHeaderCounter = document.getElementById("modal-header-counter");
-				captchaInterval = setInterval(() => {
-					modalHeaderCounter.innerHTML = "We have sent you an catpcha code to your email to verify. Code will be expired in :  "+ generateRealTime(counter);
-					if(counter == 0){
-						clearInterval(captchaInterval);
-						if(confirm("Captcha code is expired , Do you want to receive another captcha? ")){
-							identifyUserContact();
-						}else{
-							triggerModal("my-modal-identification","none");
-						}
+		fetch("/ChildrenCare/api-feedback/identify-user-email?email="+email)
+		.then(response => response.text())
+		.then(message => {
+			if(message !== "not exsist"){
+				// Display waiting modal to wait for fetching api-feedback
+				triggerModal("my-modal-waiting","block");
+				fetch("/ChildrenCare/api-feedback/generate-captcha" , {
+					method : 'POST',
+					body : formData
+				})
+				.then(response => {
+					triggerModal("my-modal-waiting","none");
+					return response.text();
+				})
+				.then(captcha => {
+					if(captcha !== "verified"){
+						var counter = 90;
+						var verifyEmail = document.getElementById("verify-email");
+						verifyEmail.disabled = false;
+						triggerModal("my-modal-identification","block");
+						var modalHeaderCounter = document.getElementById("modal-header-counter");
+						captchaInterval = setInterval(() => {
+							modalHeaderCounter.innerHTML = "We have sent you an catpcha code to your email to verify. Code will be expired in :  "+ generateRealTime(counter);
+							if(counter == 0){
+								clearInterval(captchaInterval);
+								if(confirm("Captcha code is expired , Do you want to receive another captcha? ")){
+									identifyUserContact();
+								}else{
+									triggerModal("my-modal-identification","none");
+								}
+							}
+							counter -= 1;
+						},1500)
+					}else{
+						alert("We have known you , now you can feedback on the services that you have bought!!!");
+						document.location.reload();
 					}
-					counter -= 1;
-				},1500)
+				})
 			}else{
-				alert("We have known you , now you can feedback on the services that you have bought!!!");
-				document.location.reload();
-			}
+				alert("Your email is not in our database");
+			} 
 		})
 	}
 	
@@ -424,12 +449,12 @@
 	
 	function ratingStar(ratedStar){
 		if(lastChosenFeelingElement){
-			lastChosenFeelingElement.className = "col-xs-2 feeling";
+			lastChosenFeelingElement.className = "col-md-2 feeling";
 		}
 		
 		lastChosenFeelingElement = document.getElementsByClassName("feeling")[ratedStar];
 		lastChosenFeeling = ratedStar;
-		lastChosenFeelingElement.className = 'col-xs-2 feeling chosen';
+		lastChosenFeelingElement.className = 'col-md-2 feeling chosen';
 		
 		var nextButton = document.getElementById("next-button");
 		nextButton.disabled = false;
@@ -445,19 +470,19 @@
 			shoppingItemsElement.innerHTML = shoppingItems;
 			triggerModal("my-modal-success","block");
 			setTimeout(() => {
-				modalSuccessElement.style.display = "none";
+				triggerModal("my-modal-success","none");
 			},2000)
 		})
 	}
 	
 	window.onclick = (event) => {
 		if(!lastChosenModal) return;
-		var modalElements = ["my-modal-content","give-feedback-button","next-button","col-xs-2 feeling","col-xs-2 feeling chosen","feeling-description",
+		var modalElements = ["my-modal-content","give-feedback-button","next-button","col-md-2 feeling","col-md-2 feeling chosen","feeling-description",
 			"far fa-dizzy" , "far fa-angry" , "far fa-frown" , "far fa-meh" , "far fa-grin-alt" , "far fa-grin-beam" , "fas fa-arrow-right" ,
 			"modal-image-feedback" , "modal-label" , "form-control modal-input" , "save-feedback" 
 			,"list-group","list-group-item","modal-contact-link" , "fa fa-close close-modal" , 
 			"modal-header" , "answer" , "verify-email" , "label-answer" , 
-			"verify-contact-icon" , "verify-contact-button"]; 
+			"verify-contact-icon" , "verify-contact-button" , "user-email"]; 
 		for(let i = 0 ; i < modalElements.length ; i++){
 			const modalElement = modalElements[i];
 			if(event.target.className === modalElement || event.target.id === modalElement){
@@ -466,9 +491,6 @@
 		}		
 		var nextButton = document.getElementById("next-button"); 
 		nextButton.disabled = true; // whenever user close feeling modal , disable next button
-		if(lastChosenFeeling){
-			lastChosenFeeling.className = "col-xs-2 feeling";
-		}  // clear the last chosen feeling
 			
 		if(lastChosenPreview && lastChosenModal.id == "my-modal-feedback-step-2"){ 
 			URL.revokeObjectURL(lastChosenPreview);  // for performance

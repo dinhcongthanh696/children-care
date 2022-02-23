@@ -42,5 +42,9 @@ public class UserService {
 	public UserModel findUserModelByUserReservationId(int reserId){
 		return userRepository.findUserModelByUserReservationId(reserId);
 	}
+
+	public void updateInfo(String fullname, String phone, boolean gender, String email){
+		userRepository.updateInfo(fullname, phone, gender, email);
+	}
     
 }

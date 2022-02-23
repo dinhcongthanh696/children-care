@@ -3,6 +3,7 @@ package childrencare.app.repository;
 import childrencare.app.model.ReservationModel;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,7 +16,7 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
 
     // AKV - ReservationComplete
     @Modifying
-    @Query(value = "UPDATE ReservationModel rm set rm.status = 'true' where rm.reservationId = ?1",
+    @Query(value = "UPDATE reservation set status = 'true' where reservation_id = ?1",
     nativeQuery = true)
     void changeStatus(int reservationId);
 
@@ -57,4 +58,14 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "where r.reservation_id = ?1 \n" +
             "group by r.reservation_id,r.date,r.status,r.notes, r.total_reservation_price,r.customer_id",nativeQuery = true)
     public ReservationModel getReservationModelByReservationId(int reserID);
+
+    @Query(value = " select * from \n" +
+            " reservation r inner join customer c \n" +
+            "  on r.customer_id = c.customer_id \n" +
+            "  inner join user_model u on u.email =c.customer_email\n" +
+            "  where r.reservation_id = ?1",nativeQuery = true)
+     ReservationModel getreservationDetail(int reserID);
+
+
+
 }

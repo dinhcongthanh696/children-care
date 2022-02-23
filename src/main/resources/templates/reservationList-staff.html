@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Director | Simple Tables</title>
+  <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+  <meta name="description" content="Developed By M Abdur Rokib Promy">
+  <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
+  <!-- bootstrap 3.0.2 -->
+  <link href="../../../css_admin/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <!-- font Awesome -->
+  <link href="../../../css_admin/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <!-- Ionicons -->
+  <link href="../../../css_admin/ionicons.min.css" rel="stylesheet" type="text/css" />
+  <!-- google font -->
+  <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <!-- Theme style -->
+  <link href="../../../css_admin/style.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="skin-black">
+<!-- header logo: style can be found in header.less -->
+<header class="header">
+  <a href="index.html" class="logo">
+    <!-- Add the class icon to your logo image or logo icon to add the margining -->
+    ChildrenCare
+  </a>
+  <!-- Header Navbar: style can be found in header.less -->
+  <div th:replace="header_admin::navbarRight"></div>
+</header>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+  <!-- Left side column. contains the logo and sidebar -->
+  <div th:replace="navBar_admin::leftSide_admin" ></div>
+  <!-- Right side column. Contains the navbar and content of the page -->
+  <aside class="right-side">
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="panel">
+            <header class="panel-heading">
+              Slider Manager
+            </header>
+            <h3 th:if="${listInfo} == null">No slider</h3>
+            <!-- <div class="box-header"> -->
+            <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
+            <div class="panel-body table-responsive">
+              <div class="row">
+                <div class="col-sm-10">
+                  <form  th:action="@{/staff/home/page/1}">
+                    <input th:value="${keyword}" type="text" name="keyword" class="form-control input-sm pull-left" style="width: 150px;"
+                           placeholder="Search by title/backlink.."/>
+                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                  </form>
+                </div>
+              </div>
+              <table  id="emp-table" class="table table-hover">
+                <thead>
+                <tr>
+                  <th>Reservation ID</th>
+                  <th>Reserved Date</th>
+                  <th>Customer name</th>
+                  <th>Service</th>
+                  <th>Total Cost</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="info: ${listInfo}">
+                  <td th:text="${info.reservation.reservationId}"></td>
+                  <td th:text="${info.reservation.date}"></td>
+                  <td  th:text="${info.reservation.customer.customer_user.fullname}"></td>
+                  <td th:text="${info.service.title}"></td>
+                  <td th:text="${info.price}"></td>
+                  <td th:utext="${info.reservation.status} ?'Submited':'Canceled'"></td>
+                  <td><a th:href="@{/staff/{rid}(rid=${info.reservation.reservationId})}">Edit</a></td>
+                </tr>
+                </tbody>
+              </table>
+
+              <div th:if="${totalPages > 1}">
+                Total Items: [[${totalItems}]]
+                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+                <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/1'+${keyword != null? '?keyword='+ keyword:  ''}}">First</a>
+                <span th:unless="${currentPage > 1}">First</span>
+                &nbsp;&nbsp;
+
+                <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/' + ${currentPage - 1} +${keyword != null? '?keyword='+ keyword:  ''} }">Previous</a>
+                <span th:unless="${currentPage > 1}">Previous</span>
+
+                &nbsp;&nbsp;
+
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			                  <a th:if="${currentPage != i}" th:href="@{'/staff/home/page/'+ ${i} +${keyword != null? '?keyword='+ keyword:  ''}}">[[${i}]]</a>
+			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
+
+                <a th:if="${currentPage < totalPages}" th:href="@{'/staff/home/page/' + ${currentPage + 1} +${keyword != null? '?keyword='+ keyword:  ''}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+                &nbsp;&nbsp;
+
+                <a th:if="${currentPage < totalPages}" th:href="@{'/staff/home/page/' + ${totalPages}+${keyword != null? '?keyword='+ keyword:  ''} }">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+              </div>
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
+        </div>
+      </div>
+    </section><!-- /.content -->
+    <div class="footer-main">
+      Children-Care System Management
+    </div>
+  </aside><!-- /.right-side -->
+</div><!-- ./wrapper -->
+
+
+<!-- jQuery 2.0.2 -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="../../../js_admin/jquery.min.js" type="text/javascript"></script>
+
+<!-- Bootstrap -->
+<script src="../../../js_admin/bootstrap.min.js" type="text/javascript"></script>
+<!-- Director App -->
+<script src="../../../js_admin/Director/app.js" type="text/javascript"></script>
+</body>
+</html>

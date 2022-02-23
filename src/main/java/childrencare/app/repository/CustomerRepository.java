@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -20,8 +21,18 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 			+ "(select customer.customer_id,customer.customer_email from customer \r\n"
 			+ "inner join reservation on customer.customer_id = reservation.customer_id\r\n"
 			+ "WHERE DATEDIFF(day , reservation.date , GETDATE()) <= ?1\r\n"
+			+ "AND customer.customer_email NOT IN (SELECT DISTINCT c.customer_email FROM customer as c "
+			+ "inner join reservation as r on c.customer_id = r.customer_id \r\n"
+			+ "WHERE DATEDIFF(day, r.date , GETDATE()) > ?1 ) "
 			+ "GROUP BY customer.customer_id,customer.customer_email) as reservedCustomers" , nativeQuery = true)
 	public int countNewCustomerReservedByLastDays(int days);
 
+
+	@Query(value = "Select * from customer where customer_email = ?1", nativeQuery = true)
+	CustomerModel findByEmail(String email);
+
+	@Modifying
+	@Query(value = "Insert into customer values(1, ?1)", nativeQuery = true)
+	void addNewCustomer(String email);
 
 }

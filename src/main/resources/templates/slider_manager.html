@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Director | Simple Tables</title>
@@ -35,6 +35,14 @@
             img.src = lastChoosenImg;
 
         }
+        function addImgPreview(input){
+            if(lastChoosenImg)
+                URL.revokeObjectURL(lastChoosenImg);
+            var file = input.files[0];
+            lastChoosenImg = URL.createObjectURL(file);
+            var img = document.getElementById('imgAddPreview');
+            img.src = lastChoosenImg;
+        }
 
     </script>
 
@@ -62,23 +70,84 @@
                         <header class="panel-heading">
                            Slider Manager
                         </header>
+                        <h3 th:if="${slidersList} == null">No slider</h3>
                         <!-- <div class="box-header"> -->
                         <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
-
-                        <!-- </div> -->
                         <div class="panel-body table-responsive">
-                            <div class="box-tools m-b-15">
-                                <div class="input-group">
-                                    <form class="example" th:action="@{/manager/sliderManager/page/1}" style=" margin:auto;max-width:300px">
-                                        <input th:value="${keyword}" type="text" name="keyword" class="form-control input-sm pull-right" style="width: 150px;"
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <form  th:action="@{/manager/sliderManager/page/1}">
+                                        <input  type="text" name="keyword" class="form-control input-sm pull-left" style="width: 150px;"
                                                placeholder="Search by title/backlink.."/>
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                                        </div>
+                                        <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
-                            </div>
-                            <table class="table table-hover">
+                                <div class="col-sm-2">
+                                    <form id="myForm" th:action="@{/manager/sliderManager/filter/1}">
+                                        <select name="filterValue" th:onchange="filterFunction()">
+                                            <option th:selected="${filterValue} == -1" value="-1">All</option>
+                                            <option th:selected="${filterValue} == 1" value="1">Show</option>
+                                            <option th:selected="${filterValue} == 0" value="0">Hide</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <script>
+                                    function filterFunction(){
+                                        document.getElementById("myForm").submit();
+                                    }
+                                </script>
+
+                                <div class="col-sm-2">
+                                <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> <span>New Slider</span></a>
+                                <!-- Add Modal HTML -->
+                                <div id="addSliderModal" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="/ChildrenCare/manager/addSlider" method="post" enctype="multipart/form-data">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Add New Slider</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label>Slider Title</label>
+                                                        <input name="titleAdd" type="text" class="form-control" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Slider Image</label>
+                                                        <img id="imgAddPreview" style="height: 200px"  class="form-control" alt="No image" required>
+                                                        <input name="imgAdd" onchange="addImgPreview(this)" type="file">
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Slider Backlink</label>
+                                                        <input name="backLinkAdd" class="form-control" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Slider Status</label>
+                                                        <select name="statusAdd" class="small text-muted mb-1" >
+                                                            <option value="1">Show</option>
+                                                            <option value="0">Hide</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Note</label>
+                                                        <input name="noteAdd" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                    <input type="submit" class="btn btn-success" value="Add">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+
+
+                            <table  id="emp-table" class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>Slider ID</th>
@@ -153,7 +222,7 @@
                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form action="/ChildrenCare/setting/update" method="post">
+                                                        <form action="/ChildrenCare/manager/update" method="post" enctype="multipart/form-data">
                                                             <div class="form-group">
                                                                 <label>ID</label>
                                                                 <input readonly th:value="${s.slideId}" name="id" type="text" class="form-control" required>
@@ -164,8 +233,8 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Image</label>
-                                                                <img  style="height: 200px" th:id="'previewImg'+${s.slideId}" th:src="${'data:image/gif;base64,'+s.base64ThumbnailEncode}" alt="anh bi loi"  class="form-control" required>
-                                                                <input  th:onchange="'reviewImg(this,'+${s.slideId}+')'" type="file">
+                                                                <img style="height: 200px" th:id="'previewImg'+${s.slideId}" th:src="${'data:image/gif;base64,'+s.base64ThumbnailEncode}" alt="anh bi loi"  class="form-control" required>
+                                                                <input name="imgUpdate" th:onchange="'reviewImg(this,'+${s.slideId}+')'" type="file">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Backlink</label>
@@ -178,13 +247,13 @@
                                                             <div class="form-group">
                                                                 <label>Status</label>
                                                                 <select name="status" class="small text-muted mb-1" >
-                                                                    <option value="1" th:checked="${s.status}">Show</option>
-                                                                    <option value="0" th:checked="not ${s.status}">Hide</option>
+                                                                    <option value="1" th:selected="${s.status}">Show</option>
+                                                                    <option value="0" th:selected="not ${s.status}">Hide</option>
                                                                 </select>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                                                <button  type="submit" class="btn btn-primary  btn-default">Save</button>
+                                                                <button  type="submit" class="btn btn-primary  btn-default">Update</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -196,7 +265,8 @@
                                 </tbody>
 
                             </table>
-                            <div th:if="${totalPages > 1}">
+                            <div th:if="${filterValue} == null">
+                            <div th:if="${totalPages > 1} ">
                                 Total Items: [[${totalItems}]]
                                 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
@@ -220,6 +290,36 @@
                                 <a th:if="${currentPage < totalPages}" th:href="@{'/manager/sliderManager/page/' + ${totalPages}+${keyword != null? '?keyword='+ keyword:  ''} }">Last</a>
                                 <span th:unless="${currentPage < totalPages}">Last</span>
                             </div>
+                                </div>
+
+                                <div th:if="${filterValue} != null">
+                                    <div th:if="${totalPages > 1} ">
+                                        Total Items: [[${totalItems}]]
+                                        &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+                                        <a th:if="${currentPage > 1}" th:href="@{'/manager/sliderManager/filter/1'+${filterValue != null? '?filterValue='+ filterValue:  ''}}">First</a>
+                                        <span th:unless="${currentPage > 1}">First</span>
+                                        &nbsp;&nbsp;
+
+                                        <a th:if="${currentPage > 1}" th:href="@{'/manager/sliderManager/filter/' + ${currentPage - 1} +${filterValue != null? '?filterValue='+ filterValue:  ''} }">Previous</a>
+                                        <span th:unless="${currentPage > 1}">Previous</span>
+
+                                        &nbsp;&nbsp;
+
+                                        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			                  <a th:if="${currentPage != i}" th:href="@{'/manager/sliderManager/filter/'+ ${i} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">[[${i}]]</a>
+			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
+
+                                        <a th:if="${currentPage < totalPages}" th:href="@{'/manager/sliderManager/filter/' + ${currentPage + 1} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">Next</a>
+                                        <span th:unless="${currentPage < totalPages}">Next</span>
+                                        &nbsp;&nbsp;
+
+                                        <a th:if="${currentPage < totalPages}" th:href="@{'/manager/sliderManager/filter/' + ${totalPages}+${filterValue != null? '?filterValue='+ filterValue:  ''} }">Last</a>
+                                        <span th:unless="${currentPage < totalPages}">Last</span>
+                                    </div>
+                                </div>
+
+
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                 </div>
