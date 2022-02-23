@@ -94,10 +94,10 @@
 	</div>
 	<div id="my-modal-contact-menu">
 		<div class="my-modal-content">
-			<h1 class="modal-header">Do we know you?</h1>
+			<h1 class="modal-header">Lựa chọn của bạn?</h1>
 			<ul class="list-group">
 				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startLoginForm()">Login</a></li>
-				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Give your contact here!</a> </li>
+				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Hãy để lại email lần gần nhất bạn đặt dịch vụ nhé!</a> </li>
 			</ul>
 			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-contact-menu','none')"></span>
 		</div>
@@ -180,14 +180,42 @@
 					<div>
 						<span class="fas fa-shopping-cart"
 							 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
-							 <span style="font-size : 20px;"> ADD TO CART </span>
+							 <span style="font-size : 20px;"> THÊM VÀO GIỎ </span>
 						</span>
 					</div>	
 				<div>
 					<span>
-						<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
-						th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
-						id="give-feedback-button"><i class="fas fa-comments"></i>Give Feedback</button>
+						<th:block th:if="${session.user != null}"
+						>
+							<th:block
+								th:with="services = ${userReservationServices.?[service.serviceId == __${service.serviceId}__]}"
+							>
+								<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
+								th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
+								id="give-feedback-button"
+								th:if="${services.size() > 0}"
+								style="width : 95%;"
+								><i class="fas fa-comments"></i>Để lại feedback</button>
+								<button class="btn btn-danger"
+									disabled="disabled"
+									th:if="${services.size() == 0}"
+									id="give-feedback-button"
+									style="width : 95%;"
+								>
+								<i class="fa fa-ban" style="color : red;font-size : 23px;"></i>
+									Vui lòng mua service này trước khi feedback nhé!
+								</button>
+							</th:block>
+						</th:block>
+						<th:block th:if="${session.user == null}">
+							<button class="btn btn-primary"
+							id="give-feedback-button"
+							onclick="triggerModal('my-modal-contact-menu','block')"
+							style="width : 95%;">
+							<i class="fa fa-envelope"></i>
+							 Điền thông tin của bạn trước khi feedback nhé
+							</button>
+						</th:block>
 					</span>
 				</div>	
 			</div>
@@ -251,16 +279,7 @@
 	}
 	
 	function startFeedback(title,serviceId){
-		fetch("/ChildrenCare/api-feedback/user-email")
-		.then(response => response.text())
-		.then(email => {
-			if(email === 'not yet'){
-				triggerModal("my-modal-contact-menu","block");
-				return;
-			}
 			lastChosenServiceId = serviceId;
-			
-			
 			fetch("/ChildrenCare/api-service/get-user-services?serviceId="+serviceId)
 			.then(response => response.json())
 			.then(feedbacks => {
@@ -272,7 +291,6 @@
 					triggerModal("my-modal-feedback-step1","block");
 				}
 			})
-		})
 	}
 	
 	function startLoginForm(){
