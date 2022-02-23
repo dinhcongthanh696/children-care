@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +27,12 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 			+ "GROUP BY customer.customer_id,customer.customer_email) as reservedCustomers" , nativeQuery = true)
 	public int countNewCustomerReservedByLastDays(int days);
 
+
+	@Query(value = "Select * from customer where customer_email = ?1", nativeQuery = true)
+	CustomerModel findByEmail(String email);
+
+	@Modifying
+	@Query(value = "Insert into customer values(1, ?1)", nativeQuery = true)
+	void addNewCustomer(String email);
 
 }

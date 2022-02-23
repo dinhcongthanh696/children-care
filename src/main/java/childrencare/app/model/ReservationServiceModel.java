@@ -40,4 +40,15 @@ public class ReservationServiceModel {
 
 	private double price;
 
+	@Override
+	public String toString(){
+		String start = slot.getStart() > 12 ? slot.getStart() + ":pm" : slot.getStart() + "am";
+		String end = slot.getEnd() > 12 ? slot.getEnd()+ ":pm" : slot.getEnd() + "am";
+
+		return "Booked Date: [" + id.getBookedDate() + "]   ==  " +
+				"Time:  [" + start + " -> " + end  +   "]   ==  " +
+				"Service:  [" + service.getTitle() +   "]   ==  " +
+				"Staff: [" + staff.getStaff_user().getUsername() + "]";
+	}
+
 }
