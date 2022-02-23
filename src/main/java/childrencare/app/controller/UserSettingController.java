@@ -4,6 +4,7 @@ package childrencare.app.controller;
 import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.SliderModel;
 import childrencare.app.model.UserModel;
+import childrencare.app.repository.UserRepository;
 import childrencare.app.service.LoginService;
 import childrencare.app.service.ReservationService_Service;
 import childrencare.app.service.SlidersService;
@@ -41,7 +42,8 @@ public class UserSettingController {
     @Autowired
     private ReservationService_Service reservationService_service;
 
-
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/profile")
     public String profileSetting(HttpSession session, Model model){
@@ -91,7 +93,25 @@ public class UserSettingController {
         return "myReservation";
     }
 
+    @PostMapping("/update")
+    public String updateProfile(@RequestParam(name = "address") String address, @RequestParam(name = "fullname") String fullname,
+                                @RequestParam(name = "phone") String phone,@RequestParam(name = "gender")String gender ,HttpSession session){
+        UserModel user = (UserModel) session.getAttribute("user");
+        if(user != null){
+            user.setAddress(address);
+            user.setFullname(fullname);
+            user.setPhone(phone);
+            if(gender.equals("Nam")){
+                user.setGender(true);
+            }else{
+                user.setGender(false);
+            }
+            userRepository.save(user);
+            return "redirect:/setting/profile";
+        }
+        return "redirect:/";
 
+    }
 
 
 

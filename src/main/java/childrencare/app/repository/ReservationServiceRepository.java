@@ -58,4 +58,7 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "where reservation_id = ?1 \n" +
             "order by service_id", nativeQuery = true)
     List<ReservationServiceModel> findAllBookedSchedule(int reservation_id);
+
+    @Query(value = "select * from reservation_service where reservation_id = ?1" , nativeQuery = true)
+    List<ReservationServiceModel> findByReservationId(Integer reservationId);
 }

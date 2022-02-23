@@ -47,6 +47,9 @@
         function changePass() {
             alert("Change password successful!");
         }
+        function update(){
+            alert("Update successful!");
+        }
     </script>
 
 </head>
@@ -62,7 +65,7 @@
         <div class="col-lg-4 pb-5" th:insert="settingLeftSide::left-side"></div>
         <!-- Profile Settings-->
         <div class="col-lg-8 pb-5">
-            <form action="/ChildrenCare/profile/update" class="row" method="post">
+            <form action="/ChildrenCare/setting/update" class="row" method="post">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn">User name</label>
@@ -84,7 +87,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-ln">Gender</label>
-                        <input th:value="${userLogin.gender}" class="form-control" readonly type="text" id="account-ln"   required="">
+                        <input th:value="${userLogin.gender ? 'Nam' : 'Nữ'}" class="form-control" type="text" id="account-ln" name="gender"   required="">
 
                     </div>
                 </div>
@@ -100,17 +103,10 @@
                         <input  th:value="${userLogin.phone}" class="form-control" name="phone" type="text" id="account-phone"  required="">
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="account-phone">Password</label>
-                        <input th:value="${userLogin.password}" class="form-control" readonly type="password"   required="">
-                    </div>
-                </div>
-
                 <div class="col-12">
                     <hr class="mt-2 mb-3">
                     <div class="d-flex flex-wrap justify-content-between align-items-center">
-                        <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
+                        <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly." onclick="update()">Update Profile</button>
                     </div>
                 </div>
             </form>

@@ -7,7 +7,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import childrencare.app.model.ReservationModel;
+import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.repository.ReservationRepository;
+import childrencare.app.repository.ReservationServiceRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -32,6 +34,14 @@ public class ChildrenCareApplication {
 		ReservationModel test = reservationRepository.getReservationModelByReservationId(1);
 		System.out.println("12345678987665432");
 		System.out.println(test.getFullname());*/
+
+		ReservationServiceRepository reser = context.getBean(ReservationServiceRepository.class);
+		List<ReservationServiceModel> reservationServices = reser.findByReservationId(1);
+		for(int i = 0 ; i < reservationServices.size() ; i++) {
+			System.out.println("Reservation :"+ reservationServices.get(i).getReservation().getReservationId()
+					+ "   Service : "+reservationServices.get(i).getService().getServiceId()
+					+ " Hash Code : "+ reservationServices.get(i).getService().hashCode() + " Index : " + i);
+		}
 		
 	}
 
