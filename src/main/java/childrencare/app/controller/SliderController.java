@@ -22,22 +22,37 @@ public class SliderController {
     private SlidersService slidersService;
 
 
-    @GetMapping("/sliderManager/page/{pageNum}")
+    @GetMapping(value = "/sliderManager/page/{pageNum}")
     public String viewPage(Model model,@PathVariable(name ="pageNum") int pageNum,
                            @Param("keyword") String keyword){
-        Page<SliderModel> page = slidersService.listAll(pageNum,keyword);
+        Page<SliderModel> page = slidersService.listAll(pageNum, keyword);
         List<SliderModel> slidersList = page.getContent();
-        for (SliderModel slider: slidersList) {
+        for (SliderModel slider : slidersList) {
             slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
         }
-        model.addAttribute("currentPage",pageNum);
-        model.addAttribute("totalPages",page.getTotalPages());
-        model.addAttribute("totalItems",page.getTotalElements());
-        model.addAttribute("slidersList",slidersList);
-        model.addAttribute("keyword",keyword);
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("slidersList", slidersList);
+        model.addAttribute("keyword", keyword);
         return "slider_manager";
     }
 
+    @GetMapping("/sliderManager/filter/{pageNum}")
+    public String updateSlider(Model model,@PathVariable(name ="pageNum") int pageNum,
+                               @Param("filterValue") int filterValue) {
+            Page<SliderModel> page = slidersService.filterByStatus(pageNum,filterValue);
+            List<SliderModel> slidersList = page.getContent();
+            for (SliderModel slider : slidersList) {
+                slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
+            }
+            model.addAttribute("currentPage", pageNum);
+            model.addAttribute("totalPages", page.getTotalPages());
+            model.addAttribute("totalItems", page.getTotalElements());
+            model.addAttribute("slidersList", slidersList);
+            model.addAttribute("filterValue", filterValue);
+        return "slider_manager";
+    }
 
 
     @PostMapping("/update")

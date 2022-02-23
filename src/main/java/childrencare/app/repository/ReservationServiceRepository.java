@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReservationServiceRepository extends JpaRepository<ReservationServiceModel,Integer> {
+public interface ReservationServiceRepository extends JpaRepository<ReservationServiceModel,ReservationModel> {
 
 
 
@@ -50,11 +50,7 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "     inner join slot sl on sl.slot_id = rs.slot_id\n" +
             "     inner join staff st on st.staff_id = rs.staff_id\n" +
             "     where  r.reservation_id = ?1" , nativeQuery = true)
-    List<ReservationServiceModel> findAllByRid(int email);
-
-
-
-
+    List<ReservationServiceModel> findAllByRid(int rid);
 
 
 
