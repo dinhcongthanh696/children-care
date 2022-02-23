@@ -50,6 +50,16 @@
         function update(){
             alert("Update successful!");
         }
+        var lastPreviewAvarta;
+        function previewAvatar(inputFileElement){
+            if(lastPreviewAvarta){
+                URL.revokeObjectURL(lastPreviewAvarta);
+            }
+            var image = inputFileElement.files[0];
+            lastPreviewAvarta = URL.createObjectURL(image);
+            var formAva = document.getElementById("form-avarta");
+            formAva.src = lastPreviewAvarta;
+        }
     </script>
 
 </head>
@@ -62,10 +72,42 @@
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-lg-4 pb-5" th:insert="settingLeftSide::left-side"></div>
+
+            <!-- Account Sidebar-->
+            <div class="author-card pb-3">
+                <div class="author-card-cover">
+                    <a class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title="" data-original-title="You currently have 290 Reward points to spend"><i class="fa fa-award text-md"></i>&nbsp;290 points</a></div>
+                <div class="author-card-profile">
+
+                    <img class="img-circle" src="" id="form-avarta" alt="ai do">
+                    <form action="/ChildrenCare/setting/update" class="row" method="post" enctype="multipart/form-data">
+                    <input  name="avatar" type="file" id="avatar" onchange="previewAvatar(this)">
+                    <div class="author-card-details">
+                        <h5 th:text="${session.email}" class="author-card-name text-dark text-lg"></h5><span th:text="${session.username}" class="author-card-position"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="wizard">
+                <nav class="list-group list-group-flush">
+                    <a class="list-group-item" href="/ChildrenCare/setting/myReservation/page/1">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-shopping-bag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">My Reservation</div>
+                            </div><span class="badge badge-secondary">0</span>
+                        </div>
+                    </a><a class="list-group-item " href="/ChildrenCare/setting/profile">
+                    <i class="fe-icon-user text-muted">
+                    </i>Profile Settings</a>
+                    <a  class="list-group-item" href="/ChildrenCare/setting/change">
+                        <i class="fe-icon-map-pin text-muted"></i>Change Password</a>
+
+
+                </nav>
+            </div>
+
         <!-- Profile Settings-->
         <div class="col-lg-8 pb-5">
-            <form action="/ChildrenCare/setting/update" class="row" method="post">
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn">User name</label>

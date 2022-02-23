@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
 <div  th:fragment="left-side">
@@ -11,8 +12,10 @@
         <div class="author-card-cover">
             <a class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title="" data-original-title="You currently have 290 Reward points to spend"><i class="fa fa-award text-md"></i>&nbsp;290 points</a></div>
         <div class="author-card-profile">
-            <div class="author-card-avatar"><img src="" alt="ai do">
-            </div>
+
+                <img class="img-circle" src="" id="form-avarta" alt="ai do">
+
+            <input type="file" id="avatar" onchange="previewAvatar(this)">
             <div class="author-card-details">
                 <h5 th:text="${session.email}" class="author-card-name text-dark text-lg"></h5><span th:text="${session.username}" class="author-card-position"></span>
             </div>

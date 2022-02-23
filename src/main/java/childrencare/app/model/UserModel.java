@@ -60,6 +60,8 @@ public class UserModel {
 	private String notes;
 
 	private boolean status;
+
+	private byte[] avatar;
 	
 	@Column(name = "register_date")
 	private Date regiteredDate;
