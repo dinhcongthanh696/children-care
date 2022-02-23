@@ -59,6 +59,12 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "group by r.reservation_id,r.date,r.status,r.notes, r.total_reservation_price,r.customer_id",nativeQuery = true)
     public ReservationModel getReservationModelByReservationId(int reserID);
 
+    @Query(value = "select * from reservation",nativeQuery = true)
+    public ReservationModel getReservationByReservationId(int reserID);
+
+
+
+
     @Query(value = " select * from \n" +
             " reservation r inner join customer c \n" +
             "  on r.customer_id = c.customer_id \n" +

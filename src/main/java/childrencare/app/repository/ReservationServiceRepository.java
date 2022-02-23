@@ -52,6 +52,11 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "     where  r.reservation_id = ?1" , nativeQuery = true)
     List<ReservationServiceModel> findAllByRid(int rid);
 
+    /*@Query(value = "select * from\n" +
+            "     reservation_service r \n" +
+            "     where  r.reservation_id = ?1" , nativeQuery = true)
+    List<ReservationServiceModel> findAllByReservationId(int rid);*/
+
 
 
     @Query(value = "select * from reservation_service\n" +
