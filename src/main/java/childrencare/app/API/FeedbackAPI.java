@@ -133,6 +133,7 @@ public class FeedbackAPI {
 		if(serviceId == -1) return "You don't have chosen any service to feedback!!";
 		try {
 			byte[] imageBinaryData = (image == null) ? null : image.getBytes();
+			if(user.getCustomer() != null)
 			feedbackRepository.saveOnlyFeedback(comment, imageBinaryData, ratedStar, false, serviceId , user.getCustomer().getCustomer_id()); 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

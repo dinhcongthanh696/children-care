@@ -24,6 +24,7 @@
 	border-radius : 7px;
 	border : 1px solid #cbd0d6;
 	position: relative;
+	font-size: 18px;
 }
 
 .service-tooltip{
@@ -38,17 +39,16 @@
 }
 
 .service-tooltip:hover{
-	color : #71d997;
+	color : #86dffc;
 }
 
 
 .service-item:hover {
 	box-shadow: 3px 3px 3px 3px #888888;
-	color: green;
 }
 
 .fa-shopping-cart {
-	color: green;
+	color: #f7261b;
 	cursor: pointer;
 	font-weight: bold;
 	font-size: 28px;
@@ -90,7 +90,7 @@
 }
 
 .service-title {
-	color: #32B6A1;
+	color: #00bfff;
     font-size: 25px;
 }
 

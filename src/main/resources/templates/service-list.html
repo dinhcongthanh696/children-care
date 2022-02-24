@@ -158,13 +158,13 @@
 				<img
 					th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}"
 					class="service-thumbnail" />
-				<h1 th:text="${'Title : '+service.title}" class="service-title"></h1>
-				<p th:text="${'Brief Info : '+service.briefInfo}"></p>
-				Price : 
-				<span th:text="${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT')}" style="color : black; text-decoration: line-through;"></span>
-				<span th:text="${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}" style="color : red; font-size : 21px; font-weight: bold;"> </span>
+				<h1 th:text="${'Tiêu đề : '+service.title}" class="service-title"></h1>
+				<p th:text="${'Mô tả ngắn : '+service.briefInfo}" style="border-bottom: 2px solid #e6e1e1;"></p>
+				Giá : 
+				<span th:text="${#numbers.formatDecimal(service.originalPrice,1,'POINT',0,'POINT') + 'đ'}" style="color : black; text-decoration: line-through;"></span>
+				<span th:text="${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT') + 'đ'}" style="color : red; font-size : 21px; font-weight: bold;"></span>
 				<div>
-					Rated Stars : <span
+					Đánh giá : <span
 						th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 					<span
 						th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
@@ -176,7 +176,7 @@
 						th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 					<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>
 				</div>
-				<h4 th:text="'Category  :   '+${service.serviceCategory.serviceCategoryName}" style="margin-top : 8px;margin-bottom : 8px;"></h4>
+				<h4 th:text="'Thể loại  :   '+${service.serviceCategory.serviceCategoryName}" style="margin-top : 8px;margin-bottom : 8px;"></h4>
 					<div>
 						<span class="fas fa-shopping-cart"
 							 th:onclick="'addReservationService(event,'+${service.serviceId}+')'">
@@ -194,26 +194,31 @@
 								th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
 								id="give-feedback-button"
 								th:if="${services.size() > 0}"
-								style="width : 95%;"
+								style="width : 95%;border-radius : 8px;"
 								><i class="fas fa-comments"></i>Để lại feedback</button>
-								<button class="btn btn-danger"
-									disabled="disabled"
+								<p 
 									th:if="${services.size() == 0}"
 									id="give-feedback-button"
-									style="width : 95%;"
+									style="width : 94%;
+										   color : white;
+										   border-radius : 8px;
+										   padding : 8px;
+										   background-color: #f25544;
+										   margin-left : 3%;
+										   margin-right : 3%;"
 								>
-								<i class="fa fa-ban" style="color : red;font-size : 23px;"></i>
-									Vui lòng mua service này trước khi feedback nhé!
-								</button>
+								<i class="fa fa-ban" style="color : red;font-size : 20px;"></i>
+									Vui lòng mua service này  <br/> trước khi feedback nhé!
+								<p>
 							</th:block>
 						</th:block>
 						<th:block th:if="${session.user == null}">
 							<button class="btn btn-primary"
 							id="give-feedback-button"
 							onclick="triggerModal('my-modal-contact-menu','block')"
-							style="width : 95%;">
+							style="width : 95%;border-radius : 8px;">
 							<i class="fa fa-envelope"></i>
-							 Điền thông tin của bạn trước khi feedback nhé
+							 Điền thông tin của bạn	<br/> trước khi feedback nhé
 							</button>
 						</th:block>
 					</span>
@@ -231,7 +236,7 @@
 	<script type="text/javascript">
 
 	var lastChosenFeelingElement;
-	var lastChosenFeeling = -1;
+	var lastChosenFeeling = 5;
 	var lastChosenPreview;
 	var lastChosenServiceId = -1;
 	var captchaInterval;
@@ -266,8 +271,10 @@
 	
 	function triggerModal(modalId,displayStyle){
 		const getModalById = document.getElementById(modalId);
-		if(lastChosenFeelingElement){
+		if(lastChosenFeelingElement && displayStyle === "none"){
 			lastChosenFeelingElement.className = "col-md-2 feeling";
+			var nextButton = document.getElementById("next-button");
+			nextButton.disabled = true;
 		}  // clear the last chosen feeling
 		
 		if(displayStyle !== "none"){
@@ -279,18 +286,12 @@
 	}
 	
 	function startFeedback(title,serviceId){
-			lastChosenServiceId = serviceId;
-			fetch("/ChildrenCare/api-service/get-user-services?serviceId="+serviceId)
-			.then(response => response.json())
-			.then(feedbacks => {
-				if(feedbacks.length == 0){
-					alert("Sorry,you have not bought this service.Please buy this service first");	
-				}else{
-					var feedBackQuestionElement = document.querySelector("#feedback-question");
-					feedBackQuestionElement.innerHTML = "Bạn cảm thấy như thế nào về dịch vụ "+ title  +"? ";
-					triggerModal("my-modal-feedback-step1","block");
-				}
-			})
+			lastChosenServiceId = serviceId; // STEP 1 : GET USER CHOSEN SERVICE 
+			
+			// STEP 1 : DISPLAY FIRST MODAL TO GET USER FEELING ABOUT SERVICE
+			var feedBackQuestionElement = document.querySelector("#feedback-question");
+			feedBackQuestionElement.innerHTML = "Bạn cảm thấy như thế nào về dịch vụ "+ title  +"? ";
+			triggerModal("my-modal-feedback-step1","block");
 	}
 	
 	function startLoginForm(){
@@ -481,11 +482,10 @@
 	function addReservationService(event,service_id) {
 		var url = "/ChildrenCare/api-reservation/add/"+service_id;
 		fetch(url)
-		.then(response => response.json())
-		.then(data => {
+		.then(response => response.text())
+		.then(numberOfItems => {
 			var shoppingItemsElement = document.querySelector("span#shopping-cart-items");
-			var shoppingItems = data.length;
-			shoppingItemsElement.innerHTML = shoppingItems;
+			shoppingItemsElement.innerHTML = numberOfItems;
 			triggerModal("my-modal-success","block");
 			setTimeout(() => {
 				triggerModal("my-modal-success","none");

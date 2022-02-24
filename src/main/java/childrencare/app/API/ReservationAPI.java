@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
-import childrencare.app.model.Slot;
-import childrencare.app.model.UserModel;
 import childrencare.app.service.ReservationService;
-import childrencare.app.service.SlotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +33,7 @@ public class ReservationAPI {
 
 
 	@GetMapping("/add/{sid}")
-	public List<ServiceModel> addToCart(@PathVariable(value = "sid") int id, HttpSession session,
+	public int addToCart(@PathVariable(value = "sid") int id, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request , 
 			@RequestParam(name = "quantity" , defaultValue = "1") int quantity) throws IOException {
 		Optional<ServiceModel> optinal = serviceModelService.getServiceById(id);
@@ -76,7 +73,7 @@ public class ReservationAPI {
 
 		// end thanh's code (Add service cookie)
 		session.setAttribute("list", listReservations);
-		return listReservations;
+		return listReservations.size();
 	}
 
 
