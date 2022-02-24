@@ -46,4 +46,8 @@ public class ReservationService_Service {
     public List<ReservationServiceModel> findAllByRid(int rid) {
         return reservationServiceRepository.findAllByRid(rid);
     }
+
+    /*public List<ReservationServiceModel> findReservationServiceByRid(int rid) {
+        return reservationServiceRepository.findAllByReservationId(rid);
+    }*/
 }

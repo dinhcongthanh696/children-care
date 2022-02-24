@@ -362,10 +362,10 @@
                                                                     th:text="${reservationByReserId.getDate()}"></span>
                                                             </p>
                                                         </div>
-                                                        <div class="col-auto">
+                                                        <!--<div class="col-auto">
                                                             <p><b>Time to check up: </b><span
-                                                                    th:text="${slotByReserId.getStart()}"></span></p>
-                                                        </div>
+                                                                    ></span></p>
+                                                        </div>-->
                                                         <div class="col-auto">
                                                             <p><b>Status: </b><span
                                                                     th:text="${reservationByReserId.isStatus()}"></span>
@@ -407,13 +407,13 @@
                                                 <div class="card border-0 ">
                                                     <div class="card-header card-2">
                                                         <p class="card-text text-muted mt-md-4 mb-2 space">SERVICES<span
-                                                                class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span>
+                                                                class=" small text-muted ml-2 cursor-pointer">Your Service</span>
                                                         </p>
                                                         <hr class="my-2">
                                                     </div>
                                                     <div class="card-body pt-0">
                                                         <!--Loop service-->
-                                                        <div th:each="listServiceByReserId:${listServiceByReserId}">
+                                                        <div th:each="listServiceByReserId:${reservation_ServiceByReserId}">
                                                             <div class="row justify-content-between">
                                                                 <div class="col-auto col-md-7">
                                                                     <div class="media flex-column flex-sm-row"><img
@@ -423,19 +423,18 @@
                                                                         <div class="media-body my-auto">
                                                                             <div class="row ">
                                                                                 <div class="col-auto">
-                                                                                    <p class="mb-0"><b th:text="${listServiceByReserId.getTitle()}"></b></p><small
-                                                                                        class="text-muted">1 Week
-                                                                                    Subscription</small>
+                                                                                    <p class="mb-0"><b th:text="${listServiceByReserId.getService().getTitle()}"></b></p><small
+                                                                                        class="text-muted" th:text="${listServiceByReserId.id.getBookedDate()}"></small>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class=" pl-0 flex-sm-col col-auto my-auto">
-                                                                    <p class="boxed-1">2</p>
+                                                                    <p class="boxed-1" th:text="${listServiceByReserId.getService().getQuantity()}"></p>
                                                                 </div>
                                                                 <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                                                    <p><b>179 SEK</b></p>
+                                                                    <p><b th:text="${listServiceByReserId.getService().getOriginalPrice()}"></b><b>$</b></p>
                                                                 </div>
                                                             </div>
                                                             <hr class="my-2">
