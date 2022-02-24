@@ -35,7 +35,7 @@ public class ServiceController {
 	private final ServiceModelService serviceModelService;
 	private final ServiceCategoryService serviceCategoryService;
 	private final FeedbackRepository feedbackRepository;
-	private final int SERVICESIZE = 9;
+	private final int SERVICESIZE = 15;
 	@Autowired
 	public ServiceController(ServiceCategoryRepository serviceCategoryRepository,
 			ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService,
