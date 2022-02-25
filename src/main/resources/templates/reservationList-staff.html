@@ -46,29 +46,46 @@
         <div class="col-xs-12">
           <div class="panel">
             <header class="panel-heading">
-              Slider Manager
+              Thông tin các đơn dịch vụ được đặt chỗ
             </header>
-            <h3 th:if="${listInfo} == null">No slider</h3>
+            <h3 th:if="${listInfo} == null">Chưa có đơn dịch vụ nào được đặt</h3>
             <!-- <div class="box-header"> -->
             <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
             <div class="panel-body table-responsive">
               <div class="row">
-                <div class="col-sm-10">
-                  <form  th:action="@{/staff/home/page/1}">
-                    <input th:value="${keyword}" type="text" name="keyword" class="form-control input-sm pull-left" style="width: 150px;"
-                           placeholder="Search by title/backlink.."/>
+                <div class="col-sm-8">
+                  <form th:action="@{/staff/home/page/1}">
+                    <input th:value="${key}" type="text" name="key" class="form-control input-sm pull-left" style="width: 260px;"
+                           placeholder="Tìm kiếm theo ID/tên khách của đơn đã đặt.."/>
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </form>
                 </div>
+
+                <div class="col-sm-4">
+                  <form id="myForm1" th:action="@{/staff/staffview/filter/1}">
+                    <a class="text-danger" href="/ChildrenCare/staff/home/page/1">All Reservation | </a>
+                    Status: <select name="filterValue" th:onchange="filterReservation()">
+                    <option th:selected="${filterValue} == null"></option>
+                    <option th:selected="${filterValue} == true" value="1">Submited</option>
+                    <option th:selected="${filterValue} == false" value="0">Canceled</option>
+                    </select>
+                  </form>
+
+                </div>
+                <script>
+                  function filterReservation(){
+                    document.getElementById("myForm1").submit();
+                  }
+                </script>
               </div>
               <table  id="emp-table" class="table table-hover">
                 <thead>
                 <tr>
-                  <th>Reservation ID</th>
+                  <th><a th:href="@{'/staff/home/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Reservation Id</a></th>
                   <th>Reserved Date</th>
                   <th>Customer name</th>
                   <th>Service</th>
-                  <th>Total Cost</th>
+                  <th><a th:href="@{'/staff/home/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir}}">Total cost</a></th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -81,35 +98,64 @@
                   <td th:text="${info.service.title}"></td>
                   <td th:text="${info.price}"></td>
                   <td th:utext="${info.reservation.status} ?'Submited':'Canceled'"></td>
-                  <td><a th:href="@{/staff/{rid}(rid=${info.reservation.reservationId})}">Edit</a></td>
+                  <td><a th:href="@{/staff/{rid}(rid=${info.reservation.reservationId})}">Detail</a></td>
                 </tr>
                 </tbody>
               </table>
+              <div th:if="${filterValue} == null">
+                <div th:if="${totalPages > 1} ">
+                  Total Items: [[${totalItems}]]
+                  &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-              <div th:if="${totalPages > 1}">
-                Total Items: [[${totalItems}]]
-                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+                  <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/1'+${key != null? '?keyword='+ key:  ''} + '?sortField=id&sortDir=' + ${reverseSortDir}}">First</a>
+                  <span th:unless="${currentPage > 1}">First</span>
+                  &nbsp;&nbsp;
 
-                <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/1'+${keyword != null? '?keyword='+ keyword:  ''}}">First</a>
-                <span th:unless="${currentPage > 1}">First</span>
-                &nbsp;&nbsp;
+                  <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/' + ${currentPage - 1} +${key != null? '?keyword='+ key:  ''}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Previous</a>
+                  <span th:unless="${currentPage > 1}">Previous</span>
 
-                <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/' + ${currentPage - 1} +${keyword != null? '?keyword='+ keyword:  ''} }">Previous</a>
-                <span th:unless="${currentPage > 1}">Previous</span>
+                  &nbsp;&nbsp;
 
-                &nbsp;&nbsp;
-
-                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			                  <a th:if="${currentPage != i}" th:href="@{'/staff/home/page/'+ ${i} +${keyword != null? '?keyword='+ keyword:  ''}}">[[${i}]]</a>
+                  <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			                  <a th:if="${currentPage != i}" th:href="@{'/staff/home/page/'+ ${i} +${key != null? '?keyword='+ key:  ''} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
 			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
 
-                <a th:if="${currentPage < totalPages}" th:href="@{'/staff/home/page/' + ${currentPage + 1} +${keyword != null? '?keyword='+ keyword:  ''}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
-                &nbsp;&nbsp;
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/staff/home/page/' + ${currentPage + 1} +${key != null? '?keyword='+ key:  ''} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
+                  <span th:unless="${currentPage < totalPages}">Next</span>
+                  &nbsp;&nbsp;
 
-                <a th:if="${currentPage < totalPages}" th:href="@{'/staff/home/page/' + ${totalPages}+${keyword != null? '?keyword='+ keyword:  ''} }">Last</a>
-                <span th:unless="${currentPage < totalPages}">Last</span>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/staff/home/page/' + ${totalPages}+${key != null? '?keyword='+ key:  ''}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Last</a>
+                  <span th:unless="${currentPage < totalPages}">Last</span>
+                </div>
               </div>
+
+              <div th:if="${filterValue} != null">
+                <div th:if="${totalPages > 1} ">
+                  Total Items: [[${totalItems}]]
+                  &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+                  <a th:if="${currentPage > 1}" th:href="@{'/staff/staffview/filter/1'+${filterValue != null? '?filterValue='+ filterValue:  ''}}">First</a>
+                  <span th:unless="${currentPage > 1}">First</span>
+                  &nbsp;&nbsp;
+
+                  <a th:if="${currentPage > 1}" th:href="@{'/staff/staffview/filter/' + ${currentPage - 1} +${filterValue != null? '?filterValue='+ filterValue:  ''} }">Previous</a>
+                  <span th:unless="${currentPage > 1}">Previous</span>
+
+                  &nbsp;&nbsp;
+
+                  <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			                  <a th:if="${currentPage != i}" th:href="@{'/staff/staffview/filter/'+ ${i} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">[[${i}]]</a>
+			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
+
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/staff/staffview/filter/' + ${currentPage + 1} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">Next</a>
+                  <span th:unless="${currentPage < totalPages}">Next</span>
+                  &nbsp;&nbsp;
+
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/staff/staffview/filter/' + ${totalPages}+${filterValue != null? '?filterValue='+ filterValue:  ''} }">Last</a>
+                  <span th:unless="${currentPage < totalPages}">Last</span>
+                </div>
+              </div>
+
             </div><!-- /.box-body -->
           </div><!-- /.box -->
         </div>

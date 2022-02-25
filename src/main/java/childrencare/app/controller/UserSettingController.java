@@ -82,9 +82,8 @@ public class UserSettingController {
                                    HttpSession session){
         UserModel user = (UserModel) session.getAttribute("user");
         String email = user.getEmail();
-        List<ReservationServiceModel> customerReservation = reservationService_service.findAllByEmail(email);
-        Page<ReservationServiceModel> page = reservationService_service.listAll(pageNum);
-        customerReservation = page.getContent();
+        Page<ReservationServiceModel> page = reservationService_service.findCustomerByEmail(pageNum,email);
+        List<ReservationServiceModel> customerReservation = page.getContent();
         model.addAttribute("userLogin",user);
         model.addAttribute("customerReser",customerReservation);
         model.addAttribute("currentPage",pageNum);
