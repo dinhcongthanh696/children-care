@@ -126,7 +126,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-9">
+            <div class="col-xl-2 col-lg-12">
                 <div class="top-right">
                     <ul class="sociallinks-style-one">
                         <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
@@ -155,6 +155,18 @@
                         			" th:text="${session.list == null ? '' : session.list.size}"></span>
                         		</i>
                         	</a>
+                        </li>
+                        <li>
+                        	<i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
+                        	<label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
+                        	<select class="form-control" id="languages-switcher" onchange="changeLanguage(this.value)">
+                        		<option value="vi">
+                        			<span th:text="#{lang.vn}"></span>
+                        		</option>
+                        		<option value="en" th:selected="${lang == 'en'}">
+                        			<span th:text="#{lang.en}"></span>
+                        		</option>
+                        	</select>
                         </li>
                     </ul>
                 </div>    
