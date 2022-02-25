@@ -57,12 +57,13 @@
        <div class="col-lg-4 pb-5" th:replace="settingLeftSide::left-side"></div>
         <!-- Profile Settings-->
         <div class="col-lg-8 pb-5">
-            <div class="container-lg">
+            <h2 th:if="${customerReser.size()== 0}">Bạn chưa đặt dịch vụ nào</h2>
+            <div th:if="${customerReser.size() > 0}"  class="container-lg">
                 <div class="table-responsive">
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>My <b>Reservation</b></h2></div>
+                                <div class="col-sm-8"><h2>Dịch vụ bạn đã đặt</h2></div>
                                 <div class="col-sm-4">
                                     <button type="button" class="btn btn-info add-new">View Only</button>
                                 </div>
@@ -82,7 +83,7 @@
                             <tbody>
                             <tr th:each="customer: ${customerReser}">
                                 <td th:text="${customer.reservation.reservationId}"></td>
-                                <td th:text="${customer.reservation.date}"></td>
+                                <td th:text="${customer.id.bookedDate}"></td>
                                 <td th:text="${customer.service.title}"></td>
                                 <td th:text="${customer.slot.start}+'-'+${customer.slot.end}"></td>
                                 <td th:text="${customer.price}"></td>
