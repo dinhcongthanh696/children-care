@@ -46,6 +46,8 @@ public class PostModel {
 	private Date createAt;
 	@Column(name = "updated_at")
 	private Date updatedAt;
+	@Column(name = "status")
+	private boolean status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "email")
