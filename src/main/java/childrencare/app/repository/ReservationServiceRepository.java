@@ -14,9 +14,6 @@ import java.util.List;
 @Repository
 public interface ReservationServiceRepository extends JpaRepository<ReservationServiceModel,Integer> {
 
-
-
-
     @Query(value = "select * from\n" +
             "     reservation_service rs inner join\n" +
             "     reservation r on rs.reservation_id = r.reservation_id\n" +
@@ -51,11 +48,6 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "     inner join staff st on st.staff_id = rs.staff_id\n" +
             "     where  r.reservation_id = ?1" , nativeQuery = true)
     List<ReservationServiceModel> findAllByRid(int email);
-
-
-
-
-
 
 
     @Query(value = "select * from reservation_service\n" +
