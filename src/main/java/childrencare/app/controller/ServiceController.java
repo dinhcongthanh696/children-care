@@ -51,6 +51,7 @@ public class ServiceController {
 			@RequestParam(name =  "page",required = false, defaultValue = "0") int page,
 			@RequestParam(name =  "search",required = false, defaultValue = "") String search, 
 			@RequestParam(name = "category",required = false, defaultValue =  "0") int categoryId,
+			@RequestParam(name = "lang",required = false, defaultValue = "") String lang ,
 			HttpSession session) {
 		Page<ServiceModel> services = null;
 		if(categoryId != 0) {
@@ -80,6 +81,7 @@ public class ServiceController {
 		model.addAttribute("servicecategories", categories);
 		model.addAttribute("categoryId",categoryId);
 		model.addAttribute("userReservationServices", reservationServices);
+		model.addAttribute("lang",lang);
 		return "service-list";
 	}
 	

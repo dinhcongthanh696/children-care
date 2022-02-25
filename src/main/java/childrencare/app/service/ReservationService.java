@@ -3,7 +3,9 @@ package childrencare.app.service;
 
 import childrencare.app.model.ReservationModel;
 import childrencare.app.model.ReservationServiceModel;
+import childrencare.app.model.StaffModel;
 import childrencare.app.repository.ReservationRepository;
+import childrencare.app.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ import java.util.Optional;
 @Service
 public class ReservationService {
 
+
+    @Autowired
+    private StaffRepository staffRepository;
 
     @Autowired
     private ReservationRepository repository;
@@ -49,6 +54,10 @@ public class ReservationService {
 
     public void createSchedule(int reservationId,int serviceId, int slotId,
                                int staff_id, Date date, double price){
+        if(staff_id == 0){
+            StaffModel staff = staffRepository.getStaffBySlotAndDate((java.sql.Date) date, staff_id);
+            staff_id = staff.getStaff_id();
+        }
         repository.createSchedule(reservationId, serviceId, slotId, staff_id, date, price);
     }
 

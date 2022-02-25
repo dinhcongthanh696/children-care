@@ -53,7 +53,7 @@ public class ReservationCompleteController {
     //Reservation Completion - KVA
 
 
-    @GetMapping("/getDoctor")
+    @GetMapping("/bookingSchedule")
     public String getAllDoctor(Model model, HttpSession session,
                                @RequestParam(name="reservationId", required = false) Integer reservationId){
         List<StaffModel> staffs = staffService.getAllStaff();
@@ -73,8 +73,8 @@ public class ReservationCompleteController {
     }
 
     @Transactional
-    @GetMapping("/updateReservationInfo")
-    public String updateInfo(@RequestParam(name = "reservationId") Integer rid,
+    @PutMapping("/updateReservationInfo")
+    public void updateInfo(@RequestParam(name = "reservationId") Integer rid,
                              HttpSession session, Model model){
         //Update status
         reservationService.changeStatus(rid);
@@ -124,7 +124,7 @@ public class ReservationCompleteController {
             contentPart.setContent(content, "text/html; charset=utf-8");
 
             MimeBodyPart referencePart = new MimeBodyPart();
-            String reference = "<a href='http://localhost:8080/ChildrenCare/getDoctor'> Children Care's Page</a>";
+            String reference = "<a href='http://localhost:8080/ChildrenCare/thanks'> Children Care's Page</a>";
             referencePart.setContent(reference,"text/html; charset=utf-8");
 
             Multipart multiPart = new MimeMultipart();
@@ -132,16 +132,11 @@ public class ReservationCompleteController {
             multiPart.addBodyPart(referencePart);
 
             mimeMessage.setContent(multiPart);
-            System.out.println("Before send");
             mailSender.send(mimeMessage);
-            System.out.println("After send");
-
-            model.addAttribute("successInfo", content);
         } catch (MessagingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return "apppointment";
     }
 
 

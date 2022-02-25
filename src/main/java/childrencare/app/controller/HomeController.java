@@ -62,7 +62,10 @@ public class HomeController {
 		return "live-chat";
 	}
 
-
+	@GetMapping("/thanks")
+	public String toThankYou() {
+		return "thank_you";
+	}
 
 	// end thanh code
 }

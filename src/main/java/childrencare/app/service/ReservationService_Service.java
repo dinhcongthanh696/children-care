@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -24,30 +26,34 @@ public class ReservationService_Service {
 
     }
 
-    public List<ReservationServiceModel> findAllByEmail(String email) {
-        return reservationServiceRepository.findAllByEmail(email);
-    }
+
 
     public List<ReservationServiceModel> getAllBookedSchedule(int reservationId){
         return reservationServiceRepository.findAllBookedSchedule(reservationId);
     }
 
-
-
-    public Page<ReservationServiceModel> findAllReser(int pageNum, String key){
-        Pageable pageable = PageRequest.of(pageNum-1,2);
-        if(key != null){
-            return reservationServiceRepository.findAll(key, pageable);
-        }
-        return reservationServiceRepository.findAll(pageable);
-
-    }
-
     public List<ReservationServiceModel> findAllByRid(int rid) {
         return reservationServiceRepository.findAllByRid(rid);
     }
+    public Page<ReservationServiceModel> filterReservation(int pageNum,boolean status) {
+        Pageable pageable1 = PageRequest.of(pageNum - 1, 3);
+        return reservationServiceRepository.filterReservationByStatus(status, pageable1);
+    }
 
-    /*public List<ReservationServiceModel> findReservationServiceByRid(int rid) {
-        return reservationServiceRepository.findAllByReservationId(rid);
-    }*/
+    public Page<ReservationServiceModel> findCustomerByEmail(int pageNum,String email) {
+        Pageable pageable2 = PageRequest.of(pageNum - 1, 1);
+        return reservationServiceRepository.findCustomerByEmail(email,pageable2);
+    }
+
+    public Page<ReservationServiceModel> listAll(int pageNum,String keyword, String sortField, String sortDir) {
+
+        Pageable pageable = PageRequest.of(pageNum - 1, 3,
+                sortDir.equals("asc") ? Sort.by(sortField).ascending()
+                        : Sort.by(sortField).descending()
+        );
+        if(keyword == null){
+            return reservationServiceRepository.findAll(pageable);
+        }
+        return reservationServiceRepository.findAllReserInfo(keyword,pageable);
+    }
 }
