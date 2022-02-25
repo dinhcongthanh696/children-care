@@ -32,5 +32,7 @@ public class CustomerModel {
 	
 	@OneToMany(mappedBy = "customer")
 	private List<FeedbackModel> feedbacks;
+
+	
 	
 }

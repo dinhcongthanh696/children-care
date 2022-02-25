@@ -5,13 +5,13 @@ import childrencare.app.repository.SlidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -39,15 +39,19 @@ public class SlidersService  {
     }
 
     public Page<SliderModel> listAll(int pageNum, String keyword) {
-        org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNum - 1, 3);
+        Pageable pageable = PageRequest.of(pageNum - 1, 1);
         if(keyword != null){
-            return slidersRepository.findAll(keyword,pageable);
+            return slidersRepository.findAllByField(keyword,pageable);
         }
         return slidersRepository.findAll(pageable);
     }
 
 
-
-
-
+    public Page<SliderModel> filterByStatus(int pageNum,int status) {
+        Pageable pageable1 = PageRequest.of(pageNum - 1, 1);
+        if(status == -1){
+            return slidersRepository.findAll(pageable1);
+        }
+        return slidersRepository.filterByStatus(status, pageable1);
+    }
 }

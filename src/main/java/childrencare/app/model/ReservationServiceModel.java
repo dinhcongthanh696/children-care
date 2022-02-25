@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
@@ -14,16 +15,17 @@ import java.sql.Time;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ReservationServiceModel {
 	@EmbeddedId
 	private ReservationServiceKey id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reservation_id")
 	@MapsId("reservation_id")
 	private ReservationModel reservation;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "service_id")
 	@MapsId("service_id")
 	private ServiceModel service;

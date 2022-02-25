@@ -60,6 +60,11 @@ public class UserModel {
 	private String notes;
 
 	private boolean status;
+
+	private byte[] avatar;
+
+	@Transient
+	private String base64AvatarEncode;
 	
 	@Column(name = "register_date")
 	private Date regiteredDate;
@@ -77,7 +82,7 @@ public class UserModel {
 		return "User : "+username+" Role : "+userRole.getRoleName();
 	}
 	
-	@OneToOne(mappedBy = "customer_user")
+	@OneToOne(mappedBy = "customer_user",fetch = FetchType.LAZY)
 	private CustomerModel customer;
 	
 	@OneToOne(mappedBy = "staff_user")

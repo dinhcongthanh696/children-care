@@ -120,16 +120,6 @@ public class FeedbackAPI {
 		return "exist";
 	}
 	
-	@GetMapping("/user-email")
-	public String getUserEmail(HttpSession session) {
-		UserModel user = (UserModel) session.getAttribute("user");
-		if(user != null) {
-			return user.getEmail(); 
-		}
-		
-		return "not yet";
-	}
-	
 	@PostMapping("/save-feedback")
 	@Transactional
 	public String saveUserFeedback(@RequestParam(name = "imageFeedback" , required = false) MultipartFile image , 
@@ -141,12 +131,10 @@ public class FeedbackAPI {
 		UserModel user = (UserModel) session.getAttribute("user");
 		if(user == null) return "We don't know you,You need to give your contact or login!!!";
 		if(serviceId == -1) return "You don't have chosen any service to feedback!!";
-		if(user.getCustomer() == null) return "You are not customer";
 		try {
-			ReservationModel reservation = reservationRepository.getReservationByEmailAndServiceId(user.getEmail(), serviceId);
-			if(reservation.getReservationServices().isEmpty()) return "fail";
 			byte[] imageBinaryData = (image == null) ? null : image.getBytes();
-			feedbackRepository.saveOnlyFeedback(comment, imageBinaryData, ratedStar, false, serviceId , reservation.getCustomer().getCustomer_id()); 
+			if(user.getCustomer() != null)
+			feedbackRepository.saveOnlyFeedback(comment, imageBinaryData, ratedStar, false, serviceId , user.getCustomer().getCustomer_id()); 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

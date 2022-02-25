@@ -1,10 +1,7 @@
 package childrencare.app.controller;
 
 import childrencare.app.filter.CookieHandler;
-import childrencare.app.model.ReservationModel;
-import childrencare.app.model.ServiceModel;
-import childrencare.app.model.Slot;
-import childrencare.app.model.UserModel;
+import childrencare.app.model.*;
 import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +38,9 @@ public class ReservationController {
     //Nghia's code
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private ReservationService_Service reservationService_service;
 
     // Thanh's code
     @Autowired
@@ -178,15 +178,19 @@ public class ReservationController {
                                    @RequestParam(name = "rid") Optional<Integer> reserID) {
         if (reserID.isPresent()) {
             ReservationModel reservationModel = reservationService.getReservatonInforByID(reserID.get());
-            Slot slot = slotService.getSlotByReservationID(reserID.get());
+            //Slot slot = slotService.getSlotByReservationID(reserID.get());
             List<ServiceModel> serviceModelList = serviceModelService.getServicesByReservationId(reserID.get());
+            List<ReservationServiceModel> reservationServices = reservationService_service.getAllBookedSchedule(reserID.get());
             UserModel userModel = userService.findUserModelByUserReservationId(reserID.get());
 
 
+
+
             model.addAttribute("reservationByReserId", reservationModel);
+            model.addAttribute("reservation_ServiceByReserId", reservationServices);
             model.addAttribute("userByReserId", userModel);
-            model.addAttribute("slotByReserId", slot);
-            model.addAttribute("listServiceByReserId", serviceModelList);
+            //model.addAttribute("slotByReserId", slot);
+            model.addAttribute("listServicesByReserId", serviceModelList);
             model.addAttribute("listCategoryPost", blogCategoryService.findAll());
             return "reservationInfor";
         } else {

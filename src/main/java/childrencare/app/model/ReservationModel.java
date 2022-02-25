@@ -41,5 +41,9 @@ public class ReservationModel {
 
 	
 	@OneToMany(mappedBy = "reservation")
-	private List<ReservationServiceModel> reservationServices; 
+	private List<ReservationServiceModel> reservationServices;
+
+
+	
+	
 }
