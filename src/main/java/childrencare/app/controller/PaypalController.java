@@ -41,7 +41,7 @@ public class PaypalController {
 
     @Autowired
     private PaypalService paypalService;
-    @GetMapping("/")
+    @GetMapping("/main")
     public String index(){
         return "index";
     }
