@@ -18,8 +18,8 @@ public class LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-    public UserModel checkUserExist(String username, String email, String password) {
-        return loginRepository.checkUserExist(username, email, password);
+    public UserModel checkUserExist(String input, String password) {
+        return loginRepository.checkUserExist(input, password);
     }
     public UserModel save(UserModel entity) {
         return loginRepository.save(entity);

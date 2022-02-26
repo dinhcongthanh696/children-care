@@ -1,14 +1,14 @@
 package childrencare.app.controller;
 
+import childrencare.app.model.PostCategoryModel;
 import childrencare.app.model.PostModel;
 import childrencare.app.service.BlogCategoryService;
-import childrencare.app.service.BlogService;
+import childrencare.app.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -17,28 +17,27 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-public class BlogController {
-    private BlogService blogService;
-    private BlogCategoryService blogCategoryService;
-    private final int BLOGSIZE = 3;
+@RequestMapping("/manager")
+public class PostController {
 
     @Autowired
-    public BlogController(BlogService blogService, BlogCategoryService blogCategoryService) {
-        this.blogService = blogService;
-        this.blogCategoryService = blogCategoryService;
-    }
+    private BlogCategoryService blogCategoryService;
 
-    @RequestMapping(value = "/blog", method = {RequestMethod.GET, RequestMethod.POST})
-    public String blogHome(Model model
+    @Autowired
+    private PostService postService;
+
+    @RequestMapping("/post")
+    public String reservationInfor(Model model
             , @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page
             , @RequestParam(name = "title", required = false, defaultValue = "") String title
-            , @RequestParam(name = "categoryId",required = false) String categoryId) {
+            , @RequestParam(name = "categoryId",required = false, defaultValue = "-1") String categoryId) {
+        List<PostCategoryModel> postCategoryModelList = blogCategoryService.findAll();
+
+
         int currentPage = page.orElse(0);
         Page<PostModel> postModels = null;
         if (categoryId != "" && categoryId != null) {
-            postModels = blogService.getBlogPaging(currentPage, BLOGSIZE, title, Integer.parseInt(categoryId));
-        } else {
-            postModels = blogService.getBlogPaging(currentPage, BLOGSIZE, title);
+            postModels = postService.findAllByCategoryID(Integer.parseInt(categoryId),currentPage, 2);
         }
 
 
@@ -55,28 +54,12 @@ public class BlogController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
-
-        //List<PostModel> postModelList = blogService.findAllByUpdateAt();
         model.addAttribute("listPost", postModels.toList());
-        model.addAttribute("listCategoryPost", blogCategoryService.findAll());
-        model.addAttribute("listTop3RecentPost", blogService.findTop3RecentPost());
-
-        model.addAttribute("titleSearch", title);
+        model.addAttribute("postCategoryModelList", postCategoryModelList);
         model.addAttribute("categoryId", categoryId);
 
         model.addAttribute("pagingPost", postModels);
-        return "blog-large";
+
+        return "post_manager";
     }
-
-    @RequestMapping(value = "/blogDetail", method = {RequestMethod.GET, RequestMethod.POST})
-    public String blogDetails(Model model
-    , @RequestParam(name = "postId") int postId){
-        model.addAttribute("postDetail", blogService.getPostByID(postId));
-        model.addAttribute("listCategoryPost", blogCategoryService.findAll());
-        model.addAttribute("listTop3RecentPost", blogService.findTop3RecentPost());
-        return "blog-single";
-    }
-
-
 }
-

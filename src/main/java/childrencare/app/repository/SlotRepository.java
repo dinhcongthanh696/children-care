@@ -23,7 +23,7 @@ public interface SlotRepository extends JpaRepository<Slot, Integer> {
     @Query(value = "select * from slot \n" +
             "where slot_id not in \n" +
             "(select slot_id from reservation_service \n" +
-            "where booked_date = ?1 and staff_id = ?2)", nativeQuery = true)
+            "where booked_date = ?1 and staff_id = ?2)\n", nativeQuery = true)
     List<Slot> getAvailableSlotWithDoctor(Date date, int staff_id);
 
 
