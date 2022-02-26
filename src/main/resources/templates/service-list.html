@@ -148,7 +148,7 @@
 	
 	<div id="body" class="container-fluid">
 		<div class="row">
-			<div class='col-sm-3 service-item pl-0 pr-0' th:each="service : ${services}"
+			<div class='col-lg-3 service-item pl-0 pr-0' th:each="service : ${services}"
 				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'"
 				th:onmouseover="'triggerToolTips('+ ${service.serviceId} +',\'inline\')'"
 				th:onmouseout="'triggerToolTips('+ ${service.serviceId} +',\'none\')'"
