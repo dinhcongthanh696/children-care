@@ -36,99 +36,99 @@
 
 <body th:onload="renderPages()">
 	<div id="my-modal-success">
-		<div class="my-modal-content">
-			<h1>Added successfully <i class="fas fa-check" style="font-size : 20px;"></i></h1>
-			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-success','none')"></span>
+		<div class="my-modal-content modal-element">
+			<h1 class="modal-element">Added successfully <i class="fas fa-check modal-element" style="font-size : 20px;"></i></h1>
+			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-success','none')"></span>
 		</div>
 	</div>
 	<div id="my-modal-feedback-step1">
-		<div class="my-modal-content container-fluid">
-			<h3 style="color : black;" id="feedback-question"></h3>
-			<div class="row">
-				<div class="col-md-2 feeling" onclick="ratingStar(0)">
-					<span class="far fa-dizzy" style="color : #1f0c0c;"></span>
-					<p style="color : #1f0c0c;" class="feeling-description">Chán không còn gì để lói</p>
+		<div class="my-modal-content container-fluid modal-element">
+			<h3 style="color : black;" id="feedback-question" class="modal-element"></h3>
+			<div class="row modal-element">
+				<div class="col-md-2 feeling modal-element" onclick="ratingStar(0)">
+					<span class="far fa-dizzy modal-element" style="color : #1f0c0c;"></span>
+					<p style="color : #1f0c0c;" class="feeling-description modal-element" th:text="#{feeling.upset}"></p>
 				</div>
-				<div class="col-md-2 feeling" onclick="ratingStar(1)">
-					<span class="far fa-angry" style="color : #fc0505;"></span>
-					<p style="color : #fc0505;" class="feeling-description">Cáu zl</p>
+				<div class="col-md-2 feeling modal-element" onclick="ratingStar(1)">
+					<span class="far fa-angry modal-element" style="color : #fc0505;"></span>
+					<p style="color : #fc0505;" class="feeling-description modal-element" th:text="#{feeling.bored}"></p>
 				</div>
-				<div class="col-md-2 feeling" onclick="ratingStar(2)">
-					<span class="far fa-frown" style="color : #5c5050;"></span>
-					<p style="color : #5c5050" class="feeling-description">Thất vọng</p>
+				<div class="col-md-2 feeling modal-element" onclick="ratingStar(2)">
+					<span class="far fa-frown modal-element" style="color : #5c5050;"></span>
+					<p style="color : #5c5050" class="feeling-description modal-element" th:text="#{feeling.disappoint}"></p>
 				</div>
-				<div class="col-md-2 feeling" onclick="ratingStar(3)">
-					<span class="far fa-meh" style="color : #91f23d;"></span>
-					<p style="color : #91f23d;" class="feeling-description">Tạm OK</p>
+				<div class="col-md-2 feeling modal-element" onclick="ratingStar(3)">
+					<span class="far fa-meh modal-element" style="color : #91f23d;"></span>
+					<p style="color : #91f23d;" class="feeling-description modal-element" th:text="#{feeling.normal}"></p>
 				</div>
-				<div class="col-md-2 feeling" onclick="ratingStar(4)">
-					<span class="far fa-grin-alt" style="color : #3b7ded;"></span>
-					<p style="color : #3b7ded" class="feeling-description">Hài lòng</p>
+				<div class="col-md-2 feeling modal-element" onclick="ratingStar(4)">
+					<span class="far fa-grin-alt modal-element" style="color : #3b7ded;"></span>
+					<p style="color : #3b7ded" class="feeling-description modal-element" th:text="#{feeling.satisfied}"></p>
 				</div>
-				<div class="col-md-2 feeling" onclick="ratingStar(5)">
-					<span class="far fa-grin-beam" style="color : #00d157;"></span>
-					<p style="color : #00d157" class="feeling-description">Rất hài lòng lun! </p>
+				<div class="col-md-2 feeling modal-element" onclick="ratingStar(5)">
+					<span class="far fa-grin-beam modal-element" style="color : #00d157;"></span>
+					<p style="color : #00d157" class="feeling-description modal-element" th:text="#{feeling.overjoyed}"> </p>
 				</div>
 			</div>
-			<div class="my-modal-chaining">
-				<button class="btn btn-success" disabled="disabled" id="next-button" onclick="startFormFeedback()">
-				  <i class="fas fa-arrow-right">Next</i> 
+			<div class="my-modal-chaining modal-element">
+				<button class="btn btn-success modal-element" disabled="disabled" id="next-button" onclick="startFormFeedback()">
+				  <i class="fas fa-arrow-right modal-element">Next</i> 
 				</button>
 			</div>
-			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-feedback-step1','none')"></span>
+			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-feedback-step1','none')"></span>
 		</div>
 	</div>
 	<div id="my-modal-feedback-step-2">
-		<div class="my-modal-content" >
-			<label for="image-feedback-input" class="modal-label">Show your image feedback :</label>
-			<input type="file" id="image-feedback-input" class="form-control modal-input" style="font-size : 13px;padding : 5px;" onchange="imagePreviewHandler(this)"/>
-			<img class="modal-image-feedback"/>
-			<label for="comment" class="modal-label">Give your comment here : </label>
-			<textarea rows="10" cols="50" id="comment" class="form-control modal-input" placeholder="Commenting...." style="font-size : 15px;padding : 5px;"></textarea>
-			<button class="btn btn-primary save-feedback" 
+		<div class="my-modal-content modal-element" >
+			<label for="image-feedback-input" class="modal-label modal-element">Show your image feedback :</label>
+			<input type="file" id="image-feedback-input" class="form-control modal-input modal-element" style="font-size : 13px;padding : 5px;" onchange="imagePreviewHandler(this)"/>
+			<img class="modal-image-feedback modal-element"/>
+			<label for="comment" class="modal-label modal-element">Give your comment here : </label>
+			<textarea rows="10" cols="50" id="comment" class="form-control modal-input modal-element" placeholder="Commenting...." style="font-size : 15px;padding : 5px;"></textarea>
+			<button class="btn btn-primary save-feedback modal-element" 
 				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()">
 			    Save your feedback
 			</button>
-			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-feedback-step-2','none')"></span>
+			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-feedback-step-2','none')"></span>
 		</div>
 	</div>
 	<div id="my-modal-contact-menu">
-		<div class="my-modal-content">
-			<h1 class="modal-header">Lựa chọn của bạn?</h1>
-			<ul class="list-group">
-				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startLoginForm()">Login</a></li>
-				<li class="list-group-item"><a href="#" class="modal-contact-link" onclick="startContactModal(event)">Hãy để lại email lần gần nhất bạn đặt dịch vụ nhé!</a> </li>
+		<div class="my-modal-content modal-element">
+			<h1 class="modal-header modal-element">Lựa chọn của bạn?</h1>
+			<ul class="list-group modal-element">
+				<li class="list-group-item modal-element"><a href="#" class="modal-contact-link modal-element" onclick="startLoginForm()">Login</a></li>
+				<li class="list-group-item modal-element"><a href="#" class="modal-contact-link modal-element" onclick="startContactModal(event)">Hãy để lại email lần gần nhất bạn đặt dịch vụ nhé!</a> </li>
 			</ul>
-			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-contact-menu','none')"></span>
+			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-contact-menu','none')"></span>
 		</div>
 	</div>
 
 	<div id="my-modal-waiting">
-		<div class="my-modal-content">
-			<i class="fas fa-circle-notch fa-spin" style="font-size : 50px;color : green;"></i>
+		<div class="my-modal-content modal-element">
+			<i class="fas fa-circle-notch fa-spin modal-element" style="font-size : 50px;color : green;"></i>
 		</div>
 	</div>
 	
 	<div id="my-modal-contact">
-		<div class="my-modal-content">
-			<h1 class="modal-header">Contact</h1>
-			<div class="form-group email">
-				<label for="user-email" class="modal-label">Email</label>
-				<input type="text" class="form-control modal-input" placeholder="Put your email..." id="user-email" onkeyup="verifyUserEmail(this.value)"/>
-				<span id="email-verification-message"></span>
+		<div class="my-modal-content modal-element">
+			<h1 class="modal-header modal-element">Contact</h1>
+			<div class="form-group email modal-element">
+				<label for="user-email" class="modal-label modal-element">Email</label>
+				<input type="text" class="form-control modal-input modal-element" placeholder="Put your email..." id="user-email" onkeyup="verifyUserEmail(this.value)"/>
+				<span id="email-verification-message" class="modal-element"></span>
 			</div>	
-			<h5 id="contact-message"></h5>
-			<button class="btn btn-danger" id="verify-contact-button" onclick="identifyUserContact()" disabled="disabled">Verify your contact <span id="verify-contact-icon" class="fas fa-exclamation"></span></button>
-			<span class="fa fa-close close-modal" onclick="triggerModal('my-modal-contact','none')"></span>
+			<h5 id="contact-message" class="modal-element"></h5>
+			<button class="btn btn-danger modal-element" id="verify-contact-button" onclick="identifyUserContact()" disabled="disabled">Verify your contact <span id="verify-contact-icon" class="fas fa-exclamation"></span></button>
+			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-contact','none')"></span>
 		</div>
 	</div>
 	
 	<div id="my-modal-identification">
-		<div class="my-modal-content">
-			<h1 class="modal-header" id="modal-header-counter"></h1>
-			<label for="answer" id="label-answer">Your answer : </label>
-			<input type="text" class="form-control modal-input" placeholder="Put your answer..." id="answer"/>
-			<button class="btn btn-primary" onclick="indentifyCaptchaCode()" id="verify-email" disabled="disabled">Verify</button>
+		<div class="my-modal-content modal-element">
+			<h1 class="modal-header modal-element" id="modal-header-counter"></h1>
+			<label for="answer" id="label-answer" class="modal-element">Your answer : </label>
+			<input type="text" class="form-control modal-input modal-element" placeholder="Put your answer..." id="answer"/>
+			<button class="btn btn-primary modal-element" onclick="indentifyCaptchaCode()" id="verify-email" disabled="disabled">Verify</button>
 		</div>
 	</div>
 	
@@ -137,7 +137,7 @@
 	<div id="top-bar" th:insert="index :: top-bar"></div>
 	<header th:replace="header.html :: header"></header>
 	<section id="main-menu" 
-	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder='Search By Title ...',current='services',search=${search})">
+	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder=#{search.by.title},current='services',search=${search})">
 	</section>
 	
 	<!-- start hidden fields -->
@@ -176,7 +176,7 @@
 						th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 					<span
 						th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
-					<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>
+					<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : #{rated.star.novote}"></h5>
 				</div>
 				<h4 th:text="#{category}+' : '+${service.serviceCategory.serviceCategoryName}" style="margin-top : 8px;margin-bottom : 8px;"></h4>
 					<div>
@@ -192,15 +192,19 @@
 							<th:block
 								th:with="services = ${userReservationServices.?[service.serviceId == __${service.serviceId}__]}"
 							>
-								<button class="btn btn-success" th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
-								th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'))" 
+								<button class="btn btn-success modal-element" 
+								th:data-serviceTitle="${service.title}" th:data-serviceId="${service.serviceId}"
+								th:data-feelingQuestionPrefix="#{feeling.question}"
+								th:onclick="startFeedback(this.getAttribute('data-serviceTitle'),this.getAttribute('data-serviceId'),this.getAttribute('data-feelingQuestionPrefix'));this.blur()" 
 								id="give-feedback-button"
 								th:if="${services.size() > 0}"
-								style="width : 95%;border-radius : 8px;"
-								><i class="fas fa-comments"></i><span th:text="#{button.allowed.message}"></span></button>
+								style="width : 95%;border-radius : 8px;margin-top : 20px;"
+								>
+								<i class="fas fa-comments modal-element"></i><span th:text="#{button.allowed.message}" id="give-feedback-text"></span>
+								</button>
 								<p 
 									th:if="${services.size() == 0}"
-									id="give-feedback-button"
+									id="give-feedback-text"
 									style="width : 94%;
 										   color : white;
 										   border-radius : 8px;
@@ -211,16 +215,16 @@
 								>
 								<i class="fa fa-ban" style="color : red;font-size : 20px;"></i>
 									<span th:text="#{button.notallowed.message}"></span>
-								<p>
+								</p>
 							</th:block>
 						</th:block>
 						<th:block th:if="${session.user == null}">
-							<button class="btn btn-primary"
+							<button class="btn btn-primary modal-element"
 							id="give-feedback-button"
-							onclick="triggerModal('my-modal-contact-menu','block')"
-							style="width : 95%;border-radius : 8px;">
-							<i class="fa fa-envelope"></i>
-							 <span th:text="#{button.give.contact.message}"></span>
+							onclick="triggerModal('my-modal-contact-menu','block');this.blur()"
+							style="width : 95%;border-radius : 8px;margin-top : 20px;">
+							<i class="fa fa-envelope modal-element"></i>
+							 <span th:text="#{button.give.contact.message}" id="give-feedback-text" class="modal-element"></span>
 							</button>
 						</th:block>
 					</span>
@@ -298,12 +302,12 @@
 		getModalById.style.display = displayStyle;
 	}
 	
-	function startFeedback(title,serviceId){
+	function startFeedback(title,serviceId,feelingQuestionPrefix){
 			lastChosenServiceId = serviceId; // STEP 1 : GET USER CHOSEN SERVICE 
 			
 			// STEP 1 : DISPLAY FIRST MODAL TO GET USER FEELING ABOUT SERVICE
-			var feedBackQuestionElement = document.querySelector("#feedback-question");
-			feedBackQuestionElement.innerHTML = "Bạn cảm thấy như thế nào về dịch vụ "+ title  +"? ";
+			var feelingQuestionElement = document.querySelector("#feedback-question");
+			feelingQuestionElement.innerHTML = feelingQuestionPrefix + " : "+ title  +"? ";
 			triggerModal("my-modal-feedback-step1","block");
 	}
 	
@@ -369,7 +373,8 @@
 	}
 
 	function viewServiceDetails(event, service_id) {
-		if (event.target.tagName !== "SPAN" && event.target.id !== 'give-feedback-button'
+		if (event.target.tagName !== "SPAN" && event.target.id !== 'give-feedback-button' &&
+			event.target.tagName !== "I"	
 			||event.target.className === "service-tooltip"	) { // EXPLANATION : DIV ONCLICK EVENT WILL ALSO BE TRIGGERD WHEN CLICK SPAN INSIDE IT
 			window.location = "/ChildrenCare/service/services/" + service_id;
 		}
@@ -508,18 +513,12 @@
 	
 	window.onclick = (event) => {
 		if(!lastChosenModal) return;
-		var modalElements = ["my-modal-content","give-feedback-button","next-button","col-md-2 feeling","col-md-2 feeling chosen","feeling-description",
-			"far fa-dizzy" , "far fa-angry" , "far fa-frown" , "far fa-meh" , "far fa-grin-alt" , "far fa-grin-beam" , "fas fa-arrow-right" ,
-			"modal-image-feedback" , "modal-label" , "form-control modal-input" , "save-feedback" 
-			,"list-group","list-group-item","modal-contact-link" , "fa fa-close close-modal" , 
-			"modal-header" , "answer" , "verify-email" , "label-answer" , 
-			"verify-contact-icon" , "verify-contact-button" , "user-email"]; 
-		for(let i = 0 ; i < modalElements.length ; i++){
-			const modalElement = modalElements[i];
-			if(event.target.className === modalElement || event.target.id === modalElement){
-				return;
-			}
-		}		
+		var classNameSplit = event.target.className.split(" ");
+		var arr = classNameSplit.filter(function(className) {
+			return className === "modal-element";
+		})
+		if(arr.length !== 0) return;
+		
 		var nextButton = document.getElementById("next-button"); 
 		nextButton.disabled = true; // whenever user close feeling modal , disable next button
 			
@@ -537,9 +536,10 @@
 	
 	function changePage(pageNumber) {
 		var search = document.querySelector("#search").value;
+		var langCode = document.getElementById("languages-switcher").value;
 		var categoryId = parseInt(document.querySelector("#categoryId").value);
 		window.location = "/ChildrenCare/service/services?page=" + pageNumber
-				+ "&search=" + search + "&category=" + categoryId;
+				+ "&search=" + search + "&category=" + categoryId + "&lang=" + langCode;
 	}
 
 </script>

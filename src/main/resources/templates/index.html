@@ -82,6 +82,17 @@
                  alert("Invalid Email");
              }
          }
+		
+		 function changeLanguage(langCode){
+				var queryString = window.location.search;
+				var params = new URLSearchParams(queryString);
+				if(!params.has("lang")){
+					params.append("lang",langCode);
+				}else{
+					params.set("lang",langCode);
+				}
+				window.location.href = window.location.pathname +"?"+ params;
+			}
 
         //end
 	</script>
@@ -99,7 +110,7 @@
 <section class="top-bar-area" th:fragment="top-bar">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 col-lg-3">
+            <div class="col-xl-5 col-lg-3">
                 <div class="top-left">
                     <!--<ul>
                         <li><a href="#">Locations</a></li>
@@ -126,7 +137,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-12">
+            <div class="col-xl-6 col-lg-12">
                 <div class="top-right">
                     <ul class="sociallinks-style-one">
                         <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
@@ -160,11 +171,11 @@
                         	<i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
                         	<label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
                         	<select class="form-control" id="languages-switcher" onchange="changeLanguage(this.value)">
-                        		<option value="vi">
-                        			<span th:text="#{lang.vn}"></span>
-                        		</option>
                         		<option value="en" th:selected="${lang == 'en'}">
                         			<span th:text="#{lang.en}"></span>
+                        		</option>
+                        		<option value="vi" th:selected="${lang == 'vi'}">
+                        			<span th:text="#{lang.vn}"></span>
                         		</option>
                         	</select>
                         </li>

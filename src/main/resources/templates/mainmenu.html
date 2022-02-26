@@ -20,18 +20,18 @@
                         </div>
                         <div class="navbar-collapse collapse clearfix">
                             <ul class="navigation clearfix">
-                                <li th:class="${current == 'home' ? 'dropdown current' : 'dropdown'}"><a href="/ChildrenCare">Home</a>
+                                <li th:class="${current == 'home' ? 'dropdown current' : 'dropdown'}"><a th:href="'/ChildrenCare?lang=' + ${lang}" th:text="#{home.page}"></a>
                                 </li>
-                                <li th:class="${current == 'about' ? 'dropdown current' : 'dropdown'}"><a href="about.html">About Us</a></li>
-                                <li th:class="${current == 'services' ? 'dropdown current' : 'dropdown'}"><a href="/ChildrenCare/service/services">Services</a>
+                                <li th:class="${current == 'about' ? 'dropdown current' : 'dropdown'}"><a href="about.html" th:text="#{about.us}"></a></li>
+                                <li th:class="${current == 'services' ? 'dropdown current' : 'dropdown'}"><a th:href="'/ChildrenCare/service/services?lang=' + ${lang}" th:text="#{services}"></a>
                                     <ul>
                                         <li th:each="serviceCategory : ${servicecategories}">
                                             <a th:href="'/ChildrenCare/service/services?category='+${serviceCategory.serviceCategoryId}" th:text="${serviceCategory.serviceCategoryName}"></a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li th:class="${current == 'doctors' ? 'dropdown current' : 'dropdown'}"><a href="doctors.html">Doctors</a></li>
-                                <li th:class="${current == 'blog' ? 'dropdown current' : 'dropdown'}"><a th:href="@{/blog}">Blog</a>
+                                <li th:class="${current == 'doctors' ? 'dropdown current' : 'dropdown'}"><a href="#" th:text="#{doctors}"></a></li>
+                                <li th:class="${current == 'blog' ? 'dropdown current' : 'dropdown'}"><a th:href="@{/blog}" th:text="#{blog}"></a>
                                     <ul >
                                         <li class="categories clearfix" th:each="listCategory:${listCategoryPost}">
                                             <a
@@ -41,7 +41,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li th:class="${current == 'more' ? 'dropdown current' : 'dropdown'}"><a href="#">More</a>
+                                <li th:class="${current == 'more' ? 'dropdown current' : 'dropdown'}"><a href="#" th:text="#{more}"></a>
                                     <ul>
                                         <li><a href="faq.html">FAQ’s</a></li>
                                         <li><a href="pricing.html">Pricing Plans</a></li>
@@ -52,7 +52,7 @@
                                         <li><a href="/service/list">Service List</a></li>
                                     </ul>
                                 </li>
-                                <li th:class="${current == 'contact' ? 'dropdown current' : 'dropdown'}"><a th:href="@{/feedback}">Contact</a></li>
+                                <li th:class="${current == 'contact' ? 'dropdown current' : 'dropdown'}"><a th:href="@{/feedback}" th:text="#{feedback}"></a></li>
                             </ul>
                         </div>
                     </nav>
