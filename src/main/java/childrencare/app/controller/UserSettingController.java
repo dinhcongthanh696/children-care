@@ -58,7 +58,6 @@ public class UserSettingController {
         return "changePass";
     }
     @PostMapping("/changePass")
-    @Transactional
     public String changePass(HttpSession session, Model model,
                              @RequestParam(name = "pass")String pass,
                              @RequestParam(name = "newpass")String newpass,

@@ -1,5 +1,7 @@
 package childrencare.app.API;
 
+import childrencare.app.repository.LoginRepository;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +12,7 @@ import childrencare.app.repository.UserRepository;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Base64;
 
@@ -17,9 +20,12 @@ import java.util.Base64;
 @RequestMapping(path = "/api-user")
 public class UserAPI {
 	private final UserRepository userRepository;
+
+	private final LoginRepository loginRepository;
 	
-	public UserAPI(UserRepository userRepository) {
+	public UserAPI(UserRepository userRepository, LoginRepository loginRepository) {
 		this.userRepository = userRepository;
+		this.loginRepository = loginRepository;
 	}
 	
 	@PostMapping(path = "/user")
@@ -59,6 +65,26 @@ public class UserAPI {
 			return "success";
 		}
 		return "fail";
+
+	}
+
+	@PostMapping("/changePass")
+	@Transactional
+	public String changePass(HttpSession session, Model model,
+							 @RequestParam(name = "pass")String pass,
+							 @RequestParam(name = "newpass")String newpass,
+							 @RequestParam(name = "renewpass")String renewpass){
+		UserModel user = (UserModel) session.getAttribute("user");
+		if(!pass.equals(user.getPassword())){
+			return "Mật khẩu hiện tại không đúng!";
+		}else {
+			if(!newpass.equals(renewpass)){
+				return "Mật mới không trùng khớp!";
+			}else {
+				loginRepository.changePass(newpass,user.getUsername());
+				return "Đổi mật khẩu thành công";
+			}
+		}
 
 	}
 }

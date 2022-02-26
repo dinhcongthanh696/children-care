@@ -47,7 +47,21 @@
     <!--    fix login form not appear when first click-->
     <script>
         function changePass() {
-            alert("Change password successful!");
+            var pass = document.getElementById("passcurrent").value;
+            var newpass = document.getElementById("newpass").value;
+            var renewpass = document.getElementById("renewpass").value;
+            var formData = new FormData();
+            formData.append("pass",pass);
+            formData.append("newpass",newpass);
+            formData.append("renewpass",renewpass);
+            fetch("/ChildrenCare/api-user/changePass",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+            })
         }
     </script>
 </head>
@@ -73,27 +87,27 @@
                             <h4 class="modal-title">Change your password</h4>
                         </div>
                         <div class="modal-body">
-                            <form action="/ChildrenCare/setting/changePass" method="post" class="row">
+<!--                            <form action="/ChildrenCare/setting/changePass" method="post" class="row">-->
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input name="pass" class="form-control" type="password" required="">
+                                        <input id="passcurrent" name="pass" class="form-control" type="password" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label >New Password</label>
-                                        <input name="newpass" class="form-control" type="password" required="">
+                                        <input id="newpass" name="newpass" class="form-control" type="password" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Re-New Password</label>
-                                        <input name="renewpass" class="form-control" type="password" required="">
+                                        <input id="renewpass" name="renewpass" class="form-control" type="password" required="">
                                     </div>
                                 </div>
                                 <button onclick="changePass()"  type="submit" class="btn btn-primary  btn-default" >Change</button>
-                            </form>
+<!--                            </form>-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

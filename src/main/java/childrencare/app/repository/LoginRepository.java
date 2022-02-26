@@ -14,9 +14,13 @@ import java.util.List;
 public interface LoginRepository extends JpaRepository<UserModel,String> {
 
     @Query(value = "select * from user_model where\n" +
-            "username = ?1 or email = ?2\n" +
-            "and password = ?3",nativeQuery = true)
-    UserModel checkUserExist(String username,String email, String password);
+            "(username = ?1 or email = ?1)\n" +
+            "and password = ?2",nativeQuery = true)
+    UserModel checkUserExist(String input,String password);
+
+    @Query(value = "select * from user_model where\n" +
+            "email = ?1 or username = ?2",nativeQuery = true)
+    UserModel checkUserRegister(String email,String username);
 
     @Query(value = "select * from user_model where username = ?1",nativeQuery = true)
     UserModel getInfo(String username);
