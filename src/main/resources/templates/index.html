@@ -13,6 +13,8 @@
     
 	<!-- master stylesheet -->
 	<link rel="stylesheet" href="css/style.css">
+
+
 	<!-- Responsive stylesheet -->
 	<link rel="stylesheet" href="css/responsive.css">
     <!--Color Switcher Mockup-->
@@ -82,9 +84,67 @@
                  alert("Invalid Email");
              }
          }
+		
+		 function changeLanguage(langCode){
+				var queryString = window.location.search;
+				var params = new URLSearchParams(queryString);
+				if(!params.has("lang")){
+					params.append("lang",langCode);
+				}else{
+					params.set("lang",langCode);
+				}
+				window.location.href = window.location.pathname +"?"+ params;
+			}
 
         //end
+        //nghia's code
+        function loginCheck(){
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("pass").value;
+            var formData = new FormData();
+            formData.append("email",email);
+            formData.append("password",password);
+            formData.append("currentpage",currentpage);
+            fetch("/ChildrenCare/api-login/signIn",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+            })
+        }
+
+        function register(){
+            var email_register = document.getElementById("email_register").value;
+            var username_register = document.getElementById("username_register").value;
+            var fullname_register = document.getElementById("fullname_register").value;
+            var address_register = document.getElementById("address_register").value;
+            var gender_register = document.getElementById("gender_register").value;
+            var notes_register = document.getElementById("notes_register").value;
+            var password_register = document.getElementById("password_register").value;
+            var phone_register = document.getElementById("phone_register").value;
+            var formData = new FormData();
+            formData.append("email",email_register);
+            formData.append("username",username_register);
+            formData.append("fullname",fullname_register);
+            formData.append("address",address_register);
+            formData.append("gender",gender_register);
+            formData.append("notes",notes_register);
+            formData.append("password",password_register);
+            formData.append("phone",phone_register);
+            fetch("/ChildrenCare/api-login/signUp",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+            })
+        }
 	</script>
+<!--    end-->
+
 </head>
 
 
@@ -99,7 +159,7 @@
 <section class="top-bar-area" th:fragment="top-bar">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 col-lg-3">
+            <div class="col-xl-5 col-lg-3">
                 <div class="top-left">
                     <!--<ul>
                         <li><a href="#">Locations</a></li>
@@ -126,7 +186,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-12">
+            <div class="col-xl-6 col-lg-12">
                 <div class="top-right">
                     <ul class="sociallinks-style-one">
                         <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
@@ -160,11 +220,11 @@
                         	<i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
                         	<label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
                         	<select class="form-control" id="languages-switcher" onchange="changeLanguage(this.value)">
-                        		<option value="vi">
-                        			<span th:text="#{lang.vn}"></span>
-                        		</option>
                         		<option value="en" th:selected="${lang == 'en'}">
                         			<span th:text="#{lang.en}"></span>
+                        		</option>
+                        		<option value="vi" th:selected="${lang == 'vi'}">
+                        			<span th:text="#{lang.vn}"></span>
                         		</option>
                         	</select>
                         </li>

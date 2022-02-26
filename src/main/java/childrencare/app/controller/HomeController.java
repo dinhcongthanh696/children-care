@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import childrencare.app.model.ServiceCategoryModel;
 import childrencare.app.model.ServiceModel;
@@ -45,7 +46,8 @@ public class HomeController {
 	} */
 
 	@GetMapping(path = "/")
-	public String getServices(Model model) {
+	public String getServices(Model model ,
+			@RequestParam(name = "lang",required = false, defaultValue = "en") String lang) {
 		List<FeedbackModel> feedbacks = feedbackService.getAll();
 		List<ServiceModel> services = serviceModelService.getHighestRatedStarServices(size);
 		for(ServiceModel service : services) {
@@ -54,6 +56,7 @@ public class HomeController {
 		model.addAttribute("serviceitems", serviceModelService.getHighestRatedStarServices(size));
 		model.addAttribute("servicecategories", serviceCategoryService.findAll());
 		model.addAttribute("feedbacks", feedbacks);
+		model.addAttribute("lang", lang);
 		return "index";
 	} 
 	
