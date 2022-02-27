@@ -51,7 +51,7 @@ public class ServiceController {
 			@RequestParam(name =  "page",required = false, defaultValue = "0") int page,
 			@RequestParam(name =  "search",required = false, defaultValue = "") String search, 
 			@RequestParam(name = "category",required = false, defaultValue =  "0") int categoryId,
-			@RequestParam(name = "lang",required = false, defaultValue = "") String lang ,
+			@RequestParam(name = "lang",required = false, defaultValue = "en") String lang ,
 			HttpSession session) {
 		Page<ServiceModel> services = null;
 		if(categoryId != 0) {

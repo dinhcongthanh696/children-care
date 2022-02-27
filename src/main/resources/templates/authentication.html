@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<title>Insert title here</title>
+    <title>Insert title here</title>
 <!--nghia's code-->
 <script>
     $(window, document, undefined).ready(function() {
@@ -29,6 +30,7 @@
 		const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
 	    modalBoxWrapper.style.display = displayStyle;
 	}
+
 </script>
 </head>
 <body>
@@ -42,111 +44,102 @@
 
                 <div class="bs-example bs-example-tabs">
                     <ul id="myTab" class="nav nav-tabs">
-                        <li id="tab1" class=" active tab-style login-shadow "><a href="#signin" data-toggle="tab">Log In</a></li>
-                        <li id="tab2" class=" tab-style "><a href="#signup" data-toggle="tab">Sign Up</a></li>
+                        <li id="tab1" class=" active tab-style login-shadow "><a href="#signin" data-toggle="tab">Đăng nhập</a></li>
+                        <li id="tab2" class=" tab-style "><a href="#signup" data-toggle="tab">Đăng kí</a></li>
 
                     </ul>
                 </div>
                 <div class="modal-body">
                     <div id="myTabContent" class="tab-content">
                         <div class="tab-pane fade active in" id="signin">
-                            <form class="form-horizontal"  action="/ChildrenCare/signIn" method="post">
+                            <form id="loginForm" class="form-horizontal"  action="/ChildrenCare/signIn" method="post">
                                 <fieldset>
                                     <!-- Sign In Form -->
                                     <!-- Text input-->
-
                                     <div class="group">
-                                        <h4>Email or username</h4>
-                                        <input name="email" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                        <h4>Email hoặc username</h4>
+                                        <input id="email" name="email" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
                                     </div>
                                     <!-- Password input-->
                                     <div class="group">
-                                        <h4>Password</h4>
-                                        <input name="password" required="" class="input" type="password"><span class="highlight"></span><span class="bar"></span>
+                                        <h4>Mật khẩu</h4>
+                                        <input id="pass" name="password" required="" class="input" type="password"><span class="highlight"></span><span class="bar"></span>
 
                                     </div>
                                     <em>minimum 6 characters</em>
 
                                     <div class="forgot-link">
-                                        <a href="#forgot" data-toggle="modal" data-target="#forgot-password"> I forgot my password</a>
+                                        <a href="#forgot" data-toggle="modal" data-target="#forgot-password"> Quên mật khẩu</a>
                                     </div>
                                     <!--Thai's code-->
                                     <div class="reset-pass">
-                                        <a href="#reset" data-toggle="modal" data-target="#reset-password" >Reset Password</a>
+                                        <a href="#reset" data-toggle="modal" data-target="#reset-password" >Đặt lại mật khẩu</a>
                                     </div>
-
-
                                     <!-- Button -->
                                     <div class="control-group">
                                         <label class="control-label" for="signin"></label>
                                         <div class="controls">
-                                            <button  name="signin" class="btn btn-primary btn-block">Log In</button>
+                                            <button onclick="loginCheck()" name="signin" class="btn btn-primary btn-block">Đăng nhập</button>
                                         </div>
                                     </div>
-                                    
                                     <!-- thanh's code -->
-                                    <input type="hidden" name="currentPage" th:value="${currentPage}"/>
+                                    <input id="currentpage" type="hidden" name="currentPage" th:value="${currentPage}"/>
                                 </fieldset>
                             </form>
                         </div>
 
 
                         <div class="tab-pane fade" id="signup">
-                            <form class="form-horizontal"  action="/ChildrenCare/signUp" method="post">
+<!--                            <form class="form-horizontal"  action="/ChildrenCare/signUp" method="post">-->
+                            <div class="group">
+                                <h4>Email</h4>
+                                <input id="email_register"  name="email" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                            </div>
                                 <div class="group">
                                     <h4>User name</h4>
-                                    <input name="username" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
-                                </div>
-                                <!-- Sign Up Form -->
-                                <!-- Text input-->
-                                <div class="group">
-                                    <h4>Fullname</h4>
-                                    <input name="fullname" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
-                                </div>
-                                <!-- Text input-->
-                                <div class="group">
-                                    <h4>Address</h4>
-                                    <input name="address" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
-                                </div>
-                                <!-- Password input-->
-                                <div class="group">
-                                    <h4>Email</h4>
-                                    <input name="email" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <input id="username_register" name="username" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
                                 </div>
                                 <div class="group">
-                                    <h4>Gender</h4>
-                                    <select class="input" name="gender"><span class="highlight"></span><span class="bar"></span>
+                                    <h4>Họ và tên</h4>
+                                    <input id="fullname_register"  name="fullname" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                </div>
+                                <div class="group">
+                                    <h4>Địa chỉ</h4>
+                                    <input id="address_register"  name="address" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                </div>
+
+                                <div class="group">
+                                    <h4>Giới tính</h4>
+                                    <select id="gender_register"  class="input" name="gender"><span class="highlight"></span><span class="bar"></span>
                                         <option value="1">Nam</option>
                                         <option value="0">Nữ</option>
                                     </select>
-
                                 </div>
                                 <div class="group">
-                                    <h4>Notes</h4>
-                                    <input name="notes" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <h4>Ghi chú</h4>
+                                    <input id="notes_register"  name="notes" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
                                 </div>
-                                <!-- Text input-->
                                 <div class="group">
-                                    <h4>Password</h4>
-                                    <input name="password" required="" class="input" type="password"><span class="highlight"></span><span class="bar"></span>
+                                    <h4>Mật khẩu</h4>
+                                    <input id="password_register"  name="password" required="" class="input" type="password"><span class="highlight"></span><span class="bar"></span>
                                 </div>
                                 <em>1-8 Characters</em>
                                 <div class="group2">
-                                    <h4>Phone</h4>
-                                    <input name="phone" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+                                    <h4>Số điện thoại</h4>
+                                    <input id="phone_register"  name="phone" required="" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
                                 </div>
                                 <div class="group2">
-                                    <a href="" >Verify Account</a>
+                                    <a href="" >Xác nhận tài khoản</a>
                                 </div>
 
                                 <!-- Button -->
                                 <div class="control-group">
                                     <label class="control-label" for="confirmsignup"></label>
                                     <div class="controls">
-                                        <button id="confirmsignup" name="confirmsignup" class="btn btn-primary btn-block">Sign Up</button>
+                                        <button onclick="register()" id="confirmsignup" name="confirmsignup" class="btn btn-primary btn-block">Sign Up</button>
                                     </div>
                                 </div>
-                            </form>
+<!--                            </form>-->
                         </div>
                     </div>
                 </div>
