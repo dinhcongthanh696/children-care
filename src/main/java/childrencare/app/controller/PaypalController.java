@@ -42,11 +42,6 @@ public class PaypalController {
     @Autowired
     private PaypalService paypalService;
 
-    @GetMapping("/main")
-    public String index(){
-        return "index";
-    }
-
 
     @PostMapping("/pay")
     public String pay(HttpServletRequest request,@RequestParam("price") double price ){

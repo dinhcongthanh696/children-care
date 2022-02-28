@@ -2,7 +2,6 @@ package childrencare.app.controller;
 
 import childrencare.app.model.*;
 import childrencare.app.service.*;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -13,19 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 @Controller
 @RequestMapping("")
-public class ReservationCompleteController {
+public class ScheduleController {
 
     @Autowired
     ReservationService reservationService;
@@ -68,6 +66,8 @@ public class ReservationCompleteController {
 
         model.addAttribute("reservationId", reservationId);
 
+       double price = reservationService.getReservatonInforByID(reservationId).getTotalReservationPrice();
+        model.addAttribute("totalPrice", price);
         return "apppointment";
     }
 

@@ -4,11 +4,9 @@ import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.*;
 import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -29,7 +26,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -173,11 +169,11 @@ public class ReservationController {
         //clear cart from session after click submit button (reservation contact)
         List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
         listSubmit.clear();
-        return "redirect:/getDoctor?reservationId=" + rid;
+        return "redirect:/getDoctor?reservationId=" + rid ;
         // end thanh's code
     }
 
-    @GetMapping("/infor")
+    @RequestMapping("/infor")
     public String reservationInfor(Model model,
                                    @RequestParam(name = "rid") Optional<Integer> reserID) {
         if (reserID.isPresent()) {
@@ -186,6 +182,8 @@ public class ReservationController {
             List<ServiceModel> serviceModelList = serviceModelService.getServicesByReservationId(reserID.get());
             List<ReservationServiceModel> reservationServices = reservationService_service.getAllBookedSchedule(reserID.get());
             UserModel userModel = userService.findUserModelByUserReservationId(reserID.get());
+
+
 
 
             model.addAttribute("reservationByReserId", reservationModel);
@@ -198,18 +196,8 @@ public class ReservationController {
         } else {
             return "redirect:/";
         }
-    }
 
-    @DateTimeFormat(pattern = "MM-dd-yyyy")
-    @Transactional
-    @GetMapping("/infor/dele")
-    public String deleteServiceBySidAndRid(
-            @RequestParam("rid") int rid
-            , @RequestParam("sid") int sid
-            , @RequestParam("slotid") int slotid
-            , @RequestParam("date") String date) {
-        reservationService_service.deleteByRidAndSidAndSlotid(rid, sid, slotid, date);
-        return "redirect:/reservation/infor?rid=" + rid;
+
     }
 
 
