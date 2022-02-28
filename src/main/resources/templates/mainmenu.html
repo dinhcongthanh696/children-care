@@ -26,7 +26,10 @@
                                 <li th:class="${current == 'services' ? 'dropdown current' : 'dropdown'}"><a th:href="'/ChildrenCare/service/services?lang=' + ${lang}" th:text="#{services}"></a>
                                     <ul>
                                         <li th:each="serviceCategory : ${servicecategories}">
-                                            <a th:href="'/ChildrenCare/service/services?category='+${serviceCategory.serviceCategoryId}" th:text="${serviceCategory.serviceCategoryName}"></a>
+                                            <a th:href="'/ChildrenCare/service/services?category='+${serviceCategory.serviceCategoryId}" 
+                                            th:text="${serviceCategory.serviceCategoryName}"
+                                            th:style="${categoryId == serviceCategory.serviceCategoryId} ? 'color : green;' : ''">
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>

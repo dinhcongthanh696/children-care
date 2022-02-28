@@ -148,7 +148,7 @@
 	
 	<div id="body" class="container-fluid">
 		<div class="row">
-			<div class='col-sm-3 service-item pl-0 pr-0' th:each="service : ${services}"
+			<div class='col-lg-3 service-item pl-0 pr-0' th:each="service : ${services}"
 				th:onclick="'viewServiceDetails(event,'+${service.serviceId}+')'"
 				th:onmouseover="'triggerToolTips('+ ${service.serviceId} +',\'inline\')'"
 				th:onmouseout="'triggerToolTips('+ ${service.serviceId} +',\'none\')'"
@@ -496,6 +496,24 @@
 		var nextButton = document.getElementById("next-button");
 		nextButton.disabled = false;
 	}
+	
+	//nghia's code
+    function loginCheck(){
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("pass").value;
+        var formData = new FormData();
+        formData.append("email",email);
+        formData.append("password",password);
+        formData.append("currentpage",currentpage);
+        fetch("/ChildrenCare/api-login/signIn",{
+            method : "post",
+            body : formData
+        }).then(respond => {
+            return respond.text();
+        }).then(message => {
+            alert(message);
+        })
+    }
 
 	function addReservationService(event,service_id) {
 		var url = "/ChildrenCare/api-reservation/add/"+service_id;

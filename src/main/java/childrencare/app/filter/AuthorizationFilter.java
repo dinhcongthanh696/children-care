@@ -46,13 +46,12 @@ public class AuthorizationFilter implements Filter{
 				}else {
 					break;
 				}
-			}
+			} 
 				if(splitCount == splitHigherLength && httpRequest.getMethod().equalsIgnoreCase(permission.getScreen().getMethod())) {
 					chain.doFilter(httpRequest, httpResponse);
-					return;
+				return;
 				}
 		}
-		httpResponse.sendError(403);
+		httpResponse.sendError(403); 
 	}
-
 }
