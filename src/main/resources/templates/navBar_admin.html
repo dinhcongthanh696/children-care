@@ -14,8 +14,7 @@
                 <img src="../img_admin/26115.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-                <p>Hello, Nghia</p>
-
+                <p>Hello, Nghia <span th:text="'  ['+${session.user.userRole.roleName} + ']'"></span></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>

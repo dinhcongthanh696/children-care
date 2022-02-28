@@ -41,10 +41,13 @@ public class PaypalController {
 
     @Autowired
     private PaypalService paypalService;
+
     @GetMapping("/main")
     public String index(){
         return "index";
     }
+
+
     @PostMapping("/pay")
     public String pay(HttpServletRequest request,@RequestParam("price") double price ){
         String cancelUrl = this.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
@@ -70,8 +73,9 @@ public class PaypalController {
     }
     @GetMapping(URL_PAYPAL_CANCEL)
     public String cancelPay(){
-        return "cancel";
+        return "redirect:/bookingSchedule";
     }
+
     @GetMapping(URL_PAYPAL_SUCCESS)
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
         try {

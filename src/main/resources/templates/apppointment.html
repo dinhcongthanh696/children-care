@@ -23,7 +23,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         #scheduleInfo {
             font-family: Arial, Helvetica, sans-serif;
@@ -368,7 +367,6 @@
                                             <div class="available-time">
                                                 <ul id="available-slot">
                                                     <!-- Insert available time here-->
-
                                                 </ul>
                                             </div>
                                         </div>
@@ -421,47 +419,26 @@
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-9">
                     <div class="appointment-right">
-                        <form name="appointment-right" action="#" method="post">
                             <div class="confirm-booking">
                                 <h3>Your Payment</h3>
                                 <div class="tab-content">
                                     <!-- credit card info-->
-                                    <div id="credit-card" class="tab-pane fade show active pt-3">
-                                        <form role="form" onsubmit="event.preventDefault()">
-                                            <div class="form-group"> <label>
-                                                <h6>Card Owner</h6>
-                                            </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control "> </div>
-                                            <div class="form-group"> <label>
-                                                <h6>Card number</h6>
-                                            </label>
-                                                <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
-                                                    <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <div class="form-group"> <label><span class="hidden-xs">
-                                                                <h6>Expiration Date</h6>
-                                                            </span></label>
-                                                        <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
-                                                        <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
-                                                    </label> <input type="text" required class="form-control"> </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer"> <button type="button" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
-                                        </form>
-                                    </div>
+                                    <input type="hidden" value="" >
                                 </div>
                             </div>
+                            <form method="post" th:action="@{/pay?price=100}">
                             <div class="button-box">
-                                <button class="btn-one" type="submit">Confirm</button>
-                                <button class="btn-one" type="submit">Cancel</button>
+                                <button class="btn-one" type="submit" id="paypal-btn"
+                                > <b> Check out with Pay<span style="color: #00bfff">Pal</span> </b> </button>
                             </div>
-                        </form>
+                            <div class="button-box">
+                                <button class="btn-one" type="submit" id="bankAccount-btn"
+                                > <b> Check out with Bank Account</b> </button>
+                            </div>
+                            <div class="button-box">
+                                <button class="btn-one" type="submit" id="cashCheck-btn"
+                                > <b> Check out with Cash</b> </button>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -801,8 +778,9 @@
         let reservation_id = $("#reservationId").val();
         let mess = document.getElementById("message");
         mess.style.display = 'block';
+        test();
         fetch("/ChildrenCare/updateReservationInfo?reservationId=" + reservation_id,{
-            method : 'POST'
+            method : 'PUT'
         })
             .then(response => {
                 switch(response.status){
@@ -815,7 +793,11 @@
                         location.reload();
                 }
             })
-    })
+    });
+    function test(){
+        var list = document.getElementsByClassName('slot_Booked');
+        console.log(list.length);
+    }
 </script>
 
 
