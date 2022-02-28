@@ -178,13 +178,9 @@ public class ReservationController {
                                    @RequestParam(name = "rid") Optional<Integer> reserID) {
         if (reserID.isPresent()) {
             ReservationModel reservationModel = reservationService.getReservatonInforByID(reserID.get());
-            //Slot slot = slotService.getSlotByReservationID(reserID.get());
             List<ServiceModel> serviceModelList = serviceModelService.getServicesByReservationId(reserID.get());
             List<ReservationServiceModel> reservationServices = reservationService_service.getAllBookedSchedule(reserID.get());
             UserModel userModel = userService.findUserModelByUserReservationId(reserID.get());
-
-
-
 
             model.addAttribute("reservationByReserId", reservationModel);
             model.addAttribute("reservation_ServiceByReserId", reservationServices);

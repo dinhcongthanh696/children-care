@@ -14,5 +14,5 @@ public interface StaffRepository extends JpaRepository<StaffModel, Integer> {
             "where staff_id not in \n" +
             "(Select staff_id from reservation_service\n" +
             "where booked_date = ?1 and slot_id = ?2)", nativeQuery = true)
-    StaffModel getStaffBySlotAndDate(Date date, int staff_id);
+    int getStaffBySlotAndDate(Date date, int staff_id);
 }
