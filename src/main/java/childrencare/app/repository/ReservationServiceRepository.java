@@ -7,10 +7,11 @@ import childrencare.app.model.SliderModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -60,6 +61,12 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "join rs.reservation r join r.customer c " +
             "join c.customer_user u where r.status = ?1")
     Page<ReservationServiceModel> filterReservationByStatus(boolean status, Pageable pageable);
+
+
+
+    @Modifying
+    @Query(value = "DELETE FROM reservation_service WHERE reservation_id = ?1 and service_id = ?2 and slot_id = ?3 and booked_date = ?4",nativeQuery =true)
+     void deleteInListServiceByReservationAndServiceAndSlotid(int rid, int sid, int slotid, String date);
 
 
 

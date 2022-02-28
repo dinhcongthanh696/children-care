@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -55,5 +55,8 @@ public class ReservationService_Service {
             return reservationServiceRepository.findAll(pageable);
         }
         return reservationServiceRepository.findAllReserInfo(keyword,pageable);
+    }
+    public void deleteByRidAndSidAndSlotid(int rid, int sid, int slotid, String date){
+        reservationServiceRepository.deleteInListServiceByReservationAndServiceAndSlotid(rid,sid,slotid,date);
     }
 }

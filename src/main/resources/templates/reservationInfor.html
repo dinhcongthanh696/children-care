@@ -308,14 +308,21 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class=" pl-0 flex-sm-col col-auto my-auto">
+                                                                <!--<div class=" pl-0 flex-sm-col col-auto my-auto">
                                                                     <p class="boxed-1"
                                                                        th:text="${listServiceByReserId.getService().getQuantity()}"></p>
-                                                                </div>
+                                                                </div>-->
                                                                 <div class=" pl-0 flex-sm-col col-auto my-auto ">
                                                                     <p>
                                                                         <b th:text="${listServiceByReserId.getService().getOriginalPrice()}"></b><b>$</b>
                                                                     </p>
+                                                                </div>
+                                                                <div class=" pl-0 flex-sm-col col-auto my-auto ">
+                                                                    <a th:href="@{/reservation/infor/dele
+                                                                    (rid=${reservationByReserId.getReservationId()}
+                                                                    ,sid=${listServiceByReserId.getService().getServiceId()}
+                                                                    ,slotid=${listServiceByReserId.getSlot().getId()}
+                                                                    ,date=${listServiceByReserId.id.getBookedDate()})}">Delete</a>
                                                                 </div>
                                                             </div>
                                                             <hr class="my-2">

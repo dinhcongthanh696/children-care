@@ -34,7 +34,7 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
     public Page<PostModel> findAllBy(String title, int postCategoryId, String email, int status, String typeOrder, PageRequest pageRequest);
 
     @Query(value = "select * from post \n " +
-            "where post.post_category_id = ?1 ",nativeQuery = true)
+            "(where post.post_category_id = ?1) ",nativeQuery = true)
     public Page<PostModel> findAllByPostCategory(int cateID,PageRequest pageRequest);
 
     @Query(value = "select * from post where post.status = ?1 ",nativeQuery = true)
