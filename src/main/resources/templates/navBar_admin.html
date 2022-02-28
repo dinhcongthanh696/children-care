@@ -14,8 +14,7 @@
                 <img src="../img_admin/26115.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-                <p>Hello, Nghia</p>
-
+                <p>Hello, Nghia <span th:text="'  ['+${session.user.userRole.roleName} + ']'"></span></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -31,6 +30,13 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
+        	<li th:each="permission : ${session.user.userRole.permissions.?[screen.method == 'GET']}" 
+        		th:if="not ${#strings.containsIgnoreCase(permission.screen.url,'api')}">
+        		<a th:href="@{${permission.screen.url}}">
+        			<span th:text="${permission.screen.screenName}"></span>
+        		</a>
+        	</li>
+        
             <li class="active">
                 <a href="/ChildrenCare/adminPage/indexAdmin">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>

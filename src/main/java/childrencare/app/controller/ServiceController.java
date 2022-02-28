@@ -47,7 +47,7 @@ public class ServiceController {
 	}
 	
 	@RequestMapping(value = "/services", method = { RequestMethod.GET, RequestMethod.POST })
-	public String searchServiceListByTitle(Model model,
+	public String getServices(Model model,
 			@RequestParam(name =  "page",required = false, defaultValue = "0") int page,
 			@RequestParam(name =  "search",required = false, defaultValue = "") String search, 
 			@RequestParam(name = "category",required = false, defaultValue =  "0") int categoryId,
@@ -79,7 +79,6 @@ public class ServiceController {
 		model.addAttribute("search", search);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("servicecategories", categories);
-		model.addAttribute("categoryId",categoryId);
 		model.addAttribute("userReservationServices", reservationServices);
 		model.addAttribute("lang",lang);
 		return "service-list";
