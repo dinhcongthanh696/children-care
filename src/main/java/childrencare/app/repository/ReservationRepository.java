@@ -5,6 +5,9 @@ import childrencare.app.model.ReservationModel;
 import java.util.Date;
 import java.util.List;
 
+import childrencare.app.model.ReservationServiceModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -39,7 +42,7 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     		+ "on reservation.reservation_id = reservation_service.reservation_id\r\n"
     		+ "inner join customer on reservation.customer_id = customer.customer_id\n"
     		+ "where customer_email = ?1 and service_id = ?2 " , nativeQuery = true)
-    public ReservationModel getReservationByEmailAndServiceId(String email , Integer serviceId);
+     ReservationModel getReservationByEmailAndServiceId(String email , Integer serviceId);
 
     
     @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1",nativeQuery = true)
@@ -57,13 +60,10 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "inner join [service] serv on serv.service_id= rc.service_id\n" +
             "where r.reservation_id = ?1 \n" +
             "group by r.reservation_id,r.date,r.status,r.notes, r.total_reservation_price,r.customer_id",nativeQuery = true)
-    public ReservationModel getReservationModelByReservationId(int reserID);
+     ReservationModel getReservationModelByReservationId(int reserID);
 
     @Query(value = "select * from reservation",nativeQuery = true)
-    public ReservationModel getReservationByReservationId(int reserID);
-
-
-
+     ReservationModel getReservationByReservationId(int reserID);
 
     @Query(value = " select * from \n" +
             " reservation r inner join customer c \n" +
@@ -71,6 +71,33 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "  inner join user_model u on u.email =c.customer_email\n" +
             "  where r.reservation_id = ?1",nativeQuery = true)
      ReservationModel getreservationDetail(int reserID);
+
+    @Query(value = "select r from ReservationModel r " +
+            "join r.customer c join c.customer_user u")
+    Page<ReservationModel> findAll(Pageable pageable);
+
+    @Query(value = "select r from ReservationModel r join r.customer c " +
+            "join c.customer_user u where c.customer_user.fullname like %?1% OR r.reservationId = ?1")
+    Page<ReservationModel> findReservationStaff(String keyword, Pageable pageable);
+
+    @Query(value = "select r from ReservationModel r\n" +
+            "join r.customer c " +
+            "join c.customer_user u where r.status = ?1")
+    Page<ReservationModel> filterReservationByStatus1(boolean status, Pageable pageable);
+
+    @Modifying
+    @Query(value = "UPDATE [reservation]\n" +
+            "   SET[status] =  ?1    \n" +
+            " WHERE reservation_id =?2",nativeQuery = true)
+    void changeStatusReservation(boolean status, int rid);
+
+
+    @Query(value = " select count(*) from reservation_service\n" +
+            " where reservation_id = ?1 and service_id = ?2",nativeQuery = true)
+    int countTotal(int rid, int sid);
+
+
+
 
 
 

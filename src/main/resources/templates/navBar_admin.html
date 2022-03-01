@@ -14,7 +14,7 @@
                 <img src="../img_admin/26115.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-                <p>Hello, Nghia</p>
+                <p>Hello, <span th:text="${session.username}"></span> <span th:text="'  ['+${session.user.userRole.roleName} + ']'"></span></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -37,6 +37,29 @@
         			<span th:text="${permission.screen.screenName}"></span>
         		</a>
         	</li>
+<!--            de tam thanh nhe-->
+            <li>
+                <a href="/ChildrenCare/manager/sliderManager/page/1">
+                    <i class="fa fa-database" aria-hidden="true"></i> <span>Slider Manager</span>
+                </a>
+            </li>
+            <li>
+                <a href="/ChildrenCare/manager/home/page/1">
+                    <i class="fa fa-database" aria-hidden="true"></i> <span>Reservation List Manager</span>
+                </a>
+            </li>
+            <li>
+                <a href="/ChildrenCare/staff/home">
+                    <i class="fa fa-database" aria-hidden="true"></i> <span>Reservation List Staff</span>
+                </a>
+            </li>
+            <li>
+                <a href="/ChildrenCare/manager/post">
+                    <i class="fa fa-glass"></i> <span>Post Manager</span>
+                </a>
+            </li>
+
+<!--de tam thanh nhe-->
         </ul>
     </section>
     <!-- /.sidebar -->

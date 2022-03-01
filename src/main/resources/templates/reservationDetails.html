@@ -65,6 +65,7 @@
         var productRow = $(quantityInput).parent().parent();
         var price = parseFloat(productRow.children('.product-price').text());
         var quantity = $(quantityInput).val();
+
         var linePrice = price * quantity;
         productRow.children('.product-line-price').each(function() {
           $(this).fadeOut(fadeTime, function() {
@@ -79,6 +80,7 @@
         productRow.slideUp(fadeTime, function() {
           productRow.remove();
           recalculateCart();
+          window.location.reload();
         });
       }
     });
@@ -87,9 +89,7 @@
       var storeOldValueElement = document.querySelector("#oldvalue"+serviceId);
       storeOldValueElement.value = oldValue;
     }
-
     function editCartItem(event,serviceId,newValue){
-
       event.target.blur(); // make the input quantity lose focus to recalculate old value
       var oldValue = document.querySelector("#oldvalue"+serviceId).value;
       var updatedQuantity = newValue - oldValue;
@@ -130,6 +130,7 @@
         return respond.text();
       }).then(message => {
         alert(message);
+
       })
     }
 
@@ -158,6 +159,7 @@
         return respond.text();
       }).then(message => {
         alert(message);
+        window.location.reload();
       })
     }
     </script>

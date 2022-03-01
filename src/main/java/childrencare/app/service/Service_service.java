@@ -3,6 +3,7 @@ package childrencare.app.service;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -40,5 +41,10 @@ public class Service_service {
     }
     public void updateQuantity(int quantity, int serviceId){
         serviceRepository.updateQuantity(quantity, serviceId);
+    }
+
+
+    public List<ServiceModel> findListServiceByReservationID2(int reserId) {
+        return serviceRepository.findListServiceByReservationID2(reserId);
     }
 }

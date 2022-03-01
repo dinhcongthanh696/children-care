@@ -7,6 +7,8 @@ import childrencare.app.model.StaffModel;
 import childrencare.app.repository.ReservationRepository;
 import childrencare.app.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +48,7 @@ public class ReservationService {
         return repository.findAll();
     }
 
-    
+
     // Change Status - KVA
     public void changeStatus(Integer reservationId){
         repository.changeStatus(reservationId);
@@ -59,7 +61,6 @@ public class ReservationService {
         }
         repository.createSchedule(reservationId, serviceId, slotId, staff_id, date, price);
     }
-
     public void deleteSchedule(int slotId, int staff_id, Date booked_date){
         repository.deleteSchedule(slotId, staff_id, booked_date);
     }
@@ -68,14 +69,31 @@ public class ReservationService {
         ReservationModel getreserInfor = repository.getReservationModelByReservationId(rid);
         return getreserInfor;
     }
-
     public ReservationModel getreservationDetail(int reserID) {
         return repository.getreservationDetail(reserID);
     }
 
-    
     public ReservationModel getreservationDetail2(int reserID) {
         return repository.getReservationByReservationId(reserID);
     }
+    public Page<ReservationModel> listAll(int pageNum, String keyword, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 3,
+                sortDir.equals("asc") ? Sort.by(sortField).ascending()
+                        : Sort.by(sortField).descending()
+        );
+        if(keyword == null){
+            return repository.findAll(pageable);
+        }
+        return repository.findReservationStaff(keyword,pageable);
+    }
+    public Page<ReservationModel> filterReservation1(int pageNum,boolean status) {
+        Pageable pageable1 = PageRequest.of(pageNum - 1, 3);
+        return repository.filterReservationByStatus1(status, pageable1);
+    }
+
+    public void changeStatusReservation(boolean status, int rid) {
+        repository.changeStatusReservation(status, rid);
+    }
+
 
 }

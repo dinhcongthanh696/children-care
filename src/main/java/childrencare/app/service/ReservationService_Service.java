@@ -32,6 +32,16 @@ public class ReservationService_Service {
         return reservationServiceRepository.findAllBookedSchedule(reservationId);
     }
 
+    @Query(value = "select * from\n" +
+            "     reservation_service rs inner join\n" +
+            "     reservation r on rs.reservation_id = r.reservation_id\n" +
+            "     inner join customer c on c.customer_id = r.customer_id\n" +
+            "     inner join user_model u on u.email = c.customer_email\n" +
+            "     inner join [service] s on rs.service_id = s.service_id\n" +
+            "     inner join service_category sc on sc.service_category_id = s.service_id" +
+            "     inner join slot sl on sl.slot_id = rs.slot_id\n" +
+            "     inner join staff st on st.staff_id = rs.staff_id\n" +
+            "     where  r.reservation_id = ?1", nativeQuery = true)
     public List<ReservationServiceModel> findAllByRid(int rid) {
         return reservationServiceRepository.findAllByRid(rid);
     }
@@ -59,4 +69,6 @@ public class ReservationService_Service {
     public void deleteByRidAndSidAndSlotid(int rid, int sid, int slotid, String date){
         reservationServiceRepository.deleteInListServiceByReservationAndServiceAndSlotid(rid,sid,slotid,date);
     }
+
+
 }
