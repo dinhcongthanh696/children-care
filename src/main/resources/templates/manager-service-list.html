@@ -203,6 +203,7 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 					<th>Sale Price</th>
 					<th>Average Star</th>
 					<th>Status</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody >
@@ -239,6 +240,9 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 					   		th:text="${service.status ? '-Showing' : '-Hiding'}"
 					   		style="color : back;"
 					   		th:id="'service-status-icon'+${service.serviceId}"></i>
+					</td>
+					<td>
+						<a th:href="'/ChildrenCare/manager/service/' + ${service.serviceId}">Edit</a>
 					</td>
 				</tr>
 				<tr>

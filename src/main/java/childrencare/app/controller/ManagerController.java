@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -22,9 +23,12 @@ public class ManagerController {
         this.serviceModelService = serviceModelService;
     }
 
-    @GetMapping("/servicedetail")
-    public String gotoHtml(Model model){
+    @GetMapping("/service/{id}")
+    public String gotoHtml(Model model,@PathVariable(name = "id") int id){
+        ServiceModel service = serviceModelService.getServiceById(id).get();
+        service.setBase64ThumbnailEncode(service.getThumbnail());
         model.addAttribute("services",serviceModelService.getServices());
-        return "servicedetail-manager";
+        model.addAttribute("service", service);
+        return "ServiceDetail-Manager";
     }
 }
