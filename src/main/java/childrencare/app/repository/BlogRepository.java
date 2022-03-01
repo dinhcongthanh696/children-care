@@ -27,8 +27,10 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
 
     //manager post
 
-    @Query(value = "select * from post as p where 1=1 and (:title is null or p.title like %:title%)", nativeQuery = true)
-    Page<PostModel> findAllBy(@Param("title")String title, Pageable pageRequest);
+    @Query(value = "select * from post as p where 1=1 and (:title is null or p.title like %:title%) " +
+            "and (:catID is null or p.post_category_id = :catID) " +
+            "and (:type is null or p.status = :type)", nativeQuery = true)
+    Page<PostModel> findAllBy(@Param("title")String title,@Param("catID")String catID,@Param("type")String type, Pageable pageable);
 
     @Query(value = "select * from post \n " +
             "(where post.post_category_id = ?1) ",nativeQuery = true)

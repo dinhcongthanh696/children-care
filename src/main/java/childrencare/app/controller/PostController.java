@@ -37,14 +37,18 @@ public class PostController {
 
         int currentPage = page.orElse(0);
         Page<PostModel> postModels = null;
-        /*if (categoryId.equals("-1") && type.equals("-1")) {
-            postModels = postService.findAll(currentPage, 2);
-        } else if (categoryId != "-1") {
-            postModels = postService.findAllByCategoryID(Integer.parseInt(categoryId), currentPage, 2);
-        } else if (type != "-1") {
-            postModels = postService.findAllByStatus(Integer.parseInt(type), currentPage, 2);
-        }*/
-        postModels = postService.findAllAndSearch(title,currentPage,2);
+
+        if (categoryId.equals("-1") && type.equals("-1")) {
+            postModels = postService.findAllAndSearch(title, null, null, currentPage, 2);
+        } else if (categoryId.equals("-1") && !type.equals("-1")) {
+            postModels = postService.findAllAndSearch(title, null, type, currentPage, 2);
+
+        } else if (!categoryId.equals("-1") && type.equals("-1")) {
+            postModels = postService.findAllAndSearch(title, categoryId, null, currentPage, 2);
+
+        } else {
+            postModels = postService.findAllAndSearch(title, categoryId, type, currentPage, 2);
+        }
 
 
         int totalPages = postModels.getTotalPages();
