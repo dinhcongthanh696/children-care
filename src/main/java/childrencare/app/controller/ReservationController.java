@@ -167,8 +167,8 @@ public class ReservationController {
         List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
 
         //clear cart from session after click submit button (reservation contact)
-        List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
-        listSubmit.clear();
+     /* List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
+        listSubmit.clear(); */
         return "redirect:/getDoctor?reservationId=" + rid ;
         // end thanh's code
     }
