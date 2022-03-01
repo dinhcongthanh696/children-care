@@ -5,6 +5,7 @@ import childrencare.app.model.*;
 import childrencare.app.repository.CustomerRepository;
 import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -213,6 +214,18 @@ public class ReservationController {
         }
 
 
+    }
+
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
+    @Transactional
+    @GetMapping("/infor/dele")
+    public String deleteServiceBySidAndRid(
+            @RequestParam("rid") int rid
+            , @RequestParam("sid") int sid
+            , @RequestParam("slotid") int slotid
+            , @RequestParam("date") String date) {
+        reservationService_service.deleteByRidAndSidAndSlotid(rid, sid, slotid, date);
+        return "redirect:/reservation/infor?rid=" + rid;
     }
 
 
