@@ -53,7 +53,7 @@ public class ScheduleController {
 
     @GetMapping("/bookingSchedule")
     public String getAllDoctor(Model model, HttpSession session,
-                               @RequestParam(name="reservationId", required = false) Integer reservationId){
+                               @RequestParam(name="reservationId") Integer reservationId){
         List<StaffModel> staffs = staffService.getAllStaff();
         model.addAttribute("staffs", staffs);
 
@@ -66,7 +66,7 @@ public class ScheduleController {
 
         model.addAttribute("reservationId", reservationId);
 
-       double price = reservationService.getReservatonInforByID(reservationId).getTotalReservationPrice();
+       double price = reservationService.getReservationByID(reservationId).getTotalReservationPrice();
         model.addAttribute("totalPrice", price);
         return "apppointment";
     }

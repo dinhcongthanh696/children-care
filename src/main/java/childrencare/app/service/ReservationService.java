@@ -65,6 +65,9 @@ public class ReservationService {
         repository.deleteSchedule(slotId, staff_id, booked_date);
     }
     //Get Infor by RID DucAnh
+    public ReservationModel getReservationByID(int rid){
+        return repository.getReservationByReservationId(rid);
+    }
     public ReservationModel getReservatonInforByID(int rid){
         ReservationModel getreserInfor = repository.getReservationModelByReservationId(rid);
         return getreserInfor;
