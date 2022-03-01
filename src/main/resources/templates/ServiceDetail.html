@@ -479,7 +479,7 @@
                 <div class="col-sm-5 col-md-6 col-12 pb-4">
                     <h1 style="color: black">Feedback</h1>
                     <div th:each="feedback : ${feedbackModels}">
-                        <div class="col-sm-8 comment mt-4 text-justify float-left"> <img th:src="${'data:image/gif;base64,'+ feedback.customer.base64AvatarEncode}" alt="" class="rounded-circle" width="40" height="40">
+                        <div class="col-sm-8 comment mt-4 text-justify float-left">
                             <h4 th:text="${feedback.customer.customer_user.email}"></h4> <br>
                             <p th:text="${feedback.getComment()}"></p>
                             <img th:src="${'data:image/gif;base64,'+feedback.base64ImageEncode}" />

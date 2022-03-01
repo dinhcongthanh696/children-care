@@ -5,10 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import childrencare.app.repository.FeedbackRepository;
-import childrencare.app.repository.ReservationRepository;
-import childrencare.app.repository.ReservationServiceRepository;
-import childrencare.app.repository.ServiceCategoryRepository;
+import childrencare.app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -83,7 +80,10 @@ public class ServiceController {
 		model.addAttribute("lang",lang);
 		return "service-list";
 	}
-	
+
+	@Autowired
+	UserRepository userRepository;
+
 	@GetMapping(path = "/services/{id}")
 	public String getServiceById(Model model, @PathVariable(name = "id") int id) {
 		List<ServiceCategoryModel> serviceCategory = serviceCategoryRepository.findAll();
