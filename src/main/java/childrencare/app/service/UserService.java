@@ -46,5 +46,8 @@ public class UserService {
 	public void updateInfo(String fullname, String phone, boolean gender, String email){
 		userRepository.updateInfo(fullname, phone, gender, email);
 	}
-    
+
+	public UserModel save(UserModel entity) {
+		return userRepository.save(entity);
+	}
 }

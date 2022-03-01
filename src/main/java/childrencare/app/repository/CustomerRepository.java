@@ -35,4 +35,14 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 	@Query(value = "Insert into customer values(1, ?1)", nativeQuery = true)
 	void addNewCustomer(String email);
 
+	@Modifying
+	@Query(value = "INSERT INTO [customer]\n" +
+			"           ([status]\n" +
+			"           ,[customer_email]) VALUES\n" +
+			"           (?1,?2)", nativeQuery = true)
+	void insertToCus(int cStatus ,String email);
+
+	@Query(value = "select MAX(customer_id) from customer",nativeQuery = true)
+	int lastIDCus();
+
 }
