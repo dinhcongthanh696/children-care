@@ -42,6 +42,7 @@ public class MyConfiguration implements WebMvcConfigurer{
 		register.setFilter(authorizarionFilter);
 		register.setOrder(2);
 		register.addUrlPatterns("/admin/*");
+		register.addUrlPatterns("/manager/*");
 		return register;
 	}
 	
