@@ -51,8 +51,8 @@
         <!-- header logo: style can be found in header.less -->
 <!--        <header class="header" th:replace="header_admin::headerAdmin"></header>-->
         <header class="header" >
-            <a href="/ChildrenCare/adminPage/indexAdmin" class="logo">
-                Director
+            <a href="/ChildrenCare/admin/dashboard" class="logo" th:text="${session.user.userRole.roleName}">
+               
             </a>
             <!-- Header Navbar: style can be found in header.less -->
            <div th:replace="header_admin::navbarRight"></div>
@@ -60,7 +60,7 @@
 
                 <div class="wrapper row-offcanvas row-offcanvas-left">
                     <!-- Left side column. contains the logo and sidebar -->
-                    <div th:replace="navBar_admin::leftSide_admin" ></div>
+                    <div th:replace="navBar_admin::leftSide_admin('/admin/dashboard')" ></div>
 
 
                     <aside class="right-side">
@@ -207,7 +207,7 @@
                     
                 </section><!-- /.content -->
                 <div class="footer-main">
-                    Copyright &copy Director, 2014
+                    <h3> Copyright &copy SWP391 SPRING 2022 SE1517-NET TEAM 2 </h3>
                 </div>
             </aside><!-- /.right-side -->
 

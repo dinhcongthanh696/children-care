@@ -2,6 +2,7 @@ package childrencare.app.controller;
 
 import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.*;
+import childrencare.app.repository.CustomerRepository;
 import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -61,6 +57,9 @@ public class ReservationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CustomerService customerService;
+
 
     @GetMapping("/reser")
     public String getServiceCarts(Model model, HttpSession session) {
@@ -73,6 +72,7 @@ public class ReservationController {
             session.setAttribute("total", toalReservationPrice);
             model.addAttribute("size", itemList.size());
         }
+        session.setAttribute("list",itemList);
         model.addAttribute("list", itemList);
         return "reservationDetails";
     }
@@ -113,11 +113,10 @@ public class ReservationController {
         // end thanh's code (Add service cookie)
         session.setAttribute("list", listReservations);
         model.addAttribute("list", listReservations);
-        return "reservationDetails";
+        return "redirect:/reservation/reser";
     }
-
     @DeleteMapping("/delete/{sid}")
-    public void deleteFromCart(@PathVariable(value = "sid") int id, HttpSession session,
+    public String deleteFromCart(@PathVariable(value = "sid") int id, HttpSession session,
                                HttpServletResponse response, HttpServletRequest request) {
         List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
         for (ServiceModel service : services) {
@@ -127,8 +126,9 @@ public class ReservationController {
             }
         }
         CookieHandler.editCartsCookie(id, request, response, "/", CookieHandler.COOKIEEXPRIEDTIME, "");
-    }
+        return "redirect:/reservation/reser";
 
+    }
 
     //nghia's code
     @GetMapping("/contact")
@@ -144,32 +144,50 @@ public class ReservationController {
         } else {
             return "redirect:/reservation/reser";
         }
-
-
     }
-
     //nghia's code
+
     @PostMapping("/saveData")
     @Transactional
-    public String saveReservation(@Validated ReservationModel reservationModel, BindingResult result,
-                                  RedirectAttributes redirect, HttpSession session) {
-        if (result.hasErrors()) {
-            return "redirect:/reservation/contact";
-        }
+    public String saveReservation(HttpSession session,
+                                  @RequestParam(name = "ten",required = false) String fullname,
+                                  @RequestParam(name = "gender",required = false) boolean gender,
+                                  @RequestParam(name = "email",required = false) String email,
+                                  @RequestParam(name = "phone",required = false) String phone,
+                                  @RequestParam(name = "address",required = false) String address,
+                                  @RequestParam(name = "note",required = false) String note) {
+        //insert to user table
         UserModel user = (UserModel) session.getAttribute("user");
+        UserModel userModel = new UserModel();
+        userModel.setUsername(email);
+        userModel.setFullname(fullname);
+        userModel.setAddress(address);
+        userModel.setEmail(email);
+        userModel.setGender(gender);
+        userModel.setNotes(note);
+        userModel.setPhone(phone);
+        userModel.setStatus(true);
+        userService.save(userModel);
+        //insert to customer table
+        CustomerModel cus = new CustomerModel();
+        customerService.insertToCus(1,email);
+        //insert to reservation table
+        ReservationModel reservationModel = new ReservationModel();
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
         reservationModel.setStatus(false);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         reservationModel.setDate(dtf.format(now));
+        int cid = customerService.lastIDCus();
+        cus.setCustomer_id(cid);
+        reservationModel.setCustomer(cus);
         // thanh's code
         int rid = reservationService.saveReservation(reservationModel);
         List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
-
-        //clear cart from session after click submit button (reservation contact)
-        List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
-        listSubmit.clear();
-        return "redirect:/getDoctor?reservationId=" + rid ;
+        //clear cart from session after click submit button (reservation contact) - nghia's code
+     /* List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
+        listSubmit.clear(); */
+        return "redirect:/bookingSchedule?reservationId=" + rid ;
         // end thanh's code
     }
 
@@ -178,6 +196,7 @@ public class ReservationController {
                                    @RequestParam(name = "rid") Optional<Integer> reserID) {
         if (reserID.isPresent()) {
             ReservationModel reservationModel = reservationService.getReservatonInforByID(reserID.get());
+            //Slot slot = slotService.getSlotByReservationID(reserID.get());
             List<ServiceModel> serviceModelList = serviceModelService.getServicesByReservationId(reserID.get());
             List<ReservationServiceModel> reservationServices = reservationService_service.getAllBookedSchedule(reserID.get());
             UserModel userModel = userService.findUserModelByUserReservationId(reserID.get());

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Xác nhận đơn hàng</title>
 
     <!-- responsive meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,6 +39,54 @@
 <!--login style-->
     <link href="../css/authentication.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/reservationContact.css">
+    <script>
+        //nghia's code
+        function loginCheck(){
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("pass").value;
+            var formData = new FormData();
+            formData.append("email",email);
+            formData.append("password",password);
+            formData.append("currentpage",currentpage);
+            fetch("/ChildrenCare/api-login/signIn",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+                window.location.reload();
+            })
+        }
+
+        function register(){
+            var email_register = document.getElementById("email_register").value;
+            var username_register = document.getElementById("username_register").value;
+            var fullname_register = document.getElementById("fullname_register").value;
+            var address_register = document.getElementById("address_register").value;
+            var gender_register = document.getElementById("gender_register").value;
+            var notes_register = document.getElementById("notes_register").value;
+            var password_register = document.getElementById("password_register").value;
+            var phone_register = document.getElementById("phone_register").value;
+            var formData = new FormData();
+            formData.append("email",email_register);
+            formData.append("username",username_register);
+            formData.append("fullname",fullname_register);
+            formData.append("address",address_register);
+            formData.append("gender",gender_register);
+            formData.append("notes",notes_register);
+            formData.append("password",password_register);
+            formData.append("phone",phone_register);
+            fetch("/ChildrenCare/api-login/signUp",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+            })
+        }
+    </script>
 
 
 </head>
@@ -67,9 +115,9 @@
                     <div class="col-12 mt-3 ">
                         <nav aria-label="breadcrumb" class="second ">
                             <ol class="breadcrumb indigo lighten-6 first ">
-                                <li class="breadcrumb-item font-weight-bold "><a class="black-text text-uppercase " href="/ChildrenCare/service/services"><span class="mr-md-3 mr-1">BACK TO SHOP</span></a><i class="fa fa-angle-double-right " aria-hidden="true"></i></li>
-                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase" href="/ChildrenCare/reservation/reser"><span class="mr-md-3 mr-1">Reservation Detail</span></a><i class="fa fa-angle-double-right text-uppercase " aria-hidden="true"></i></li>
-                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase active-2" href="#"><span class="mr-md-3 mr-1">CHECKOUT</span></a></li>
+                                <li class="breadcrumb-item font-weight-bold "><a class="black-text text-uppercase " href="/ChildrenCare/service/services"><span class="mr-md-3 mr-1">Xem dịch vụ khác</span></a><i class="fa fa-angle-double-right " aria-hidden="true"></i></li>
+                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase" href="/ChildrenCare/reservation/reser"><span class="mr-md-3 mr-1">Giỏ hàng</span></a><i class="fa fa-angle-double-right text-uppercase " aria-hidden="true"></i></li>
+                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase active-2" href="#"><span class="mr-md-3 mr-1">Xác nhận thông tin</span></a></li>
                             </ol>
                         </nav>
                     </div>
@@ -79,57 +127,40 @@
                         <div class="col-md-5">
                             <div class="card border-0">
                                 <div class="card-header pb-0">
-                                    <h2 class="card-title space ">Checkout</h2>
-                                    <p class="card-text text-muted mt-4 space">Receiver Information</p>
+                                    <h2 class="card-title space text-uppercase">Xác nhận thông tin</h2>
+                                    <p class="card-text text-bold text-uppercase">Thông tin khách hàng</p>
+                                    <p class="card-text text-bold text-uppercase text-danger">* Trường bắt buộc</p>
                                     <hr class="my-0">
                                 </div>
                                 <div class="card-body">
-                                    <div class="">
-
+                                    <div class="form-group"> <label for="NAME1" class="text-bold text-uppercase text-danger">Họ và tên*</label>
+                                        <input  required th:if="${user} !=null" th:value="${user.fullname}" class="form-control form-control-sm" id="" aria-describedby="helpId" >
+                                        <input name="ten" required th:if="${user} == null" type="text"  class="form-control form-control-sm" id="NAME1" aria-describedby="helpId" >
                                     </div>
-                                    <div class="row mt-4">
-
-                                    </div>
-                                    <div class="form-group"> <label for="NAME1" class="small text-muted mb-1">Full name</label>
-                                        <input th:if="${user} !=null" th:value="${user.fullname}" class="form-control form-control-sm" id="" aria-describedby="helpId" >
-                                        <input  required pattern="[A-Z\sa-z]{3,20}" th:if="${user} == null" type="text"  class="form-control form-control-sm" id="NAME1" aria-describedby="helpId" >
-                                    </div>
-                                    <div class="form-group"> <label  class="small text-muted mb-1">Gender</label>
-                                        <select th:if="${user!= null}" class="small text-muted mb-1">
+                                    <div class="form-group"> <label  class="text-bold text-uppercase">Giới tính</label>
+                                        <select th:if="${user!= null}"  class="small text-muted mb-1">
                                             <option value="1" th:checked="${user.gender}">Nam</option>
                                             <option value="0" th:checked="not ${user.gender}">Nữ</option>
                                         </select>
-                                        <select th:if="${user == null}" class="small text-muted mb-1">
+                                        <select th:if="${user == null}" name="gender" class="small text-muted mb-1">
                                             <option value="1">Nam</option>
                                             <option value="0">Nữ</option>
                                         </select>
                                     </div>
-                                    <div class="row no-gutters">
-                                        <div class="col-sm-6 pr-sm-2">
-                                            <div class="form-group"> <label for="NAME3" class="small text-muted mb-1">Email</label>
-                                                <input readonly th:if="${user} !=null"  type="text" th:value="${user.email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input th:if="${user} == null"  type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group"> <label for="NAME4" class="small text-muted mb-1">Mobile</label>
-                                                <input th:if="${user} !=null" th:value="${user.phone}" type="text"   class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input th:if="${user} == null" type="text" class="form-control form-control-sm"  id="NAME4" aria-describedby="helpId" > </div>
-                                        </div>
-                                    </div>
-                                    <div class="row no-gutters">
-                                        <div class="col-sm-6 pr-sm-2">
-                                            <div class="form-group"> <label for="NAME5" class="small text-muted mb-1">Address</label>
-                                                <input th:if="${user} !=null" type="text" th:value="${user.address}" class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input required  th:if="${user} == null" type="text" class="form-control form-control-sm"  id="NAME5" aria-describedby="helpId"> </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group"> <label for="NAME6" class="small text-muted mb-1">Note</label>
-                                                <input th:if="${user} !=null" type="text" th:value="${user.notes}"  class="form-control form-control-sm"  aria-describedby="helpId" >
-                                                <input th:if="${user} == null"  type="text" class="form-control form-control-sm"  id="NAME6" aria-describedby="helpId" > </div>
-                                        </div>
-                                    </div>
-                                    <div class="row no-gutters">
-                                    </div>
+                                    <div class="form-group"> <label for="NAME3" class="text-bold text-uppercase text-danger">Địa chỉ Email*</label>
+                                        <input  readonly th:if="${user} !=null"  type="text" th:value="${user.email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                        <input name="email" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}" th:if="${user} == null"  type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
+                                            <div class="form-group"> <label for="NAME4" class="text-bold text-uppercase text-danger">Số điện thoại*</label>
+                                                <input  th:if="${user} !=null" th:value="${user.phone}" type="text"   class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input name="phone" required pattern="[0][0-9]{9}" th:if="${user} == null" type="text" class="form-control form-control-sm"  id="NAME4" aria-describedby="helpId" > </div>
+                                            <div class="form-group"> <label for="NAME5" class="text-bold text-uppercase text-danger">Địa chỉ*</label>
+                                                <input  th:if="${user} !=null" type="text" th:value="${user.address}" class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input name="address" required  th:if="${user} == null" type="text" class="form-control form-control-sm"  id="NAME5" aria-describedby="helpId"> </div>
+
+                                            <div class="form-group"> <label for="NAME6" class="text-bold text-uppercase">Ghi chú</label>
+                                                <input  th:if="${user} !=null" type="text" th:value="${user.notes}"  class="form-control form-control-sm"  aria-describedby="helpId" >
+                                                <input name="note" th:if="${user} == null"  type="text" class="form-control form-control-sm"  id="NAME6" aria-describedby="helpId" > </div>
+
                                 </div>
                             </div>
                         </div>
@@ -137,24 +168,29 @@
                         <div class="col-md-5">
                             <div class="card border-0 ">
                                 <div class="card-header card-2">
-                                    <p class="card-text text-muted mt-md-4 mb-2 space">YOUR RESERVATION <a href="/ChildrenCare/reservation/reser"> -----> CHANGE</a></p>
-                                    <hr class="my-2">
+
+                                    <p class="card-text text-muted mt-md-4 mb-2 space text-bold text-uppercase">Đơn hàng của bạn | Quay lại giỏ hàng
+                                        <a class="text-bold text-uppercase" href="/ChildrenCare/reservation/reser"><i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+
                                 </div>
                                 <div class="card-body pt-0">
                                     <th:block th:each="item: ${orderList}">
-                                        <div class="row justify-content-between">
-                                            <div class="col-auto col-md-7">
-                                                <div class="media flex-column flex-sm-row"> <img th:src="${'data:image/gif;base64,'+item.base64ThumbnailEncode}" class=" img-fluid"  width="62" height="62">
+
+                                        <div class="divhover row justify-content-between">
+                                            <div class="col-auto col-md-9">
+                                                <div class="media flex-column flex-sm-row">
+                                                    <img th:src="${'data:image/gif;base64,'+item.base64ThumbnailEncode}" class=" img-fluid"  width="150" height="150">
                                                     <div class="media-body my-auto">
                                                         <div class="row ">
                                                             <div class="col-auto">
                                                                 <p class="mb-0"><b></b></p>
-
-                                                                Id:<small  th:text="${item.serviceId}" class="text-muted"></small>
-                                                                -
-                                                                Title: <small th:text="${item.title}" class="text-muted"></small>
+                                                                <small  th:text="${'  Mã dịch vụ: '+ item.serviceId}" class="text-muted"></small>
                                                                 <br>
-                                                                Price: <small th:text="${#numbers.formatDecimal(item.originalPrice,1,'POINT',0,'POINT')}" class="text-muted"></small>
+                                                                <small th:text="${'  Tên dịch vụ: '+item.title}" class="text-muted"></small>
+                                                                <br>
+                                                                <small th:text="${'  Giá dịch vụ: '+#numbers.formatDecimal(item.originalPrice,1,'POINT',0,'POINT')+'đ'}" class="text-muted"></small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -164,14 +200,15 @@
                                                 <p th:text="${item.quantity}" class="boxed-1"></p>
                                             </div>
                                             <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                                <p><b th:text="${#numbers.formatDecimal(item.totalCost,1,'POINT',0,'POINT')}"></b></p>
+                                                <p><b th:text="${#numbers.formatDecimal(item.totalCost,1,'POINT',0,'POINT')+'đ'}"></b></p>
                                             </div>
                                         </div>
+
                                         <hr class="my-2">
                                     </th:block>
                                     <div class="row justify-content-between">
-                                        <div class="col-auto col-md-7">
-                                            <div class="media flex-column flex-sm-row"> Total Reservation:
+                                        <div class="col-auto col-md-9">
+                                            <div class="media flex-column flex-sm-row"> Tổng đơn hàng:
                                                 <div class="media-body my-auto">
                                                     <div class="row ">
                                                         <div class="col-auto">
@@ -184,13 +221,13 @@
 
                                         </div>
                                         <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                            <p><b th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')}"></b></p>
+                                            <p><b class="text-danger" th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')+'đ'}"></b></p>
                                         </div>
                                     </div>
 
 
                                     <div class="row mb-5 mt-4 ">
-                                        <div class="col-md-7 col-lg-6 mx-auto"><button type="submit" class="btn btn-block btn-outline-primary btn-lg">SUBMIT</button></div>
+                                        <div class="col-md-7 col-lg-6 mx-auto"><button type="submit" class="btn btn-block btn-outline-primary btn-lg">XÁC NHẬN</button></div>
                                     </div>
 
                                 </div>
@@ -208,7 +245,15 @@
 
 
 <style>
-
+    .divhover{
+        transition: box-shadow .3s;
+        border-radius:10px;
+        border: 1px solid #ccc;
+        background: #fff;
+    }
+    .divhover:hover {
+        box-shadow: 0 0 11px rgba(33,33,33,.2);
+    }
 
 </style>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

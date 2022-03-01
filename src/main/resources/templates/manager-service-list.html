@@ -3,18 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <title>Manager | Services</title>
-<!-- master stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
-<!-- Responsive stylesheet -->
-<link rel="stylesheet" href="../css/responsive.css">
-<!--Color Switcher Mockup-->
-<link rel="stylesheet" href="../css/color-switcher-design.css">
-<!--Color Themes-->
-<link rel="stylesheet" href="../css/color-themes/default-theme.css"
-	id="theme-color-file">
-<!-- Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<!-- Bootstrap -->
+<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="description" content="Developed By M Abdur Rokib Promy">
+    <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
+    <!-- bootstrap 3.0.2 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../css_admin/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- font Awesome -->
+    <link href="../css_admin/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons -->
+    <link href="../css_admin/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Morris chart -->
+    <link href="../css_admin/morris/morris.css" rel="stylesheet" type="text/css" />
+    <!-- jvectormap -->
+    <link href="../css_admin/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <!-- Date Picker -->
+    <link href="../css_admin/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+    <!-- fullCalendar -->
+    <!-- <link href="css/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" /> -->
+    <!-- Daterange picker -->
+    <link href="../css_admin/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link href="../css_admin/iCheck/all.css" rel="stylesheet" type="text/css" />
+    <!-- bootstrap wysihtml5 - text editor -->
+    <!-- <link href="css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" /> -->
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <!-- Theme style -->
+    <link href="../css_admin/style.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+	<link rel="stylesheet" href="../css/admin-dashboard.css">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+          <![endif]-->
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="180x180"
 	href="../images/favicon/apple-touch-icon.png">
@@ -23,19 +48,43 @@
 <link rel="icon" type="image/png"
 	href="../images/favicon/favicon-16x16.png" sizes="16x16">
 <link rel="stylesheet" href="../css/service-list.css">
-<link rel="stylesheet" href="../css/authentication.css">
+
+<!--  thanh style -->
+<style>
+	table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {background-color: #a3a8a3;}
+	
+</style>
+<!-- end thanh style -->
  <!-- Fav icon -->	
-	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>	
 </head>
-<body th:onload="renderPages()">
-	<div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
-	
-	<div id="top-bar" th:insert="index :: top-bar"></div>
-	<header th:replace="header.html :: header"></header>
-	<section id="main-menu" 
-	th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder='Search By Title Or Brief Info...',current='services',search=${search})">
-	</section>
-	
+<body th:onload="renderPages()" class="skin-black">
+	<header class="header" >
+            <a th:href="@{/admin/dashboard}" class="logo" th:text="${session.user.userRole.roleName}">
+               
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+           <div th:replace="header_admin::navbarRight"></div>
+        </header>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+                    <!-- Left side column. contains the logo and sidebar -->
+                    <div th:replace="navBar_admin::leftSide_admin('/admin/services')" ></div>
+
+
+                    <aside class="right-side">    
+						<section class="content">
+							<div class="container-fluid">
+							
+							
 	<!-- Add new Service Modal -->
 	<div id="new-service-modal" class="modal fade" role="dialog">
   	   <div class="modal-dialog">
@@ -130,7 +179,15 @@
 				</select>
 			</div>
 			<div class="col-sm-4">
-				Search box hear....
+				<form th:action="@{/admin/services}" method="post">
+					<label for="search-query" class="form-check-label">Search : </label>
+  						<input type="text" class="form-check-input" placeholder="Search By Title..."
+  							id="search-query" th:value="${search}" name="search"
+  						>
+    					<button type="submit" class="btn btn-primary input-group-text">
+    							<span class="fa fa-search"></span>
+    					</button>
+				</form>
 			</div>
 		</div>
 		<div class="row">
@@ -146,6 +203,7 @@
 					<th>Sale Price</th>
 					<th>Average Star</th>
 					<th>Status</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody >
@@ -153,7 +211,7 @@
 					style="transition : display 2s;"
 					class="service_item">
 					<th th:text="${'#'+service.serviceId}"></th>
-					<td><img th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}" style="width : 200px;"/></td>
+					<td><img th:src="${'data:image/gif;base64,'+service.base64ThumbnailEncode}" style="width : 280px;"/></td>
 					<td th:text="${service.title}"></td>
 					<td th:text="${service.serviceCategory.serviceCategoryName}"></td>
 					<td th:text="${service.briefInfo}"></td>
@@ -183,6 +241,9 @@
 					   		style="color : back;"
 					   		th:id="'service-status-icon'+${service.serviceId}"></i>
 					</td>
+					<td>
+						<a th:href="'/ChildrenCare/manager/service/' + ${service.serviceId}">Edit</a>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="9" style="text-align: center;">
@@ -202,17 +263,78 @@
 	</div>
 	
 	<div id="pages"></div>
-	<div id="footer" th:insert="index :: footer"></div>
+			</div>
+							</section><!-- /.content -->
+                <div class="footer-main">
+                   <h3>Copyright &copy SWP391 SPRING 2022 SE1517-NET TEAM 2</h3> 
+                </div>
+            </aside><!-- /.right-side -->
+
+        </div><!-- ./wrapper -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="../js/pagging.js"></script>
+	<!-- jQuery 2.0.2 -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="../js_admin/jquery.min.js" type="text/javascript"></script>
+
+        <!-- jQuery UI 1.10.3 -->
+        <script src="../js_admin/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
+        <!-- Bootstrap -->
+        <script src="../js_admin/bootstrap.min.js" type="text/javascript"></script>
+        <!-- daterangepicker -->
+        <script src="../js_admin/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+
+        <script src="../js_admin/plugins/chart.js" type="text/javascript"></script>
+
+        <!-- datepicker
+        <script src="js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>-->
+        <!-- Bootstrap WYSIHTML5
+        <script src="js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>-->
+        <!-- iCheck -->
+        <script src="../js_admin/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+        <!-- calendar -->
+        <script src="../js_admin/plugins/fullcalendar/fullcalendar.js" type="text/javascript"></script>
+
+        <!-- Director App -->
+        <script src="../js_admin/Director/app.js" type="text/javascript"></script>
+
+        <!-- Director dashboard demo (This is only for demo purposes) -->
+        <script src="../js_admin/Director/dashboard.js" type="text/javascript"></script>
+         <script type="text/javascript">
+            $('input').on('ifChecked', function(event) {
+                // var element = $(this).parent().find('input:checkbox:first');
+                // element.parent().parent().parent().addClass('highlight');
+                $(this).parents('li').addClass("task-done");
+                console.log('ok');
+            });
+            $('input').on('ifUnchecked', function(event) {
+                // var element = $(this).parent().find('input:checkbox:first');
+                // element.parent().parent().parent().removeClass('highlight');
+                $(this).parents('li').removeClass("task-done");
+                console.log('not');
+            });
+
+        </script>
+        <script>
+            $('#noti-box').slimScroll({
+                height: '400px',
+                size: '5px',
+                BorderRadius: '5px'
+            });
+
+            $('input[type="checkbox"].flat-grey, input[type="radio"].flat-grey').iCheck({
+                checkboxClass: 'icheckbox_flat-grey',
+                radioClass: 'iradio_flat-grey'
+            });
+		</script>  
 	<script type="text/javascript">
 	var lastChosenPreview;
 	
 	function changePage(pageNumber) {
-		var search = document.querySelector("#search").value;
+		var search = document.querySelector("#search-query").value;
 		var status = document.getElementById("status-filter").value;
 		var sortProperty = document.getElementById("sort").value;
 		window.location = "/ChildrenCare/admin/services?page=" + pageNumber

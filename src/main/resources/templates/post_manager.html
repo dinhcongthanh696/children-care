@@ -86,13 +86,23 @@
                                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <form id="myForm" th:action="@{/manager/post}">
                                         <select name="type" th:onchange="filterFunction()">
-                                            <option value="-1">All</option>
-                                            <option value="1">Show</option>
-                                            <option value="0">Hide</option>
+                                            <option th:selected="${type} == -1" value="-1">All</option>
+                                            <option th:selected="${type} == 1" value="1">Show</option>
+                                            <option th:selected="${type} == 0" value="0">Hide</option>
                                         </select>
+
+                                        <select name="categoryId" th:onchange="filterFunction()">
+                                        <option th:selected="${categoryId} == -1" value="-1">All</option>
+                                        <div th:each="listCategoryPost:${postCategoryModelList}">
+                                            <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"
+                                                    th:value="${listCategoryPost.getPostCategoryId()}"
+                                                    th:text="${listCategoryPost.getPostCategoryName()}">
+                                            </option>
+                                        </div>
+                                    </select>
                                     </form>
                                 </div>
                                 <script>
@@ -100,22 +110,16 @@
                                         document.getElementById("myForm").submit();
                                     }
                                 </script>
-                                <div class="col-sm-2">
+                                <!--<div class="col-sm-2">
                                     <form id="category" th:action="@{/manager/post}">
-                                        <select name="categoryId" th:onchange="filterFunction2()">
-                                            <option value="-1">All</option>
-                                            <div th:each="listCategoryPost:${postCategoryModelList}">
-                                                <option th:value="${listCategoryPost.getPostCategoryId()}" th:text="${listCategoryPost.getPostCategoryName()}">
-                                                </option>
-                                            </div>
-                                        </select>
+
                                     </form>
                                 </div>
                                 <script>
                                     function filterFunction2() {
                                         document.getElementById("category").submit();
                                     }
-                                </script>
+                                </script>-->
 
 
                                 <div class="col-sm-2">
@@ -204,24 +208,26 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="list:${listPost}">
+                                    <div th:each="list:${listPost}">
+                                        <tr>
 
-                                        <td th:text="${list.getPostId()}"></td>
-                                        <td>
-                                            <div>
-                                                <img style="width: 100px; height: 50px;">
-                                            </div>
-                                        </td>
-                                        <td th:text="${list.getTitle()}"></td>
-                                        <td th:text="${list.getPostId()}"></td>
-                                        <td th:text="${list.getPostCategory().getPostCategoryName()}"></td>
-                                        <td th:text="${list.getAuthor().getFullname()}"></td>
-                                        <td th:text="${list.isStatus()?'Show':'Hide'}"></td>
-                                        <td>
-                                            <a th:href="@{post(pid=${1})}">Details</a>
-                                            <a th:href="@{post(pid=${1})}">Edit</a>
-                                        </td>
-                                    </tr>
+                                            <td th:text="${list.getPostId()}"></td>
+                                            <td>
+                                                <div>
+                                                    <img style="width: 100px; height: 50px;">
+                                                </div>
+                                            </td>
+                                            <td th:text="${list.getTitle()}"></td>
+                                            <td th:text="${list.getPostId()}"></td>
+                                            <td th:text="${list.getPostCategory().getPostCategoryName()}"></td>
+                                            <td th:text="${list.getAuthor().getFullname()}"></td>
+                                            <td th:text="${list.isStatus()?'Show':'Hide'}"></td>
+                                            <td>
+                                                <a th:href="@{post(pid=${1})}">Details</a>
+                                                <a th:href="@{post(pid=${1})}">Edit</a>
+                                            </td>
+                                        </tr>
+                                    </div>
                                     </tbody>
                                 </table>
                             </div>
@@ -233,19 +239,19 @@
                 <div class="col-xl-12">
                     <ul class="post-pagination2 text-center">
                         <li><a class="left"
-                               th:href="@{/blog(page=0,categoryId=${categoryId})}"><i
+                               th:href="@{/manager/post(page=0,type=${type},categoryId=${categoryId})}"><i
                                 class="fa fa-angle-double-left"
                                 aria-hidden="true"></i><span>FIRST</span></a>
                         </li>
                         <li class="page-item active" th:each="pageNumber:${pageNumbers}"
                             th:if="${pagingPost.totalPages >1}"
                             th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
-                            <a th:href="@{/blog(page=${pageNumber},categoryId=${categoryId})}"
+                            <a th:href="@{/manager/post(page=${pageNumber},type=${type},categoryId=${categoryId})}"
                                th:text="${pageNumber}"></a>
                         </li>
 
                         <li><a class="right"
-                               th:href="@{/blog(page=${pagingPost.totalPages}-1,categoryId=${categoryId})}"><span>LAST</span><i
+                               th:href="@{/manager/post(page=${pagingPost.totalPages}-1,type=${type},categoryId=${categoryId})}"><span>LAST</span><i
                                 class="fa fa-angle-double-right"
                                 aria-hidden="true"></i></a>
                         </li>

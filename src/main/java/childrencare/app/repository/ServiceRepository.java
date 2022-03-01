@@ -68,4 +68,16 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
             "inner join reservation_service rc on rc.service_id = serv.service_id\n" +
             "where rc.reservation_id = ?1", nativeQuery = true)
     public List<ServiceModel> findListServiceByReservationID(int reserId);
+
+    @Query(value = "select distinct s.service_id,s.thumbnail,s.original_price,r.total_reservation_price,\n" +
+            "count(s.service_id) as'NumberPerson'\n" +
+            "from \n" +
+            "[service] s inner join reservation_service rs\n" +
+            "on s.service_id = rs.service_id \n" +
+            "inner join reservation r on r.reservation_id =rs.reservation_id\n" +
+            "where rs.reservation_id = ?1\n" +
+            "group by  s.service_id,s.thumbnail,s.original_price,r.total_reservation_price", nativeQuery = true)
+    public List<ServiceModel> findListServiceByReservationID2(int reserId);
+
+
 }
