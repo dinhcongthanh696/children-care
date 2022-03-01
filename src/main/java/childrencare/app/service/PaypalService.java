@@ -1,5 +1,6 @@
 package childrencare.app.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import com.paypal.base.rest.PayPalRESTException;
 public class PaypalService {
     @Autowired
     private APIContext apiContext;
+
     public Payment createPayment(
             Double total,
             String currency,
@@ -28,9 +30,12 @@ public class PaypalService {
             String description,
             String cancelUrl,
             String successUrl) throws PayPalRESTException{
+
         Amount amount = new Amount();
         amount.setCurrency(currency);
-        amount.setTotal(String.format("%.2f", total));
+        String subTotal = (new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_EVEN).toString());
+        amount.setTotal(subTotal);
+
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
         transaction.setAmount(amount);
