@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ChildrenCare | Giỏ hàng</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -20,36 +20,30 @@
   <!--Color Themes-->
   <link rel="stylesheet" href="../css/color-themes/default-theme.css" id="theme-color-file">
   <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon/apple-touch-iconCart.png">
+  <link rel="icon" type="image/png" href="../images/favicon/faviconCart-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="../images/favicon/faviconCart-16x16.png" sizes="16x16">
+
+
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   <!--fix login form not appear when first click-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!--    fix login form not appear when first click-->
-<!--  &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
-<!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"-->
-<!--        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
-<!--  &lt;!&ndash; FontAwesome CSS &ndash;&gt;-->
-<!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
-<!--  &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;-->
-<!--  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"-->
-<!--          integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">-->
-<!--  </script>-->
+
   <link href="../css/authentication.css" rel="stylesheet">
   <script>
     // nghia's code
     $(document).ready(function() {
-      var fadeTime = 300;
+      var fadeTime = 100;
       $('.pass-quantity input').change(function() {
         updateQuantity(this);
       });
       $('.remove-item button').click(function() {
         removeItem(this);
       });
+
       function recalculateCart() {
         var subtotal = 0;
         $('.item').each(function() {
@@ -57,8 +51,8 @@
         });
         var total = subtotal;
         $('.totals-value').fadeOut(fadeTime, function() {
-          $('#cart-subtotal').html(subtotal.toFixed(3));
-          $('.cart-total').html(total.toFixed(3));
+          $('#cart-subtotal').html(subtotal.toFixed(3)+'.000 đ');
+          $('.cart-total').html(total.toFixed(3)+'.000 đ');
           if (total == 0) {
             $('.checkout').fadeOut(fadeTime);
           } else {
@@ -74,7 +68,7 @@
         var linePrice = price * quantity;
         productRow.children('.product-line-price').each(function() {
           $(this).fadeOut(fadeTime, function() {
-            $(this).text(linePrice.toFixed(2));
+            $(this).text(linePrice.toFixed(3)+'.000 đ');
             recalculateCart();
             $(this).fadeIn(fadeTime);
           });
@@ -95,7 +89,7 @@
     }
 
     function editCartItem(event,serviceId,newValue){
-     
+
       event.target.blur(); // make the input quantity lose focus to recalculate old value
       var oldValue = document.querySelector("#oldvalue"+serviceId).value;
       var updatedQuantity = newValue - oldValue;
@@ -111,8 +105,6 @@
       fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
 
     }
-
-
     function removeCartItem(serviceId){
         fetch("/ChildrenCare/reservation/delete/"+serviceId,{
           method : 'DELETE'
@@ -121,7 +113,53 @@
                   var removedCartItem = document.querySelector("#item"+serviceId);
                   removedCartItem.style.display = "none";
                 })
+
       }
+    //nghia's code
+    function loginCheck(){
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("pass").value;
+      var formData = new FormData();
+      formData.append("email",email);
+      formData.append("password",password);
+      formData.append("currentpage",currentpage);
+      fetch("/ChildrenCare/api-login/signIn",{
+        method : "post",
+        body : formData
+      }).then(respond => {
+        return respond.text();
+      }).then(message => {
+        alert(message);
+      })
+    }
+
+    function register(){
+      var email_register = document.getElementById("email_register").value;
+      var username_register = document.getElementById("username_register").value;
+      var fullname_register = document.getElementById("fullname_register").value;
+      var address_register = document.getElementById("address_register").value;
+      var gender_register = document.getElementById("gender_register").value;
+      var notes_register = document.getElementById("notes_register").value;
+      var password_register = document.getElementById("password_register").value;
+      var phone_register = document.getElementById("phone_register").value;
+      var formData = new FormData();
+      formData.append("email",email_register);
+      formData.append("username",username_register);
+      formData.append("fullname",fullname_register);
+      formData.append("address",address_register);
+      formData.append("gender",gender_register);
+      formData.append("notes",notes_register);
+      formData.append("password",password_register);
+      formData.append("phone",phone_register);
+      fetch("/ChildrenCare/api-login/signUp",{
+        method : "post",
+        body : formData
+      }).then(respond => {
+        return respond.text();
+      }).then(message => {
+        alert(message);
+      })
+    }
     </script>
   <link rel="stylesheet" href="../static/css/authentication.css">
   </head>
@@ -132,54 +170,58 @@
 
 <div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
 <div class="container text-dark py-5 text-center">
-  <h1 class="display-4">Reservation Details</h1>
-  <h3 th:if="${list} == null">No Reservation</h3>
+  <h1 class="display-4">THÔNG TIN DỊCH VỤ</h1>
+  <h3 th:if="${list} == null">Bạn đang không có dịch vụ nào trong giỏ hàng</h3>
 </div>
 
 <div class="container mt-5 mb-5">
   <div class="row justify-content-center">
     <div class="col-xl-12 col-lg-8 col-md-7">
       <tr th:each="info: ${session.list}" th:id="${'item'+info.serviceId}">
-      <div class="border border-gainsboro p-3 mt-3 clearfix item">
+      <div class="divhover border border-gainsboro p-3 mt-3 clearfix item">
         <div class="text-lg-left">
-          <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"  alt="chua co anh"  class="img-fluid rounded shadow-sm">
+          <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"   alt="chua co anh"  class="img-fluid rounded shadow-sm">
         </div>
         <div class="col-lg-5 col-5 text-lg-left">
-          <h3 th:text="'Service Id:'+${info.serviceId}" class="h6 mb-0"></h3><br>
-          <h3 th:text="'Title: '+${info.title}" class="h6 mb-0"></h3><br>
-            <small th:text="'Price: '+${#numbers.formatDecimal(info.originalPrice,1,'POINT',0,'POINT')}"></small>
+          <h3  th:text="'Mã dịch vụ: '+${info.serviceId}" class="h6 mb-0"></h3><br>
+          <h3 th:text="'Tên dịch vụ: '+${info.title}" class="h6 mb-0"></h3><br>
+            <small th:text="'Giá dịch vụ: '+${#numbers.formatDecimal(info.originalPrice,1,'POINT',0,'POINT') + 'đ'}"></small>
+<!--               nghia's note : để giá dịch vụ >= 1 triệu-->
         </div>
-        <div th:text="${#numbers.formatDecimal(info.originalPrice,1,'POINT',0,'POINT')}" class="product-price d-none"></div>
+        <div th:text="${#numbers.formatDecimal(info.originalPrice,1,'POINT',0,'POINT')+'đ'}" class="product-price d-none"></div>
         <div class="pass-quantity col-lg-3 col-md-4 col-sm-3">
-          <label class="pass-quantity">Total person</label>
+          <label class="pass-quantity">Số lượng người</label>
           <input  class="form-control" type="number" min="1" th:value="${info.quantity}"
                  th:onfocus="'storeOldValue('+${info.serviceId}+',this.value)'"
                  th:onchange="'editCartItem(event,'+ ${info.serviceId} +',this.value)'"/>
           <input type="hidden" th:id="'oldvalue'+(${info.serviceId})"/>
         </div>
+
         <div class="col-lg-2 col-md-1 col-sm-2 product-line-price pt-4">
-          <span th:text="${#numbers.formatDecimal(info.getTotalCost(),1,'POINT',0,'POINT')}" class="product-line-price"></span>
+          <span th:text="${#numbers.formatDecimal(info.getTotalCost(),1,'POINT',0,'POINT')+'đ'}" class="product-line-price"></span>
         </div>
         <div class="remove-item pt-4">
           <button class="remove-product btn-light">
             <i class="fa fa-trash" th:onclick="'removeCartItem('+ ${info.serviceId} +')'" style="cursor : pointer;"></i>
           </button>
         </div>
+
       </div>
+
       </tr>
 
     </div>
-    <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted">More Service</span></div>
+    <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted text-uppercase">Xem thêm dịch vụ</span></div>
 
     <div class="row py-5 p-4 bg-white rounded shadow-sm">
       <div class="col-lg-6">
-        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Discount code</div>
+        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Mã giảm giá</div>
         <div class="p-4">
-          <p class="font-italic mb-4">If you have a discount code, please enter it in the box below</p>
+          <p class="font-italic mb-4">Nếu bạn có mã giảm giá hãy nhập vào ô dưới đây!</p>
           <div class="input-group mb-4 border rounded-pill p-2">
-            <input type="text" placeholder="Apply discount" aria-describedby="button-addon3" class="form-control border-0">
+            <input type="text" placeholder="Áp dụng mã giảm giá" aria-describedby="button-addon3" class="form-control border-0">
             <div class="input-group-append border-0">
-              <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Apply discount</button>
+              <button id="button-addon3" type="button" class="btn btn-primary px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Áp dụng mã giảm giá</button>
             </div>
           </div>
         </div>
@@ -190,13 +232,21 @@
         </div>
       </div>
       <div class="col-lg-6">
-        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Thông tin giỏ hàng </div>
         <div class="p-4">
           <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
           <ul class="list-unstyled mb-4">
-            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-              <p th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')}" class="font-weight-bold cart-total totals-value"></p></li>
-          </ul><a href="/ChildrenCare/reservation/contact" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
+            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tổng đơn hàng</strong>
+              <p th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')+'đ'}" class="font-weight-bold cart-total totals-value text-danger"></p></li>
+          </ul>
+          <a th:if="${list}!=null" href="/ChildrenCare/reservation/contact" class="btn btn-primary rounded-pill py-2 btn-block">Xác nhận đơn hàng</a>
+          <a th:if="${list} == null" onclick="check()" class="btn btn-primary rounded-pill py-2 btn-block">Xác nhận đơn hàng</a>
+          <script>
+            function check(){
+              alert("Giỏ hàng của bạn hiện chưa có dịch vụ nào!")
+            }
+          </script>
+
         </div>
       </div>
     </div>
@@ -227,6 +277,17 @@
   img{
     width : 100px;
     height : 100px;
+  }
+  .divhover{
+    transition: box-shadow .3s;
+    width: 100%;
+    border-radius:10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    float: left;
+  }
+  .divhover:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
   }
 </style>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
