@@ -55,8 +55,7 @@ public class ReservationService {
     public void createSchedule(int reservationId,int serviceId, int slotId,
                                int staff_id, Date date, double price){
         if(staff_id == 0){
-            StaffModel staff = staffRepository.getStaffBySlotAndDate((java.sql.Date) date, staff_id);
-            staff_id = staff.getStaff_id();
+            staff_id = staffRepository.getStaffBySlotAndDate((java.sql.Date) date, staff_id);
         }
         repository.createSchedule(reservationId, serviceId, slotId, staff_id, date, price);
     }
