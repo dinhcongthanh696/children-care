@@ -19,9 +19,14 @@ import com.paypal.base.rest.PayPalRESTException;
 
 @Service
 public class PaypalService {
+
+
     @Autowired
     private APIContext apiContext;
 
+    //Paypal account
+    //username: sb-7jt7014127431@personal.example.com
+    //password: 12345678
     public Payment createPayment(
             Double total,
             String currency,
