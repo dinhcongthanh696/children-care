@@ -247,6 +247,7 @@
 	var lastChosenServiceId = -1;
 	var captchaInterval;
 	var lastChosenModal;
+	var lastInputEmail;
 	
 	function changeLanguage(langCode){
 		var queryString = window.location.search;
@@ -270,14 +271,14 @@
 		const buttonVerifyingContact = document.getElementById("verify-contact-button");
 		const iconVerifyingContact = document.getElementById("verify-contact-icon");
 		if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
-			userEmailInput.className = "form-control modal-input valid";
+			userEmailInput.className = "form-control modal-input valid modal-element";
 			userEmailVerificationMessage.innerHTML = "Email is valid";
 			userEmailVerificationMessage.style.color = "green";
 			buttonVerifyingContact.disabled = false;
 			buttonVerifyingContact.className = "btn btn-success";
 			iconVerifyingContact.className = "fas fa-check";
 		}else if(userEmailInput.className !== "form-control modal-input invalid"){
-			userEmailInput.className = "form-control modal-input invalid";
+			userEmailInput.className = "form-control modal-input invalid modal-element";
 			userEmailVerificationMessage.innerHTML = "Email is invalid , re-enter your email";
 			userEmailVerificationMessage.style.color = "red";
 			buttonVerifyingContact.disabled = true;
@@ -288,15 +289,40 @@
 	
 	function triggerModal(modalId,displayStyle){
 		const getModalById = document.getElementById(modalId);
-		if(lastChosenFeelingElement && displayStyle === "none"){
-			lastChosenFeelingElement.className = "col-md-2 feeling";
-			var nextButton = document.getElementById("next-button");
-			nextButton.disabled = true;
-		}  // clear the last chosen feeling
 		
 		if(displayStyle !== "none"){
 			lastChosenModal = getModalById;
+		}else if(lastChosenModal &&
+		["my-modal-identification","my-modal-feedback-step-2","my-modal-contact"].includes(lastChosenModal.id)){
+			const inputModalElements = lastChosenModal.getElementsByClassName("modal-input");
+			[...inputModalElements].forEach(inputModalElement => {
+				inputModalElement.value = "";
+				if(inputModalElement.className !== "form-control modal-input modal-element"){
+					inputModalElement.className = "form-control modal-input modal-element";
+					const userEmailVerificationMessage = document.getElementById("email-verification-message");
+					userEmailVerificationMessage.innerHTML = "";
+					const buttonVerifyingContact = document.getElementById("verify-contact-button");
+					const iconVerifyingContact = document.getElementById("verify-contact-icon");
+					buttonVerifyingContact.disabled = true;
+					buttonVerifyingContact.className = "btn btn-danger";
+					iconVerifyingContact.className = "fas fa-exclamation";
+				}
+			});
+			lastChosenModal = null;
 		}else{
+			if(lastChosenFeelingElement){
+				lastChosenFeelingElement.className = "col-md-2 feeling";
+				var nextButton = document.getElementById("next-button");
+				nextButton.disabled = true;
+			}
+			
+			if(lastChosenPreview && lastChosenModal && lastChosenModal.id == "my-modal-feedback-step-2"){ 
+				URL.revokeObjectURL(lastChosenPreview);  // for performance
+			} // clear the last preview
+			
+			if(lastChosenModal && lastChosenModal.id == "my-modal-identification"){
+				clearInterval(captchaInterval);
+			}
 			lastChosenModal = null;
 		}
 		getModalById.style.display = displayStyle;
@@ -383,10 +409,9 @@
 	function indentifyCaptchaCode(){
 		
 		var captcha = document.getElementById("answer").value;
-		var email = document.getElementById("user-email").value;
 		
 		var formData = new FormData();
-		formData.append("email",email);
+		formData.append("email",lastInputEmail);
 		formData.append("captcha",captcha);
 		
 		// Display waiting modal to wait for fetching api-feedback
@@ -414,14 +439,14 @@
 	}
 	
 	function identifyUserContact(){
-		triggerModal("my-modal-contact","none");
-		var email = document.getElementById("user-email").value;
+		lastInputEmail = document.getElementById("user-email").value;
 		var formData = new FormData();
-		formData.append("email",email);
-		fetch("/ChildrenCare/api-feedback/identify-user-email?email="+email)
+		formData.append("email",lastInputEmail);
+		fetch("/ChildrenCare/api-feedback/identify-user-email?email="+lastInputEmail)
 		.then(response => response.text())
 		.then(message => {
 			if(message !== "not exsist"){
+				triggerModal("my-modal-contact","none");
 				// Display waiting modal to wait for fetching api-feedback
 				triggerModal("my-modal-waiting","block");
 				fetch("/ChildrenCare/api-feedback/generate-captcha" , {
@@ -433,33 +458,38 @@
 					return response.text();
 				})
 				.then(captcha => {
-					if(captcha !== "verified"){
-						var counter = 90;
-						var verifyEmail = document.getElementById("verify-email");
-						verifyEmail.disabled = false;
-						triggerModal("my-modal-identification","block");
-						var modalHeaderCounter = document.getElementById("modal-header-counter");
-						captchaInterval = setInterval(() => {
-							modalHeaderCounter.innerHTML = "We have sent you an catpcha code to your email to verify. Code will be expired in :  "+ generateRealTime(counter);
-							if(counter == 0){
-								clearInterval(captchaInterval);
-								if(confirm("Captcha code is expired , Do you want to receive another captcha? ")){
-									identifyUserContact();
-								}else{
-									triggerModal("my-modal-identification","none");
-								}
-							}
-							counter -= 1;
-						},1500)
-					}else{
-						alert("We have known you , now you can feedback on the services that you have bought!!!");
-						document.location.reload();
-					}
+					captchaSetTimeOut(captcha);
 				})
 			}else{
 				alert("Your email is not in our database");
 			} 
 		})
+	}
+	
+	function captchaSetTimeOut(captcha){
+		if(captcha === "verified"){
+			alert("We have known you , now you can feedback on the services that you have bought!!!");
+			document.location.reload();
+			return;
+		}
+		
+			var counter = 10;
+			var verifyEmail = document.getElementById("verify-email");
+			verifyEmail.disabled = false;
+			triggerModal("my-modal-identification","block");
+			var modalHeaderCounter = document.getElementById("modal-header-counter");
+			captchaInterval = setInterval(() => {
+				modalHeaderCounter.innerHTML = "We have sent you an catpcha code to your email to verify. Code will be expired in :  "+ generateRealTime(counter);
+				if(counter == 0){
+					clearInterval(captchaInterval);
+					if(confirm("Captcha code is expired , Do you want to get more time ? ")){
+						captchaSetTimeOut(captcha);
+					}else{
+						triggerModal("my-modal-identification","none");
+					}
+				}
+				counter -= 1;
+			},1500)
 	}
 	
 	function generateRealTime(seconds){
@@ -530,23 +560,13 @@
 	}
 	
 	window.onclick = (event) => {
-		if(!lastChosenModal) return;
+		if(!lastChosenModal || lastChosenModal.id === "my-modal-identification") return;
 		var classNameSplit = event.target.className.split(" ");
 		var arr = classNameSplit.filter(function(className) {
 			return className === "modal-element";
 		})
 		if(arr.length !== 0) return;
 		
-		var nextButton = document.getElementById("next-button"); 
-		nextButton.disabled = true; // whenever user close feeling modal , disable next button
-			
-		if(lastChosenPreview && lastChosenModal.id == "my-modal-feedback-step-2"){ 
-			URL.revokeObjectURL(lastChosenPreview);  // for performance
-		} // clear the last preview
-		
-		if(lastChosenModal.id == "my-modal-identification"){
-			clearInterval(captchaInterval);
-		}
 			
 		// close the modal when user click outside of the modal
 		triggerModal(lastChosenModal.id,"none");
