@@ -15,4 +15,7 @@ public interface StaffRepository extends JpaRepository<StaffModel, Integer> {
             "(Select staff_id from reservation_service\n" +
             "where booked_date = ?1 and slot_id = ?2)", nativeQuery = true)
     int getStaffBySlotAndDate(Date date, int staff_id);
+
+    @Query(value = "select * from staff where staff_email = ?1", nativeQuery = true)
+    StaffModel findStaffByEmail(String email);
 }

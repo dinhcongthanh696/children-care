@@ -37,7 +37,7 @@
         </header>
         <div class="wrapper row-offcanvas row-offcanvas-left">
             <!-- Left side column. contains the logo and sidebar -->
-            <aside class="left-side sidebar-offcanvas" th:replace="navBar_admin::leftSide_admin" ></aside>
+            <aside class="left-side sidebar-offcanvas" th:replace="navBar_admin::leftSide_admin('/manager/sliderManager/page/1')" ></aside>
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
@@ -51,7 +51,7 @@
                                  Reservation Information
                               </header>
                               <div class="panel-body">
-                                  <form class="form-horizontal tasi-form" method="get">
+                                  <form th:action="@{/manager/updateStatus}" class="form-horizontal tasi-form" method="post">
                                       <div class="form-group">
                                           <label class="col-sm-2 col-sm-2 control-label">Reservation ID</label>
                                           <div class="col-sm-10">
@@ -91,9 +91,24 @@
                                       <div class="form-group">
                                           <label class="col-sm-2 col-sm-2 control-label">Status Reservation</label>
                                           <div class="col-sm-10">
-                                              <input th:value="${reservationDetails.status} == true ? 'Submited':'Canceled'"  type="text" class="form-control" placeholder="placeholder">
+                                              <select name="status">
+                                                  <option value="1" th:selected="${reservationDetails.status}">Submited</option>
+                                                  <option value="0" th:selected="not ${reservationDetails.status}">Canceled</option>
+                                              </select>
                                           </div>
                                       </div>
+                                      <div class="form-group">
+                                          <label class="col-sm-2 col-sm-2 control-label"></label>
+                                          <div class="col-sm-10">
+                                              <button onclick="confirmChange()"  class="btn-primary" type="submit">Update</button>
+                                          </div>
+                                      </div>
+                                      <script>
+                                          function confirmChange(){
+                                              alert("Thay đổi trạng thái đơn hàng thành công!");
+                                          }
+                                      </script>
+
                                   </form>
                               </div>
                             </section>
