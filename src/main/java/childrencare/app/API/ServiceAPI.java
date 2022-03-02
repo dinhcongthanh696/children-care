@@ -5,10 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import childrencare.app.model.ServiceModel;
 import childrencare.app.model.UserModel;
@@ -30,5 +27,25 @@ public class ServiceAPI {
 			return new ArrayList<ServiceModel>();
 		}
 		return serviceRepository.findUserBoughtedServiceByServiceId(user.getEmail(), serviceId);
-	} 
+	}
+
+	@PostMapping("/update-service")
+	public String updateService(@RequestParam(name = "title")String title, @RequestParam(name = "briefinfo")String briefInfo,
+								@RequestParam(name = "category")String category, @RequestParam(name = "originprice")double originPrice,
+								@RequestParam(name = "saleprice")double salePrice, @RequestParam(name = "description")String description,
+								@RequestParam(name = "id")int id){
+		ServiceModel service = serviceRepository.getById(id);
+		if(service != null){
+			service.setTitle(title);
+			service.setBriefInfo(briefInfo);
+			service.setOriginalPrice(originPrice);
+			service.setSalePrice(salePrice);
+			service.setDescription(description);
+			serviceRepository.save(service);
+			return "success";
+
+		}
+		return "fail";
+
+	}
 }

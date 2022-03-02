@@ -259,6 +259,11 @@
 
                 <!--<h3 class="product-title" th:text="${service.title}"></h3> -->
                 <div class="form-group">
+                  <label for="id">ID</label>
+                  <input  th:value="${service.serviceId}" class="form-control" readonly type="text"   id="id" required="">
+                </div>
+
+                <div class="form-group">
                   <label for="title">Title</label>
                   <input  th:value="${service.title}" class="form-control" type="text"   id="title" required="">
                 </div>
@@ -290,7 +295,7 @@
 
 
                 <div class="action">
-                  <button class="add-to-cart btn btn-default" type="button">Save</button>
+                  <button class="add-to-cart btn btn-default" type="submit" onclick="update()">Save</button>
                 </div>
               </div>
             </div>
@@ -444,6 +449,33 @@
     var imageElement = document.getElementById("service-image");
     imageElement.src = lastChosenPreview;
   }
+
+  function update(){
+    var id = document.getElementById("id").value;
+    var title = document.getElementById("title").value;
+    var briefinfo = document.getElementById("briefInfo").value;
+    var category = document.getElementById("category").value;
+    var desccription = document.getElementById("description").value;
+    var orginprice = document.getElementById("originPrice").value;
+    var saleprice = document.getElementById("salePrice").value;
+    var formData = new FormData();
+    formData.append("id", id);
+    formData.append("title",title);
+    formData.append("briefinfo",briefinfo);
+    formData.append("category",category);
+    formData.append("originprice", orginprice);
+    formData.append("saleprice",saleprice);
+    formData.append("description",desccription);
+    fetch("/ChildrenCare/api-service/update-service",{
+      method : "post",
+      body : formData
+    }).then(respond => {
+      return respond.text();
+    }).then(message => {
+      alert(message);
+    })
+  }
+
     var lastPreviewAvarta;
     function previewAvatar(inputFileElement){
     if(lastPreviewAvarta){
