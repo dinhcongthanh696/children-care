@@ -71,4 +71,7 @@ public class ReservationService_Service {
     }
 
 
+    public List<ReservationServiceModel> findAllServiceByStaffAndRid(int staffID, int reservation_id) {
+        return reservationServiceRepository.findAllServiceByStaffAndRid(staffID, reservation_id);
+    }
 }

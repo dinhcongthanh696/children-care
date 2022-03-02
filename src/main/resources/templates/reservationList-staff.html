@@ -60,6 +60,7 @@
                            placeholder="Tìm kiếm theo mã đơn hàng.."/>
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </form>
+                   <h3 th:text="' Các đơn đặt khám của bác sĩ:'+${session.user.fullname}"></h3>
                 </div>
 
                 <div class="col-sm-4">
@@ -99,7 +100,7 @@
                   <td th:text="${item.customer.customer_user.fullname}"></td>
                   <td th:text="${item.totalReservationPrice}"></td>
                   <td th:utext="${item.status} ?'Submited':'Canceled'"></td>
-                  <td><a><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                  <td><a th:href="@{/staff/{rid}(rid=${item.reservationId})}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
                 </tr>
                 </tbody>
               </table>
