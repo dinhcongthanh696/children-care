@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,4 +77,14 @@ public class PostController {
 
         return "post_manager";
     }
+    @PostMapping("/post")
+    @Transactional
+    public String changeStatusPost(@RequestParam("pid") int rid,
+                                 @RequestParam("status") boolean status,
+                                 Model model){
+        postService.changeStatusPost(status,rid);
+        return "redirect:/manager/post";
+    }
+
+
 }
