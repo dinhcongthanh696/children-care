@@ -294,8 +294,11 @@
                 </div>
 
 
-                <div class="action">
-                  <button class="add-to-cart btn btn-default" type="submit" onclick="update()">Save</button>
+                <div class="col-12">
+                  <hr class="mt-2 mb-3">
+                  <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly." onclick="update()">Save</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -477,14 +480,15 @@
   }
 
     var lastPreviewAvarta;
-    function previewAvatar(inputFileElement){
-    if(lastPreviewAvarta){
-    URL.revokeObjectURL(lastPreviewAvarta);
-  }
-    var image = inputFileElement.files[0];
-    lastPreviewAvarta = URL.createObjectURL(image);
-    var formAva = document.getElementById("form-avarta");
-    formAva.src = lastPreviewAvarta;
+    function previewAvatar(inputFileElement) {
+      if (lastPreviewAvarta) {
+        URL.revokeObjectURL(lastPreviewAvarta);
+      }
+      var image = inputFileElement.files[0];
+      lastPreviewAvarta = URL.createObjectURL(image);
+      var formAva = document.getElementById("form-avarta");
+      formAva.src = lastPreviewAvarta;
+    }
 
 
 </script>
