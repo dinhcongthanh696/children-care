@@ -252,32 +252,44 @@
 
                 <div class="preview-pic tab-content">
                   <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
-                  <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
-                  <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
-                  <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
-                  <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div>
                 </div>
-                <ul class="preview-thumbnail nav nav-tabs">
-                  <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                  <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                  <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                  <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                  <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                </ul>
-
               </div>
               <div class="details col-md-6">
 
-                <h3 class="product-title" th:text="${service.title}"></h3>
+                <!--<h3 class="product-title" th:text="${service.title}"></h3> -->
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input  th:value="${service.title}" class="form-control" type="text"   id="title" required="">
+                </div>
 
-                <p class="product-description" th:text="${service.description}"></p>
-                <h4 class="price">current price: <span th:text="${service.originalPrice}"></span></h4>
+                <div class="form-group">
+                  <label for="category">Category</label>
+                  <input  th:value="${service.serviceCategory.serviceCategoryName}" class="form-control" type="text"   id="category" required="">
+                </div>
 
+                <div class="form-group">
+                  <label for="briefInfo">Brief Information</label>
+                  <input  th:value="${service.briefInfo}" class="form-control" type="text"   id="briefInfo" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input  th:value="${service.description}" class="form-control" type="text"   id="description" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="originPrice">Price</label>
+                  <input  th:value="${service.originalPrice}" class="form-control" type="text"   id="originPrice" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="salePrice">SalePrice</label>
+                  <input  th:value="${service.salePrice}" class="form-control" type="text"   id="salePrice" required="">
+                </div>
 
 
                 <div class="action">
                   <button class="add-to-cart btn btn-default" type="button">Save</button>
-                  <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
                 </div>
               </div>
             </div>
