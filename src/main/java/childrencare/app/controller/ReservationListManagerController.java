@@ -33,7 +33,7 @@ public class ReservationListManagerController {
 
     @RequestMapping(value = "/home/page/{pageNum}", method = { RequestMethod.GET, RequestMethod.POST })
     public String getPage(Model model, @PathVariable(name = "pageNum") int pageNum,
-                           @RequestParam(name =  "key",required = false) String key,
+                           @RequestParam(name =  "key",required = false,defaultValue = "0") int key,
                            @RequestParam(name =  "sortField",required = false,defaultValue = "id") String sortField,
                            @RequestParam(name =  "sortDir",required = false,defaultValue = "asc") String sortDir){
         Page<ReservationModel> page = reservationService.listAll(pageNum,key,sortField,sortDir);
