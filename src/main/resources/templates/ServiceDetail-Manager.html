@@ -49,7 +49,7 @@
         href="../../images/favicon/favicon-16x16.png" sizes="16x16">
   <link rel="stylesheet" href="../../css/service-list.css">
 
-  <!--  thanh style -->
+
   <style>
     table {
       border-collapse: collapse;
@@ -225,8 +225,8 @@
         -webkit-transform: scale(1);
         transform: scale(1); } }
   </style>
-  <!-- end thanh style -->
-  <!-- Fav icon -->
+
+
 </head>
 <body th:onload="renderPages()" class="skin-black">
 <header class="header" >
@@ -251,7 +251,8 @@
               <div class="preview col-md-6">
 
                 <div class="preview-pic tab-content">
-                  <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
+                  <div class="tab-pane active" id="pic-1"><img th:src="${'data:image/gif;base64,'+ service.getBase64ThumbnailEncode()}" /></div>
+                  <input  name="avatar" type="file" id="avatar" onchange="previewAvatar(this)">
                 </div>
               </div>
               <div class="details col-md-6">
@@ -443,6 +444,16 @@
     var imageElement = document.getElementById("service-image");
     imageElement.src = lastChosenPreview;
   }
+    var lastPreviewAvarta;
+    function previewAvatar(inputFileElement){
+    if(lastPreviewAvarta){
+    URL.revokeObjectURL(lastPreviewAvarta);
+  }
+    var image = inputFileElement.files[0];
+    lastPreviewAvarta = URL.createObjectURL(image);
+    var formAva = document.getElementById("form-avarta");
+    formAva.src = lastPreviewAvarta;
+
 
 </script>
 </body>
