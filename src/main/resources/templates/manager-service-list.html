@@ -219,15 +219,16 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 					<td th:text="${#numbers.formatDecimal(service.salePrice,1,'POINT',0,'POINT')}"></td>
 					<td>
 						<span
-							th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+							th:class="${service.avg_star > 0  ? (service.avg_star < 1 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : ''}"></span>
 						<span
-							th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+							th:class="${service.avg_star > 1  ? (service.avg_star < 2 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : ''}"></span>
 						<span
-							th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+							th:class="${service.avg_star > 2  ? (service.avg_star < 3 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : ''}"></span>
 						<span
-							th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+							th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : ''}"></span>
 						<span
-							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>		
+							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : ''}"></span>	
+						<h4 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : #{rated.star.novote}"></h4>	
 					</td>
 					<td>
 						<input type="checkbox" th:checked="${service.status}" 
