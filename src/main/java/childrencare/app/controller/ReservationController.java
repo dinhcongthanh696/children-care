@@ -157,21 +157,29 @@ public class ReservationController {
                                   @RequestParam(name = "phone",required = false) String phone,
                                   @RequestParam(name = "address",required = false) String address,
                                   @RequestParam(name = "note",required = false) String note) {
-        //insert to user table
         UserModel user = (UserModel) session.getAttribute("user");
-        UserModel userModel = new UserModel();
-        userModel.setUsername(email);
-        userModel.setFullname(fullname);
-        userModel.setAddress(address);
-        userModel.setEmail(email);
-        userModel.setGender(gender);
-        userModel.setNotes(note);
-        userModel.setPhone(phone);
-        userModel.setStatus(true);
-        userService.save(userModel);
-        //insert to customer table
         CustomerModel cus = new CustomerModel();
-        customerService.insertToCus(1,email);
+        //case user login
+        if(user != null){
+            cus = new CustomerModel();
+            customerService.insertToCus(1,user.getEmail());
+        }
+        if(user == null){
+            //case : user not login
+            //insert to user table
+            UserModel userModel = new UserModel();
+            userModel.setUsername(email);
+            userModel.setFullname(fullname);
+            userModel.setAddress(address);
+            userModel.setEmail(email);
+            userModel.setGender(gender);
+            userModel.setNotes(note);
+            userModel.setPhone(phone);
+            userModel.setStatus(true);
+            userService.save(userModel);
+            //insert to customer table
+            customerService.insertToCus(1,email);
+        }
         //insert to reservation table
         ReservationModel reservationModel = new ReservationModel();
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
