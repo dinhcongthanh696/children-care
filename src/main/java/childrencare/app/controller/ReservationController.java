@@ -159,11 +159,7 @@ public class ReservationController {
                                   @RequestParam(name = "note",required = false) String note) {
         UserModel user = (UserModel) session.getAttribute("user");
         CustomerModel cus = new CustomerModel();
-        //case user login
-        if(user != null){
-            cus = new CustomerModel();
-            customerService.insertToCus(1,user.getEmail());
-        }
+        ReservationModel reservationModel = new ReservationModel();
         if(user == null){
             //case : user not login
             //insert to user table
@@ -180,16 +176,28 @@ public class ReservationController {
             //insert to customer table
             customerService.insertToCus(1,email);
         }
+        //case user login and buy again
+        cus = customerService.findCustomerByEmail(user.getEmail());
+        //case user login
+        if(user != null && cus == null){
+            customerService.insertToCus(1,user.getEmail());
+        }
+        if(cus != null){
+            reservationModel.setCustomer(cus);
+        }
+        if(cus == null){
+            int cid = customerService.lastIDCus();
+            cus.setCustomer_id(cid);
+            reservationModel.setCustomer(cus);
+        }
+
+
         //insert to reservation table
-        ReservationModel reservationModel = new ReservationModel();
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
         reservationModel.setStatus(false);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         reservationModel.setDate(dtf.format(now));
-        int cid = customerService.lastIDCus();
-        cus.setCustomer_id(cid);
-        reservationModel.setCustomer(cus);
         // thanh's code
         int rid = reservationService.saveReservation(reservationModel);
         List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
