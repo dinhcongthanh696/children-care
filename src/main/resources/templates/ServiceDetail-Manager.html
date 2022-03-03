@@ -251,8 +251,8 @@
               <div class="preview col-md-6">
 
                 <div class="preview-pic tab-content">
-                  <div class="tab-pane active" id="pic-1"><img th:src="${'data:image/gif;base64,'+ service.getBase64ThumbnailEncode()}" /></div>
-                  <input  name="avatar" type="file" id="avatar" onchange="previewAvatar(this)">
+                  <div class="tab-pane active" id="pic-1"><img id="avatar" th:src="${'data:image/gif;base64,'+ service.getBase64ThumbnailEncode()}" /></div>
+                  <input  name="avatar" type="file"  onchange="previewAvatar(this)">
                 </div>
               </div>
               <div class="details col-md-6">
@@ -280,7 +280,7 @@
 
                 <div class="form-group">
                   <label for="description">Description</label>
-                  <input  th:value="${service.description}" class="form-control" type="text"   id="description" required="">
+                  <textarea  th:text="${service.description}" class="form-control" type="text"   id="description" required=""> </textarea>
                 </div>
 
                 <div class="form-group">
@@ -461,6 +461,7 @@
     var desccription = document.getElementById("description").value;
     var orginprice = document.getElementById("originPrice").value;
     var saleprice = document.getElementById("salePrice").value;
+    //var avatar = document.getElementById("avatar").files[0];
     var formData = new FormData();
     formData.append("id", id);
     formData.append("title",title);
@@ -469,6 +470,7 @@
     formData.append("originprice", orginprice);
     formData.append("saleprice",saleprice);
     formData.append("description",desccription);
+    //formData.append("avatar",avatar);
     fetch("/ChildrenCare/api-service/update-service",{
       method : "post",
       body : formData
@@ -486,7 +488,7 @@
       }
       var image = inputFileElement.files[0];
       lastPreviewAvarta = URL.createObjectURL(image);
-      var formAva = document.getElementById("form-avarta");
+      var formAva = document.getElementById("avatar");
       formAva.src = lastPreviewAvarta;
     }
 
