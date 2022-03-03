@@ -2,6 +2,10 @@ package childrencare.app.service;
 
 import childrencare.app.model.FeedbackModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import childrencare.app.repository.FeedbackRepository;
@@ -26,5 +30,11 @@ public class FeedbackService {
         return feedbacks;
     }
 
+    public Page<FeedbackModel> getPaginatedFeedback(int page, int size, String search, String sort){
+        if (page < 0) {
+            page = 0;
+        }
+        return feedbackRepository.findAll(PageRequest.of(page, size, Sort.by(sort)));
+    }
 
 }

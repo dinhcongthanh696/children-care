@@ -131,5 +131,9 @@ public class AdminController {
 		}
 		return "index_admin";
 	}
-	
+
+	@RequestMapping(value = "/feedback", method = { RequestMethod.GET, RequestMethod.POST })
+	public String show() {
+		return "manager-feedback-list";
+	}
 }
