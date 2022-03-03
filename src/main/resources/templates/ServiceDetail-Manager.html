@@ -49,7 +49,7 @@
         href="../../images/favicon/favicon-16x16.png" sizes="16x16">
   <link rel="stylesheet" href="../../css/service-list.css">
 
-  <!--  thanh style -->
+
   <style>
     table {
       border-collapse: collapse;
@@ -225,8 +225,8 @@
         -webkit-transform: scale(1);
         transform: scale(1); } }
   </style>
-  <!-- end thanh style -->
-  <!-- Fav icon -->
+
+
 </head>
 <body th:onload="renderPages()" class="skin-black">
 <header class="header" >
@@ -251,33 +251,54 @@
               <div class="preview col-md-6">
 
                 <div class="preview-pic tab-content">
-                  <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
-                  <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
-                  <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
-                  <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
-                  <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div>
+                  <div class="tab-pane active" id="pic-1"><img id="avatar" th:src="${'data:image/gif;base64,'+ service.getBase64ThumbnailEncode()}" /></div>
+                  <input id="input-ava" name="avatar" type="file"  onchange="previewAvatar(this)">
                 </div>
-                <ul class="preview-thumbnail nav nav-tabs">
-                  <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                  <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                  <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                  <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                  <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                </ul>
-
               </div>
               <div class="details col-md-6">
 
-                <h3 class="product-title" th:text="${service.title}"></h3>
+                <!--<h3 class="product-title" th:text="${service.title}"></h3> -->
+                <div class="form-group">
+                  <label for="id">ID</label>
+                  <input  th:value="${service.serviceId}" class="form-control" readonly type="text"   id="id" required="">
+                </div>
 
-                <p class="product-description" th:text="${service.description}"></p>
-                <h4 class="price">current price: <span th:text="${service.originalPrice}"></span></h4>
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input  th:value="${service.title}" class="form-control" type="text"   id="title" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="category">Category</label>
+                  <input  th:value="${service.serviceCategory.serviceCategoryName}" class="form-control" type="text"   id="category" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="briefInfo">Brief Information</label>
+                  <input  th:value="${service.briefInfo}" class="form-control" type="text"   id="briefInfo" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea  th:text="${service.description}" class="form-control" type="text"   id="description" required=""> </textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="originPrice">Price</label>
+                  <input  th:value="${service.originalPrice}" class="form-control" type="text"   id="originPrice" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="salePrice">SalePrice</label>
+                  <input  th:value="${service.salePrice}" class="form-control" type="text"   id="salePrice" required="">
+                </div>
 
 
-
-                <div class="action">
-                  <button class="add-to-cart btn btn-default" type="button">Save</button>
-                  <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+                <div class="col-12">
+                  <hr class="mt-2 mb-3">
+                  <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly." onclick="update()">Save</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -431,6 +452,46 @@
     var imageElement = document.getElementById("service-image");
     imageElement.src = lastChosenPreview;
   }
+
+  function update(){
+    var id = document.getElementById("id").value;
+    var title = document.getElementById("title").value;
+    var briefinfo = document.getElementById("briefInfo").value;
+    var category = document.getElementById("category").value;
+    var desccription = document.getElementById("description").value;
+    var orginprice = document.getElementById("originPrice").value;
+    var saleprice = document.getElementById("salePrice").value;
+    var avatar = document.getElementById("input-ava").files[0];
+    var formData = new FormData();
+    formData.append("id", id);
+    formData.append("title",title);
+    formData.append("briefinfo",briefinfo);
+    formData.append("category",category);
+    formData.append("originprice", orginprice);
+    formData.append("saleprice",saleprice);
+    formData.append("description",desccription);
+    formData.append("avatar",avatar);
+    fetch("/ChildrenCare/api-service/update-service",{
+      method : "post",
+      body : formData
+    }).then(respond => {
+      return respond.text();
+    }).then(message => {
+      alert(message);
+    })
+  }
+
+    var lastPreviewAvarta;
+    function previewAvatar(inputFileElement) {
+      if (lastPreviewAvarta) {
+        URL.revokeObjectURL(lastPreviewAvarta);
+      }
+      var image = inputFileElement.files[0];
+      lastPreviewAvarta = URL.createObjectURL(image);
+      var formAva = document.getElementById("avatar");
+      formAva.src = lastPreviewAvarta;
+    }
+
 
 </script>
 </body>

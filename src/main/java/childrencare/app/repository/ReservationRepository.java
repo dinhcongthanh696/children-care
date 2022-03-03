@@ -77,8 +77,8 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     Page<ReservationModel> findAll(Pageable pageable);
 
     @Query(value = "select r from ReservationModel r join r.customer c " +
-            "join c.customer_user u where c.customer_user.fullname like %?1% OR r.reservationId = ?1")
-    Page<ReservationModel> findReservationStaff(String keyword, Pageable pageable);
+            "join c.customer_user u where  r.reservationId = ?1")
+    Page<ReservationModel> findReservationStaff(int keyword, Pageable pageable);
 
     @Query(value = "select r from ReservationModel r\n" +
             "join r.customer c " +
@@ -92,9 +92,31 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     void changeStatusReservation(boolean status, int rid);
 
 
-    @Query(value = " select count(*) from reservation_service\n" +
-            " where reservation_id = ?1 and service_id = ?2",nativeQuery = true)
-    int countTotal(int rid, int sid);
+    @Query(value = "select * from reservation where reservation_id in\n" +
+            "(select distinct reservation_id\n" +
+            " from reservation_service\n" +
+            " where staff_id = ?1)",nativeQuery = true)
+    Page<ReservationModel> listReservationByStaffID(int staffID,Pageable pageable);
+
+
+    @Query(value = "select * from reservation where reservation_id in\n" +
+            "(select distinct reservation_id\n" +
+            " from reservation_service\n" +
+            " where staff_id = ?1 and reservation_id = ?2)",nativeQuery = true)
+    Page<ReservationModel> listReservationByStaff(int staffID,int reservaioID,Pageable pageable);
+
+
+    @Query(value = "select * from reservation where reservation_id in\n" +
+            "(select distinct reservation_id\n" +
+            " from reservation_service\n" +
+            " where staff_id = ?1 and [status] = ?2)",nativeQuery = true)
+    Page<ReservationModel> listReservationByStaffByFilter(int staffID,boolean status,Pageable pageable);
+
+    @Query(value = "select * from reservation where reservation_id in\n" +
+            "(select distinct reservation_id\n" +
+            " from reservation_service\n" +
+            " where customer_id = ?1)",nativeQuery = true)
+    Page<ReservationModel> listReservationByCusID(int cusID,Pageable pageable);
 
 
 

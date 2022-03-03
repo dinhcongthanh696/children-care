@@ -62,7 +62,7 @@
 </header>
 <div class="wrapper row-offcanvas row-offcanvas-left">
     <!-- Left side column. contains the logo and sidebar -->
-    <div th:replace="navBar_admin::leftSide_admin"></div>
+    <div th:replace="navBar_admin::leftSide_admin('/manager/post')"></div>
     <!-- Right side column. Contains the navbar and content of the page -->
     <aside class="right-side">
         <!-- Main content -->
@@ -239,19 +239,19 @@
                 <div class="col-xl-12">
                     <ul class="post-pagination2 text-center">
                         <li><a class="left"
-                               th:href="@{/manager/post(page=0,type=${type},categoryId=${categoryId})}"><i
+                               th:href="@{/manager/post(page=0,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><i
                                 class="fa fa-angle-double-left"
                                 aria-hidden="true"></i><span>FIRST</span></a>
                         </li>
                         <li class="page-item active" th:each="pageNumber:${pageNumbers}"
                             th:if="${pagingPost.totalPages >1}"
                             th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
-                            <a th:href="@{/manager/post(page=${pageNumber},type=${type},categoryId=${categoryId})}"
+                            <a th:href="@{/manager/post(page=${pageNumber},type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"
                                th:text="${pageNumber}"></a>
                         </li>
 
                         <li><a class="right"
-                               th:href="@{/manager/post(page=${pagingPost.totalPages}-1,type=${type},categoryId=${categoryId})}"><span>LAST</span><i
+                               th:href="@{/manager/post(page=${pagingPost.totalPages}-1,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><span>LAST</span><i
                                 class="fa fa-angle-double-right"
                                 aria-hidden="true"></i></a>
                         </li>

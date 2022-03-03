@@ -27,7 +27,6 @@ public class AuthorizationFilter implements Filter{
 			throws IOException, ServletException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		System.out.print("hello" + httpRequest.getServletPath() + "\n");
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpSession session = httpRequest.getSession();
 		UserModel user = (UserModel) session.getAttribute("user");

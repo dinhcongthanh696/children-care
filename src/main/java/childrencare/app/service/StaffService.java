@@ -17,5 +17,9 @@ public class StaffService {
         return staffRepository.findAll();
     }
 
+    public StaffModel findStaffByEmail(String email) {
+        return staffRepository.findStaffByEmail(email);
+    }
+
 
 }

@@ -5,6 +5,7 @@ import childrencare.app.model.*;
 import childrencare.app.repository.CustomerRepository;
 import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -156,31 +157,47 @@ public class ReservationController {
                                   @RequestParam(name = "phone",required = false) String phone,
                                   @RequestParam(name = "address",required = false) String address,
                                   @RequestParam(name = "note",required = false) String note) {
-        //insert to user table
         UserModel user = (UserModel) session.getAttribute("user");
-        UserModel userModel = new UserModel();
-        userModel.setUsername(email);
-        userModel.setFullname(fullname);
-        userModel.setAddress(address);
-        userModel.setEmail(email);
-        userModel.setGender(gender);
-        userModel.setNotes(note);
-        userModel.setPhone(phone);
-        userModel.setStatus(true);
-        userService.save(userModel);
-        //insert to customer table
         CustomerModel cus = new CustomerModel();
-        customerService.insertToCus(1,email);
-        //insert to reservation table
         ReservationModel reservationModel = new ReservationModel();
+        if(user == null){
+            //case : user not login
+            //insert to user table
+            UserModel userModel = new UserModel();
+            userModel.setUsername(email);
+            userModel.setFullname(fullname);
+            userModel.setAddress(address);
+            userModel.setEmail(email);
+            userModel.setGender(gender);
+            userModel.setNotes(note);
+            userModel.setPhone(phone);
+            userModel.setStatus(true);
+            userService.save(userModel);
+            //insert to customer table
+            customerService.insertToCus(1,email);
+        }
+        //case user login and buy again
+        cus = customerService.findCustomerByEmail(user.getEmail());
+        //case user login
+        if(user != null && cus == null){
+            customerService.insertToCus(1,user.getEmail());
+        }
+        if(cus != null){
+            reservationModel.setCustomer(cus);
+        }
+        if(cus == null){
+            int cid = customerService.lastIDCus();
+            cus.setCustomer_id(cid);
+            reservationModel.setCustomer(cus);
+        }
+
+
+        //insert to reservation table
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
         reservationModel.setStatus(false);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         reservationModel.setDate(dtf.format(now));
-        int cid = customerService.lastIDCus();
-        cus.setCustomer_id(cid);
-        reservationModel.setCustomer(cus);
         // thanh's code
         int rid = reservationService.saveReservation(reservationModel);
         List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
@@ -213,6 +230,18 @@ public class ReservationController {
         }
 
 
+    }
+
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
+    @Transactional
+    @GetMapping("/infor/dele")
+    public String deleteServiceBySidAndRid(
+            @RequestParam("rid") int rid
+            , @RequestParam("sid") int sid
+            , @RequestParam("slotid") int slotid
+            , @RequestParam("date") String date) {
+        reservationService_service.deleteByRidAndSidAndSlotid(rid, sid, slotid, date);
+        return "redirect:/reservation/infor?rid=" + rid;
     }
 
 

@@ -3,9 +3,11 @@ package childrencare.app.repository;
 import childrencare.app.model.PostModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,13 +27,10 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
 
     //manager post
 
-    @Query(value = "select * from post \n " +
-            "where post.title like ?1 " +
-            "and post.post_category_id = ?2 " +
-            "and post.email like ?3 " +
-            "and post.status = ?4 " +
-            "order by ?5", nativeQuery = true)
-    public Page<PostModel> findAllBy(String title, int postCategoryId, String email, int status, String typeOrder, PageRequest pageRequest);
+    @Query(value = "select * from post as p where 1=1 and (:title is null or p.title like %:title%) " +
+            "and (:catID is null or p.post_category_id = :catID) " +
+            "and (:type is null or p.status = :type)", nativeQuery = true)
+    Page<PostModel> findAllBy(@Param("title")String title,@Param("catID")String catID,@Param("type")String type, Pageable pageable);
 
     @Query(value = "select * from post \n " +
             "(where post.post_category_id = ?1) ",nativeQuery = true)

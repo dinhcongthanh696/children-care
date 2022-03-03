@@ -30,18 +30,24 @@ public class PostController {
     public String reservationInfor(Model model
             , @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page
             , @RequestParam(name = "type", required = false, defaultValue = "-1") String type
-            , @RequestParam(name = "categoryId", required = false, defaultValue = "-1") String categoryId) {
+            , @RequestParam(name = "categoryId", required = false, defaultValue = "-1") String categoryId
+            , @RequestParam(name = "titleORauthor", required = false) String title) {
         List<PostCategoryModel> postCategoryModelList = blogCategoryService.findAll();
 
 
         int currentPage = page.orElse(0);
         Page<PostModel> postModels = null;
+
         if (categoryId.equals("-1") && type.equals("-1")) {
-            postModels = postService.findAll(currentPage, 2);
-        } else if (categoryId != "-1") {
-            postModels = postService.findAllByCategoryID(Integer.parseInt(categoryId), currentPage, 2);
-        } else if (type != "-1") {
-            postModels = postService.findAllByStatus(Integer.parseInt(type), currentPage, 2);
+            postModels = postService.findAllAndSearch(title, null, null, currentPage, 2);
+        } else if (categoryId.equals("-1") && !type.equals("-1")) {
+            postModels = postService.findAllAndSearch(title, null, type, currentPage, 2);
+
+        } else if (!categoryId.equals("-1") && type.equals("-1")) {
+            postModels = postService.findAllAndSearch(title, categoryId, null, currentPage, 2);
+
+        } else {
+            postModels = postService.findAllAndSearch(title, categoryId, type, currentPage, 2);
         }
 
 
@@ -65,6 +71,7 @@ public class PostController {
         model.addAttribute("pagingPost", postModels);
         model.addAttribute("type", type);
         model.addAttribute("categoryId", categoryId);
+        model.addAttribute("titleORauthor", title);
 
         return "post_manager";
     }
