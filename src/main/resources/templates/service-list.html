@@ -390,6 +390,7 @@
 				alert(message);	
 			}else{
 				// display modal success
+				triggerModal("my-modal-feedback-step-2","none");
 				triggerModal("my-modal-success","block");
 				setTimeout(() => {
 					window.location.reload();
@@ -542,6 +543,7 @@
             return respond.text();
         }).then(message => {
             alert(message);
+            window.location.reload();
         })
     }
 

@@ -62,15 +62,15 @@ th, td {
 }
 
 tr:nth-child(even) {background-color: #a3a8a3;}
-
+	
 </style>
 <!-- end thanh style -->
- <!-- Fav icon -->
+ <!-- Fav icon -->	
 </head>
 <body th:onload="renderPages()" class="skin-black">
 	<header class="header" >
             <a th:href="@{/admin/dashboard}" class="logo" th:text="${session.user.userRole.roleName}">
-
+               
             </a>
             <!-- Header Navbar: style can be found in header.less -->
            <div th:replace="header_admin::navbarRight"></div>
@@ -80,11 +80,11 @@ tr:nth-child(even) {background-color: #a3a8a3;}
                     <div th:replace="navBar_admin::leftSide_admin('/admin/services')" ></div>
 
 
-                    <aside class="right-side">
+                    <aside class="right-side">    
 						<section class="content">
 							<div class="container-fluid">
-
-
+							
+							
 	<!-- Add new Service Modal -->
 	<div id="new-service-modal" class="modal fade" role="dialog">
   	   <div class="modal-dialog">
@@ -137,8 +137,8 @@ tr:nth-child(even) {background-color: #a3a8a3;}
         		</div>
         		<button onclick="addNewService()"
         			th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
-					th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}"
-					th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
+					th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
+					th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
         		>Save your changes</button>
       		</div>
       		<div class="modal-footer">
@@ -157,7 +157,7 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 		<div class="row" style="background-color: #EDEDED;color : black;padding: 25px;">
 			<div class="searching-header col-sm-4 form-check">
 				<label for="status-filter" class="form-check-label">Filter by status</label>
-				<select id="status-filter" class="form-check-input"
+				<select id="status-filter" class="form-check-input" 
 						style="margin-left: 10px;border-radius: 5px;"
 						th:onchange="'changePage('+ ${currentPage} +')'"
 						>
@@ -207,7 +207,7 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 				</tr>
 			</thead>
 			<tbody >
-				<tr th:each="service : ${services}" th:id="'service'+${service.serviceId}"
+				<tr th:each="service : ${services}" th:id="'service'+${service.serviceId}" 
 					style="transition : display 2s;"
 					class="service_item">
 					<th th:text="${'#'+service.serviceId}"></th>
@@ -227,16 +227,16 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 						<span
 							th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 						<span
-							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
+							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>		
 					</td>
 					<td>
-						<input type="checkbox" th:checked="${service.status}"
-						th:id="'checkbox'+${service.serviceId}"
+						<input type="checkbox" th:checked="${service.status}" 
+						th:id="'checkbox'+${service.serviceId}" 
 						th:onclick="'changeServiceStatus('+ ${service.serviceId} +')'"
 						th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
-						th:disabled="${editaccess.?[screen.method == 'PUT'].isEmpty()}"
+						th:disabled="${editaccess.?[screen.method == 'PUT'].isEmpty()}" 
 						/>
-						<i 	th:class="${service.status ? 'fas fa-eye' : 'fas fa-eye-slash'}"
+						<i 	th:class="${service.status ? 'fas fa-eye' : 'fas fa-eye-slash'}" 
 					   		th:text="${service.status ? '-Showing' : '-Hiding'}"
 					   		style="color : back;"
 					   		th:id="'service-status-icon'+${service.serviceId}"></i>
@@ -250,8 +250,8 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 						<button  style="border-radius: 5px;padding : 10px;"
 							data-toggle="modal" data-target="#new-service-modal" id="add-service-button"
 							th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
-							th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}"
-							th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
+							th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
+							th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
 						>
 						  	<i class="fa fa-plus"></i>Add new Services
 						</button>
@@ -261,12 +261,12 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 		</table>
 	</div>
 	</div>
-
+	
 	<div id="pages"></div>
 			</div>
 							</section><!-- /.content -->
                 <div class="footer-main">
-                   <h3>Copyright &copy SWP391 SPRING 2022 SE1517-NET TEAM 2</h3>
+                   <h3>Copyright &copy SWP391 SPRING 2022 SE1517-NET TEAM 2</h3> 
                 </div>
             </aside><!-- /.right-side -->
 
@@ -329,10 +329,10 @@ tr:nth-child(even) {background-color: #a3a8a3;}
                 checkboxClass: 'icheckbox_flat-grey',
                 radioClass: 'iradio_flat-grey'
             });
-		</script>
+		</script>  
 	<script type="text/javascript">
 	var lastChosenPreview;
-
+	
 	function changePage(pageNumber) {
 		var search = document.querySelector("#search-query").value;
 		var status = document.getElementById("status-filter").value;
@@ -340,7 +340,7 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 		window.location = "/ChildrenCare/admin/services?page=" + pageNumber
 				+ "&search=" + search +"&status="+status+"&sort="+sortProperty;
 	}
-
+	
 	function changeServiceStatus(serviceId){
 		var statusValue = document.getElementById("checkbox"+serviceId).checked;
 		var status = document.getElementById("status").value;
@@ -368,7 +368,7 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 			//alert("You have change the state of the service #"+serviceId+" to :"+((statusValue) ? 'showing' : 'hiding'));
 		})
 	}
-
+	
 	function addNewService(){
 		const serviceTittleInputElement = document.getElementById("service-title");
 		const serviceBriefInfoInputElement = document.getElementById("service-brief-info");
@@ -379,8 +379,8 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 		const serviceDescriptionInputElement = document.getElementById("service-description");
 		const serviceFileInputElement = document.getElementById("service-file");
 		const serviceStatusInputElement = document.getElementById("service-status");
-
-		const formData = new FormData() ;
+		
+		const formData = new FormData() ;  
 		formData.append("title" , serviceTittleInputElement.value);
 		formData.append("thumbnail",serviceFileInputElement.files[0]);
 		formData.append("briefInfo",serviceBriefInfoInputElement.value);
@@ -390,7 +390,7 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 		formData.append("quantity",serviceQuantityInputElement.value);
 		formData.append("description",serviceDescriptionInputElement.value);
 		formData.append("status",serviceStatusInputElement.checked);
-
+		
 		fetch("/ChildrenCare/admin/api-services",{
 			method : "POST",
 			body : formData
@@ -399,18 +399,18 @@ tr:nth-child(even) {background-color: #a3a8a3;}
 			window.location.reload();
 		})
 	}
-
+	
 	function imagePreviewHandler(fileInputElement){
-		if(lastChosenPreview){
+		if(lastChosenPreview){ 
 			URL.revokeObjectURL(lastChosenPreview);  // for performance
 		}
-
+		
 		var imageFile = fileInputElement.files[0];
 		lastChosenPreview = URL.createObjectURL(imageFile);
 		var imageElement = document.getElementById("service-image");
 		imageElement.src = lastChosenPreview;
 	}
-
+	
 	</script>
 </body>
 </html>

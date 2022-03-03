@@ -45,7 +45,6 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
     List<ReservationServiceModel> findAllByRid(int rid);
 
 
-
     @Query(value = "select * from reservation_service\n" +
             "where reservation_id = ?1 \n" +
             "order by service_id", nativeQuery = true)
@@ -56,20 +55,18 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
     List<ReservationServiceModel> listDate(int reservation_id);
 
 
-
     @Query(value = "select rs from ReservationServiceModel rs\n" +
             "join rs.reservation r join r.customer c " +
             "join c.customer_user u where r.status = ?1")
     Page<ReservationServiceModel> filterReservationByStatus(boolean status, Pageable pageable);
 
-
+    @Query(value = " select * from reservation_service  rs inner join [service] s\n" +
+            " on s.service_id =rs.service_id where rs.staff_id = ?1 and rs.reservation_id = ?2", nativeQuery = true)
+    List<ReservationServiceModel> findAllServiceByStaffAndRid(int staffID,int reservation_id);
 
     @Modifying
     @Query(value = "DELETE FROM reservation_service WHERE reservation_id = ?1 and service_id = ?2 and slot_id = ?3 and booked_date = ?4",nativeQuery =true)
      void deleteInListServiceByReservationAndServiceAndSlotid(int rid, int sid, int slotid, String date);
-
-
-
 
 
 }

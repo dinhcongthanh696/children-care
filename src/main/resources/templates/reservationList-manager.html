@@ -55,7 +55,7 @@
               <div class="row">
                 <div class="col-sm-8">
                   <form th:action="@{/manager/home/page/1}">
-                    <input th:value="${key}" type="text" name="key" class="form-control input-sm pull-left" style="width: 260px;"
+                    <input th:value="${key} == 0 ?'':${key}" type="text" name="key" class="form-control input-sm pull-left" style="width: 260px;"
                            placeholder="Tìm kiếm theo ID/tên khách của đơn đã đặt.."/>
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </form>

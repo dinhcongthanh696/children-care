@@ -2,13 +2,18 @@ package childrencare.app.controller;
 
 
 import childrencare.app.model.ReservationModel;
+import childrencare.app.model.ReservationServiceModel;
+import childrencare.app.model.ServiceModel;
 import childrencare.app.model.StaffModel;
 import childrencare.app.service.ReservationService;
+import childrencare.app.service.ReservationService_Service;
+import childrencare.app.service.Service_service;
 import childrencare.app.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +29,12 @@ public class ReservationListStaffController {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private ReservationService_Service reservationService_service;
+
+    @Autowired
+    private Service_service service;
 
 
     @RequestMapping(value = "/home/page/{pageNum}", method = { RequestMethod.GET, RequestMethod.POST })
@@ -66,5 +77,22 @@ public class ReservationListStaffController {
         model.addAttribute("listByStaff", listByStaff);
         model.addAttribute("filterValueByStaff", filterValueByStaff);
         return "reservationList-staff";
+    }
+
+
+    @GetMapping("/{rid}")
+    public String reservationDetailStaff(@PathVariable int rid, Model model,HttpSession session){
+        String emailFromSession = (String) session.getAttribute("email");
+        StaffModel staffModel = staffService.findStaffByEmail(emailFromSession);
+        ReservationModel reservationModel = reservationService.getreservationDetail(rid);
+        List<ReservationServiceModel> listServiceFind = reservationService_service.findAllServiceByStaffAndRid(staffModel.getStaff_id(),rid);
+        for (ReservationServiceModel item: listServiceFind) {
+            item.getService().setBase64ThumbnailEncode((item.getService().getThumbnail()));
+        }
+        model.addAttribute("totalPrice",reservationModel.getTotalReservationPrice());
+        model.addAttribute("listServiceFind",listServiceFind);
+        model.addAttribute("reservationDetails",reservationModel);
+
+        return "reservation-details-staff";
     }
 }
