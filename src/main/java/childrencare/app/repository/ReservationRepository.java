@@ -112,6 +112,12 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             " where staff_id = ?1 and [status] = ?2)",nativeQuery = true)
     Page<ReservationModel> listReservationByStaffByFilter(int staffID,boolean status,Pageable pageable);
 
+    @Query(value = "select * from reservation where reservation_id in\n" +
+            "(select distinct reservation_id\n" +
+            " from reservation_service\n" +
+            " where customer_id = ?1)",nativeQuery = true)
+    Page<ReservationModel> listReservationByCusID(int cusID,Pageable pageable);
+
 
 
 

@@ -3,6 +3,9 @@ package childrencare.app.repository;
 import java.util.Date;
 import java.util.List;
 
+import childrencare.app.model.ServiceModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,4 +22,8 @@ public interface ServiceCategoryRepository extends JpaRepository<ServiceCategory
 			+ "WHERE (MONTH(r.date) = ?1 AND YEAR(r.date) = ?2 OR r.date is null) AND sc.service_category_id = ?3\r\n"
 			+ "group by sc.service_category_id,sc.service_category_name ",nativeQuery = true)
 	double getServiceRevenueByDate(Integer month,Integer year,Integer serviceCategoryId);
+
+	@Query(value = "SELECT * FROM service_category WHERE service_category_name LIKE ?1", nativeQuery = true)
+	ServiceCategoryModel getServiceCategoryModelByName(String name);
+
 }
