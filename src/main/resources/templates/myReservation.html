@@ -72,24 +72,58 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Reservation ID</th>
-                                <th>Reserved Date</th>
-                                <th>Service</th>
-                                <th>Time to check up</th>
+                                <th>Mã đơn hàng</th>
+                                <th>Ngày đặt hàng</th>
                                 <th>Total cost</th>
-                                <th>Status</th>
+                                <th>Trạng thái</th>
+                                <th>Kiểm tra</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="customer: ${customerReser}">
-                                <td th:text="${customer.reservation.reservationId}"></td>
-                                <td th:text="${customer.id.bookedDate}"></td>
-                                <td th:text="${customer.service.title}"></td>
-                                <td th:text="${customer.slot.start}+'-'+${customer.slot.end}"></td>
-                                <td th:text="${customer.price}"></td>
-                                <td th:utext="${customer.reservation.status} ?'Submited':'Confirmed'"></td>
-                            </tr>
+                            <tr th:each="item: ${customerReser}">
+                                <td th:text="${item.reservationId}"></td>
+                                <td th:text="${item.date}"></td>
+                                <td th:text="${#numbers.formatDecimal(item.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
+                                <td th:utext="${item.status} ?'Đã xác nhận ':'Đã huỷ'"></td>
+                                <td>
+                                    <a th:attr="data-target='#modalReservation'+${item.reservationId}" type="button" class="btn" data-toggle="modal" data-target="#modalReservation"> <i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    <div class="modal fade" th:id="${'modalReservation'+ item.reservationId}"  tabindex="-1" aria-labelledby="modalReservation" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header float-right">
+                                                    <h5>Chi tiết đơn dịch vụ đã đặt</h5>
+                                                    <div class="text-right"> <i data-dismiss="modal" aria-label="Close" class="fa fa-close"></i> </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div>
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <th scope="col">Tên dịch vụ</th>
+                                                                <th scope="col">Thời gian khám</th>
+                                                                <th scope="col">Bác sĩ</th>
+                                                                <th scope="col">Giá dịch vụ</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr th:each="item1 :${item.reservationServices}">
+                                                                <th th:text="${item1.service.title}" scope="row"></th>
+                                                                <td th:text="${item1.id.bookedDate}"></td>
+                                                                <td th:text="${item1.staff.staff_user.fullname}"></td>
+                                                                <td th:text="${#numbers.formatDecimal(item1.service.originalPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save changes</button> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
 
+
+                            </tr>
                             </tbody>
                         </table>
                         <div th:if="${totalPages > 1}">

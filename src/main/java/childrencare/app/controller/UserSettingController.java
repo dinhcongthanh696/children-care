@@ -1,13 +1,9 @@
 package childrencare.app.controller;
 
 
-import childrencare.app.model.ReservationServiceModel;
-import childrencare.app.model.SliderModel;
-import childrencare.app.model.UserModel;
+import childrencare.app.model.*;
 import childrencare.app.repository.UserRepository;
-import childrencare.app.service.LoginService;
-import childrencare.app.service.ReservationService_Service;
-import childrencare.app.service.SlidersService;
+import childrencare.app.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,6 +41,12 @@ public class UserSettingController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ReservationService reservationService;
+
+    @Autowired
+    private CustomerService customerService;
+
     @GetMapping("/profile")
     public String profileSetting(HttpSession session, Model model){
         UserModel user = (UserModel) session.getAttribute("user");
@@ -81,8 +83,9 @@ public class UserSettingController {
                                    HttpSession session){
         UserModel user = (UserModel) session.getAttribute("user");
         String email = user.getEmail();
-        Page<ReservationServiceModel> page = reservationService_service.findCustomerByEmail(pageNum,email);
-        List<ReservationServiceModel> customerReservation = page.getContent();
+        CustomerModel customer = customerService.findCustomerByEmail(email);
+        Page<ReservationModel> page = reservationService.listReservationByCusID(pageNum,customer.getCustomer_id());
+        List<ReservationModel> customerReservation = page.getContent();
         model.addAttribute("userLogin",user);
         model.addAttribute("customerReser",customerReservation);
         model.addAttribute("currentPage",pageNum);
