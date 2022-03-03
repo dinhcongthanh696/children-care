@@ -252,7 +252,7 @@
 
                 <div class="preview-pic tab-content">
                   <div class="tab-pane active" id="pic-1"><img id="avatar" th:src="${'data:image/gif;base64,'+ service.getBase64ThumbnailEncode()}" /></div>
-                  <input  name="avatar" type="file"  onchange="previewAvatar(this)">
+                  <input id="input-ava" name="avatar" type="file"  onchange="previewAvatar(this)">
                 </div>
               </div>
               <div class="details col-md-6">
@@ -461,7 +461,7 @@
     var desccription = document.getElementById("description").value;
     var orginprice = document.getElementById("originPrice").value;
     var saleprice = document.getElementById("salePrice").value;
-    //var avatar = document.getElementById("avatar").files[0];
+    var avatar = document.getElementById("input-ava").files[0];
     var formData = new FormData();
     formData.append("id", id);
     formData.append("title",title);
@@ -470,7 +470,7 @@
     formData.append("originprice", orginprice);
     formData.append("saleprice",saleprice);
     formData.append("description",desccription);
-    //formData.append("avatar",avatar);
+    formData.append("avatar",avatar);
     fetch("/ChildrenCare/api-service/update-service",{
       method : "post",
       body : formData
