@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -44,10 +42,8 @@ public class PostController {
             postModels = postService.findAllAndSearch(title, null, null, currentPage, 2);
         } else if (categoryId.equals("-1") && !type.equals("-1")) {
             postModels = postService.findAllAndSearch(title, null, type, currentPage, 2);
-
         } else if (!categoryId.equals("-1") && type.equals("-1")) {
             postModels = postService.findAllAndSearch(title, categoryId, null, currentPage, 2);
-
         } else {
             postModels = postService.findAllAndSearch(title, categoryId, type, currentPage, 2);
         }
@@ -77,12 +73,14 @@ public class PostController {
 
         return "post_manager";
     }
-    @PostMapping("/post")
+
+
+    @GetMapping("/changStatus")
     @Transactional
     public String changeStatusPost(@RequestParam("pid") int rid,
-                                 @RequestParam("status") boolean status,
+                                 @RequestParam("status") String status,
                                  Model model){
-        postService.changeStatusPost(status,rid);
+        postService.changeStatusPost((status.equals("true"))?1:0,rid);
         return "redirect:/manager/post";
     }
 

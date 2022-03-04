@@ -27,7 +27,7 @@ public class PostService {
     public Page<PostModel> findAll(int index, int size) {
         return blogRepository.findAll(PageRequest.of(index, size));
     }
-    public void changeStatusPost(boolean status, int rid) {
+    public void changeStatusPost(int status, int rid) {
         blogRepository.changeStatusPost(status, rid);
     }
 

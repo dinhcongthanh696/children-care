@@ -37,6 +37,6 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
     @Query(value = "UPDATE post \n" +
             "   SET status = ?1\n" +
             " WHERE post_id = ?2",nativeQuery = true)
-    void changeStatusPost(boolean status, int rid);
+    void changeStatusPost(int status, int rid);
 
 }

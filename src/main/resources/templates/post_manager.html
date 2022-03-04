@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
-                                        <i class="fa fa-plus" aria-hidden="true"></i> <span>New Slider</span></a>
+                                        <i class="fa fa-plus" aria-hidden="true"></i> <span>New Post</span></a>
                                     <!-- Add Modal HTML -->
                                     <div id="addSliderModal" class="modal fade">
                                         <div class="modal-dialog">
@@ -177,23 +177,22 @@
                                     </div>
                                 </div>
 
+                              <form id="myForm2" th:action="@{/post}" method="post">
 
-                                <table id="emp-table" class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Post ID</th>
-                                        <th>Thumbnail</th>
-                                        <th>Post Title</th>
-                                        <th>Featured</th>
-                                        <th>Post Category</th>
-                                        <th>Author</th>
-                                        <th>Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <div th:each="list:${listPost}">
+                                    <table id="emp-table" class="table table-hover">
+                                        <thead>
                                         <tr>
-
+                                            <th>Post ID</th>
+                                            <th>Thumbnail</th>
+                                            <th>Post Title</th>
+                                            <th>Featured</th>
+                                            <th>Post Category</th>
+                                            <th>Author</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="list:${listPost}">
                                             <td th:text="${list.getPostId()}"></td>
                                             <td>
                                                 <div>
@@ -205,26 +204,22 @@
                                             <td th:text="${list.getPostCategory().getPostCategoryName()}"></td>
                                             <td th:text="${list.getAuthor().getFullname()}"></td>
                                             <td>
-                                                <form id="myForm2" th:action="@{/manager/post}" method="post">
-                                                    <input type="checkbox" name="status"
-                                                           th:checked="${list.isStatus()}"
-                                                           th:value="${list.isStatus() ? '0':'1'}"
-                                                           th:onchange="filterFunction2()">
-                                                    <input type="hidden" name="pid" th:value="${list.getPostId}">
-                                                </form>
+                                                <input type="checkbox"
+                                                       th:checked="${list.isStatus()}"
+                                                       th:onclick="filterFunction2([[${list.getPostId()}]],
+                                                                                    [[${list.isStatus()}]])">
                                                 <i th:class="${list.isStatus() ? 'fas fa-eye' : 'fas fa-eye-slash'}"
                                                    th:text="${list.isStatus() ? '-Showing' : '-Hiding'}"
-                                                   style="color : back;"
-                                                   th:id="'service-status-icon'+${list.getPostId()}"></i>
+                                                   style="color : black;"></i>
                                             </td>
                                             <td>
-                                                <a th:href="@{post(pid=${1})}">Details</a>
-                                                <a th:href="@{post(pid=${1})}">Edit</a>
+                                                <a>Details</a>
+                                                <a>Edit</a>
                                             </td>
                                         </tr>
-                                    </div>
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                               </form>
                             </div>
                         </div><!-- /.box -->
                     </div>
@@ -264,10 +259,12 @@
 
     function filterFunction() {
         document.getElementById("myForm").submit();
+
     }
 
-    function filterFunction2() {
-        document.getElementById("myForm2").submit();
+    function filterFunction2(pid,status) {
+        status = !status;
+        window.location.href = "/ChildrenCare/manager/changStatus?pid=" + pid + "&status=" + status;
     }
 </script>
 
