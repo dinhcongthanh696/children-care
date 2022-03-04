@@ -50,4 +50,8 @@ public class UserService {
 	public UserModel save(UserModel entity) {
 		return userRepository.save(entity);
 	}
+	
+	public UserModel findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 }
