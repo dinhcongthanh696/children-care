@@ -115,7 +115,7 @@ public class ServiceModel {
 
 	@Transient
 	public double getTotalCost(){
-		return quantity*originalPrice;
+		return quantity*salePrice;
 	}
 	
 	public void setBase64ThumbnailEncode(byte[] thumbnail) {
