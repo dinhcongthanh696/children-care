@@ -78,7 +78,7 @@
                         <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
                         <div class="panel-body table-responsive">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <form th:action="@{/manager/post}">
                                         <input type="text" name="titleORauthor" class="form-control input-sm pull-left"
                                                style="width: 200px;"
@@ -88,12 +88,27 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <form id="myForm" th:action="@{/manager/post}">
+                                        <label>Filter:</label>
                                         <select name="type" th:onchange="filterFunction()">
                                             <option th:selected="${type} == -1" value="-1">All</option>
                                             <option th:selected="${type} == 1" value="1">Show</option>
                                             <option th:selected="${type} == 0" value="0">Hide</option>
                                         </select>
 
+                                        <select name="categoryId" th:onchange="filterFunction()">
+                                            <option th:selected="${categoryId} == -1" value="-1">All</option>
+                                            <div th:each="listCategoryPost:${postCategoryModelList}">
+                                                <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"
+                                                        th:value="${listCategoryPost.getPostCategoryId()}"
+                                                        th:text="${listCategoryPost.getPostCategoryName()}">
+                                                </option>
+                                            </div>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div class="col-sm-2">
+                                    <form id="myForm3" th:action="@{/manager/post}">
+                                        <label>SortBy:</label>
                                         <select name="categoryId" th:onchange="filterFunction()">
                                             <option th:selected="${categoryId} == -1" value="-1">All</option>
                                             <div th:each="listCategoryPost:${postCategoryModelList}">
@@ -177,7 +192,7 @@
                                     </div>
                                 </div>
 
-                              <form id="myForm2" th:action="@{/post}" method="post">
+                              <!--<form id="myForm2" th:action="@{/post}" method="post">-->
 
                                     <table id="emp-table" class="table table-hover">
                                         <thead>
@@ -219,7 +234,7 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                               </form>
+                               <!--</form>-->
                             </div>
                         </div><!-- /.box -->
                     </div>

@@ -39,4 +39,6 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
             " WHERE post_id = ?2",nativeQuery = true)
     void changeStatusPost(int status, int rid);
 
+
+
 }
