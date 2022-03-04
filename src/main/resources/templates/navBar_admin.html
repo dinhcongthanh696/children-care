@@ -11,7 +11,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="../img_admin/26115.jpg" class="img-circle" alt="User Image" />
+                <img th:src="${'data:image/gif;base64,'+ session.user.base64AvatarEncode}" class="img-circle" alt="User Image" style="width : 180px; height : 160px;"/>
             </div>
             <div class="pull-left info">
                 <p>Hello, <span th:text="${session.username}"></span> <span th:text="'  ['+${session.user.userRole.roleName} + ']'"></span></p>
