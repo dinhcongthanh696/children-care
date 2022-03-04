@@ -62,7 +62,7 @@
 </header>
 <div class="wrapper row-offcanvas row-offcanvas-left">
   <!-- Left side column. contains the logo and sidebar -->
-  <div th:replace="navBar_admin::leftSide_admin('/manager/post')"></div>
+  <div th:replace="navBar_admin::leftSide_admin('/manager/feedback')"></div>
   <!-- Right side column. Contains the navbar and content of the page -->
   <aside class="right-side">
     <!-- Main content -->
@@ -71,7 +71,7 @@
         <div class="col-xs-12">
           <div class="panel">
             <header class="panel-heading">
-              Post Manager
+              Feedback Manager
             </header>
             <h3>No slider</h3>
             <!-- <div class="box-header"> -->
@@ -79,32 +79,32 @@
             <div class="panel-body table-responsive">
               <div class="row">
                 <div class="col-sm-6">
-                  <form th:action="@{/manager/post}">
+                  <form action="#">
                     <input type="text" name="titleORauthor" class="form-control input-sm pull-left"
                            style="width: 200px;"
                            placeholder="Search by title/author.."/>
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </form>
                 </div>
-                <div class="col-sm-4">
-                  <form id="myForm" th:action="@{/manager/post}">
-                    <select name="type" th:onchange="filterFunction()">
-                      <option th:selected="${type} == -1" value="-1">All</option>
-                      <option th:selected="${type} == 1" value="1">Show</option>
-                      <option th:selected="${type} == 0" value="0">Hide</option>
-                    </select>
+<!--                <div class="col-sm-4">-->
+<!--                  <form id="myForm" th:action="@{/manager/feedback}">-->
+<!--                    <select name="type" th:onchange="filterFunction()">-->
+<!--                      <option th:selected="${type} == -1" value="-1">All</option>-->
+<!--                      <option th:selected="${type} == 1" value="1">Show</option>-->
+<!--                      <option th:selected="${type} == 0" value="0">Hide</option>-->
+<!--                    </select>-->
 
-                    <select name="categoryId" th:onchange="filterFunction()">
-                      <option th:selected="${categoryId} == -1" value="-1">All</option>
-                      <div th:each="listCategoryPost:${postCategoryModelList}">
-                        <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"
-                                th:value="${listCategoryPost.getPostCategoryId()}"
-                                th:text="${listCategoryPost.getPostCategoryName()}">
-                        </option>
-                      </div>
-                    </select>
-                  </form>
-                </div>
+<!--                    <select name="categoryId" th:onchange="filterFunction()">-->
+<!--                      <option th:selected="${categoryId} == -1" value="-1">All</option>-->
+<!--                      <div th:each="listCategoryPost:${postCategoryModelList}">-->
+<!--                        <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"-->
+<!--                                th:value="${listCategoryPost.getPostCategoryId()}"-->
+<!--                                th:text="${listCategoryPost.getPostCategoryName()}">-->
+<!--                        </option>-->
+<!--                      </div>-->
+<!--                    </select>-->
+<!--                  </form>-->
+<!--                </div>-->
                 <div class="col-sm-2">
                   <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
                     <i class="fa fa-plus" aria-hidden="true"></i> <span>New Slider</span></a>
@@ -112,7 +112,7 @@
                   <div id="addSliderModal" class="modal fade">
                     <div class="modal-dialog">
                       <div class="modal-content">
-                        <form action="/ChildrenCare/managerblog" method="post"
+                        <form action="#" method="post"
                               enctype="multipart/form-data">
                           <div class="modal-header">
                             <h4 class="modal-title">Add New Post</h4>
@@ -181,48 +181,14 @@
                 <table id="emp-table" class="table table-hover">
                   <thead>
                   <tr>
-                    <th>Post ID</th>
-                    <th>Thumbnail</th>
-                    <th>Post Title</th>
-                    <th>Featured</th>
-                    <th>Post Category</th>
-                    <th>Author</th>
+                    <th>Contact Full Name</th>
+                    <th>Service</th>
+                    <th>Rated Star</th>
                     <th>Status</th>
+                    <th>Content</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <div th:each="list:${listPost}">
-                    <tr>
-
-                      <td th:text="${list.getPostId()}"></td>
-                      <td>
-                        <div>
-                          <img style="width: 100px; height: 50px;">
-                        </div>
-                      </td>
-                      <td th:text="${list.getTitle()}"></td>
-                      <td th:text="${list.getPostId()}"></td>
-                      <td th:text="${list.getPostCategory().getPostCategoryName()}"></td>
-                      <td th:text="${list.getAuthor().getFullname()}"></td>
-                      <td>
-                        <form id="myForm2" th:action="@{/manager/post}" method="post">
-                          <input type="checkbox" name="status"
-                                 th:checked="${list.isStatus()}"
-                                 th:value="${list.isStatus() ? '0':'1'}"
-                                 th:onchange="filterFunction2()">
-                          <input type="hidden" name="pid" th:value="${list.getPostId}">
-                        </form>
-                        <i th:class="${list.isStatus() ? 'fas fa-eye' : 'fas fa-eye-slash'}"
-                           th:text="${list.isStatus() ? '-Showing' : '-Hiding'}"
-                           style="color : back;"
-                           th:id="'service-status-icon'+${list.getPostId()}"></i>
-                      </td>
-                      <td>
-                        <a th:href="@{post(pid=${1})}">Details</a>
-                        <a th:href="@{post(pid=${1})}">Edit</a>
-                      </td>
-                    </tr>
-                  </div>
                   </tbody>
                 </table>
               </div>
@@ -230,28 +196,28 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xl-12">
-          <ul class="post-pagination2 text-center">
-            <li><a class="left"
-                   th:href="@{/manager/post(page=0,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><i
-                    class="fa fa-angle-double-left"
-                    aria-hidden="true"></i><span>FIRST</span></a>
-            </li>
-            <li class="page-item active" th:each="pageNumber:${pageNumbers}"
-                th:if="${pagingPost.totalPages >1}"
-                th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
-              <a th:href="@{/manager/post(page=${pageNumber},type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"
-                 th:text="${pageNumber}"></a>
-            </li>
+<!--      <div class="row">-->
+<!--        <div class="col-xl-12">-->
+<!--          <ul class="post-pagination2 text-center">-->
+<!--            <li><a class="left"-->
+<!--                   th:href="@{/manager/post(page=0,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><i-->
+<!--                    class="fa fa-angle-double-left"-->
+<!--                    aria-hidden="true"></i><span>FIRST</span></a>-->
+<!--            </li>-->
+<!--            <li class="page-item active" th:each="pageNumber:${pageNumbers}"-->
+<!--                th:if="${pagingPost.totalPages >1}"-->
+<!--                th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">-->
+<!--              <a th:href="@{/manager/post(page=${pageNumber},type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"-->
+<!--                 th:text="${pageNumber}"></a>-->
+<!--            </li>-->
 
-            <li><a class="right"
-                   th:href="@{/manager/post(page=${pagingPost.totalPages}-1,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><span>LAST</span><i
-                    class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-            </li>
-          </ul>
-        </div>
+<!--            <li><a class="right"-->
+<!--                   th:href="@{/manager/post(page=${pagingPost.totalPages}-1,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><span>LAST</span><i-->
+<!--                    class="fa fa-angle-double-right"-->
+<!--                    aria-hidden="true"></i></a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
       </div>
     </section><!-- /.content -->
     <div class="footer-main">
@@ -262,13 +228,6 @@
 
 <script>
 
-  function filterFunction() {
-    document.getElementById("myForm").submit();
-  }
-
-  function filterFunction2() {
-    document.getElementById("myForm2").submit();
-  }
 </script>
 
 

@@ -19,10 +19,15 @@
     <link rel="stylesheet" href="css/color-switcher-design.css">
     <!--Color Themes-->
     <link rel="stylesheet" href="css/color-themes/default-theme.css" id="theme-color-file">
+    <link rel="stylesheet" href="css/authentication.css">
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
     <style>
         #scheduleInfo {
             font-family: Arial, Helvetica, sans-serif;
@@ -51,7 +56,11 @@
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <script src="js/html5shiv.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <![endif]-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -59,164 +68,10 @@
 </head>
 
 <body>
-<div class="boxed_wrapper">
+    <div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
+    <header th:replace="header.html :: header"></header>
 
-    <div class="preloader"></div>
-
-    <!-- Start Top Bar area -->
-    <section class="top-bar-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-7 col-lg-6">
-                    <div class="top-left">
-                        <ul>
-                            <li><a href="#">Locations</a></li>
-                            <li><a href="#">Special Offers</a></li>
-                            <li><a href="#">Teeth Cleaning Tips</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-5 col-lg-6">
-                    <div class="top-right">
-                        <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
-                        <ul class="sociallinks-style-one">
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Top Bar area -->
-
-    <!--Start header style1 area-->
-    <header class="header-style1-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="inner-content clearfix">
-                        <div class="header-style1-logo float-left">
-                            <a href="index-2.html">
-                                <img src="images/resources/logo.png" alt="Awesome Logo">
-                            </a>
-                        </div>
-                        <div class="header-contact-info float-left">
-                            <ul>
-                                <li>
-                                    <div class="single-item">
-                                        <div class="icon">
-                                            <span class="icon-support"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>+1 555-7890-123</p>
-                                            <span>support@example.com</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="single-item">
-                                        <div class="icon">
-                                            <span class="icon-gps"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>86 Brattle Street</p>
-                                            <span>Cambridge, MA 02138</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="header-style1-button float-right">
-                            <a href="#"><span class="icon-date"></span>Make Appointment</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!--End header style1 area-->
-
-    <!--Start mainmenu area-->
-    <section class="mainmenu-area stricky">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="inner-content clearfix">
-                        <nav class="main-menu style1 clearfix">
-                            <div class="navbar-header clearfix">
-                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-                            <div class="navbar-collapse collapse clearfix">
-                                <ul class="navigation clearfix">
-                                    <li class="dropdown"><a href="index-2.html">Home</a>
-                                        <ul>
-                                            <li><a href="index-2.html">Home Page 01</a></li>
-                                            <li><a href="index-3.html">Home Page 02</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li class="dropdown"><a href="specialities.html">Specialities</a>
-                                        <ul>
-                                            <li><a href="spec-dental-implants.html">Dental Implants</a></li>
-                                            <li><a href="spec-cosmetic-dentistry.html">Cosmetic Dentistry</a></li>
-                                            <li><a href="spec-laser-dentistry.html">Laser Dentistry</a></li>
-                                            <li><a href="spec-orthodontics.html">Orthodontics</a></li>
-                                            <li><a href="spec-endodontics.html">Endodontics</a></li>
-                                            <li><a href="spec-periodontics.html">Periodontics</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="doctors.html">Doctors</a></li>
-                                    <li class="dropdown"><a href="blog.html">Blog</a>
-                                        <ul>
-                                            <li><a href="blog.html">Blog Default</a></li>
-                                            <li><a href="blog-large.html">Blog Large Image</a></li>
-                                            <li><a href="blog-single.html">Blog Single Post</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown current"><a href="#">More</a>
-                                        <ul>
-                                            <li><a href="faq.html">FAQ’s</a></li>
-                                            <li><a href="pricing.html">Pricing Plans</a></li>
-                                            <li><a href="testimonials.html">Testimonials</a></li>
-                                            <li><a href="timetable.html">Timetable</a></li>
-                                            <li><a href="apppointment.html">Apppointment</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </div>
-                        </nav>
-
-                        <div class="mainmenu-right">
-                            <div class="search-box-style1">
-                                <form class="search-form" method="post" action="http://st.ourhtmldemo.com/new/Dento/index.html">
-                                    <input type="search" name="search" placeholder="Search..." required>
-                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                            <div class="toggler-button">
-                                <div class="nav-toggler hidden-bar-opener">
-                                    <div class="inner">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
     <!--End mainmenu area-->
 
     <!-- Hidden Navigation Bar -->
@@ -428,15 +283,17 @@
                             </div>
                             <form method="post" th:action="@{/pay?price=} + ${totalPrice}">
                                 <div class="button-box">
-                                    <button class="btn-one" type="submit" id="paypal-btn"
-                                    > <b> Check out with Pay<span style="color: #00bfff">Pal</span> </b> </button>
+                                    <input type="radio" name="payment" required>
+                                    <div class="btn-one" id="paypal-btn"
+                                    > <b> Check out with Pay<span style="color: #3250a8">Pal</span> </b> </div>
+                                </div>
+                                <div class="button-box">
+                                    <input type="radio" name="payment">
+                                    <div class="btn-one" id="cashCheck-btn"
+                                    > <b> Check out with Cash</b> </div>
                                 </div>
                             </form>
                             <br>
-                            <div class="button-box">
-                                <button class="btn-one" type="submit" id="cashCheck-btn"
-                                > <b> Check out with Cash</b> </button>
-                            </div>
                     </div>
                 </div>
             </div>

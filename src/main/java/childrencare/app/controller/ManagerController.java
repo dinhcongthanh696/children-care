@@ -40,9 +40,15 @@ public class ManagerController {
     }
 
 
-    @RequestMapping(value = "/feedback", method = { RequestMethod.GET, RequestMethod.POST })
-    public String searchServiceListByTitle() {
+    @GetMapping("/feedback")
+    public String searchServiceListByTitle(Model model,
+                                           @RequestParam(name="page", required = false) int page,
+                                           @RequestParam(name="serviceName", required = false) String serviceName,
+                                           @RequestParam(name="ratedStar", required = false) int numberOfStar,
+                                           @RequestParam(name="status", required = false) boolean status,
+                                           @RequestParam(name="content", required = false) boolean content
+                                           ) {
 
-        return "manager-service-list";
+        return "manager-feedback-list";
     }
 }
