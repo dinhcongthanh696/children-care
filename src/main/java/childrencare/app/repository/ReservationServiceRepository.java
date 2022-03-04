@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Repository
@@ -32,17 +32,9 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
     Page<ReservationServiceModel> findAll(Pageable pageable);
 
 
-    @Query(value = "select * from\n" +
-            "     reservation_service rs inner join\n" +
-            "     reservation r on rs.reservation_id = r.reservation_id\n" +
-            "     inner join customer c on c.customer_id = r.customer_id\n" +
-            "     inner join user_model u on u.email = c.customer_email\n" +
-            "     inner join [service] s on rs.service_id = s.service_id\n" +
-            "     inner join service_category sc on sc.service_category_id = s.service_id" +
-            "     inner join slot sl on sl.slot_id = rs.slot_id\n" +
-            "     inner join staff st on st.staff_id = rs.staff_id\n" +
-            "     where  r.reservation_id = ?1" , nativeQuery = true)
-    List<ReservationServiceModel> findAllByRid(int rid);
+    @Query(value = " select * from reservation_service  rs inner join [service] s\n" +
+            " on s.service_id =rs.service_id where  rs.reservation_id = ?1", nativeQuery = true)
+    List<ReservationServiceModel> findAllByRid(int reservation_id);
 
 
     @Query(value = "select * from reservation_service\n" +
@@ -67,6 +59,13 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
     @Modifying
     @Query(value = "DELETE FROM reservation_service WHERE reservation_id = ?1 and service_id = ?2 and slot_id = ?3 and booked_date = ?4",nativeQuery =true)
      void deleteInListServiceByReservationAndServiceAndSlotid(int rid, int sid, int slotid, String date);
+
+    @Modifying
+    @Query(value = "UPDATE [reservation_service]\n" +
+            "   SET  [staff_id] = ?1 where booked_date = ?2 and slot_id = ?3",nativeQuery =true)
+    void assginOtherStaff(int staffID, Date booked_date, int slot_id);
+
+
 
 
 }

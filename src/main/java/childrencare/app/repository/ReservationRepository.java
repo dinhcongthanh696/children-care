@@ -80,10 +80,10 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "join c.customer_user u where  r.reservationId = ?1")
     Page<ReservationModel> findReservationStaff(int keyword, Pageable pageable);
 
-    @Query(value = "select r from ReservationModel r\n" +
+    @Query(value = "select r from ReservationModel r join r.reservationServices rs\n" +
             "join r.customer c " +
-            "join c.customer_user u where r.status = ?1")
-    Page<ReservationModel> filterReservationByStatus1(boolean status, Pageable pageable);
+            "join c.customer_user u where r.status = ?1 or (rs.id.bookedDate between ?2 and ?3)")
+    Page<ReservationModel> filterReservationByStatus1(boolean status, Date datefrom, Date dateTo, Pageable pageable);
 
     @Modifying
     @Query(value = "UPDATE [reservation]\n" +

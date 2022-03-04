@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.util.List;
 
 @Controller
@@ -52,8 +53,10 @@ public class ReservationListManagerController {
 
     @GetMapping("/managerView/filter/{pageNum}")
     public String updateSlider(Model model,@PathVariable(name ="pageNum") int pageNum,
-                               @Param("filterValue") boolean filterValue) {
-        Page<ReservationModel> page = reservationService.filterReservation1(pageNum,filterValue);
+                               @Param("filterValue") boolean filterValue ,
+                               @Param("dateFrom") Date dateFrom,
+                               @Param("dateTo") Date dateTo) {
+        Page<ReservationModel> page = reservationService.filterReservation1(pageNum,filterValue,dateFrom,dateTo);
         List<ReservationModel> listInfo = page.getContent();
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -77,6 +80,8 @@ public class ReservationListManagerController {
         model.addAttribute("reservationDetails",reservationModel);
         model.addAttribute("listFind",listFind);
         model.addAttribute("staffList",staffModelList);
+
+
         return "reservation-details-manager";
     }
     @PostMapping("/updateStatus")
@@ -85,6 +90,17 @@ public class ReservationListManagerController {
                                          @RequestParam("status") boolean status,
                                          Model model){
         reservationService.changeStatusReservation(status,rid);
+        return "redirect:/manager/"+rid;
+    }
+
+    @PostMapping("/assignOtherStaff")
+    @Transactional
+    public String assignOtherStaff(
+            @RequestParam("rid") int rid,
+            @RequestParam(name = "staffID") Integer staffID,
+            @RequestParam(name = "bookedDate") Date bookedDate,
+            @RequestParam(name = "slotId") Integer slotId) {
+        reservationService_service.assginOtherStaff(staffID, bookedDate, slotId);
         return "redirect:/manager/"+rid;
     }
 

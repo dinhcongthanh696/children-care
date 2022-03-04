@@ -162,48 +162,48 @@ public class ReservationController {
         ReservationModel reservationModel = new ReservationModel();
         UserModel userFindByEmail = userService.findByEmail(email);
 
+        //case : user not login and input new email
         if (user == null && userFindByEmail == null) {
-            //case : user not login
             //insert to user table
-            UserModel userModel = new UserModel();
-            userModel.setUsername(email);
-            userModel.setFullname(fullname);
-            userModel.setAddress(address);
-            userModel.setEmail(email);
-            userModel.setGender(gender);
-            userModel.setNotes(note);
-            userModel.setPhone(phone);
-            userModel.setStatus(true);
-            userService.save(userModel);
-            //insert to customer table
-            customerService.insertToCus(1, email);
+            UserModel userNew = new UserModel();
+            userNew.setUsername(email);
+            userNew.setFullname(fullname);
+            userNew.setAddress(address);
+            userNew.setEmail(email);
+            userNew.setGender(gender);
+            userNew.setNotes(note);
+            userNew.setPhone(phone);
+            userNew.setStatus(true);
+            userService.save(userNew);
+            customerService.insertToCus(1, userNew.getEmail());
+            //save to reservation table
+            int cid = customerService.lastIDCus();
+            cus.setCustomer_id(cid);
+            reservationModel.setCustomer(cus);
         }
+        //case : user not login and input old email
         if (user == null && userFindByEmail != null) {
             userFindByEmail.setFullname(fullname);
             userFindByEmail.setGender(gender);
             userFindByEmail.setPhone(phone);
             userFindByEmail.setAddress(address);
             userFindByEmail.setNotes(note);
-            //insert to customer table
-            customerService.insertToCus(1, email);
-        }
-        if (user != null){
-            cus = customerService.findCustomerByEmail(user.getEmail());
-            //case user login and buy again
-            //case user login
-            if (user != null && cus == null) {
-                customerService.insertToCus(1, user.getEmail());
-            }
-             if (cus != null) {
+            cus = customerService.findCustomerByEmail(email);
             reservationModel.setCustomer(cus);
-             }
-             if (cus == null) {
+        }
+        //case user login
+        if (user != null) {
+            cus = customerService.findCustomerByEmail(user.getEmail());
+            if (cus == null) {
+            customerService.insertToCus(1, user.getEmail());
             int cid = customerService.lastIDCus();
             cus.setCustomer_id(cid);
             reservationModel.setCustomer(cus);
+           }
+            if (cus != null) {
+            reservationModel.setCustomer(cus);
+            }
         }
-    }
-        //insert to reservation table
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
         reservationModel.setStatus(false);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
