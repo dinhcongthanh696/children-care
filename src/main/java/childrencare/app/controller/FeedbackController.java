@@ -80,5 +80,9 @@ public class FeedbackController {
     }
     */
 
+    @GetMapping("/managerPage")
+    public String getManagerScreen(){
+        return "manager-service-list";
+    }
 
 }

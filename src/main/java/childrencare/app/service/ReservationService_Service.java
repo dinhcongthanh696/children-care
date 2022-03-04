@@ -51,7 +51,7 @@ public class ReservationService_Service {
     }
 
     public Page<ReservationServiceModel> findCustomerByEmail(int pageNum,String email) {
-        Pageable pageable2 = PageRequest.of(pageNum - 1, 1);
+        Pageable pageable2 = PageRequest.of(pageNum - 1, 3);
         return reservationServiceRepository.findCustomerByEmail(email,pageable2);
     }
 

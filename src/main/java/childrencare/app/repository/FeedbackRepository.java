@@ -2,6 +2,8 @@ package childrencare.app.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,4 +36,7 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
     
     public List<FeedbackModel> findByService(ServiceModel service);
 
+
+    @Query(value = "Select * from feedback", nativeQuery = true)
+    Page<FeedbackModel> getAllFeedBack(Pageable pageable);
 }

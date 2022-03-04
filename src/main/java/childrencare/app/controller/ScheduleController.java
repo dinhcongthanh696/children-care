@@ -1,8 +1,10 @@
 package childrencare.app.controller;
 
+import childrencare.app.filter.CookieHandler;
 import childrencare.app.model.*;
 import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -74,7 +78,8 @@ public class ScheduleController {
     @Transactional
     @PutMapping("/updateReservationInfo")
     public void updateInfo(@RequestParam(name = "reservationId") Integer rid,
-                             HttpSession session, Model model){
+                           HttpSession session, Model model,
+                           HttpServletRequest request, HttpServletResponse response){
         //Update status
         reservationService.changeStatus(rid);
         // Update quantity
@@ -100,6 +105,13 @@ public class ScheduleController {
 
             userService.updateInfo(fullName, mobile, gender, customerEmail);
         }
+
+        Cookie cookie = new Cookie("carts", null);
+        cookie.setMaxAge(0);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
 
         //Send confirmation email
