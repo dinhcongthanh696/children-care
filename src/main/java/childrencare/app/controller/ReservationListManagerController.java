@@ -52,7 +52,7 @@ public class ReservationListManagerController {
 
 
     @GetMapping("/managerView/filter/{pageNum}")
-    public String updateSlider(Model model,@PathVariable(name ="pageNum") int pageNum,
+    public String filterReservation(Model model,@PathVariable(name ="pageNum") int pageNum,
                                @Param("filterValue") boolean filterValue ,
                                @Param("dateFrom") Date dateFrom,
                                @Param("dateTo") Date dateTo) {
