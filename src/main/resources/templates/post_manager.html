@@ -95,36 +95,19 @@
                                         </select>
 
                                         <select name="categoryId" th:onchange="filterFunction()">
-                                        <option th:selected="${categoryId} == -1" value="-1">All</option>
-                                        <div th:each="listCategoryPost:${postCategoryModelList}">
-                                            <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"
-                                                    th:value="${listCategoryPost.getPostCategoryId()}"
-                                                    th:text="${listCategoryPost.getPostCategoryName()}">
-                                            </option>
-                                        </div>
-                                    </select>
+                                            <option th:selected="${categoryId} == -1" value="-1">All</option>
+                                            <div th:each="listCategoryPost:${postCategoryModelList}">
+                                                <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"
+                                                        th:value="${listCategoryPost.getPostCategoryId()}"
+                                                        th:text="${listCategoryPost.getPostCategoryName()}">
+                                                </option>
+                                            </div>
+                                        </select>
                                     </form>
                                 </div>
-                                <script>
-                                    function filterFunction() {
-                                        document.getElementById("myForm").submit();
-                                    }
-                                </script>
-                                <!--<div class="col-sm-2">
-                                    <form id="category" th:action="@{/manager/post}">
-
-                                    </form>
-                                </div>
-                                <script>
-                                    function filterFunction2() {
-                                        document.getElementById("category").submit();
-                                    }
-                                </script>-->
-
-
                                 <div class="col-sm-2">
                                     <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
-                                        <i class="fa fa-plus" aria-hidden="true"></i> <span>New Slider</span></a>
+                                        <i class="fa fa-plus" aria-hidden="true"></i> <span>New Post</span></a>
                                     <!-- Add Modal HTML -->
                                     <div id="addSliderModal" class="modal fade">
                                         <div class="modal-dialog">
@@ -194,23 +177,22 @@
                                     </div>
                                 </div>
 
+                              <form id="myForm2" th:action="@{/post}" method="post">
 
-                                <table id="emp-table" class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Post ID</th>
-                                        <th>Thumbnail</th>
-                                        <th>Post Title</th>
-                                        <th>Featured</th>
-                                        <th>Post Category</th>
-                                        <th>Author</th>
-                                        <th>Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <div th:each="list:${listPost}">
+                                    <table id="emp-table" class="table table-hover">
+                                        <thead>
                                         <tr>
-
+                                            <th>Post ID</th>
+                                            <th>Thumbnail</th>
+                                            <th>Post Title</th>
+                                            <th>Featured</th>
+                                            <th>Post Category</th>
+                                            <th>Author</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="list:${listPost}">
                                             <td th:text="${list.getPostId()}"></td>
                                             <td>
                                                 <div>
@@ -221,15 +203,23 @@
                                             <td th:text="${list.getPostId()}"></td>
                                             <td th:text="${list.getPostCategory().getPostCategoryName()}"></td>
                                             <td th:text="${list.getAuthor().getFullname()}"></td>
-                                            <td th:text="${list.isStatus()?'Show':'Hide'}"></td>
                                             <td>
-                                                <a th:href="@{post(pid=${1})}">Details</a>
-                                                <a th:href="@{post(pid=${1})}">Edit</a>
+                                                <input type="checkbox"
+                                                       th:checked="${list.isStatus()}"
+                                                       th:onclick="filterFunction2([[${list.getPostId()}]],
+                                                                                    [[${list.isStatus()}]])">
+                                                <i th:class="${list.isStatus() ? 'fas fa-eye' : 'fas fa-eye-slash'}"
+                                                   th:text="${list.isStatus() ? '-Showing' : '-Hiding'}"
+                                                   style="color : black;"></i>
+                                            </td>
+                                            <td>
+                                                <a>Details</a>
+                                                <a>Edit</a>
                                             </td>
                                         </tr>
-                                    </div>
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                               </form>
                             </div>
                         </div><!-- /.box -->
                     </div>
@@ -264,6 +254,19 @@
         </div>
     </aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
+
+<script>
+
+    function filterFunction() {
+        document.getElementById("myForm").submit();
+
+    }
+
+    function filterFunction2(pid,status) {
+        status = !status;
+        window.location.href = "/ChildrenCare/manager/changStatus?pid=" + pid + "&status=" + status;
+    }
+</script>
 
 
 <!-- jQuery 2.0.2 -->

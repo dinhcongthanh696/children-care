@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,10 +33,10 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
             "and (:type is null or p.status = :type)", nativeQuery = true)
     Page<PostModel> findAllBy(@Param("title")String title,@Param("catID")String catID,@Param("type")String type, Pageable pageable);
 
-    @Query(value = "select * from post \n " +
-            "(where post.post_category_id = ?1) ",nativeQuery = true)
-    public Page<PostModel> findAllByPostCategory(int cateID,PageRequest pageRequest);
+    @Modifying
+    @Query(value = "UPDATE post \n" +
+            "   SET status = ?1\n" +
+            " WHERE post_id = ?2",nativeQuery = true)
+    void changeStatusPost(int status, int rid);
 
-    @Query(value = "select * from post where post.status = ?1 ",nativeQuery = true)
-    public Page<PostModel> findAllByPostStatus(int status,PageRequest pageRequest);
 }

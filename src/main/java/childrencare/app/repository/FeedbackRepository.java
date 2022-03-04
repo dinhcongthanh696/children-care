@@ -26,6 +26,7 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
     		+ "           ,[service_id]) VALUES (?1,GETDATE(),?2,?3,?4,?6,?5) ", nativeQuery = true)
     public void saveOnlyFeedback(String comment,byte[] image, Integer ratedStar, boolean status, Integer serviceId , Integer customerId);
 
+    @Modifying
     @Query(value = "INSERT INTO feedback([feedback_id],[fullname],[gender],[email],[phone],[feedback_image],[rated_star],[comment]) VALUES ((select next_val + 1 from feedback_id_sequence) ,?1,?2,?3,?4,?5,?6,?7) "
             + "UPDATE feedback_id_sequence SET next_val = next_val + 1", nativeQuery = true)
     public void saveGeneralFeedback(String fullname, boolean gender, String email, String phone, byte[] image, Integer ratedStar, String comment);
