@@ -32,10 +32,10 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
             nativeQuery = true)
     public Page<ServiceModel> findByTitleOrBriefInfoLike(String search, PageRequest pageable);
 
-    @Query(value = "SELECT * FROM service WHERE (title LIKE ?1 OR brief_info LIKE ?1) AND service_category_id = ?2 ORDER BY title,service_category_id",
+    @Query(value = "SELECT * FROM service WHERE (title LIKE ?1 OR brief_info LIKE ?1) AND service_category_id = ?2 AND ([status] > ?3 AND [status] < ?4) ORDER BY title,service_category_id",
             countQuery = "SELECT count(*) FROM service WHERE (title LIKE ?1 OR brief_info LIKE ?1) AND service_category_id = ?2",
             nativeQuery = true)
-    public Page<ServiceModel> findByTitleLikeAndCategory(String search, int serviceCategoryId, PageRequest pageable);
+    public Page<ServiceModel> findByTitleLikeAndCategory(String search, int serviceCategoryId, int startBitRange , int endBitRange , PageRequest pageable);
     
     
     @Query(value = "SELECT * FROM service WHERE (title LIKE ?1 OR brief_info LIKE ?1) AND ([status] > ?2 AND [status] < ?3) ",
@@ -78,6 +78,11 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
             "where rs.reservation_id = ?1\n" +
             "group by  s.service_id,s.thumbnail,s.original_price,r.total_reservation_price", nativeQuery = true)
     public List<ServiceModel> findListServiceByReservationID2(int reserId);
+
+    @Query(value = "select * from [service] s inner join reservation_service rs\n" +
+            " on s.service_id =rs.service_id where rs.staff_id = ?1 and rs.reservation_id = ?2", nativeQuery = true)
+    public List<ServiceModel> findListServiceByRidAndStaffId(int staffID,int reserId);
+
 
 
 }

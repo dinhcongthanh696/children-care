@@ -51,10 +51,12 @@ public class ServiceController {
 			@RequestParam(name = "lang",required = false, defaultValue = "en") String lang ,
 			HttpSession session) {
 		Page<ServiceModel> services = null;
+		int startBitRange = 0;
+		int endBitRange = 2;   // Collect service that is showing
 		if(categoryId != 0) {
-			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, categoryId, search);
+			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, categoryId, startBitRange , endBitRange, search);
 		}else {
-			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, search , "title");
+			services = serviceModelService.getServicesPaginated(page, SERVICESIZE, startBitRange, endBitRange, search, "title");
 		}
 
 		List<ServiceCategoryModel> categories = serviceCategoryService.findAll();

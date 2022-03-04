@@ -23,16 +23,12 @@ public class PostService {
         return blogRepository.findAllBy(title, catID, type, PageRequest.of(index, size));
     }
 
-    public Page<PostModel> findAllByCategoryID(int cateID, int index, int size) {
-        return blogRepository.findAllByPostCategory(cateID, PageRequest.of(index, size));
-    }
-
-    public Page<PostModel> findAllByStatus(int status, int index, int size) {
-        return blogRepository.findAllByPostStatus(status, PageRequest.of(index, size));
-    }
 
     public Page<PostModel> findAll(int index, int size) {
         return blogRepository.findAll(PageRequest.of(index, size));
+    }
+    public void changeStatusPost(int status, int rid) {
+        blogRepository.changeStatusPost(status, rid);
     }
 
 }

@@ -160,39 +160,50 @@ public class ReservationController {
         UserModel user = (UserModel) session.getAttribute("user");
         CustomerModel cus = new CustomerModel();
         ReservationModel reservationModel = new ReservationModel();
-        if(user == null){
-            //case : user not login
+        UserModel userFindByEmail = userService.findByEmail(email);
+
+        //case : user not login and input new email
+        if (user == null && userFindByEmail == null) {
             //insert to user table
-            UserModel userModel = new UserModel();
-            userModel.setUsername(email);
-            userModel.setFullname(fullname);
-            userModel.setAddress(address);
-            userModel.setEmail(email);
-            userModel.setGender(gender);
-            userModel.setNotes(note);
-            userModel.setPhone(phone);
-            userModel.setStatus(true);
-            userService.save(userModel);
-            //insert to customer table
-            customerService.insertToCus(1,email);
-        }
-        //case user login and buy again
-        cus = customerService.findCustomerByEmail(user.getEmail());
-        //case user login
-        if(user != null && cus == null){
-            customerService.insertToCus(1,user.getEmail());
-        }
-        if(cus != null){
-            reservationModel.setCustomer(cus);
-        }
-        if(cus == null){
+            UserModel userNew = new UserModel();
+            userNew.setUsername(email);
+            userNew.setFullname(fullname);
+            userNew.setAddress(address);
+            userNew.setEmail(email);
+            userNew.setGender(gender);
+            userNew.setNotes(note);
+            userNew.setPhone(phone);
+            userNew.setStatus(true);
+            userService.save(userNew);
+            customerService.insertToCus(1, userNew.getEmail());
+            //save to reservation table
             int cid = customerService.lastIDCus();
             cus.setCustomer_id(cid);
             reservationModel.setCustomer(cus);
         }
-
-
-        //insert to reservation table
+        //case : user not login and input old email
+        if (user == null && userFindByEmail != null) {
+            userFindByEmail.setFullname(fullname);
+            userFindByEmail.setGender(gender);
+            userFindByEmail.setPhone(phone);
+            userFindByEmail.setAddress(address);
+            userFindByEmail.setNotes(note);
+            cus = customerService.findCustomerByEmail(email);
+            reservationModel.setCustomer(cus);
+        }
+        //case user login
+        if (user != null) {
+            cus = customerService.findCustomerByEmail(user.getEmail());
+            if (cus == null) {
+            customerService.insertToCus(1, user.getEmail());
+            int cid = customerService.lastIDCus();
+            cus.setCustomer_id(cid);
+            reservationModel.setCustomer(cus);
+           }
+            if (cus != null) {
+            reservationModel.setCustomer(cus);
+            }
+        }
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
         reservationModel.setStatus(false);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -200,10 +211,9 @@ public class ReservationController {
         reservationModel.setDate(dtf.format(now));
         // thanh's code
         int rid = reservationService.saveReservation(reservationModel);
-        List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
         //clear cart from session after click submit button (reservation contact) - nghia's code
-     /* List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
-        listSubmit.clear(); */
+//        List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
+//        listSubmit.clear();
         return "redirect:/bookingSchedule?reservationId=" + rid ;
         // end thanh's code
     }

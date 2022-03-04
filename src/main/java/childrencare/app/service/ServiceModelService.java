@@ -118,14 +118,14 @@ public class ServiceModelService {
 		
 		return servicesPageable;
 	}
-	public Page<ServiceModel> getServicesPaginated(int page , int size , int serviceCategoryId , String search) {
+	public Page<ServiceModel> getServicesPaginated(int page , int size , int serviceCategoryId ,int startBitRange , int endBitRange, String search) {
 		if (page < 0) {
 			page = 0; 
 		}
-		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+search+"%", serviceCategoryId, PageRequest.of(page, size));
+		Page<ServiceModel> servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+search+"%", serviceCategoryId,startBitRange , endBitRange , PageRequest.of(page, size));
 		if( servicesPageable.getTotalPages() > 0 && page >= servicesPageable.getTotalPages()) {
 			page = servicesPageable.getTotalPages() - 1;
-			servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+search+"%", serviceCategoryId, PageRequest.of(page, size));
+			servicesPageable = serviceRepository.findByTitleLikeAndCategory("%"+search+"%", serviceCategoryId, startBitRange , endBitRange , PageRequest.of(page, size));
 		}
 		
 		for(ServiceModel service : servicesPageable.toList()) {

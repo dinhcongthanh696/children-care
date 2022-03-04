@@ -48,50 +48,50 @@
                 <div class="col-md-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            Reservation Information
+                            Thông tin đơn được đặt
                         </header>
                         <div class="panel-body">
                             <form th:action="@{/manager/updateStatus}" class="form-horizontal tasi-form" method="post">
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Reservation ID</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Mã đơn hàng</label>
                                     <div class="col-sm-10">
                                         <input readonly th:value="${reservationDetails.reservationId}" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Customer Full Name</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Họ tên khách hàng</label>
                                     <div class="col-sm-10">
                                         <input readonly th:value="${reservationDetails.customer.customer_user.fullname}" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Customer Email</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Địa chỉ email</label>
                                     <div class="col-sm-10">
                                         <input readonly th:value="${reservationDetails.customer.customer_user.email}"  type="text" class="form-control round-input">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Customer Mobile</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Số điện thoại</label>
                                     <div class="col-sm-10">
                                         <input readonly th:value="${reservationDetails.customer.customer_user.phone}"  class="form-control" id="focusedInput" type="text" value="This is focused...">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Reserved Date</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Ngày đặt dịch vụ</label>
                                     <div class="col-sm-10">
                                         <input readonly th:value="${reservationDetails.date}"  class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled="">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Total cost</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Tổng tiền đơn hàng</label>
                                     <div class="col-sm-10">
                                         <input readonly th:value="${reservationDetails.totalReservationPrice}"  type="text" class="form-control" placeholder="placeholder">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Status Reservation</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Trạng thái đơn hàng</label>
                                     <div class="col-sm-10">
-                                        <input readonly th:value="${reservationDetails.status}"  type="text" class="form-control" placeholder="placeholder">
+                                        <input readonly th:value="${reservationDetails.status} ? 'Đã xác nhận':'Đã huỷ'"  type="text" class="form-control" placeholder="placeholder">
                                     </div>
                                 </div>
                             </form>
@@ -99,33 +99,33 @@
                     </section>
                     <section class="panel">
                         <header class="panel-heading">
-                            The receiver information
+                            Thông tin người nhận
                         </header>
                         <div class="panel-body">
                             <form class="form-horizontal tasi-form" method="get">
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Full name</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Họ tên khách hàng</label>
                                     <div class="col-sm-10">
                                         <input readonly th:value="${reservationDetails.customer.customer_user.fullname}" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Gender</label>
+                                    <label class="col-sm-2 col-sm-2 control-label">Giới tình</label>
                                     <div class="col-sm-10">
                                         <input readonly th:value="${reservationDetails.customer.customer_user.gender} == true ? 'Nam':'Nữ'" type="text" class="form-control">
                                     </div>
                                 </div><div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">Email</label>
+                                <label class="col-sm-2 col-sm-2 control-label">Địa chỉ email</label>
                                 <div class="col-sm-10">
                                     <input readonly th:value="${reservationDetails.customer.customer_user.email}" type="text" class="form-control">
                                 </div>
                             </div><div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">Phone</label>
+                                <label class="col-sm-2 col-sm-2 control-label">Số điện thoại</label>
                                 <div class="col-sm-10">
                                     <input readonly th:value="${reservationDetails.customer.customer_user.phone}" type="text" class="form-control">
                                 </div>
                             </div><div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">Address</label>
+                                <label class="col-sm-2 col-sm-2 control-label">Địa chỉ</label>
                                 <div class="col-sm-10">
                                     <input readonly th:value="${reservationDetails.customer.customer_user.address}" type="text" class="form-control">
                                 </div>
@@ -135,36 +135,34 @@
                     </section>
                     <section class="panel">
                         <header class="panel-heading">
-                            List of reserved services
+                            Danh sách dịch vụ đã đặt
                         </header>
                         <div class="panel-body">
                             <section class="pt-5 pb-5">
                                 <div class="container">
                                     <div class="row w-100">
                                         <div class="col-lg-12 col-md-12 col-12">
-
-                                            <p class="mb-5 text-center">
-                                                <i th:text="${listServiceFind.size()}" class="text-info font-weight-bold"></i> items in your cart</p>
                                             <table id="shoppingCart" class="table table-condensed table-responsive">
                                                 <thead>
                                                 <tr>
-                                                    <th style="width:30%">Thumbnail</th>
-                                                    <th style="width:12%">Name</th>
-                                                    <th style="width:10%">Category</th>
-                                                    <th style="width:16%">Unit price</th>
-                                                    <th style="width:16%">Thời gian khám</th>
-
+                                                    <th>Ảnh</th>
+                                                    <th>Tên dịch vụ</th>
+                                                    <th>Loại dịch vụ</th>
+                                                    <th>Đơn giá</th>
+                                                    <th>Thời gian khám</th>
+                                                    <th>Bác sĩ</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr th:each="s : ${listServiceFind}">
                                                     <td>
-                                                        <img th:src="${'data:image/gif;base64,'+s.service.base64ThumbnailEncode}" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                                        <img th:src="${'data:image/gif;base64,'+s.service.base64ThumbnailEncode}" height="90px" width="120px" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                                     </td>
                                                     <td th:text="${s.service.title}"></td>
                                                     <td th:text="${s.service.serviceCategory.serviceCategoryName}"></td>
                                                     <td th:text="${#numbers.formatDecimal(s.service.originalPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
-                                                    <td th:text="${s.id.bookedDate}"></td>
+                                                    <td th:text="${s.id.bookedDate}+' | '+${s.slot.start}+'h'+'-'+${s.slot.end}+'h'"></td>
+                                                    <td th:text=" 'Mã bác sĩ: '+${s.staff.staff_id}+'-Tên bác sĩ: '+${s.staff.staff_user.fullname}"></td>
 
                                                 </tr>
                                                 </tbody>
@@ -185,7 +183,7 @@
         </section><!-- /.content -->
     </aside><!-- /.right-side -->
     <div class="footer-main">
-        Copyright &copy Director, 2014
+        Copyright &copy SWP391 SPRING 2022 SE1517-NET TEAM 2
     </div>
 </div><!-- ./wrapper -->
 <!-- jQuery 2.0.2 -->
