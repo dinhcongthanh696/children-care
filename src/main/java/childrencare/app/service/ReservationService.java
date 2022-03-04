@@ -80,7 +80,7 @@ public class ReservationService {
         return repository.getReservationByReservationId(reserID);
     }
     public Page<ReservationModel> listAll(int pageNum, int keyword, String sortField, String sortDir) {
-        Pageable pageable = PageRequest.of(pageNum - 1, 4,
+        Pageable pageable = PageRequest.of(pageNum - 1, 6,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending()
         );
@@ -89,9 +89,9 @@ public class ReservationService {
         }
         return repository.findReservationStaff(keyword,pageable);
     }
-    public Page<ReservationModel> filterReservation1(int pageNum,boolean status) {
+    public Page<ReservationModel> filterReservation1(int pageNum, boolean status, Date datefrom , Date dateTo) {
         Pageable pageable1 = PageRequest.of(pageNum - 1, 3);
-        return repository.filterReservationByStatus1(status, pageable1);
+        return repository.filterReservationByStatus1(status,datefrom, dateTo,pageable1);
     }
 
     public Page<ReservationModel> listReservationByStaff(int pageNum,int staffID,int reservationID,String sortField, String sortDir) {
@@ -112,6 +112,12 @@ public class ReservationService {
 
     public void changeStatusReservation(boolean status, int rid) {
         repository.changeStatusReservation(status, rid);
+    }
+
+
+    public Page<ReservationModel> listReservationByCusID(int pageNum,int cusID) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 3);
+        return repository.listReservationByCusID(cusID, pageable);
     }
 
 

@@ -111,11 +111,11 @@
                     Tổng đơn được đặt: [[${totalItems}]]
                     &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-                    <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/1' + '?sortField=id&sortDir=' + ${reverseSortDir}}">Trang đầu</a>
+                    <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Trang đầu</a>
                     <span th:unless="${currentPage > 1}">Trang đầu</span>
                     &nbsp;&nbsp;
 
-                    <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/' +  '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang trước</a>
+                    <a th:if="${currentPage > 1}" th:href="@{'/staff/home/page/' +${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang trước</a>
                     <span th:unless="${currentPage > 1}">Trang trước</span>
 
                     &nbsp;&nbsp;
