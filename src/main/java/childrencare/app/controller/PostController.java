@@ -1,3 +1,4 @@
+/*
 package childrencare.app.controller;
 
 import childrencare.app.model.PostCategoryModel;
@@ -86,3 +87,4 @@ public class PostController {
 
 
 }
+*/

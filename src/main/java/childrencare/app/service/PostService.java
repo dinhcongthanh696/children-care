@@ -2,6 +2,7 @@ package childrencare.app.service;
 
 import childrencare.app.model.PostCategoryModel;
 import childrencare.app.model.PostModel;
+import childrencare.app.model.UserModel;
 import childrencare.app.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,13 @@ public class PostService {
         return blogRepository.findAllBy(title, catID, type, PageRequest.of(index, size));
     }
 
+    public long count(){
+        return blogRepository.count();
+    }
+
+    public List<UserModel> getListManager(){
+        return blogRepository.findManager();
+    }
 
     public Page<PostModel> findAll(int index, int size) {
         return blogRepository.findAll(PageRequest.of(index, size));

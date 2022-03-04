@@ -127,7 +127,7 @@
                                     <div id="addSliderModal" class="modal fade">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <form action="/ChildrenCare/managerblog" method="post"
+                                                <form action="/ChildrenCare/manager/post" method="post"
                                                       enctype="multipart/form-data">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Add New Post</h4>
@@ -137,41 +137,40 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label>Post ID</label>
-                                                            <input name="" type="text" class="form-control"
-                                                                   required>
-                                                        </div>
-                                                        <div class="form-group">
                                                             <label>Brief Infor</label>
-                                                            <input name="" type="text" class="form-control"
+                                                            <input name="briefInfor" type="text" class="form-control"
                                                                    required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Create At</label>
-                                                            <input name="" type="date" class="form-control"
+                                                            <input name="createAt" type="date" class="form-control"
                                                                    required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Post Detail</label>
-                                                            <input name="" type="text" class="form-control"
+                                                            <input name="detail" type="text" class="form-control"
                                                                    required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Thumbnail</label>
                                                             <img id="imgAddPreview" style="height: 200px"
                                                                  class="form-control" alt="No image" required>
-                                                            <input name="" onchange="addImgPreview(this)"
+                                                            <input name="image" onchange="addImgPreview(this)"
                                                                    type="file">
-
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Post Title</label>
-                                                            <input name="" class="form-control" required>
+                                                            <input name="title" class="form-control" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Author</label>
-                                                            <input name="" type="text" class="form-control"
-                                                                   required>
+                                                            <!--<input name="" type="text" class="form-control"
+                                                                   required>-->
+                                                            <select name="author">
+                                                                <div th:each="listManager:${listManagers}">
+                                                                <option th:value="${listManager.getEmail()}" th:text="${listManager.getUsername()}"></option>
+                                                                </div>
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Post Status</label>
