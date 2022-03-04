@@ -160,7 +160,9 @@ public class ReservationController {
         UserModel user = (UserModel) session.getAttribute("user");
         CustomerModel cus = new CustomerModel();
         ReservationModel reservationModel = new ReservationModel();
-        if(user == null){
+        UserModel userFindByEmail = userService.findByEmail(email);
+
+        if (user == null && userFindByEmail == null) {
             //case : user not login
             //insert to user table
             UserModel userModel = new UserModel();
@@ -174,24 +176,33 @@ public class ReservationController {
             userModel.setStatus(true);
             userService.save(userModel);
             //insert to customer table
-            customerService.insertToCus(1,email);
+            customerService.insertToCus(1, email);
         }
-        //case user login and buy again
-        cus = customerService.findCustomerByEmail(user.getEmail());
-        //case user login
-        if(user != null && cus == null){
-            customerService.insertToCus(1,user.getEmail());
+        if (user == null && userFindByEmail != null) {
+            userFindByEmail.setFullname(fullname);
+            userFindByEmail.setGender(gender);
+            userFindByEmail.setPhone(phone);
+            userFindByEmail.setAddress(address);
+            userFindByEmail.setNotes(note);
+            //insert to customer table
+            customerService.insertToCus(1, email);
         }
-        if(cus != null){
+        if (user != null){
+            cus = customerService.findCustomerByEmail(user.getEmail());
+            //case user login and buy again
+            //case user login
+            if (user != null && cus == null) {
+                customerService.insertToCus(1, user.getEmail());
+            }
+             if (cus != null) {
             reservationModel.setCustomer(cus);
-        }
-        if(cus == null){
+             }
+             if (cus == null) {
             int cid = customerService.lastIDCus();
             cus.setCustomer_id(cid);
             reservationModel.setCustomer(cus);
         }
-
-
+    }
         //insert to reservation table
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
         reservationModel.setStatus(false);
@@ -200,10 +211,9 @@ public class ReservationController {
         reservationModel.setDate(dtf.format(now));
         // thanh's code
         int rid = reservationService.saveReservation(reservationModel);
-        List<ServiceModel> serviceCarts = (List<ServiceModel>) session.getAttribute("list");
         //clear cart from session after click submit button (reservation contact) - nghia's code
-     /* List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
-        listSubmit.clear(); */
+//        List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
+//        listSubmit.clear();
         return "redirect:/bookingSchedule?reservationId=" + rid ;
         // end thanh's code
     }
