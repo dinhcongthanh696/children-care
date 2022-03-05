@@ -76,8 +76,6 @@ public class AdminController {
 	public String toAdminDashBoard(Model model,
 			@RequestParam(name = "revenueDate",required = false,defaultValue = "") String revenueDate,
 			@RequestParam(name = "page",required = false,defaultValue = "0" ) Integer page) {
-		int totalReservationSuccess = reservationService.countReservationByStatus(1);
-		int totalReservationCanceled = reservationService.countReservationByStatus(0);
 		int totalCustomerNewlyReserved = customerService.getNewCustomerReservedByLastDays(7);
 		int totalCustomerNewlyRegistered = customerService.getNewCustomerRegisterByLastDays(7);
 		
@@ -102,15 +100,18 @@ public class AdminController {
 		List<Integer> reservationSuccessNumbers = new ArrayList<>();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		List<Integer> reservationTotalNumbers = new ArrayList<>();
+		int totalReservationCanceled = 0;
 		for(int i = 0 ; i < 7 ; i++) {
 			sevenLastDays.add(dateFormatter.format(currentDate.getTime()));
 			int reservationSuccess = reservationService.countReservationByStatusAndDate(1, currentDate.getTime());
 			int reservationCanceled = reservationService.countReservationByStatusAndDate(0, currentDate.getTime());
+			totalReservationCanceled += reservationCanceled;
 			reservationSuccessNumbers.add(reservationSuccess);
 			reservationTotalNumbers.add(reservationSuccess+reservationCanceled);
 			currentDate.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		ObjectMapper objectMapper = new ObjectMapper();
+		int totalReservationSuccess = reservationSuccessNumbers.stream().reduce(0,(a,b) -> a + b);
 		
 		model.addAttribute("totalCustomerNewlyRegistered", totalCustomerNewlyRegistered);
 		model.addAttribute("totalCustomerNewlyReserved", totalCustomerNewlyReserved);

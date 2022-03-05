@@ -11,10 +11,10 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img th:src="${'data:image/gif;base64,'+ session.user.base64AvatarEncode}" class="img-circle" alt="User Image" style="width : 180px; height : 160px;"/>
+                <img th:src="${'data:image/gif;base64,'+ session.user.base64AvatarEncode}" class="img-circle" alt="User Image" style="width : 190px; height : 185px;"/>
             </div>
             <div class="pull-left info">
-                <p>Hello, <span th:text="${session.username}"></span> <span th:text="'  ['+${session.user.userRole.roleName} + ']'"></span></p>
+                <p>Hello, <span th:text="${session.username}"></span></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>

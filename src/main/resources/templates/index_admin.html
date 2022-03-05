@@ -180,7 +180,7 @@
 							th:class="${service.avg_star > 3  ? (service.avg_star < 4 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>
 						<span
 							th:class="${service.avg_star > 4  ? (service.avg_star < 5 ?  'fas fa-star-half-alt  rated' : 'fas fa-star rated') : 'far fa-star rated'}"></span>	
-						<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5' : 'NO VOTE'"></h5>		
+						<h5 th:text="${service.avg_star != -1} ? '    '+${#numbers.formatDecimal(service.avg_star,1,'POINT',1,'POINT')} + ' /5 (' + ${service.feedbacks.size()} + ')' : 'NO VOTE'"></h5>		
 					</td>
 					<td th:text="${service.feedbacks.size()}" style="font-size : 20px;"></td>
 				</tr>
