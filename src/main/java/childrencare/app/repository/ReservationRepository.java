@@ -19,7 +19,7 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
 
     // AKV - ReservationComplete
     @Modifying
-    @Query(value = "UPDATE reservation set status = 'true' where reservation_id = ?1",
+    @Query(value = "UPDATE reservation set status_reservation_id = 1 where reservation_id = ?1",
     nativeQuery = true)
     void changeStatus(int reservationId);
 
@@ -72,7 +72,7 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "  where r.reservation_id = ?1",nativeQuery = true)
      ReservationModel getreservationDetail(int reserID);
 
-    @Query(value = "select r from ReservationModel r " +
+    @Query(value = "select r from ReservationModel r join r.statusReservation rt " +
             "join r.customer c join c.customer_user u")
     Page<ReservationModel> findAll(Pageable pageable);
 
@@ -80,37 +80,44 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "join c.customer_user u where  r.reservationId = ?1")
     Page<ReservationModel> findReservationStaff(int keyword, Pageable pageable);
 
-    @Query(value = "select r from ReservationModel r join r.reservationServices rs\n" +
+    @Query(value = "select r from ReservationModel r join r.statusReservation rt " +
             "join r.customer c " +
-            "join c.customer_user u where r.status = ?1 or (rs.id.bookedDate between ?2 and ?3)")
-    Page<ReservationModel> filterReservationByStatus1(boolean status, Date datefrom, Date dateTo, Pageable pageable);
+            "join c.customer_user u where rt.statusId = ?1 ")
+    Page<ReservationModel> filterReservationByStatus1(int status, Pageable pageable);
+
 
     @Modifying
     @Query(value = "UPDATE [reservation]\n" +
-            "   SET[status] =  ?1    \n" +
+            "   SET[status_reservation_id] =  ?1    \n" +
             " WHERE reservation_id =?2",nativeQuery = true)
-    void changeStatusReservation(boolean status, int rid);
+    void changeStatusReservation(int status, int rid);
 
 
     @Query(value = "select * from reservation where reservation_id in\n" +
             "(select distinct reservation_id\n" +
             " from reservation_service\n" +
-            " where staff_id = ?1)",nativeQuery = true)
+            " where staff_id = ?1 )",nativeQuery = true)
     Page<ReservationModel> listReservationByStaffID(int staffID,Pageable pageable);
+
+    @Query(value = "select * from reservation where reservation_id in\n" +
+            "(select distinct reservation_id\n" +
+            " from reservation_service\n" +
+            " where staff_id = ?1 and booked_date between ?2 and ?3)",nativeQuery = true)
+    Page<ReservationModel> listReservationByDate(int staffID, Date dateFrom, Date dateTo,Pageable pageable);
 
 
     @Query(value = "select * from reservation where reservation_id in\n" +
             "(select distinct reservation_id\n" +
             " from reservation_service\n" +
             " where staff_id = ?1 and reservation_id = ?2)",nativeQuery = true)
-    Page<ReservationModel> listReservationByStaff(int staffID,int reservaioID,Pageable pageable);
+    Page<ReservationModel> listReservationByStaff(int staffID,int reservationID,Pageable pageable);
 
 
     @Query(value = "select * from reservation where reservation_id in\n" +
             "(select distinct reservation_id\n" +
             " from reservation_service\n" +
-            " where staff_id = ?1 and [status] = ?2)",nativeQuery = true)
-    Page<ReservationModel> listReservationByStaffByFilter(int staffID,boolean status,Pageable pageable);
+            " where staff_id = ?1 and [status_reservation_id] = ?2)",nativeQuery = true)
+    Page<ReservationModel> listReservationByStaffByFilter(int staffID,int status,Pageable pageable);
 
     @Query(value = "select * from reservation where reservation_id in\n" +
             "(select distinct reservation_id\n" +

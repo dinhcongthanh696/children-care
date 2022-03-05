@@ -86,6 +86,8 @@
                 alert(message);
             })
         }
+
+
     </script>
 
 
@@ -190,7 +192,7 @@
                                                                 <br>
                                                                 <small th:text="${'  Tên dịch vụ: '+item.title}" class="text-muted"></small>
                                                                 <br>
-                                                                <small th:text="${'  Giá dịch vụ: '+#numbers.formatDecimal(item.originalPrice,1,'POINT',0,'POINT')+'đ'}" class="text-muted"></small>
+                                                                <small th:text="${'  Giá dịch vụ: '+#numbers.formatDecimal(item.salePrice,1,'POINT',0,'POINT')+'đ'}" class="text-muted"></small>
                                                             </div>
                                                         </div>
                                                     </div>
