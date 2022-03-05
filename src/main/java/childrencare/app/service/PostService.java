@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +29,8 @@ public class PostService {
         return blogRepository.count();
     }
 
-    public List<UserModel> getListManager(){
-        return blogRepository.findManager();
+    public int getMaxPostId(){
+        return blogRepository.maxPostID();
     }
 
     public Page<PostModel> findAll(int index, int size) {
@@ -37,6 +38,11 @@ public class PostService {
     }
     public void changeStatusPost(int status, int rid) {
         blogRepository.changeStatusPost(status, rid);
+    }
+
+
+    public void addNewPost(int postid, String brefinfo, Date create, String detail, byte[] img, String title, Date updateAt, String author, int category, boolean status){
+        blogRepository.addPost(postid, brefinfo, create, detail, img, title, updateAt, author, category, status);
     }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -31,19 +32,22 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
     @Query(value = "select * from post as p where 1=1 and (:title is null or p.title like %:title%) " +
             "and (:catID is null or p.post_category_id = :catID) " +
             "and (:type is null or p.status = :type)", nativeQuery = true)
-    Page<PostModel> findAllBy(@Param("title")String title,@Param("catID")String catID,@Param("type")String type, Pageable pageable);
+    Page<PostModel> findAllBy(@Param("title") String title, @Param("catID") String catID, @Param("type") String type, Pageable pageable);
 
-    @Query(value = "select u.email,u.fullname from user_model as u where u.role_id = 5", nativeQuery = true)
-    List<UserModel> findManager();
-
+    @Query(value = "select max(p.post_id) from post as p", nativeQuery = true)
+    int maxPostID();
 
 
     @Modifying
     @Query(value = "UPDATE post \n" +
             "   SET status = ?1\n" +
-            " WHERE post_id = ?2",nativeQuery = true)
+            " WHERE post_id = ?2", nativeQuery = true)
     void changeStatusPost(int status, int rid);
 
+    @Modifying
+    @Query(value = "INSERT INTO [post] ([post_id],[brief_info],[create_at],[details],[thumbnail],[title],[updated_at],[email],[post_category_id],[status])\n" +
+            "VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10)", nativeQuery = true)
+    public void addPost(int postid, String brefinfo, Date create, String detail, byte[] img, String title, Date updateAt, String author, int category, boolean status);
 
 
 }

@@ -8,9 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -40,16 +45,16 @@ public class ManagerController {
     }
 
     @GetMapping("/service/{id}")
-    public String gotoHtml(Model model,@PathVariable(name = "id") int id){
+    public String gotoHtml(Model model, @PathVariable(name = "id") int id) {
         ServiceModel service = serviceModelService.getServiceById(id).get();
         service.setBase64ThumbnailEncode(service.getThumbnail());
-        model.addAttribute("services",serviceModelService.getServices());
+        model.addAttribute("services", serviceModelService.getServices());
         model.addAttribute("service", service);
         return "ServiceDetail-Manager";
     }
 
 
-    @RequestMapping(value = "/feedback", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/feedback", method = {RequestMethod.GET, RequestMethod.POST})
     public String searchServiceListByTitle() {
 
         return "manager-service-list";
@@ -106,17 +111,37 @@ public class ManagerController {
         model.addAttribute("titleORauthor", title);
 
 
-
         return "post_manager";
     }
-
 
     @GetMapping("/changStatus")
     @Transactional
     public String changeStatusPost(@RequestParam("pid") int rid,
                                    @RequestParam("status") String status,
-                                   Model model){
-        postService.changeStatusPost((status.equals("true"))?1:0,rid);
+                                   Model model) {
+        postService.changeStatusPost((status.equals("true")) ? 1 : 0, rid);
+        return "redirect:/manager/post";
+    }
+
+    @PostMapping("/post")
+    @Transactional
+    public String addNewPost(@RequestParam(name = "briefInfor") String briefInfor,
+                        @RequestParam(name = "createAt") String createAt,
+                        @RequestParam(name = "detail") String detail,
+                        @RequestParam(name = "image") MultipartFile thumbnail,
+                        @RequestParam(name = "title") String title,
+                        @RequestParam(name = "author") String email,
+                        @RequestParam(name = "category") int category,
+                        @RequestParam(name = "statusAdd") boolean status) throws Exception {
+        byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
+        int postId = postService.getMaxPostId() + 1;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+
+        String dateInString = createAt;
+        Date dateCreate = formatter.parse(dateInString);
+
+        postService.addNewPost(postId,briefInfor,dateCreate,detail,imgConvertAdd,title,dateCreate,email,category,status);
         return "redirect:/manager/post";
     }
 }
