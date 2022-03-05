@@ -47,4 +47,9 @@ public class Service_service {
     public List<ServiceModel> findListServiceByReservationID2(int reserId) {
         return serviceRepository.findListServiceByReservationID2(reserId);
     }
+
+
+    public List<ServiceModel> findListServiceByRidAndStaffId(int staffID, int reserId) {
+        return serviceRepository.findListServiceByRidAndStaffId(staffID, reserId);
+    }
 }

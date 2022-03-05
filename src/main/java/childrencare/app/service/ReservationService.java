@@ -35,7 +35,7 @@ public class ReservationService {
     public int saveReservation(ReservationModel entity) {
     	return repository.save(entity).getReservationId();
     }
-    
+
     public int countReservationByStatus(int status) {
     	return repository.countReservationByStatus(status);
     }
@@ -80,38 +80,60 @@ public class ReservationService {
         return repository.getReservationByReservationId(reserID);
     }
     public Page<ReservationModel> listAll(int pageNum, int keyword, String sortField, String sortDir) {
-        Pageable pageable = PageRequest.of(pageNum - 1, 4,
+        Pageable pageable = PageRequest.of(pageNum - 1, 6,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending()
         );
-        if(keyword == 0){
+        if(keyword == 0 ){
             return repository.findAll(pageable);
         }
         return repository.findReservationStaff(keyword,pageable);
     }
-    public Page<ReservationModel> filterReservation1(int pageNum,boolean status) {
-        Pageable pageable1 = PageRequest.of(pageNum - 1, 3);
-        return repository.filterReservationByStatus1(status, pageable1);
+    public Page<ReservationModel> filterReservation1(int pageNum, int status ) {
+        Pageable pageable1 = PageRequest.of(pageNum - 1, 6);
+        if(status == -1){
+            return repository.findAll(pageable1);
+        }
+        return repository.filterReservationByStatus1(status,pageable1);
     }
 
-    public Page<ReservationModel> listReservationByStaff(int pageNum,int staffID,int reservationID,String sortField, String sortDir) {
+    public Page<ReservationModel> listReservationByStaff(int pageNum, int staffID, int reservationID,String sortField, String sortDir) {
         Pageable pageable = PageRequest.of(pageNum - 1, 3,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending()
         );
-        if(reservationID == 0){
+        if(reservationID == 0 ){
             return repository.listReservationByStaffID(staffID,pageable);
         }
-        return repository.listReservationByStaff(staffID,reservationID,pageable);
+        return repository.listReservationByStaff(staffID, reservationID, pageable);
     }
 
-    public Page<ReservationModel> filterReservationByStaff(int pageNum,int staffID,boolean status) {
+    public Page<ReservationModel> listReservationByStaffDate(int pageNum, int staffID,Date dateFrom
+            ,Date dateTo,String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 3,
+                sortDir.equals("asc") ? Sort.by(sortField).ascending()
+                        : Sort.by(sortField).descending());
+        return repository.listReservationByDate(staffID,dateFrom,dateTo,pageable);
+
+
+    }
+
+    public Page<ReservationModel> filterReservationByStaff(int pageNum,int staffID,int status) {
         Pageable pageable1 = PageRequest.of(pageNum - 1, 3);
+        if(status == -1){
+            return repository.listReservationByStaffID(staffID,pageable1);
+        }
         return repository.listReservationByStaffByFilter(staffID,status, pageable1);
     }
 
-    public void changeStatusReservation(boolean status, int rid) {
+    public void changeStatusReservation(int status, int rid) {
         repository.changeStatusReservation(status, rid);
+    }
+
+
+    public Page<ReservationModel> listReservationByCusID(int pageNum,int cusID) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 3);
+        return repository.listReservationByCusID(cusID, pageable);
     }
 
 

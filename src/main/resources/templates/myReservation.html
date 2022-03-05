@@ -71,7 +71,7 @@
                         </div>
                         <table class="table table-bordered">
                             <thead>
-                            <tr>
+                            <tr style="background-color:greenyellow">
                                 <th>Mã đơn hàng</th>
                                 <th>Ngày đặt hàng</th>
                                 <th>Total cost</th>
@@ -84,7 +84,7 @@
                                 <td th:text="${item.reservationId}"></td>
                                 <td th:text="${item.date}"></td>
                                 <td th:text="${#numbers.formatDecimal(item.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
-                                <td th:utext="${item.status} ?'Đã xác nhận ':'Đã huỷ'"></td>
+                                <td th:utext="${item.statusReservation.statusName}"></td>
                                 <td>
                                     <a th:attr="data-target='#modalReservation'+${item.reservationId}" type="button" class="btn" data-toggle="modal" data-target="#modalReservation"> <i class="fa fa-eye" aria-hidden="true"></i></a>
                                     <div class="modal fade" th:id="${'modalReservation'+ item.reservationId}"  tabindex="-1" aria-labelledby="modalReservation" aria-hidden="true">
@@ -98,7 +98,7 @@
                                                     <div>
                                                         <table class="table table-bordered">
                                                             <thead>
-                                                            <tr>
+                                                            <tr style="background-color:greenyellow">
                                                                 <th scope="col">Tên dịch vụ</th>
                                                                 <th scope="col">Thời gian khám</th>
                                                                 <th scope="col">Bác sĩ</th>
@@ -116,10 +116,11 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save changes</button> </div>
+                                                <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button> </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </td>
 
 

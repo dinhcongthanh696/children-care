@@ -79,5 +79,10 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
             "group by  s.service_id,s.thumbnail,s.original_price,r.total_reservation_price", nativeQuery = true)
     public List<ServiceModel> findListServiceByReservationID2(int reserId);
 
+    @Query(value = "select * from [service] s inner join reservation_service rs\n" +
+            " on s.service_id =rs.service_id where rs.staff_id = ?1 and rs.reservation_id = ?2", nativeQuery = true)
+    public List<ServiceModel> findListServiceByRidAndStaffId(int staffID,int reserId);
+
+
 
 }

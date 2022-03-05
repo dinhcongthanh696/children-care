@@ -37,7 +37,7 @@
         </header>
         <div class="wrapper row-offcanvas row-offcanvas-left">
             <!-- Left side column. contains the logo and sidebar -->
-            <aside class="left-side sidebar-offcanvas" th:replace="navBar_admin::leftSide_admin('/manager/sliderManager/page/1')" ></aside>
+            <aside class="left-side sidebar-offcanvas" th:replace="navBar_admin::leftSide_admin" ></aside>
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
@@ -48,59 +48,58 @@
                         <div class="col-md-12">
                             <section class="panel">
                               <header class="panel-heading">
-                                 Reservation Information
+                                 Thông tin đơn được đặt
                               </header>
                               <div class="panel-body">
                                   <form th:action="@{/manager/updateStatus}" class="form-horizontal tasi-form" method="post">
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Reservation ID</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Mã đơn hàng</label>
                                           <div class="col-sm-10">
-                                              <input th:value="${reservationDetails.reservationId}" type="text" class="form-control">
+                                              <input name="rid" readonly th:value="${reservationDetails.reservationId}" type="text" class="form-control">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Customer Full Name</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Tên khách hàng</label>
                                           <div class="col-sm-10">
-                                              <input th:value="${reservationDetails.customer.customer_user.fullname}" type="text" class="form-control">
+                                              <input readonly th:value="${reservationDetails.customer.customer_user.fullname}" type="text" class="form-control">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Customer Email</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Địa chỉ Email</label>
                                           <div class="col-sm-10">
-                                              <input th:value="${reservationDetails.customer.customer_user.email}"  type="text" class="form-control round-input">
+                                              <input readonly th:value="${reservationDetails.customer.customer_user.email}"  type="text" class="form-control round-input">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Customer Mobile</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Số điện thoại</label>
                                           <div class="col-sm-10">
-                                              <input th:value="${reservationDetails.customer.customer_user.phone}"  class="form-control" id="focusedInput" type="text" value="This is focused...">
+                                              <input readonly th:value="${reservationDetails.customer.customer_user.phone}"   class="form-control" id="focusedInput" type="text" value="This is focused...">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Reserved Date</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Ngày đặt hàng</label>
                                           <div class="col-sm-10">
                                               <input th:value="${reservationDetails.date}"  class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled="">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Total cost</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Tổng tiền đơn hàng</label>
                                           <div class="col-sm-10">
-                                              <input th:value="${reservationDetails.totalReservationPrice}"  type="text" class="form-control" placeholder="placeholder">
+                                              <input readonly th:value="${#numbers.formatDecimal(reservationDetails.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"  type="text" class="form-control" placeholder="placeholder">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Status Reservation</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Trạng thái</label>
                                           <div class="col-sm-10">
                                               <select name="status">
-                                                  <option value="1" th:selected="${reservationDetails.status}">Submited</option>
-                                                  <option value="0" th:selected="not ${reservationDetails.status}">Canceled</option>
+                                                  <option th:each="item: ${statusList}" th:selected="${item.statusId == reservationDetails.statusReservation.statusId}" th:value="${item.statusId}" th:text="${item.statusName}"></option>
                                               </select>
                                           </div>
                                       </div>
                                       <div class="form-group">
                                           <label class="col-sm-2 col-sm-2 control-label"></label>
                                           <div class="col-sm-10">
-                                              <button onclick="confirmChange()"  class="btn-primary" type="submit">Update</button>
+                                              <button onclick="confirmChange()"  class="btn-primary" type="submit">Cập nhập trạng thái</button>
                                           </div>
                                       </div>
                                       <script>
@@ -114,35 +113,35 @@
                             </section>
                             <section class="panel">
                                 <header class="panel-heading">
-                                 The receiver information
+                                 Thông tin người nhận
                                 </header>
                                 <div class="panel-body">
                                   <form class="form-horizontal tasi-form" method="get">
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Full name</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Họ tên khách hàng</label>
                                           <div class="col-sm-10">
-                                              <input th:value="${reservationDetails.customer.customer_user.fullname}" type="text" class="form-control">
+                                              <input readonly th:value="${reservationDetails.customer.customer_user.fullname}" type="text" class="form-control">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="col-sm-2 col-sm-2 control-label">Gender</label>
+                                          <label class="col-sm-2 col-sm-2 control-label">Giới tính</label>
                                           <div class="col-sm-10">
-                                              <input th:value="${reservationDetails.customer.customer_user.gender} == true ? 'Nam':'Nữ'" type="text" class="form-control">
+                                              <input readonly th:value="${reservationDetails.customer.customer_user.gender} == true ? 'Nam':'Nữ'" type="text" class="form-control">
                                           </div>
                                       </div><div class="form-group">
-                                      <label class="col-sm-2 col-sm-2 control-label">Email</label>
+                                      <label class="col-sm-2 col-sm-2 control-label">Địa chỉ Email</label>
                                       <div class="col-sm-10">
-                                          <input th:value="${reservationDetails.customer.customer_user.email}" type="text" class="form-control">
+                                          <input readonly th:value="${reservationDetails.customer.customer_user.email}" type="text" class="form-control">
                                       </div>
                                   </div><div class="form-group">
-                                      <label class="col-sm-2 col-sm-2 control-label">Phone</label>
+                                      <label class="col-sm-2 col-sm-2 control-label">Số điện thoại</label>
                                       <div class="col-sm-10">
-                                          <input th:value="${reservationDetails.customer.customer_user.phone}" type="text" class="form-control">
+                                          <input readonly th:value="${reservationDetails.customer.customer_user.phone}" type="text" class="form-control">
                                       </div>
                                   </div><div class="form-group">
-                                      <label class="col-sm-2 col-sm-2 control-label">Address</label>
+                                      <label class="col-sm-2 col-sm-2 control-label">Địa chỉ</label>
                                       <div class="col-sm-10">
-                                          <input th:value="${reservationDetails.customer.customer_user.address}" type="text" class="form-control">
+                                          <input readonly th:value="${reservationDetails.customer.customer_user.address}" type="text" class="form-control">
                                       </div>
                                   </div>
                                   </form>
@@ -150,42 +149,94 @@
                             </section>
                             <section class="panel">
                                 <header class="panel-heading">
-                                    List of reserved services
+                                    Dach sách dịch vụ được đặt
                                 </header>
                                 <div class="panel-body">
                                     <section class="pt-5 pb-5">
                                         <div class="container">
                                             <div class="row w-100">
                                                 <div class="col-lg-12 col-md-12 col-12">
-
-                                                    <p class="mb-5 text-center">
-                                                        <i th:text="${listFind.size()}" class="text-info font-weight-bold"></i> items in your cart</p>
                                                     <table id="shoppingCart" class="table table-condensed table-responsive">
                                                         <thead>
                                                         <tr>
-                                                            <th style="width:30%">Thumbnail</th>
-                                                            <th style="width:12%">Name</th>
-                                                            <th style="width:10%">Category</th>
-                                                            <th style="width:16%">Unit price</th>
-                                                            <th style="width:16%">Number of person</th>
-                                                            <th style="width:16%">Total cost</th>
+                                                            <th>Mã dịch vụ</th>
+                                                            <th>Ảnh dịch vụ</th>
+                                                            <th >Tên dịch vụ</th>
+                                                            <th>Loại dịch vụ</th>
+                                                            <th>Giá dịch vụ</th>
+                                                            <th>Ngày khám</th>
+                                                            <th>Giờ khám</th>
+                                                            <th>Bác sĩ</th>
+                                                            <th>Chỉnh sửa</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr th:each="s : ${listFind}">
+                                                        <tr th:each="item : ${listFind}">
+                                                            <td th:text="${item.service.serviceId}"></td>
                                                             <td>
-                                                                <img th:src="${'data:image/gif;base64,'+s.service.base64ThumbnailEncode}" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                                                <img th:src="${'data:image/gif;base64,'+item.service.base64ThumbnailEncode}" width="115px;" height="105px;" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                                             </td>
-                                                            <td th:text="${s.service.title}"></td>
-                                                            <td th:text="${s.service.serviceCategory.serviceCategoryName}"></td>
-                                                            <td th:text="${s.service.originalPrice}"></td>
-                                                            <td></td>
-                                                            <td th:text="${s.service.totalCost}"></td>
+
+                                                            <td th:text="${item.service.title}"></td>
+                                                            <td th:text="${item.service.serviceCategory.serviceCategoryName}"></td>
+                                                            <td th:text="${#numbers.formatDecimal(item.price,1,'POINT',0,'POINT') + 'đ'}"></td>
+                                                            <td th:text="${item.id.bookedDate}"></td>
+                                                            <td th:text="${item.slot.start}+'h'+'-'+${item.slot.end}+'h'"></td>
+                                                            <td th:text="${item.staff.staff_user.fullname}"></td>
+                                                            <td>
+                                                                <a th:attr="data-target='#editService'+${item.id.bookedDate}+${item.slot.id}+${item.staff.staff_id}"  class="editModal text-primary" data-toggle="modal" >Chỉnh sửa</a>
+                                                                <!--  edit modal-->
+                                                                <div th:id="${'editService'+item.id.bookedDate+item.slot.id+item.staff.staff_id}" class="modal fade">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title">Phân công cho bác sĩ khác</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form action="/ChildrenCare/manager/assignOtherStaff" method="post" >
+                                                                                    <div class="form-group">
+                                                                                        <input name="rid" readonly th:value="${reservationDetails.reservationId}" type="hidden" class="form-control">
+                                                                                        <label>Tên dịch vụ</label>
+                                                                                        <input readonly th:value="${item.service.title}" name="id" type="text" class="form-control" required>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Loại dịch vụ</label>
+                                                                                        <input readonly th:value="${item.service.serviceCategory.serviceCategoryName}" name="title" type="text" class="form-control" required>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Thời gian khám</label>
+                                                                                        <input readonly th:value="${item.slot.start}+'h'+'-'+${item.slot.end}+'h'" name="backlink" type="text" class="form-control" required>
+                                                                                        <input id="bookedDate" th:value="${item.id.bookedDate}" name="bookedDate" type="hidden" class="form-control">
+                                                                                        <input  id="slotId" th:value="${item.slot.id}" name="slotId" type="hidden" class="form-control">
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Bác sĩ </label>
+                                                                                        <input readonly th:value="${item.staff.staff_user.fullname}" name="note" type="text" class="form-control" required>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Phân công cho bác sĩ khác</label>
+                                                                                        <select id="staffID" name="staffID"  class="text-uppercase text-danger" >
+                                                                                            <option th:each="s: ${staffList}" th:value="${s.staff_id}" th:text="'Mã bác sĩ: '+${s.staff_id}+'-Tên bác sĩ: '+${s.staff_user.fullname}"></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                                                        <button type="submit" class="btn btn-primary  btn-default">Update</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
                                                         </tr>
                                                         </tbody>
                                                     </table>
                                                     <div class="float-right text-right">
-                                                        <h4>Subtotal:</h4>
+                                                        Subtotal:  <h4 th:text="${#numbers.formatDecimal(reservationDetails.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></h4>
                                                         <h1></h1>
                                                     </div>
                                                 </div>

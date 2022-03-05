@@ -56,21 +56,19 @@
                 <div class="col-sm-8">
                   <form th:action="@{/manager/home/page/1}">
                     <input th:value="${key} == 0 ?'':${key}" type="text" name="key" class="form-control input-sm pull-left" style="width: 260px;"
-                           placeholder="Tìm kiếm theo ID/tên khách của đơn đã đặt.."/>
+                           placeholder="Tìm kiếm theo mã đơn hàng.."/>
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </form>
                 </div>
-
                 <div class="col-sm-4">
                   <form id="myForm1" th:action="@{/manager/managerView/filter/1}">
-                    <a class="text-danger" href="/ChildrenCare/manager/home/page/1">All Reservation | </a>
-                    Status: <select name="filterValue" th:onchange="filterReservation()">
-                    <option readonly></option>
-                    <option th:selected="${filterValue} == true" value="1">Submited</option>
-                    <option th:selected="${filterValue} == false" value="0">Canceled</option>
+                    <a class="text-danger" href="/ChildrenCare/manager/home/page/1">Tất cả đơn đặt dịch vụ | </a>
+                    Trạng thái: <select name="filterValue" th:onchange="filterReservation()">
+                    <option th:selected="${filterValue} == -1" value="-1">Tất cả</option>
+                    <option th:each="item: ${statusList}" th:selected="${item.statusId == filterValue}"  th:value="${item.statusId}" th:text="${item.statusName}"></option>
                     </select>
-                  </form>
 
+                  </form>
                 </div>
                 <script>
                   function filterReservation(){
@@ -81,13 +79,13 @@
               <table  id="emp-table" class="table table-hover">
                 <thead>
                 <tr>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Reservation Id</a></th>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">Reserved Date</a></th>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=customer&sortDir=' + ${reverseSortDir}}">Customer name</a></th>
+                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Mã đơn hàng</a></th>
+                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">Ngày đặt hàng</a></th>
+                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=customer&sortDir=' + ${reverseSortDir}}">Tên khách hàng</a></th>
                   <th></th>
-                  <th>Total cost</th>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir}}">Status</a></th>
-                  <th>Action</th>
+                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=totalReservationPrice&sortDir=' + ${reverseSortDir}}">Tổng tiền đơn hàng</a></th>
+                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=statusReservation&sortDir=' + ${reverseSortDir}}">Trạng thái</a></th>
+                  <th>Kiểm tra</th>
 
                 </tr>
                 </thead>
@@ -97,11 +95,46 @@
                   <td th:text="${info.date}"></td>
                   <td th:text="${info.customer.customer_user.fullname}"></td>
                   <td></td>
-                  <td th:text="${info.totalReservationPrice}"></td>
-                  <td th:utext="${info.status} ?'Submited':'Canceled'"></td>
+                  <td th:text="${#numbers.formatDecimal(info.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
+                  <td th:text="${info.statusReservation.statusName}"></td>
                   <td>
-<!--                    <button ><i class="fa fa-eye" aria-hidden="true"></i></button>-->
-                    <a th:href="@{/manager/{rid}(rid=${info.reservationId})}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <a th:href="@{/manager/{rid}(rid=${info.reservationId})}">Chi tiết</a>
+                    <a th:attr="data-target='#modalManagerReservation'+${info.reservationId}" type="button" class="btn" data-toggle="modal" data-target="#modalReservation"> <i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <div class="modal fade" th:id="${'modalManagerReservation'+ info.reservationId}"  tabindex="-1" aria-labelledby="modalReservation" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header float-right">
+                            <h5>Chi tiết đơn dịch vụ đã đặt</h5>
+                            <div class="text-right"> <i data-dismiss="modal" aria-label="Close" class="fa fa-close"></i> </div>
+                          </div>
+                          <div class="modal-body">
+                            <div>
+                              <table class="table table-bordered">
+                                <thead>
+                                <tr style="background-color:greenyellow">
+                                  <th scope="col">Tên dịch vụ</th>
+                                  <th scope="col">Thời gian khám</th>
+                                  <th scope="col">Giờ khám</th>
+                                  <th scope="col">Bác sĩ</th>
+                                  <th scope="col">Giá dịch vụ</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item1 :${info.reservationServices}">
+                                  <th th:text="${item1.service.title}" scope="row"></th>
+                                  <td th:text="${item1.id.bookedDate}"></td>
+                                  <td th:text="${item1.slot.start}+'h'+'-'+${item1.slot.end}+'h'"></td>
+                                  <td th:text="${item1.staff.staff_user.fullname}"></td>
+                                  <td th:text="${#numbers.formatDecimal(item1.service.salePrice,1,'POINT',0,'POINT') + 'đ'}"></td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button> </div>
+                        </div>
+                      </div>
+                    </div>
                   </td>
 
                 </tr>
@@ -109,15 +142,15 @@
               </table>
               <div th:if="${filterValue} == null">
                 <div th:if="${totalPages > 1} ">
-                  Total Items: [[${totalItems}]]
+                  Tổng số lượng đơn đặt: [[${totalItems}]]
                   &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/home/page/1'+${key != null? '?keyword='+ key:  ''} + '?sortField=id&sortDir=' + ${reverseSortDir}}">First</a>
-                  <span th:unless="${currentPage > 1}">First</span>
+                  <a th:if="${currentPage > 1}" th:href="@{'/manager/home/page/1'+${key != null? '?keyword='+ key:  ''} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Trang đầu</a>
+                  <span th:unless="${currentPage > 1}">Trang đầu</span>
                   &nbsp;&nbsp;
 
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/home/page/' + ${currentPage - 1} +${key != null? '?keyword='+ key:  ''}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Previous</a>
-                  <span th:unless="${currentPage > 1}">Previous</span>
+                  <a th:if="${currentPage > 1}" th:href="@{'/manager/home/page/' + ${currentPage - 1} +${key != null? '?keyword='+ key:  ''}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang trước</a>
+                  <span th:unless="${currentPage > 1}">Trang trước</span>
 
                   &nbsp;&nbsp;
 
@@ -125,12 +158,12 @@
 			                  <a th:if="${currentPage != i}" th:href="@{'/manager/home/page/'+ ${i} +${key != null? '?keyword='+ key:  ''} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
 			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
 
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/home/page/' + ${currentPage + 1} +${key != null? '?keyword='+ key:  ''} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
-                  <span th:unless="${currentPage < totalPages}">Next</span>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/home/page/' + ${currentPage + 1} +${key != null? '?keyword='+ key:  ''} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Trang tiếp </a>
+                  <span th:unless="${currentPage < totalPages}">Trang tiếp</span>
                   &nbsp;&nbsp;
 
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/home/page/' + ${totalPages}+${key != null? '?keyword='+ key:  ''}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Last</a>
-                  <span th:unless="${currentPage < totalPages}">Last</span>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/home/page/' + ${totalPages}+${key != null? '?keyword='+ key:  ''}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang cuối</a>
+                  <span th:unless="${currentPage < totalPages}">Trang cuối</span>
                 </div>
               </div>
 
@@ -139,25 +172,25 @@
                   Total Items: [[${totalItems}]]
                   &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/staffview/filter/1'+${filterValue != null? '?filterValue='+ filterValue:  ''}}">First</a>
-                  <span th:unless="${currentPage > 1}">First</span>
+                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/filter/1'+${filterValue != null? '?filterValue='+ filterValue:  ''}}">Trang đầu</a>
+                  <span th:unless="${currentPage > 1}">Trang đầu</span>
                   &nbsp;&nbsp;
 
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/staffview/filter/' + ${currentPage - 1} +${filterValue != null? '?filterValue='+ filterValue:  ''} }">Previous</a>
-                  <span th:unless="${currentPage > 1}">Previous</span>
+                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/filter/' + ${currentPage - 1} +${filterValue != null? '?filterValue='+ filterValue:  ''} }">Trang trước</a>
+                  <span th:unless="${currentPage > 1}">Trang trước</span>
 
                   &nbsp;&nbsp;
 
                   <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			                  <a th:if="${currentPage != i}" th:href="@{'/manager/staffview/filter/'+ ${i} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">[[${i}]]</a>
+			                  <a th:if="${currentPage != i}" th:href="@{'/manager/managerView/filter/'+ ${i} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">[[${i}]]</a>
 			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
 
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/staffview/filter/' + ${currentPage + 1} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">Next</a>
-                  <span th:unless="${currentPage < totalPages}">Next</span>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/filter/' + ${currentPage + 1} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">Trang tiếp</a>
+                  <span th:unless="${currentPage < totalPages}">Trang tiếp</span>
                   &nbsp;&nbsp;
 
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/staffview/filter/' + ${totalPages}+${filterValue != null? '?filterValue='+ filterValue:  ''} }">Last</a>
-                  <span th:unless="${currentPage < totalPages}">Last</span>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/filter/' + ${totalPages}+${filterValue != null? '?filterValue='+ filterValue:  ''} }">Trang cuối</a>
+                  <span th:unless="${currentPage < totalPages}">Trang cuối</span>
                 </div>
               </div>
 
