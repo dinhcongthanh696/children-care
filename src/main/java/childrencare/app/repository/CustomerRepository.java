@@ -33,12 +33,12 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 	@Query(value = "Select * from customer where customer_email = ?1", nativeQuery = true)
 	CustomerModel findByEmail(String email);
 	
-	@Query(value = "SELECT * FROM customer inner join user_model on customer_email = email "
-			+ "WHERE (status > ?2 AND status < ?3) AND "
-			+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1)",
-			countQuery = "SELECT COUNT(*) FROM customer inner join user_model on customer_email = email "
-					+ "WHERE (status > ?2 AND status < ?3) AND "
-					+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1)",
+	@Query(value = "SELECT * FROM customer as c INNER JOIN user_model as u on c.customer_email = u.email "
+			+ "WHERE (u.status > ?2 AND u.status < ?3) AND "
+			+ "(u.phone LIKE ?1 OR u.fullname LIKE ?1 OR u.email LIKE ?1) ",
+			countQuery = " SELECT COUNT(*) FROM customer as c inner join user_model as u on c.customer_email = u.email "
+					+ "WHERE (u.status > ?2 AND u.status < ?3) AND "
+					+ "(u.phone LIKE ?1 OR u.fullname LIKE ?1 OR u.email LIKE ?1)",
 			nativeQuery = true)
 	public Page<CustomerModel> findCustomerByStatusAndSearchQuery(String search,int startBitRange,int endBitRange,PageRequest pageRequest);
 

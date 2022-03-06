@@ -16,8 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 @Controller
 @RequestMapping("/manager")
@@ -33,7 +36,7 @@ public class ManagerController {
     
     @Autowired
     ServiceRepository serviceRepository;
-    private final List<String> sortProperties = Arrays.asList("email","fullname","phone","status");
+    private final List<String> sortProperties = Arrays.asList("u.email","u.fullname","u.phone","u.status");
 
     @Autowired
     FeedbackService feedbackService;
@@ -54,6 +57,7 @@ public class ManagerController {
     }
     
     @GetMapping("/customers")
+    @Transactional
     public String toCustomersList(@RequestParam(name = "search" , required = false , defaultValue = "") String search ,
     		@RequestParam(name = "status" , required = false , defaultValue = "-1") int status , 
     		@RequestParam(name = "direction" , required = false , defaultValue = "descending") String directionValue,
@@ -62,18 +66,25 @@ public class ManagerController {
     		Model model) {
     	int startBitRange = -1;
     	int endBitRange = 2;
-    	if(status == 0) {
-    		endBitRange -= 1;
-    	}else {
-    		startBitRange += 1;
+    	switch(status) {
+    		case 0 : endBitRange--;break;
+    		case 1 : startBitRange++;break;
     	}
     	
     	Direction direction = (directionValue.equals("descending")) ? Direction.DESC : Direction.ASC;
-    	Collections.swap(sortProperties, sortProperties.indexOf(sortProperty), 0);
+    	Collections.swap(sortProperties, sortProperties.indexOf("u."+sortProperty), 0);
     	Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, direction);
-    	
     	model.addAttribute("sortProperty",sortProperty);
-    	model.addAttribute("customers", customersPageable.toList());
+    	customersPageable.toList().forEach(customer -> System.out.println("Customer : "+customer.getCustomer_user().getFullname()));
+    	model.addAttribute("customers", customersPageable.toList().stream().map(customer -> {
+    		if(customer.getCustomer_user().getAvatar() != null)
+    		customer.getCustomer_user().setBase64AvatarEncode(
+    				Base64
+    				.getEncoder().
+    				encodeToString(customer.getCustomer_user().getAvatar()));
+    		return customer;
+    	}).toList()
+    	);
     	model.addAttribute("currentPage", customersPageable.getNumber());
     	model.addAttribute("totalPages", customersPageable.getTotalPages());
     	model.addAttribute("direction", directionValue);

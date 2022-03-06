@@ -53,11 +53,11 @@ public class CustomerService {
 			page = 0;
 		}
 		Page<CustomerModel> customersPageable = customerRepository.findCustomerByStatusAndSearchQuery("%"+search+"%",
-				startBitRange, endBitRange, PageRequest.of(page, size, Sort.by(direction,(String []) sortProperties.toArray()) ) );
+				startBitRange, endBitRange, PageRequest.of(page, size, Sort.by(direction, sortProperties.toArray(new String[sortProperties.size()])) ) );
 		if(customersPageable.getTotalPages() > 0 && page >= customersPageable.getTotalPages()) {
 			page = customersPageable.getTotalPages() - 1;
 			customersPageable = customerRepository.findCustomerByStatusAndSearchQuery("%"+search+"%",
-					startBitRange, endBitRange, PageRequest.of(page, size, Sort.by(direction,(String []) sortProperties.toArray()) ) );
+					startBitRange, endBitRange, PageRequest.of(page, size, Sort.by(direction,sortProperties.toArray(new String[sortProperties.size()]) ) ) );
 		}
 		
 		return customersPageable;
