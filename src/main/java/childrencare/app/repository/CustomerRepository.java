@@ -3,6 +3,8 @@ package childrencare.app.repository;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,6 +32,15 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 
 	@Query(value = "Select * from customer where customer_email = ?1", nativeQuery = true)
 	CustomerModel findByEmail(String email);
+	
+	@Query(value = "SELECT * FROM customer inner join user_model on customer_email = email "
+			+ "WHERE (status > ?2 AND status < ?3) AND "
+			+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1)",
+			countQuery = "SELECT COUNT(*) FROM customer inner join user_model on customer_email = email "
+					+ "WHERE (status > ?2 AND status < ?3) AND "
+					+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1)",
+			nativeQuery = true)
+	public Page<CustomerModel> findCustomerByStatusAndSearchQuery(String search,int startBitRange,int endBitRange,PageRequest pageRequest);
 
 	@Modifying
 	@Query(value = "Insert into customer values(1, ?1)", nativeQuery = true)
