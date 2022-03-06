@@ -49,5 +49,17 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
             "VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10)", nativeQuery = true)
     public void addPost(int postid, String brefinfo, Date create, String detail, byte[] img, String title, Date updateAt, String author, int category, boolean status);
 
+    @Modifying
+    @Query(value = "UPDATE [post] SET \n" +
+            "      [brief_info] = ?1\n" +
+            "      ,[details] = ?2\n" +
+            "      ,[thumbnail] = ?3\n" +
+            "      ,[title] = ?4\n" +
+            "      ,[updated_at] = ?5\n" +
+            "      ,[email] = ?6\n" +
+            "      ,[post_category_id] = ?7\n" +
+            "      ,[status] = ?8\n" +
+            " WHERE [post_id] = ?9", nativeQuery = true)
+    void upDatePost(String brefinfo, String detail, byte[] img, String title, Date updateAt, String author, int category, boolean status, int postId);
 
 }

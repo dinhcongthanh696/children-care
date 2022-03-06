@@ -44,5 +44,8 @@ public class PostService {
     public void addNewPost(int postid, String brefinfo, Date create, String detail, byte[] img, String title, Date updateAt, String author, int category, boolean status){
         blogRepository.addPost(postid, brefinfo, create, detail, img, title, updateAt, author, category, status);
     }
+    public void upDatePost(String brefinfo, String detail, byte[] img, String title, Date updateAt, String author, int category, boolean status, int postId){
+        blogRepository.upDatePost(brefinfo, detail, img, title, updateAt, author, category, status, postId);
+    }
 
 }

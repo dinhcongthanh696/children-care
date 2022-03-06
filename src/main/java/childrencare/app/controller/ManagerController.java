@@ -126,22 +126,45 @@ public class ManagerController {
     @PostMapping("/post")
     @Transactional
     public String addNewPost(@RequestParam(name = "briefInfor") String briefInfor,
-                        @RequestParam(name = "createAt") String createAt,
-                        @RequestParam(name = "detail") String detail,
-                        @RequestParam(name = "image") MultipartFile thumbnail,
-                        @RequestParam(name = "title") String title,
-                        @RequestParam(name = "author") String email,
-                        @RequestParam(name = "category") int category,
-                        @RequestParam(name = "statusAdd") boolean status) throws Exception {
+                             @RequestParam(name = "createAt") String createAt,
+                             @RequestParam(name = "detail") String detail,
+                             @RequestParam(name = "image") MultipartFile thumbnail,
+                             @RequestParam(name = "title") String title,
+                             @RequestParam(name = "author") String email,
+                             @RequestParam(name = "category") int category,
+                             @RequestParam(name = "statusAdd") boolean status) throws Exception {
         byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
         int postId = postService.getMaxPostId() + 1;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 
         String dateInString = createAt;
         Date dateCreate = formatter.parse(dateInString);
 
-        postService.addNewPost(postId,briefInfor,dateCreate,detail,imgConvertAdd,title,dateCreate,email,category,status);
+        postService.addNewPost(postId, briefInfor, dateCreate, detail, imgConvertAdd, title, dateCreate, email, category, status);
+        return "redirect:/manager/post";
+    }
+
+    @PostMapping("/post/update")
+    @Transactional
+    public String updatePost(
+
+            @RequestParam(name = "briefInfor") String briefInfor,
+            @RequestParam(name = "updateAt") String updateAt,
+            @RequestParam(name = "detail") String detail,
+            @RequestParam(name = "image") MultipartFile thumbnail,
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "author") String email,
+            @RequestParam(name = "category") int category,
+            @RequestParam(name = "statusAdd") boolean status,
+            @RequestParam(name = "postId") int postId
+    ) throws Exception {
+        byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+
+        String dateInString = updateAt;
+        Date dateUpdate = formatter.parse(dateInString);
+        postService.upDatePost(briefInfor,detail,imgConvertAdd,title,dateUpdate,email,category,status,postId);
         return "redirect:/manager/post";
     }
 }
