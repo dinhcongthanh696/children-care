@@ -34,7 +34,7 @@ public class ReservationService_Service {
     public List<ReservationServiceModel> findAllByRid(int rid) {
         return reservationServiceRepository.findAllByRid(rid);
     }
-    public Page<ReservationServiceModel> filterReservation(int pageNum,boolean status) {
+    public Page<ReservationServiceModel> filterReservation(int pageNum,int status) {
         Pageable pageable1 = PageRequest.of(pageNum - 1, 3);
         return reservationServiceRepository.filterReservationByStatus(status, pageable1);
     }
@@ -67,6 +67,7 @@ public class ReservationService_Service {
 
     public void assginOtherStaff(int staffID, Date booked_date, int slot_id) {
         reservationServiceRepository.assginOtherStaff(staffID,booked_date, slot_id);
-
     }
+
+
 }

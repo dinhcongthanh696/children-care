@@ -49,8 +49,8 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
 
     @Query(value = "select rs from ReservationServiceModel rs\n" +
             "join rs.reservation r join r.customer c " +
-            "join c.customer_user u where r.status = ?1")
-    Page<ReservationServiceModel> filterReservationByStatus(boolean status, Pageable pageable);
+            "join c.customer_user u where r.statusReservation.statusId = ?1")
+    Page<ReservationServiceModel> filterReservationByStatus(int status, Pageable pageable);
 
     @Query(value = " select * from reservation_service  rs inner join [service] s\n" +
             " on s.service_id =rs.service_id where rs.staff_id = ?1 and rs.reservation_id = ?2", nativeQuery = true)
@@ -64,6 +64,10 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
     @Query(value = "UPDATE [reservation_service]\n" +
             "   SET  [staff_id] = ?1 where booked_date = ?2 and slot_id = ?3",nativeQuery =true)
     void assginOtherStaff(int staffID, Date booked_date, int slot_id);
+
+
+
+
 
 
 

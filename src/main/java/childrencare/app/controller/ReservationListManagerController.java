@@ -2,10 +2,7 @@ package childrencare.app.controller;
 
 
 import childrencare.app.model.*;
-import childrencare.app.service.ReservationService;
-import childrencare.app.service.ReservationService_Service;
-import childrencare.app.service.Service_service;
-import childrencare.app.service.StaffService;
+import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -32,6 +31,9 @@ public class ReservationListManagerController {
     @Autowired
     private StaffService staffService;
 
+    @Autowired
+    private StatusService statusService;
+
     @RequestMapping(value = "/home/page/{pageNum}", method = { RequestMethod.GET, RequestMethod.POST })
     public String getPage(Model model, @PathVariable(name = "pageNum") int pageNum,
                            @RequestParam(name =  "key",required = false,defaultValue = "0") int key,
@@ -39,6 +41,8 @@ public class ReservationListManagerController {
                            @RequestParam(name =  "sortDir",required = false,defaultValue = "asc") String sortDir){
         Page<ReservationModel> page = reservationService.listAll(pageNum,key,sortField,sortDir);
         List<ReservationModel> listInfo = page.getContent();
+        List<StatusModel> statusModels = statusService.findAll();
+        model.addAttribute("statusList",statusModels);
         model.addAttribute("listInfo",listInfo);
         model.addAttribute("currentPage",pageNum);
         model.addAttribute("totalPages",page.getTotalPages());
@@ -53,11 +57,11 @@ public class ReservationListManagerController {
 
     @GetMapping("/managerView/filter/{pageNum}")
     public String filterReservation(Model model,@PathVariable(name ="pageNum") int pageNum,
-                               @Param("filterValue") boolean filterValue ,
-                               @Param("dateFrom") Date dateFrom,
-                               @Param("dateTo") Date dateTo) {
-        Page<ReservationModel> page = reservationService.filterReservation1(pageNum, filterValue, dateFrom, dateTo);
+                               @Param("filterValue") int filterValue) {
+        Page<ReservationModel> page = reservationService.filterReservation1(pageNum,filterValue);
+        List<StatusModel> statusModels = statusService.findAll();
         List<ReservationModel> listInfo = page.getContent();
+        model.addAttribute("statusList",statusModels);
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -71,11 +75,13 @@ public class ReservationListManagerController {
     public String reservationDetailStaff(@PathVariable int rid, Model model){
         ReservationModel reservationModel = reservationService.getreservationDetail(rid);
         List<ReservationServiceModel> listFind = reservationService_service.findAllByRid(rid);
+        List<StatusModel> statusModels = statusService.findAll();
         for (ReservationServiceModel item: listFind) {
             item.getService().setBase64ThumbnailEncode((item.getService().getThumbnail()));
         }
         List<ServiceModel> listServiceFind = service.findListServiceByReservationID2(rid);
         List<StaffModel> staffModelList = staffService.getAllStaff();
+        model.addAttribute("statusList",statusModels);
         model.addAttribute("listServiceFind",listServiceFind);
         model.addAttribute("reservationDetails",reservationModel);
         model.addAttribute("listFind",listFind);
@@ -87,7 +93,7 @@ public class ReservationListManagerController {
     @PostMapping("/updateStatus")
     @Transactional
     public String reservationDetailStaff(@RequestParam("rid") int rid,
-                                         @RequestParam("status") boolean status,
+                                         @RequestParam("status") int status,
                                          Model model){
         reservationService.changeStatusReservation(status,rid);
         return "redirect:/manager/"+rid;

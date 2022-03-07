@@ -47,6 +47,15 @@
             img.src = lastChoosenImg;
         }
 
+        function addImgPreview2(input) {
+            if (lastChoosenImg)
+                URL.revokeObjectURL(lastChoosenImg);
+            var file = input.files[0];
+            lastChoosenImg = URL.createObjectURL(file);
+            var img = document.getElementById('imgAddPreview2');
+            img.src = lastChoosenImg;
+        }
+
     </script>
 
 </head>
@@ -82,7 +91,7 @@
                                     <form th:action="@{/manager/post}">
                                         <input type="text" name="titleORauthor" class="form-control input-sm pull-left"
                                                style="width: 200px;"
-                                               placeholder="Search by title/author.."/>
+                                               placeholder="Search by title">
                                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
@@ -109,11 +118,11 @@
                                 <div class="col-sm-2">
                                     <form id="myForm3" th:action="@{/manager/post}">
                                         <label>SortBy:</label>
-                                        <select name="categoryId" th:onchange="filterFunction()">
+                                        <select name="sortBy" th:onchange="filterFunction()">
                                             <option th:selected="${categoryId} == -1" value="-1">All</option>
                                             <div th:each="listCategoryPost:${postCategoryModelList}">
                                                 <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"
-                                                        th:value="${listCategoryPost.getPostCategoryId()}"
+                                                        th:value="${listCategoryPost.getPostCategoryName()}"
                                                         th:text="${listCategoryPost.getPostCategoryName()}">
                                                 </option>
                                             </div>
@@ -127,7 +136,7 @@
                                     <div id="addSliderModal" class="modal fade">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <form action="/ChildrenCare/managerblog" method="post"
+                                                <form action="/ChildrenCare/manager/post" method="post"
                                                       enctype="multipart/form-data">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Add New Post</h4>
@@ -137,41 +146,50 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label>Post ID</label>
-                                                            <input name="" type="text" class="form-control"
-                                                                   required>
-                                                        </div>
-                                                        <div class="form-group">
                                                             <label>Brief Infor</label>
-                                                            <input name="" type="text" class="form-control"
+                                                            <input name="briefInfor" type="text" class="form-control"
                                                                    required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Create At</label>
-                                                            <input name="" type="date" class="form-control"
+                                                            <input name="createAt" type="date" class="form-control"
                                                                    required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Post Detail</label>
-                                                            <input name="" type="text" class="form-control"
+                                                            <input name="detail" type="text" class="form-control"
                                                                    required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Thumbnail</label>
                                                             <img id="imgAddPreview" style="height: 200px"
                                                                  class="form-control" alt="No image" required>
-                                                            <input name="" onchange="addImgPreview(this)"
+                                                            <input name="image" onchange="addImgPreview(this)"
                                                                    type="file">
-
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Post Title</label>
-                                                            <input name="" class="form-control" required>
+                                                            <input name="title" class="form-control" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Author</label>
-                                                            <input name="" type="text" class="form-control"
-                                                                   required>
+                                                            <!--<input name="" type="text" class="form-control"
+                                                                   required>-->
+                                                            <select name="author">
+                                                                <div th:each="listManager:${listManagers}">
+                                                                <option th:value="${listManager.getEmail()}" th:text="${listManager.getUsername()}"></option>
+                                                                </div>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Category</label>
+                                                            <!--<input name="" type="text" class="form-control"
+                                                                   required>-->
+                                                            <select name="category">
+                                                                <div th:each="listCate:${postCategoryModelList}">
+                                                                    <option th:value="${listCate.getPostCategoryId()}" th:text="${listCate.getPostCategoryName()}"></option>
+                                                                </div>
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Post Status</label>
@@ -192,6 +210,7 @@
                                     </div>
                                 </div>
 
+
                               <!--<form id="myForm2" th:action="@{/post}" method="post">-->
 
                                     <table id="emp-table" class="table table-hover">
@@ -211,7 +230,7 @@
                                             <td th:text="${list.getPostId()}"></td>
                                             <td>
                                                 <div>
-                                                    <img style="width: 100px; height: 50px;">
+                                                    <img style="width: 100px; height: 50px;" th:src="${'data:image/gif;base64,'+ list.getBase64ThumbnailEncode()}">
                                                 </div>
                                             </td>
                                             <td th:text="${list.getTitle()}"></td>
@@ -229,7 +248,84 @@
                                             </td>
                                             <td>
                                                 <a>Details</a>
-                                                <a>Edit</a>
+                                                <a th:attr="data-target='#editPost'+${list.getPostId()}"  class="editModal text-primary" data-toggle="modal" >Edit</a>
+                                                <!--  edit modal-->
+                                                <div th:id="${'editPost'+ list.getPostId()}" class="modal fade">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <form action="/ChildrenCare/manager/post/update" method="post"
+                                                              enctype="multipart/form-data">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" th:text="'Update Post '+${list.getPostId()}"></h4>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-hidden="true">&times;
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label>Brief Infor</label>
+                                                                    <input name="postId" type="hidden" class="form-control" th:value="${list.getPostId()}">
+                                                                    <input name="briefInfor" type="text" class="form-control"
+                                                                           th:value="${list.getBriefInfo()}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Update At</label>
+                                                                    <input name="updateAt" type="date" class="form-control"
+                                                                           >
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Post Detail</label>
+                                                                    <input name="detail" type="text" class="form-control"
+                                                                           th:value="${list.getDetails()}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Thumbnail</label>
+                                                                    <img id="imgAddPreview2" style="height: 200px"
+                                                                         class="form-control" alt="No image" th:src="${'data:image/gif;base64,'+ list.getBase64ThumbnailEncode()}">
+                                                                    <input name="image" onchange="addImgPreview(this)"
+                                                                           type="file">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Post Title</label>
+                                                                    <input name="title" class="form-control" th:value="${list.getTitle()}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Author</label>
+                                                                    <!--<input name="" type="text" class="form-control"
+                                                                           required>-->
+                                                                    <select name="author">
+                                                                        <div th:each="listManager:${listManagers}">
+                                                                            <option th:selected="${listManager.getEmail() == list.getAuthor().getEmail()}" th:value="${listManager.getEmail()}" th:text="${listManager.getUsername()}"></option>
+                                                                        </div>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Category</label>
+                                                                    <!--<input name="" type="text" class="form-control"
+                                                                           required>-->
+                                                                    <select name="category">
+                                                                        <div th:each="listCate:${postCategoryModelList}">
+                                                                            <option th:selected="${listCate.getPostCategoryId() == list.getPostCategory().getPostCategoryId()}" th:value="${listCate.getPostCategoryId()}" th:text="${listCate.getPostCategoryName()}"></option>
+                                                                        </div>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Post Status</label>
+                                                                    <select name="statusAdd" class="small text-muted mb-1">
+                                                                        <option value="1">Show</option>
+                                                                        <option value="0">Hide</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="button" class="btn btn-default"
+                                                                       data-dismiss="modal" value="Cancel">
+                                                                <input type="submit" class="btn btn-success" value="Update">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -240,6 +336,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-xl-12">
                     <ul class="post-pagination2 text-center">

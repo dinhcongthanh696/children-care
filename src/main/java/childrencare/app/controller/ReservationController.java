@@ -61,6 +61,10 @@ public class ReservationController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private StatusService statusService;
+
+
 
     @GetMapping("/reser")
     public String getServiceCarts(Model model, HttpSession session) {
@@ -205,7 +209,10 @@ public class ReservationController {
             }
         }
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
-        reservationModel.setStatus(false);
+        int id = statusService.findById(4);
+        StatusModel statusModel = new StatusModel();
+        statusModel.setStatusId(id);
+        reservationModel.setStatusReservation(statusModel);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         reservationModel.setDate(dtf.format(now));

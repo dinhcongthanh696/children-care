@@ -92,8 +92,7 @@
                                           <label class="col-sm-2 col-sm-2 control-label">Trạng thái</label>
                                           <div class="col-sm-10">
                                               <select name="status">
-                                                  <option value="1" th:selected="${reservationDetails.status}">Đã xác nhận</option>
-                                                  <option value="0" th:selected="not ${reservationDetails.status}">Đã huỷ</option>
+                                                  <option th:each="item: ${statusList}" th:selected="${item.statusId == reservationDetails.statusReservation.statusId}" th:value="${item.statusId}" th:text="${item.statusName}"></option>
                                               </select>
                                           </div>
                                       </div>

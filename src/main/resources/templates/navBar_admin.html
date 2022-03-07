@@ -11,10 +11,10 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-<!--                <img th:src="${'data:image/gif;base64,'+ session.user.base64AvatarEncode}" class="img-circle" alt="User Image" style="width : 180px; height : 160px;"/>-->
+                <img th:src="${'data:image/gif;base64,'+ session.user.base64AvatarEncode}" class="img-circle" alt="User Image" style="width : 190px; height : 185px;"/>
             </div>
             <div class="pull-left info">
-<!--                <p>Hello, <span th:text="${session.username}"></span> <span th:text="'  ['+${session.user.userRole.roleName} + ']'"></span></p>-->
+                <p>Hello, <span th:text="${session.username}"></span></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -30,16 +30,16 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-<!--        	<li th:each="permission : ${session.user.userRole.permissions.?[screen.method == 'GET']}" -->
-<!--        		th:if="not ${#strings.containsIgnoreCase(permission.screen.url,'api')} and not ${#strings.containsIgnoreCase(permission.screen.screenName,'detail')}"-->
-<!--        		th:class="${currentUrl == permission.screen.url} ? 'active' : ''" >-->
-<!--        		<a th:href="@{${permission.screen.url}}">-->
-<!--        			<span th:text="${permission.screen.screenName}"></span>-->
-<!--        		</a>-->
-<!--        	</li>-->
+        	<li th:each="permission : ${session.user.userRole.permissions.?[screen.method == 'GET']}" 
+        		th:if="not ${#strings.containsIgnoreCase(permission.screen.url,'api')} and not ${#strings.containsIgnoreCase(permission.screen.screenName,'detail')} and not ${#strings.containsIgnoreCase(permission.screen.url,'changStatus')}"
+        		th:class="${currentUrl == permission.screen.url} ? 'active' : ''" >
+        		<a th:href="@{${permission.screen.url}}">
+        			<span th:text="${permission.screen.screenName}"></span>
+        		</a>
+        	</li>
 <!--            de tam thanh nhe-->
             <li>
-                <a href="/ChildrenCare/manager/feedback?page=1">
+                <a href="/ChildrenCare/manager/feedbackManager/page/1">
                     <i class="fa fa-database" aria-hidden="true"></i> <span>Feedback Manager</span>
                 </a>
             </li>

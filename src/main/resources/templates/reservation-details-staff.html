@@ -91,7 +91,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 col-sm-2 control-label">Trạng thái đơn hàng</label>
                                     <div class="col-sm-10">
-                                        <input readonly th:value="${reservationDetails.status} ? 'Đã xác nhận':'Đã huỷ'"  type="text" class="form-control" placeholder="placeholder">
+                                        <input readonly th:value="${reservationDetails.statusReservation.statusName}"  type="text" class="form-control" placeholder="placeholder">
                                     </div>
                                 </div>
                             </form>

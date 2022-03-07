@@ -84,7 +84,7 @@
                                 <td th:text="${item.reservationId}"></td>
                                 <td th:text="${item.date}"></td>
                                 <td th:text="${#numbers.formatDecimal(item.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
-                                <td th:utext="${item.status} ?'Đã xác nhận ':'Đã huỷ'"></td>
+                                <td th:utext="${item.statusReservation.statusName}"></td>
                                 <td>
                                     <a th:attr="data-target='#modalReservation'+${item.reservationId}" type="button" class="btn" data-toggle="modal" data-target="#modalReservation"> <i class="fa fa-eye" aria-hidden="true"></i></a>
                                     <div class="modal fade" th:id="${'modalReservation'+ item.reservationId}"  tabindex="-1" aria-labelledby="modalReservation" aria-hidden="true">
