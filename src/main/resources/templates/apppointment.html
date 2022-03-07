@@ -247,7 +247,7 @@
                                             <th:block th:each="sc : ${schedules}">
                                                 <tr>
                                                     <td th:utext="${sc.id.bookedDate}" th:value="${sc.id.bookedDate}">              </td>
-                                                    <td th:utext="${sc.slot.start > 12 ? sc.slot.start + 'am' : sc.slot.start + 'pm'}" th:value="${sc.id.slot_id}">                    </td>
+                                                    <td th:utext="${#numbers.formatInteger(sc.slot.start, 2) + ':00'}" th:value="${sc.id.slot_id}">  </td>
                                                     <td th:utext="${sc.staff.staff_user.fullname}" th:value="${sc.id.staff_id}">    </td>
                                                     <td th:utext="${sc.service.title}" th:value="${sc.id.staff_id}">    </td>
                                                     <td> <button type="button" class="btn btn-danger cancel"
@@ -577,6 +577,7 @@
     }
 
     function renderHour(hour){
+        hour = parseInt(hour,10);
         if(hour > 12){
             return hour + ":00 pm";
         }

@@ -56,7 +56,7 @@ public class ReservationListManagerController {
                                @Param("filterValue") boolean filterValue ,
                                @Param("dateFrom") Date dateFrom,
                                @Param("dateTo") Date dateTo) {
-        Page<ReservationModel> page = reservationService.filterReservation1(pageNum,filterValue,dateFrom,dateTo);
+        Page<ReservationModel> page = reservationService.filterReservation1(pageNum, filterValue, dateFrom, dateTo);
         List<ReservationModel> listInfo = page.getContent();
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());

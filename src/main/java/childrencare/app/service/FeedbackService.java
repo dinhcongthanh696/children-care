@@ -30,11 +30,11 @@ public class FeedbackService {
         return feedbacks;
     }
 
-    public Page<FeedbackModel> getPaginatedFeedback(int page, int size, String search, String sort){
-        if (page < 0) {
-            page = 0;
-        }
-        return feedbackRepository.findAll(PageRequest.of(page, size, Sort.by(sort)));
+    public Page<FeedbackModel> getPaginatedFeedback(int page, int size, int sid, int star,
+                                                    String contactName, String content, int status){
+
+        Pageable pageable = PageRequest.of(page, size);
+        return feedbackRepository.getAllFeedBack(sid, star, status, content, contactName, pageable);
     }
 
 }

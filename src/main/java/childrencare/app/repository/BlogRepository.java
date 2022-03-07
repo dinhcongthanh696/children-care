@@ -1,5 +1,6 @@
 package childrencare.app.repository;
 
+import childrencare.app.model.FeedbackModel;
 import childrencare.app.model.PostModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,7 +39,6 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
             "   SET status = ?1\n" +
             " WHERE post_id = ?2",nativeQuery = true)
     void changeStatusPost(int status, int rid);
-
 
 
 }

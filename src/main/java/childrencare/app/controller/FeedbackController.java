@@ -66,19 +66,6 @@ public class FeedbackController {
     }
 
 
-    /* @GetMapping(path = "/services/{id}")
-    public String getServiceFeedback(Model model, @PathVariable(name = "id") int id){
-        ServiceModel serviceModel = new ServiceModel();
-        serviceModel.setServiceId(id);
-        List<FeedbackModel> feedbackModels = feedbackRepository.findByService(serviceModel);
-        for (FeedbackModel feedbackModel:feedbackModels
-             ) {
-            System.out.print(feedbackModel.getComment());
-        }
-        model.addAttribute("feedbackModels", feedbackModels);
-        return "ServiceDetail";
-    }
-    */
 
     @GetMapping("/managerPage")
     public String getManagerScreen(){
