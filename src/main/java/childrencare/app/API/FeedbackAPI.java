@@ -1,6 +1,7 @@
 package childrencare.app.API;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -12,9 +13,12 @@ import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import childrencare.app.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,14 +43,19 @@ public class FeedbackAPI {
 	private final UserRepository userRepository;
 	private final FeedbackRepository feedbackRepository;
 	private final ReservationRepository reservationRepository;
+	private final FeedbackService feedbackService;
 	private String captcha;
 	
 	@Autowired
-	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,FeedbackRepository feedbackRepository,ReservationRepository reservationRepository) {
+	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,
+					   FeedbackRepository feedbackRepository,
+					   ReservationRepository reservationRepository,
+					   FeedbackService feedbackService) {
 		this.mailSender = mailSender;
 		this.userRepository = userRepository;
 		this.feedbackRepository = feedbackRepository;
 		this.reservationRepository = reservationRepository;
+		this.feedbackService = feedbackService;
 	}
 	
 	@PostMapping("/verify-captcha")
@@ -141,5 +150,20 @@ public class FeedbackAPI {
 			return "fail";
 		}
 		return "success";
+	}
+
+	@GetMapping("/feedback")
+	public Page<FeedbackModel> filterFeedback(
+			@RequestParam(name="page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name="serviceId", required = false, defaultValue = "-1") Integer sid,
+			@RequestParam(name="numberOfStar", required = false, defaultValue = "-1") Integer numberOfStar,
+			@RequestParam(name="status", required = false, defaultValue = "-1") Integer status,
+			@RequestParam(name="content", required = false, defaultValue = "") String content,
+			@RequestParam(name="contactName", required = false, defaultValue = "") String contactName
+	) {
+
+		Page<FeedbackModel> feedbacks = feedbackService.getPaginatedFeedback
+				(page, 3, sid, numberOfStar, contactName, content, status);
+		return feedbacks;
 	}
 }

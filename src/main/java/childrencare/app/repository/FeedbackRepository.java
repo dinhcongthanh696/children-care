@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import childrencare.app.model.FeedbackModel;
@@ -37,6 +38,20 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
     public List<FeedbackModel> findByService(ServiceModel service);
 
 
-    @Query(value = "Select * from feedback", nativeQuery = true)
-    Page<FeedbackModel> getAllFeedBack(Pageable pageable);
+    @Query(value = "select * from feedback where 1=1 " +
+            "and (:sid = -1 or :sid = 6) " +
+            "and (:star = -1 or :star = 4) " +
+            "and (:status = -1 or status = :status) " +
+            "and (:content = '' or comment like %:content%) " +
+            "and (:contactName = '' or customer_id in " +
+            "(select customer_id from customer c " +
+            "inner join user_model u on c.customer_email = u.email " +
+            "where u.fullname like %:contactName%) ) ", nativeQuery = true)
+    Page<FeedbackModel> getAllFeedBack(@Param("sid")int sid, @Param("star")int star,
+                                       @Param("status")int status, @Param("content")String content,
+                                       @Param("contactName") String contactName, Pageable pageable);
+
+    @Modifying
+    @Query(value = "Update feedback set status = ?1 where feedback_id = ?2", nativeQuery = true)
+    void changeFeedback(int status, int feedback_id);
 }
