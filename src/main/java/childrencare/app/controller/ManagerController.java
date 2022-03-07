@@ -82,8 +82,7 @@ public class ManagerController {
         }
 
         List<PostModel> list = postModels.getContent();
-        for (PostModel p : list
-        ) {
+        for (PostModel p : list) {
             p.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(p.getThumbnail()));
         }
 
