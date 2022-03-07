@@ -33,7 +33,7 @@ public class BlogController {
     public String blogHome(Model model
             , @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page
             , @RequestParam(name = "title", required = false, defaultValue = "") String title
-            , @RequestParam(name = "categoryId",required = false) String categoryId) {
+            , @RequestParam(name = "categoryId", required = false) String categoryId) {
         int currentPage = page.orElse(0);
         Page<PostModel> postModels = null;
         if (categoryId != "" && categoryId != null) {
@@ -77,7 +77,7 @@ public class BlogController {
 
     @RequestMapping(value = "/blogDetail", method = {RequestMethod.GET, RequestMethod.POST})
     public String blogDetails(Model model
-    , @RequestParam(name = "postId") int postId){
+            , @RequestParam(name = "postId") int postId) {
         model.addAttribute("postDetail", blogService.getPostByID(postId));
         model.addAttribute("listCategoryPost", blogCategoryService.findAll());
         model.addAttribute("listTop3RecentPost", blogService.findTop3RecentPost());

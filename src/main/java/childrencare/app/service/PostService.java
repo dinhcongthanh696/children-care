@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,8 @@ public class PostService {
     @Autowired
     private BlogRepository blogRepository;
 
-    public Page<PostModel> findAllAndSearch(String title, String catID, String type, int index, int size) {
-        return blogRepository.findAllBy(title, catID, type, PageRequest.of(index, size));
+    public Page<PostModel> findAllAndSearch(String title, String catID, String type,String sortBy, int index, int size) {
+        return blogRepository.findAllBy(title, catID, type, PageRequest.of(index, size, Sort.by(sortBy).ascending()));
     }
 
     public long count(){

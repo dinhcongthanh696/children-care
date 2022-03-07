@@ -118,14 +118,11 @@
                                 <div class="col-sm-2">
                                     <form id="myForm3" th:action="@{/manager/post}">
                                         <label>SortBy:</label>
-                                        <select name="sortBy" th:onchange="filterFunction()">
-                                            <option th:selected="${categoryId} == -1" value="-1">All</option>
-                                            <div th:each="listCategoryPost:${postCategoryModelList}">
-                                                <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"
-                                                        th:value="${listCategoryPost.getPostCategoryName()}"
-                                                        th:text="${listCategoryPost.getPostCategoryName()}">
-                                                </option>
-                                            </div>
+                                        <select name="sortBy" th:onchange="sortFunction()">
+                                            <option th:selected="${sortBy == 'post_id'}" value="post_id">None</option>
+                                            <option th:selected="${sortBy == 'title'}" value="title">Title</option>
+                                            <option th:selected="${sortBy == 'post_category_id'}" value="post_category_id">Category</option>
+                                            <option th:selected="${sortBy == 'email'}" value="email">Author</option>
                                         </select>
                                     </form>
                                 </div>
@@ -219,7 +216,7 @@
                                             <th>Post ID</th>
                                             <th>Thumbnail</th>
                                             <th>Post Title</th>
-                                            <th>Featured</th>
+                                            <!--<th>Featured</th>-->
                                             <th>Post Category</th>
                                             <th>Author</th>
                                             <th>Status</th>
@@ -234,7 +231,7 @@
                                                 </div>
                                             </td>
                                             <td th:text="${list.getTitle()}"></td>
-                                            <td th:text="${list.getPostId()}"></td>
+                                            <!--<td th:text="${list.getPostId()}"></td>-->
                                             <td th:text="${list.getPostCategory().getPostCategoryName()}"></td>
                                             <td th:text="${list.getAuthor().getFullname()}"></td>
                                             <td>
@@ -341,19 +338,19 @@
                 <div class="col-xl-12">
                     <ul class="post-pagination2 text-center">
                         <li><a class="left"
-                               th:href="@{/manager/post(page=0,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><i
+                               th:href="@{/manager/post(page=0,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor},sortBy=${sortBy})}"><i
                                 class="fa fa-angle-double-left"
                                 aria-hidden="true"></i><span>FIRST</span></a>
                         </li>
                         <li class="page-item active" th:each="pageNumber:${pageNumbers}"
                             th:if="${pagingPost.totalPages >1}"
                             th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
-                            <a th:href="@{/manager/post(page=${pageNumber},type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"
+                            <a th:href="@{/manager/post(page=${pageNumber},type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor},sortBy=${sortBy})}"
                                th:text="${pageNumber}"></a>
                         </li>
 
                         <li><a class="right"
-                               th:href="@{/manager/post(page=${pagingPost.totalPages}-1,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><span>LAST</span><i
+                               th:href="@{/manager/post(page=${pagingPost.totalPages}-1,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor},sortBy=${sortBy})}"><span>LAST</span><i
                                 class="fa fa-angle-double-right"
                                 aria-hidden="true"></i></a>
                         </li>
@@ -371,7 +368,9 @@
 
     function filterFunction() {
         document.getElementById("myForm").submit();
-
+    }
+    function sortFunction() {
+        document.getElementById("myForm3").submit();
     }
 
     function filterFunction2(pid,status) {
