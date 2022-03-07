@@ -74,7 +74,7 @@ th, td {
         </header>
     <div class="wrapper row-offcanvas row-offcanvas-left">
                     <!-- Left side column. contains the logo and sidebar -->
-                    <div th:replace="navBar_admin::leftSide_admin('/admin/services')" ></div>
+                    <div th:replace="navBar_admin::leftSide_admin('/manager/customers')" ></div>
 					
 
                     <aside class="right-side">    
@@ -97,11 +97,11 @@ th, td {
 													th:onchange="'changePage('+ ${currentPage} +')'"
 												>
 													<option value="-1" th:selected="${status == -1}">ALL</option>
-													<option value="0" th:selected="${status == '0'}">Online</option>
-													<option value="1" th:selected="${status == '1'}">Offline</option>
+													<option value="0" th:selected="${status == 0}">Offline</option>
+													<option value="1" th:selected="${status == 1}">Online</option>
 											</select>
 										</div>
-									<div class="col-sm-5">
+									<div class="col-sm-6">
 										<form th:action="@{/admin/customers}" method="post">
 											<label for="search-query" class="form-check-label">Search : </label>
   											<input type="text" class="form-check-input" placeholder="Search By fullname,email,phone..."
@@ -126,8 +126,7 @@ th, td {
 												</span>
 												<span
 													th:with="index = ${sortProperties.indexOf('u.fullname')}"
-													th:text="${directionsValue[index]}"
-													th:class="${directionsValue[index]}"
+													th:class="${directionsValue[index]+ ' fa fa-sort-' + (directionsValue[index] == 'ascending' ? 'asc' : 'desc')}"
 													th:onclick="'changeDirection(\'fullname\',' + ${index}  + ')'"
 												>
 													
@@ -140,8 +139,7 @@ th, td {
 												> Email </span>
 												<span
 													th:with="index = ${sortProperties.indexOf('u.email')}"
-													th:text="${directionsValue[index]}"
-													th:class="${directionsValue[index]}"
+													th:class="${directionsValue[index]+ ' fa fa-sort-' + (directionsValue[index] == 'ascending' ? 'asc' : 'desc')}"
 													th:onclick="'changeDirection(\'email\',' + ${index}  + ')'"
 												>
 												
@@ -154,8 +152,7 @@ th, td {
 												 Phone </span>
 												<span
 													th:with="index = ${sortProperties.indexOf('u.phone')}"
-													th:text="${directionsValue[index]}"
-													th:class="${directionsValue[index]}"
+													th:class="${directionsValue[index]+ ' fa fa-sort-' + (directionsValue[index] == 'ascending' ? 'asc' : 'desc')}"
 													th:onclick="'changeDirection(\'phone\',' + ${index}  + ')'"
 												>
 												
@@ -168,8 +165,7 @@ th, td {
 												 Status </span>
 												<span
 													th:with="index = ${sortProperties.indexOf('u.status')}"
-													th:text="${directionsValue[index]}"
-													th:class="${directionsValue[index]}"
+													th:class="${directionsValue[index]+ ' fa fa-sort-' + (directionsValue[index] == 'ascending' ? 'asc' : 'desc')}"
 													th:onclick="'changeDirection(\'status\',' + ${index}  + ')'"
 												>
 												
@@ -283,6 +279,7 @@ th, td {
 	}
 	
 	function changeSortField(changedSortProperty){
+		if(changedSortProperty === document.getElementById("sortProperty").value) return;
 		document.getElementById("sortProperty").value = changedSortProperty;
 		var currentPage = document.getElementById("currentPage").value;
 		changePage(currentPage);
@@ -302,7 +299,7 @@ th, td {
 		var sortProperty = document.getElementById("sortProperty").value;
 		window.location = "/ChildrenCare/manager/customers?page=" + pageNumber
 				+ "&search=" + search +"&status="
-				+status+"&directions="+directions+"&sortProperty"+sortProperty;
+				+status+"&directions="+directions+"&sortProperty="+sortProperty;
 	}
 	
 	</script>

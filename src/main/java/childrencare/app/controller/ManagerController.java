@@ -79,7 +79,6 @@ public class ManagerController {
     	List<String> sortProperties = Arrays.asList("u.email","u.fullname","u.phone","u.status");
     	Collections.swap(sortProperties, sortProperties.indexOf("u."+sortProperty), 0);
     	Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, directions);
-    	customersPageable.toList().forEach(customer -> System.out.println("Customer : "+customer.getCustomer_user().getFullname()));
     	model.addAttribute("customers", customersPageable.toList().stream().map(customer -> {
     		if(customer.getCustomer_user().getAvatar() != null)
     		customer.getCustomer_user().setBase64AvatarEncode(
