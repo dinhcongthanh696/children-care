@@ -79,7 +79,16 @@
             url += '&contactName=' + contactName;
             window.location.href = url;
         }
-
+        function updateStatus(fid, status){
+            let i;
+            if(status){
+                i = 0;
+            }
+            else{
+                i = 1;
+            }
+            window.location.href = "/ChildrenCare/manager/updateFeedbackStatus?feedback_id=" + fid + "&status=" + i;
+        }
 
     </script>
 
@@ -188,12 +197,15 @@
                                             <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
                                                 <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
                                                 <span>Edit</span></a>
+                                            <a href="#" class="btn btn-success " data-toggle="modal"
+                                               th:onclick="updateStatus([[${feedback.feedbackId}]],
+                                                            [[${feedback.status}]])">
+                                                <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
+                                                <span>Change Status</span></a>
                                             <!-- Add Modal HTML -->
                                             <div id="addSliderModal" class="modal fade">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
-                                                        <form action="#" method="post"
-                                                              enctype="multipart/form-data">
                                                             <div class="modal-header">
                                                                 <h4 class="modal-title">Feedback Details</h4>
                                                                 <button type="button" class="close" data-dismiss="modal"
@@ -249,9 +261,10 @@
                                                                 <input type="button" class="btn btn-default"
                                                                        data-dismiss="modal" value="Cancel">
                                                                 <input type="submit" class="btn btn-success"
+                                                                       th:onclick="updateStatus([[${feedback.feedbackId}]],
+                                                                                                [[${feedback.status}]])"
                                                                        value="Save">
                                                             </div>
-                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>

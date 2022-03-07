@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,9 +84,11 @@ public class ManagerController {
         return "manager-feedback-list";
     }
 
-    @PostMapping("updateFeedbackStatus")
-    public void updateStatus(@RequestParam(name = "status") Integer status,
-                             @RequestParam(name = "feedback_id") Integer fid){
+    @Transactional
+    @GetMapping("/updateFeedbackStatus")
+    public String updateStatus(@RequestParam(name = "feedback_id") Integer fid,
+                             @RequestParam(name = "status") Integer status){
         feedbackService.changeFeedbackStatus(status, fid);
+        return "redirect:/manager/feedback?page=1";
     }
 }
