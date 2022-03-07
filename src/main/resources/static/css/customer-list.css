@@ -1,0 +1,20 @@
+.sortFields{
+	text-decoration: underline;
+	font-family: Arial;
+	cursor: pointer;
+	margin-right: 4px;
+}
+
+.first{
+	color : #2bf042;
+}
+
+.ascending{
+	color : red;
+	cursor : pointer;
+}
+
+.descending{
+	color : blue;
+	cursor : pointer;
+}

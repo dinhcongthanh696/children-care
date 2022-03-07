@@ -32,14 +32,6 @@ public class ChildrenCareApplication {
 		System.out.println("12345678987665432");
 		System.out.println(test.getFullname());*/
 		
-		CustomerRepository customerRepository = context.getBean(CustomerRepository.class);
-		Page<CustomerModel> customersPageable = customerRepository.findCustomerByStatusAndSearchQuery("%%",
-				-1, 2, PageRequest.of(0, 2, Sort.by(Direction.ASC,"u.fullname","u.email","u.status","u.phone") ) );
-		customersPageable.toList().stream().forEach(customer -> {
-			System.out.println("Customer : "+customer.getCustomer_user().getFullname());
-			
-		});
-		
 	}
 
 }

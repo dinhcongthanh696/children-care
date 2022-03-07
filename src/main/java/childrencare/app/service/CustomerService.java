@@ -48,16 +48,21 @@ public class CustomerService {
 	}
 	
 	public Page<CustomerModel> getCustomerPageinately(String search,int page , int size,
-			int startBitRange,int endBitRange,List<String> sortProperties , Direction direction){
+			int startBitRange,int endBitRange,List<String> sortProperties , Direction[] directions){
 		if(page < 0) {
 			page = 0;
 		}
+		Sort sortByMultipleProperties = Sort.by(directions[0], sortProperties.get(0))
+				.and(Sort.by(directions[1], sortProperties.get(1)))
+				.and(Sort.by(directions[2], sortProperties.get(2)))
+				.and(Sort.by(directions[3], sortProperties.get(3)));
+		
 		Page<CustomerModel> customersPageable = customerRepository.findCustomerByStatusAndSearchQuery("%"+search+"%",
-				startBitRange, endBitRange, PageRequest.of(page, size, Sort.by(direction, sortProperties.toArray(new String[sortProperties.size()])) ) );
+				startBitRange, endBitRange, PageRequest.of(page, size,sortByMultipleProperties ) );
 		if(customersPageable.getTotalPages() > 0 && page >= customersPageable.getTotalPages()) {
 			page = customersPageable.getTotalPages() - 1;
 			customersPageable = customerRepository.findCustomerByStatusAndSearchQuery("%"+search+"%",
-					startBitRange, endBitRange, PageRequest.of(page, size, Sort.by(direction,sortProperties.toArray(new String[sortProperties.size()]) ) ) );
+					startBitRange, endBitRange, PageRequest.of(page, size , sortByMultipleProperties ) );
 		}
 		
 		return customersPageable;

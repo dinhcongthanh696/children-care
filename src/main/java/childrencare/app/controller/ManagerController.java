@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
@@ -36,7 +37,6 @@ public class ManagerController {
     
     @Autowired
     ServiceRepository serviceRepository;
-    private final List<String> sortProperties = Arrays.asList("u.email","u.fullname","u.phone","u.status");
 
     @Autowired
     FeedbackService feedbackService;
@@ -60,7 +60,7 @@ public class ManagerController {
     @Transactional
     public String toCustomersList(@RequestParam(name = "search" , required = false , defaultValue = "") String search ,
     		@RequestParam(name = "status" , required = false , defaultValue = "-1") int status , 
-    		@RequestParam(name = "direction" , required = false , defaultValue = "descending") String directionValue,
+    		@RequestParam(name = "directions" , required = false , defaultValue = "ascending,ascending,ascending,ascending") String directionsParam,
     		@RequestParam(name = "sortProperty" , required = false , defaultValue = "email") String sortProperty ,
     		@RequestParam(name = "page" , required = false , defaultValue = "0") int page,
     		Model model) {
@@ -71,10 +71,14 @@ public class ManagerController {
     		case 1 : startBitRange++;break;
     	}
     	
-    	Direction direction = (directionValue.equals("descending")) ? Direction.DESC : Direction.ASC;
+    	String[] directionsValue = directionsParam.split("[,]");
+    	Direction[] directions = new Direction[directionsValue.length];
+    	for(int i = 0 ; i < directionsValue.length ; i++) {
+    		directions[i] = (directionsValue[i].equals("ascending")) ? Direction.ASC : Direction.DESC;
+    	}
+    	List<String> sortProperties = Arrays.asList("u.email","u.fullname","u.phone","u.status");
     	Collections.swap(sortProperties, sortProperties.indexOf("u."+sortProperty), 0);
-    	Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, direction);
-    	model.addAttribute("sortProperty",sortProperty);
+    	Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, directions);
     	customersPageable.toList().forEach(customer -> System.out.println("Customer : "+customer.getCustomer_user().getFullname()));
     	model.addAttribute("customers", customersPageable.toList().stream().map(customer -> {
     		if(customer.getCustomer_user().getAvatar() != null)
@@ -87,10 +91,12 @@ public class ManagerController {
     	);
     	model.addAttribute("currentPage", customersPageable.getNumber());
     	model.addAttribute("totalPages", customersPageable.getTotalPages());
-    	model.addAttribute("direction", directionValue);
+    	model.addAttribute("directionsValue", directionsValue);
+    	model.addAttribute("directionsParam", directionsParam);
     	model.addAttribute("search",search);
     	model.addAttribute("status", status);
     	model.addAttribute("sortProperty", sortProperty);
+    	model.addAttribute("sortProperties", sortProperties);
     	
     	return "manager-customer-list";
     }

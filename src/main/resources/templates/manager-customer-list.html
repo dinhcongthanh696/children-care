@@ -47,6 +47,7 @@
 <link rel="icon" type="image/png"
 	href="../images/favicon/favicon-16x16.png" sizes="16x16">
 <link rel="stylesheet" href="../css/service-list.css">
+<link rel="stylesheet" href="../css/customer-list.css">
 
 <!--  thanh style -->
 <style>
@@ -84,9 +85,12 @@ th, td {
 									<input type="hidden" th:value="${totalPages}" id="totalPages" />
 									<input type="hidden" th:value="${currentPage}" id="currentPage"/>
 									<input type="hidden" th:value="${status}"  id="status"/>
+									<input type="hidden" th:value="${directionsValue}" id="directionsValue" />
+									<input type="hidden" th:value="${sortProperty}" id="sortProperty"/>
+									<input type="hidden" th:value="${directionsParam}" id="directionsParam"/>
 									<!-- end hidden fields -->
 								<div class="row" style="background-color: #EDEDED;color : black;padding: 25px;">
-										<div class="searching-header col-sm-4 form-check">
+										<div class="searching-header col-sm-5 form-check">
 											<label for="status-filter" class="form-check-label">Filter by status</label>
 											<select id="status-filter" class="form-check-input" 
 													style="margin-left: 10px;border-radius: 5px;"
@@ -97,17 +101,7 @@ th, td {
 													<option value="1" th:selected="${status == '1'}">Offline</option>
 											</select>
 										</div>
-									<div class="col-sm-4 form-check">
-										<label for="direction" class="form-check-label">Direction : </label>
-										<select id="direction" class="form-check-input"
-											style="margin-left: 10px;border-radius: 5px;"
-											th:onchange="'changePage('+ ${currentPage} + ')'"
-										>
-											<option value="descending" th:selected="${direction == 'descending'}">Descending Order</option>
-											<option value="ascending" th:selected="${direction == 'ascending'}">Ascending Order</option>
-										</select>
-									</div>
-									<div class="col-sm-4">
+									<div class="col-sm-5">
 										<form th:action="@{/admin/customers}" method="post">
 											<label for="search-query" class="form-check-label">Search : </label>
   											<input type="text" class="form-check-input" placeholder="Search By fullname,email,phone..."
@@ -125,11 +119,62 @@ th, td {
 										<tr>
 											<th>#Customer Id</th>
 											<th>Avatar</th>
-											<th>Full Name</th>
+											<th>
+												<span th:class="${sortProperty == 'fullname' ? 'sortFields first' : 'sortFields'}"
+													th:onclick="'changeSortField(\'fullname\')'"
+												> Full Name 
+												</span>
+												<span
+													th:with="index = ${sortProperties.indexOf('u.fullname')}"
+													th:text="${directionsValue[index]}"
+													th:class="${directionsValue[index]}"
+													th:onclick="'changeDirection(\'fullname\',' + ${index}  + ')'"
+												>
+													
+												</span>
+											</th>
 											<th>Gender</th>
-											<th>Email</th>
-											<th>Phone</th>	
-											<th>Status</th>
+											<th>
+												<span th:class="${sortProperty == 'email' ? 'sortFields first' : 'sortFields'}"
+													th:onclick="'changeSortField(\'email\')'"
+												> Email </span>
+												<span
+													th:with="index = ${sortProperties.indexOf('u.email')}"
+													th:text="${directionsValue[index]}"
+													th:class="${directionsValue[index]}"
+													th:onclick="'changeDirection(\'email\',' + ${index}  + ')'"
+												>
+												
+												</span>
+											</th>
+											<th>
+												<span th:class="${sortProperty == 'phone' ? 'sortFields first' : 'sortFields'}"
+													th:onclick="'changeSortField(\'phone\')'"
+												>
+												 Phone </span>
+												<span
+													th:with="index = ${sortProperties.indexOf('u.phone')}"
+													th:text="${directionsValue[index]}"
+													th:class="${directionsValue[index]}"
+													th:onclick="'changeDirection(\'phone\',' + ${index}  + ')'"
+												>
+												
+												</span>
+											</th>	
+											<th>
+												<span th:class="${sortProperty == 'status' ? 'sortFields first' : 'sortFields'}"
+													th:onclick="'changeSortField(\'status\')'"
+												>
+												 Status </span>
+												<span
+													th:with="index = ${sortProperties.indexOf('u.status')}"
+													th:text="${directionsValue[index]}"
+													th:class="${directionsValue[index]}"
+													th:onclick="'changeDirection(\'status\',' + ${index}  + ')'"
+												>
+												
+												</span>
+											</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -150,18 +195,6 @@ th, td {
 											</td>
 											<td>
 												<a href="#" >Edit</a>
-											</td>
-										</tr>
-										<tr>
-											<td colspan="7" style="text-align: center;">
-												<button  style="border-radius: 5px;padding : 10px;"
-													data-toggle="modal" data-target="#new-customer-modal" id="add-service-button"
-													th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/manager/api-customers']}"
-													th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
-													th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
-												>
-												  	<i class="fa fa-plus"></i>Add new Customers
-												</button>
 											</td>
 										</tr>
 									</tbody>
@@ -238,29 +271,38 @@ th, td {
             });
 		</script>
 		<script type="text/javascript">
-	var lastChosenPreview;
+	var directionsValue = document.getElementById("directionsParam").value.split(",");
+	var currentSortProperty = document.getElementById("sortProperty").value;
+	
+	function changeDirection(sortProperty,indexOfCurrentSortProperty){
+		var lastDirection = directionsValue[indexOfCurrentSortProperty];
+		var newDirection = (lastDirection === "ascending") ? "descending" : "ascending";
+		directionsValue[indexOfCurrentSortProperty] = newDirection;
+		var currentPage = document.getElementById("currentPage").value;
+		changePage(currentPage);
+	}
+	
+	function changeSortField(changedSortProperty){
+		document.getElementById("sortProperty").value = changedSortProperty;
+		var currentPage = document.getElementById("currentPage").value;
+		changePage(currentPage);
+	}
 	
 	function changePage(pageNumber) {
+		var directions = "";
+		
+		directionsValue.forEach((directionValue,index) => {
+			directions += directionValue;
+			if(index !== directionsValue.length - 1) directions += ",";
+		})
+
+		
 		var search = document.querySelector("#search-query").value;
 		var status = document.getElementById("status-filter").value;
-		var direction = document.getElementById("direction").value;
+		var sortProperty = document.getElementById("sortProperty").value;
 		window.location = "/ChildrenCare/manager/customers?page=" + pageNumber
-				+ "&search=" + search +"&status="+status+"&direction="+direction;
-	}
-	
-	function addNewCustomer(){
-		
-	}
-	
-	function imagePreviewHandler(fileInputElement){
-		if(lastChosenPreview){ 
-			URL.revokeObjectURL(lastChosenPreview);  // for performance
-		}
-		
-		var imageFile = fileInputElement.files[0];
-		lastChosenPreview = URL.createObjectURL(imageFile);
-		var imageElement = document.getElementById("customer-image");
-		imageElement.src = lastChosenPreview;
+				+ "&search=" + search +"&status="
+				+status+"&directions="+directions+"&sortProperty"+sortProperty;
 	}
 	
 	</script>
