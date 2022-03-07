@@ -50,4 +50,8 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
     Page<FeedbackModel> getAllFeedBack(@Param("sid")int sid, @Param("star")int star,
                                        @Param("status")int status, @Param("content")String content,
                                        @Param("contactName") String contactName, Pageable pageable);
+
+    @Modifying
+    @Query(value = "Update feedback set status = ?1 where feedback_id = ?2", nativeQuery = true)
+    void changeFeedback(int status, int feedback_id);
 }

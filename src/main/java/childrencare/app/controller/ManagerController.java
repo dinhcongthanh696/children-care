@@ -54,7 +54,7 @@ public class ManagerController {
     ){
 
         Page<FeedbackModel> feedbacks = feedbackService.getPaginatedFeedback
-                (page - 1, 3, sid, numberOfStar, contactName, content, status);
+                (page - 1, 3, sid, numberOfStar, contactName.trim(), content.trim(), status);
         model.addAttribute("feedbacks", feedbacks.toList());
 
 
@@ -73,12 +73,12 @@ public class ManagerController {
         List<ServiceModel> services = serviceModelService.getServices();
         model.addAttribute("serviceList", services);
         model.addAttribute("feedbackPage", feedbacks);
-//
-//        model.addAttribute("numberOfStar", numberOfStar);
-//        model.addAttribute("status", status);
-//        model.addAttribute("content", content);
-//        model.addAttribute("contactName", contactName);
-//        model.addAttribute("content", content);
+
+        model.addAttribute("serviceId", sid);
+        model.addAttribute("numberOfStar", numberOfStar);
+        model.addAttribute("status", status);
+        model.addAttribute("content", content);
+        model.addAttribute("contactName", contactName);
 
         return "manager-feedback-list";
     }

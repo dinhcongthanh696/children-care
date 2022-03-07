@@ -109,7 +109,7 @@
                         </header>
                         <h4>Filter By</h4>
                         <!-- <div class="box-header"> -->
-                        <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
+<!--                        <h3 class="box-title">Feedback Table</h3>-->
                         <div class="panel-body table-responsive">
                             <div class="row">
                                 <div class="row">
@@ -117,14 +117,16 @@
                                         <label> Contact Name </label>
                                         <input class="form-control mb-4" id="contactName-box" type="text"
                                                placeholder="Search by Contact Name"
+                                               th:value="${contactName}"
                                                th:onchange="getFeedbackData([[${feedbackPage.number}]]">
                                     </div>
                                     <div class="col-sm-2 col-md-2">
                                         <label> Service </label>
                                         <select id="service-slt-box" class="form-control mb-0">
-                                            <option th:selected="true" value="-1">All</option>
+                                            <option th:selected="${serviceId == -1 ? true : false}" value="-1">All</option>
                                             <div th:each="service : ${serviceList}">
                                                 <option
+                                                        th:selected="${serviceId == service.serviceId ? true : false}"
                                                         th:value="${service.serviceId}"
                                                         th:text="${service.title}">
                                                 </option>
@@ -134,29 +136,34 @@
                                     <div class="col-sm-2 col-md-2">
                                         <label> Rated Star </label>
                                         <select id="star-slt-box" class="form-control mb-0">
-                                            <option th:selected="true" value="-1">All</option>
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                            <option th:selected="${numberOfStar == -1 ? true : false}" value="-1">All</option>
+                                            <option th:selected="${numberOfStar == 0 ? true : false}" value="0">0</option>
+                                            <option th:selected="${numberOfStar == 1 ? true : false}" value="1">1</option>
+                                            <option th:selected="${numberOfStar == 2 ? true : false}" value="2">2</option>
+                                            <option th:selected="${numberOfStar == 3 ? true : false}" value="3">3</option>
+                                            <option th:selected="${numberOfStar == 4 ? true : false}" value="4">4</option>
+                                            <option th:selected="${numberOfStar == 5 ? true : false}" value="5">5</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-2 col-md-2">
                                         <label> Status </label>
                                         <select id="status-slt-box" class="form-control mb-0">
-                                            <option th:selected="true" value="-1">All</option>
-                                            <option value="0"> Hide</option>
-                                            <option value="1"> Show</option>
+                                            <option th:selected="${status == -1}" value="-1">All</option>
+                                            <option th:selected="${status == 1}" value="0"> Hide</option>
+                                            <option th:selected="${status == 1}" value="1"> Show</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-3 col-md-3">
                                         <label> Content </label>
                                         <input class="form-control mb-4" id="content-box" type="text"
-                                               placeholder="Search by Content" >
+                                               placeholder="Search by Content" th:value="${content}">
                                     </div>
                                 </div>
+                            </div>
+                            <br>
+                            <div class="row" style="text-align: center" >
+                                <button type="button" class="btn btn-primary"
+                                        th:onclick="getFeedbackData([[${feedbackPage.number + 1}]])"> Filter </button>
                             </div>
                             <div class="row">
                                 <table id="emp-table" class="table table-hover">
