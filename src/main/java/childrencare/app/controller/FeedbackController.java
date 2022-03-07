@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class FeedbackController {
     }
 
     @PostMapping("/feedback")
+    @Transactional
     public void feedbackHome(@RequestParam("fullname") String fullname,
                                @RequestParam("gender") Integer get_gender,
                                @RequestParam("email") String email,

@@ -13,10 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,6 +23,7 @@ import java.util.stream.IntStream;
 public class ManagerController {
 
     private int FEEDBACKSIZE = 6;
+    private int POSTSIZE = 5;
     private final ServiceModelService serviceModelService;
     @Autowired
     ServiceRepository serviceRepository;
@@ -73,13 +72,19 @@ public class ManagerController {
         Page<PostModel> postModels = null;
 
         if (categoryId.equals("-1") && type.equals("-1")) {
-            postModels = postService.findAllAndSearch(title, null, null, currentPage, 2);
+            postModels = postService.findAllAndSearch(title, null, null, currentPage, POSTSIZE);
         } else if (categoryId.equals("-1") && !type.equals("-1")) {
-            postModels = postService.findAllAndSearch(title, null, type, currentPage, 2);
+            postModels = postService.findAllAndSearch(title, null, type, currentPage, POSTSIZE);
         } else if (!categoryId.equals("-1") && type.equals("-1")) {
-            postModels = postService.findAllAndSearch(title, categoryId, null, currentPage, 2);
+            postModels = postService.findAllAndSearch(title, categoryId, null, currentPage, POSTSIZE);
         } else {
-            postModels = postService.findAllAndSearch(title, categoryId, type, currentPage, 2);
+            postModels = postService.findAllAndSearch(title, categoryId, type, currentPage, POSTSIZE);
+        }
+
+        List<PostModel> list = postModels.getContent();
+        for (PostModel p : list
+        ) {
+            p.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(p.getThumbnail()));
         }
 
 
@@ -96,7 +101,7 @@ public class ManagerController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
         //push about post
-        model.addAttribute("listPost", postModels.toList());
+        model.addAttribute("listPost", list);
         model.addAttribute("postCategoryModelList", postCategoryModelList);
 
         //push about user
@@ -161,10 +166,17 @@ public class ManagerController {
     ) throws Exception {
         byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        Calendar cal = Calendar.getInstance();
 
-        String dateInString = updateAt;
-        Date dateUpdate = formatter.parse(dateInString);
-        postService.upDatePost(briefInfor,detail,imgConvertAdd,title,dateUpdate,email,category,status,postId);
+        Date dateUpdate = null;
+        if(!updateAt.equals("")){
+            dateUpdate = formatter.parse(updateAt);
+        }else{
+            dateUpdate = cal.getTime();
+        }
+
+
+        postService.upDatePost(briefInfor, detail, imgConvertAdd, title, dateUpdate, email, category, status, postId);
         return "redirect:/manager/post";
     }
 }
