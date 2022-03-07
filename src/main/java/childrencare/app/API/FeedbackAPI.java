@@ -1,6 +1,9 @@
 package childrencare.app.API;
 
 import java.io.IOException;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -39,7 +42,7 @@ public class FeedbackAPI {
 	private final UserRepository userRepository;
 	private final FeedbackRepository feedbackRepository;
 	private final ReservationRepository reservationRepository;
-	private String captcha;
+	private Map<String,String> usersCaptcha;
 	
 	@Autowired
 	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,FeedbackRepository feedbackRepository,ReservationRepository reservationRepository) {
@@ -47,6 +50,7 @@ public class FeedbackAPI {
 		this.userRepository = userRepository;
 		this.feedbackRepository = feedbackRepository;
 		this.reservationRepository = reservationRepository;
+		this.usersCaptcha = new HashMap<String,String>();
 	}
 	
 	@PostMapping("/verify-captcha")
@@ -56,14 +60,16 @@ public class FeedbackAPI {
 			return "user exsist";
 		}
 		
-		if(!captcha.equals(userInputcaptcha)) {
+		if(!usersCaptcha.get(email).equals(userInputcaptcha)) {
 			return "fail";
 		}
 		UserModel user = userRepository.findByEmail(email);
 		if(user == null) {
 			return "not exsist";
 		}
+		usersCaptcha.remove(email);
 		session.setAttribute("user", user);
+		if(user.getAvatar() != null) user.setBase64AvatarEncode(Base64.getEncoder().encodeToString(user.getAvatar()));
 		return "success";
 	}
 	
@@ -73,7 +79,9 @@ public class FeedbackAPI {
 			return "verified";
 		}
 		// 1. Generate captcha
-		captcha = CaptchaGenerator.generateCaptchaCode();
+		
+		String captcha = CaptchaGenerator.generateCaptchaCode();
+		usersCaptcha.put(email, captcha);
 		
 		// if user does not have account
 		// 2. identify user email
