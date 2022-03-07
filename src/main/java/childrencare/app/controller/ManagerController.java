@@ -83,4 +83,9 @@ public class ManagerController {
         return "manager-feedback-list";
     }
 
+    @PostMapping("updateFeedbackStatus")
+    public void updateStatus(@RequestParam(name = "status") Integer status,
+                             @RequestParam(name = "feedback_id") Integer fid){
+        feedbackService.changeFeedbackStatus(status, fid);
+    }
 }

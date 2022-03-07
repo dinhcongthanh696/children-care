@@ -37,4 +37,9 @@ public class FeedbackService {
         return feedbackRepository.getAllFeedBack(sid, star, status, content, contactName, pageable);
     }
 
+    public void changeFeedbackStatus(int status, int rid){
+        feedbackRepository.changeFeedback(status, rid);
+    }
+
+
 }
