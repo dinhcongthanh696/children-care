@@ -53,11 +53,11 @@ public class ManagerController {
     }
 
 
-    @RequestMapping(value = "/feedback", method = {RequestMethod.GET, RequestMethod.POST})
-    public String searchServiceListByTitle() {
-
-        return "manager-service-list";
-    }
+//    @RequestMapping(value = "/feedback", method = {RequestMethod.GET, RequestMethod.POST})
+//    public String searchServiceListByTitle() {
+//
+//        return "manager-service-list";
+//    }
 
     @RequestMapping("/post")
     public String reservationInfor(Model model
@@ -184,7 +184,7 @@ public class ManagerController {
 
     @GetMapping("/feedback")
     public String filterFeedback(Model model,
-                                 @RequestParam(name="page", required = false, defaultValue = "0") Integer page,
+                                 @RequestParam(name="page", required = false, defaultValue = "1") Integer page,
                                  @RequestParam(name="serviceId", required = false, defaultValue = "-1") Integer sid,
                                  @RequestParam(name="numberOfStar", required = false, defaultValue = "-1") Integer numberOfStar,
                                  @RequestParam(name="status", required = false, defaultValue = "-1") Integer status,
