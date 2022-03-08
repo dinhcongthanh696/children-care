@@ -82,4 +82,7 @@ public class HomeController {
     }
 
     // end thanh code
+
+    @GetMapping("/about")
+    public String goToAbout(){ return "about";}
 }

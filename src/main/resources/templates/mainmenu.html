@@ -22,7 +22,7 @@
                             <ul class="navigation clearfix">
                                 <li th:class="${current == 'home' ? 'dropdown current' : 'dropdown'}"><a th:href="'/ChildrenCare?lang=' + ${lang}" th:text="#{home.page}"></a>
                                 </li>
-                                <li th:class="${current == 'about' ? 'dropdown current' : 'dropdown'}"><a href="about.html" th:text="#{about.us}"></a></li>
+                                <li th:class="${current == 'about' ? 'dropdown current' : 'dropdown'}"><a href="/ChildrenCare/about" th:text="#{about.us}"></a></li>
                                 <li th:class="${current == 'services' ? 'dropdown current' : 'dropdown'}"><a th:href="'/ChildrenCare/service/services?lang=' + ${lang}" th:text="#{services}"></a>
                                     <ul>
                                         <li th:each="serviceCategory : ${servicecategories}">
