@@ -244,7 +244,7 @@
                                                    style="color : black;"></i>
                                             </td>
                                             <td>
-                                                <a>Details</a>
+                                                <a th:href="@{postDetail(pid=${list.getPostId()})}">Details</a>
                                                 <a th:attr="data-target='#editPost'+${list.getPostId()}"  class="editModal text-primary" data-toggle="modal" >Edit</a>
                                                 <!--  edit modal-->
                                                 <div th:id="${'editPost'+ list.getPostId()}" class="modal fade">

@@ -34,13 +34,13 @@ import java.util.stream.IntStream;
 public class ManagerController {
 
     private int FEEDBACKSIZE = 6;
-    
+
     private final int CUSTOMERSIZE = 6;
     private int POSTSIZE = 5;
     private final ServiceModelService serviceModelService;
-    
+
     private final CustomerService customerService;
-    
+
     @Autowired
     ServiceRepository serviceRepository;
 
@@ -55,9 +55,9 @@ public class ManagerController {
     private PostService postService;
     @Autowired
     private UserService userService;
-    
+
     @Autowired
-    public ManagerController(ServiceModelService serviceModelService,CustomerService customerService) {
+    public ManagerController(ServiceModelService serviceModelService, CustomerService customerService) {
         this.serviceModelService = serviceModelService;
         this.customerService = customerService;
     }
@@ -71,7 +71,7 @@ public class ManagerController {
         return "ServiceDetail-Manager";
     }
     
-    @GetMapping("/customers")
+    /*@GetMapping("/customers")
     @Transactional
     public String toCustomersList(@RequestParam(name = "search" , required = false , defaultValue = "") String search ,
     		@RequestParam(name = "status" , required = false , defaultValue = "-1") int status , 
@@ -113,7 +113,7 @@ public class ManagerController {
     	model.addAttribute("sortProperties", sortProperties);
     	
     	return "manager-customer-list";
-    }
+    }*/
 
 
 //    @RequestMapping(value = "/feedback", method = {RequestMethod.GET, RequestMethod.POST})
@@ -183,6 +183,26 @@ public class ManagerController {
         return "post_manager";
     }
 
+    @RequestMapping("/postDetail")
+    public String postDetail(Model model,
+            @RequestParam(name = "pid", required = false) int pid
+    ) {
+        PostModel post = postService.getPostDetail(pid);
+
+        post.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(post.getThumbnail()));
+
+        //about post
+        model.addAttribute("post", post);
+
+        //category post
+        model.addAttribute("postCategoryModelList", blogCategoryService.findAll());
+
+        //push about user
+        model.addAttribute("listManagers", userService.findAllManager());
+        return "post_detail_manager";
+    }
+
+
     @GetMapping("/changStatus")
     @Transactional
     public String changeStatusPost(@RequestParam("pid") int rid,
@@ -247,13 +267,13 @@ public class ManagerController {
 
     @GetMapping("/feedback")
     public String filterFeedback(Model model,
-                                 @RequestParam(name="page", required = false, defaultValue = "1") Integer page,
-                                 @RequestParam(name="serviceId", required = false, defaultValue = "-1") Integer sid,
-                                 @RequestParam(name="numberOfStar", required = false, defaultValue = "-1") Integer numberOfStar,
-                                 @RequestParam(name="status", required = false, defaultValue = "-1") Integer status,
-                                 @RequestParam(name="content", required = false, defaultValue = "") String content,
-                                 @RequestParam(name="contactName", required = false, defaultValue = "") String contactName
-    ){
+                                 @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+                                 @RequestParam(name = "serviceId", required = false, defaultValue = "-1") Integer sid,
+                                 @RequestParam(name = "numberOfStar", required = false, defaultValue = "-1") Integer numberOfStar,
+                                 @RequestParam(name = "status", required = false, defaultValue = "-1") Integer status,
+                                 @RequestParam(name = "content", required = false, defaultValue = "") String content,
+                                 @RequestParam(name = "contactName", required = false, defaultValue = "") String contactName
+    ) {
 
         Page<FeedbackModel> feedbacks = feedbackService.getPaginatedFeedback
                 (page - 1, 3, sid, numberOfStar, contactName.trim(), content.trim(), status);
@@ -263,7 +283,7 @@ public class ManagerController {
         int totalPages = feedbacks.getTotalPages();
         if (totalPages > 0) {
             int start = Math.max(0, page - 2);
-            int end = Math.min(page+ 2, totalPages - 1);
+            int end = Math.min(page + 2, totalPages - 1);
             if (totalPages > 5) {
                 if (end == totalPages) start = end - 5;
                 else if (start == 1) end = start + 5;
@@ -288,7 +308,7 @@ public class ManagerController {
     @Transactional
     @GetMapping("/updateFeedbackStatus")
     public String updateStatus(@RequestParam(name = "feedback_id") Integer fid,
-                               @RequestParam(name = "status") Integer status){
+                               @RequestParam(name = "status") Integer status) {
         feedbackService.changeFeedbackStatus(status, fid);
         return "redirect:/manager/feedback?page=1";
     }
