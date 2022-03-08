@@ -43,7 +43,15 @@
           <![endif]-->
 
           <style type="text/css">
-
+					.fa-angle-double-up{
+						color : green;
+						margin-left : 5px;
+					}
+					
+					.fa-angle-double-down{
+						color : red;
+						margin-left : 5px;
+					}
           </style>
 
 </head>
@@ -70,6 +78,11 @@
 				<span class="col-sm-6"> 
 					<span class="box-reservation-title">Reservation Success : </span>
 					<span th:text="${reservationsSuccess}" class="box-reservation-number"></span>
+					<span
+						th:class="${reservationsSuccess - totalReservationSuccessLast14days} > 0 ? 'fa fa-angle-double-up' : 'fa fa-angle-double-down'"
+						th:text="${T(java.lang.Math).abs(reservationsSuccess - totalReservationSuccessLast14days)}"
+					>
+					</span>
 				 </span>  
 				<span class="col-sm-6" style="background-color: #b4e657;border-radius: 5px;padding : 10px;">
 					<i class="fas fa-check" style="color : green; font-size : 25px;"></i>
@@ -79,6 +92,11 @@
 				<span class="col-sm-6"> 
 					<span class="box-reservation-title">Reservation Canceled : </span>
 					<span th:text="${reservationsCanceled}" class="box-reservation-number"></span>
+					<span
+						th:class="${reservationsCanceled - totalReservationCanceledLast14days} > 0 ? 'fa fa-angle-double-up' : 'fa fa-angle-double-down'"
+						th:text="${T(java.lang.Math).abs(reservationsCanceled - totalReservationCanceledLast14days)}"
+					>
+					</span>
 				</span>
 				<span class="col-sm-6" style="background-color: #e66557; border-radius: 5px;padding : 10px;">
 					<i class="fas fa-exclamation-triangle" style="color : red; font-size : 25px;"></i>
@@ -87,7 +105,12 @@
 			<div class="box-statstic-reservation col-sm-3">
 				<span class="col-sm-6"> 
 					<span class="box-reservation-title">Reservation Submitted : </span>
-					<span th:text="${reservationSubmitted}" class="box-reservation-number"></span>
+					<span th:text="${reservationsSubmitted}" class="box-reservation-number"></span>
+				 	<span
+						th:class="${reservationsSubmitted - totalReservationSubmittedLast14days} > 0 ? 'fa fa-angle-double-up' : 'fa fa-angle-double-down'"
+						th:text="${T(java.lang.Math).abs(reservationsSubmitted - totalReservationSubmittedLast14days)}"
+					>
+					</span>
 				 </span>
 				<span class="col-sm-6" style="background-color: #57e6b9;border-radius: 5px;padding : 10px;"> 
 					<i class="fa fa-paper-plane" style="color : blue; font-size : 25px;"></i>
