@@ -40,8 +40,8 @@ public class ReservationService {
         return repository.countReservationByStatus(status);
     }
 
-    public int countReservationByStatusAndDate(int status, Date date) {
-        return repository.countReservationByStatusAndDate(status, date);
+    public int countReservationByStatusAndDate(String statusName, Date date) {
+        return repository.countReservationByStatusAndDate(statusName, date);
     }
 
     public List<ReservationModel> findAll() {

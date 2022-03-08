@@ -101,13 +101,16 @@ public class AdminController {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		List<Integer> reservationTotalNumbers = new ArrayList<>();
 		int totalReservationCanceled = 0;
+		int totalReservationSubmitted = 0;
 		for(int i = 0 ; i < 7 ; i++) {
 			sevenLastDays.add(dateFormatter.format(currentDate.getTime()));
-			int reservationSuccess = reservationService.countReservationByStatusAndDate(1, currentDate.getTime());
-			int reservationCanceled = reservationService.countReservationByStatusAndDate(0, currentDate.getTime());
+			int reservationSuccess = reservationService.countReservationByStatusAndDate("success", currentDate.getTime());
+			int reservationCanceled = reservationService.countReservationByStatusAndDate("cancled", currentDate.getTime());
+			int reservationSubmitted = reservationService.countReservationByStatusAndDate("submitted", currentDate.getTime());
+			totalReservationSubmitted += reservationSubmitted;
 			totalReservationCanceled += reservationCanceled;
 			reservationSuccessNumbers.add(reservationSuccess);
-			reservationTotalNumbers.add(reservationSuccess+reservationCanceled);
+			reservationTotalNumbers.add(reservationSuccess+reservationCanceled+reservationSubmitted);
 			currentDate.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -117,6 +120,7 @@ public class AdminController {
 		model.addAttribute("totalCustomerNewlyReserved", totalCustomerNewlyReserved);
 		model.addAttribute("reservationsSuccess",totalReservationSuccess);
 		model.addAttribute("reservationsCanceled", totalReservationCanceled);
+		model.addAttribute("reservationSubmitted", totalReservationSubmitted);
 		model.addAttribute("categories", categories);
 		model.addAttribute("revenueDate", revenueDate);
 		model.addAttribute("services", services.toList());

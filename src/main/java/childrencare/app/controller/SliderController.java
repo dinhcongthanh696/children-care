@@ -21,6 +21,11 @@ public class SliderController {
     @Autowired
     private SlidersService slidersService;
 
+    @GetMapping(value = "/managerView/sliderManager/home")
+    public String viewHome(Model model){
+          return viewPage(model,1,"");
+    }
+
 
     @GetMapping(value = "/sliderManager/page/{pageNum}")
     public String viewPage(Model model,@PathVariable(name ="pageNum") int pageNum,

@@ -48,9 +48,10 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1",nativeQuery = true)
     int countReservationByStatus(int status);
     
-    @Query(value = "SELECT COUNT(*) FROM reservation WHERE status = ?1 AND DATEPART(month,date) = DATEPART(MONTH,?2)\r\n"
+    @Query(value = "SELECT COUNT(*) FROM reservation inner join status_reservation on reservation.status_reservation_id = status_reservation.status_reservation_id\r\n"
+    		+ "WHERE status_reservation.status_name = ?1 AND DATEPART(month,date) = DATEPART(MONTH,?2)\r\n"
     		+ "AND DATEPART(YEAR,date) = DATEPART(YEAR,?2) AND DATEPART(DAY,date) = DATEPART(day,?2)",nativeQuery = true)
-    int countReservationByStatusAndDate(int status,Date date);
+    int countReservationByStatusAndDate(String statusName,Date date);
 
 
     @Query(value = "select r.reservation_id,r.date,r.status,r.notes,r.total_reservation_price,r.customer_id\n" +

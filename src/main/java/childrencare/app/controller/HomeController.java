@@ -64,6 +64,7 @@ public class HomeController {
         List<PostModel> list = blogService.findTop3RecentPost();
         for (PostModel p : list
         ) {
+        	if(p.getThumbnail() != null)
             p.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(p.getThumbnail()));
         }
         model.addAttribute("list3recentPost", list);

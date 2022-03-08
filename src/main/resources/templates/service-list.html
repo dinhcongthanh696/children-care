@@ -82,11 +82,14 @@
 		<div class="my-modal-content modal-element" >
 			<label for="image-feedback-input" class="modal-label modal-element">Show your image feedback :</label>
 			<input type="file" id="image-feedback-input" class="form-control modal-input modal-element" style="font-size : 13px;padding : 5px;" onchange="imagePreviewHandler(this)"/>
+			<span class="modal-element" id="image-hint" style="color : blue;">File must image and not over 20MB</span>
 			<img class="modal-image-feedback modal-element"/>
+			<h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
 			<label for="comment" class="modal-label modal-element">Give your comment here : </label>
 			<textarea rows="10" cols="50" id="comment" class="form-control modal-input modal-element" placeholder="Commenting...." style="font-size : 15px;padding : 5px;"></textarea>
 			<button class="btn btn-primary save-feedback modal-element" 
-				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()">
+				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()"
+				id="save-feedback-button">
 			    Save your feedback
 			</button>
 			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-feedback-step-2','none')"></span>
@@ -200,7 +203,8 @@
 								th:if="${services.size() > 0}"
 								style="width : 95%;border-radius : 8px;margin-top : 20px;"
 								>
-								<i class="fas fa-comments modal-element"></i><span th:text="#{button.allowed.message}" id="give-feedback-text"></span>
+								<i class="fas fa-comments modal-element"></i>
+								<span th:text="#{button.allowed.message}" id="give-feedback-text" class="modal-element"></span>
 								</button>
 								<p 
 									th:if="${services.size() == 0}"
@@ -372,6 +376,7 @@
 	
 	function saveFeedback(){
 		var imageFileFeedback = document.getElementById("image-feedback-input").files[0];
+		
 		var commentFeedback = document.getElementById("comment").value;
 		 var formData = new FormData();
 		formData.append("imageFeedback",imageFileFeedback);
@@ -474,7 +479,7 @@
 			return;
 		}
 		
-			var counter = 10;
+			var counter = 90;
 			var verifyEmail = document.getElementById("verify-email");
 			verifyEmail.disabled = false;
 			triggerModal("my-modal-identification","block");
@@ -513,6 +518,25 @@
 		lastChosenPreview = URL.createObjectURL(imageFile);
 		var imageFeedbackTag = document.getElementsByClassName("modal-image-feedback")[0];
 		imageFeedbackTag.src = lastChosenPreview;
+		
+		var isValidImageFile = true;
+		var message = "";
+		if(imageFile.type.split("/")[0] !== "image"){
+			message = "File must be image";
+			isValidImageFile = false;
+		}else if(imageFile.size / 1000000 > 20){ // COVERT size of file to MB
+			message =  "File is more than 20 MB";
+			isValidImageFile = false;
+		}
+		
+		const saveFeedbackButtonElement = document.getElementById("save-feedback-button");
+		const imageFileMessageElement = document.getElementById("image-file-message");
+		if(!isValidImageFile){
+			saveFeedbackButtonElement.disabled = true;
+		}else{
+			saveFeedbackButtonElement.disabled = false;
+		}
+		imageFileMessageElement.innerHTML = message;
 	}
 	
 	function ratingStar(ratedStar){

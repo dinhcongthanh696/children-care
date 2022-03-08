@@ -141,8 +141,12 @@
                 return respond.text();
             }).then(message => {
                 alert(message);
+                window.location.reload();
             })
         }
+
+
+
 	</script>
 <!--    end-->
 
@@ -192,8 +196,8 @@
                     <ul class="sociallinks-style-one">
                         <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
                         <li th:if="${session.user == null}">
-                            <button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form">
-                                <i class="far fa-user text-white" onclick="triggerLoginForm('block')"></i></button>
+                            <a class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form">
+                                <i class="far fa-user text-white" onclick="triggerLoginForm('block')"></i></a>
                         </li>
                         <li>
                         	<a href="/ChildrenCare/reservation/reser">
