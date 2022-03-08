@@ -203,7 +203,8 @@
 								th:if="${services.size() > 0}"
 								style="width : 95%;border-radius : 8px;margin-top : 20px;"
 								>
-								<i class="fas fa-comments modal-element"></i><span th:text="#{button.allowed.message}" id="give-feedback-text"></span>
+								<i class="fas fa-comments modal-element"></i>
+								<span th:text="#{button.allowed.message}" id="give-feedback-text" class="modal-element"></span>
 								</button>
 								<p 
 									th:if="${services.size() == 0}"
