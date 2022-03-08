@@ -840,7 +840,7 @@
                             </div>
                             <ul class="meta-info">
                                 <li><a href="#" th:text="${listtop3.getAuthor().getFullname()}"></a></li>
-                                <li><a href="#" th:text="${listtop3.getCreateAt().getDate()+'/'+${listtop3.getCreateAt().getMonth()+1}+'/'+listtop3.getCreateAt().getYear()}"></a></li>
+                                <li><a href="#" th:text="${listtop3.getCreateAt().getDate()+'/'+listtop3.getCreateAt().getYear()}"></a></li>
                             </ul>
                         </div>
                         <h3 class="blog-title"><a th:href="@{/blogDetail(postId=${listtop3.getPostId()})}" th:text="${listtop3.getTitle()}"></a></h3>
