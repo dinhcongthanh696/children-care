@@ -10,7 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- For IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
 	<!-- master stylesheet -->
 	<link rel="stylesheet" href="css/style.css">
 	<!-- Responsive stylesheet -->
@@ -23,174 +23,229 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
-
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <!-- Color Login Form -->
+    <link rel="stylesheet" href="css/authentication.css">
     <!-- Fixing Internet Explorer-->
+    <!-- fix login form not appear when first click-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <script src="js/html5shiv.js"></script>
     <![endif]-->
+    <script>
+        function triggerLoginForm(displayStyle){
+            const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+            modalBoxWrapper.style.display = displayStyle;
+        }
+        //thai's code
+        function resetEmail() {
+            var email = document.getElementById("reset-email").value;
+            if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                var formData = new FormData();
+                //var formData1 = new FormData();
+                formData.append("email", email);
+                fetch("/ChildrenCare/api-user/user", {
+                    method: 'post',
+                    body: formData
+                }).then(response => {
+                    return response.text();
+                }).then(message => {
+                    if (message !== "not exist") {
+                        //formData1.append("email",email);
+                        fetch("/ChildrenCare/api-login/reset",{
+                            method : 'post',
+                            body : formData
+                        }).then(response => {
+                            return response.text(); //tra ket qua tu server -> text
+                        }).then(message => {
+                            if(message === "Success"){
+                                alert("Success");
+                                var closeButton = document.getElementById("big-button-close");
+                                var closeReset = document.getElementById("close-reset");
+                                closeButton.click();
+                                closeReset.click();
+                            }else{
+                                alert("Fail");
+                            }
+                        })
+                    } else{
+                        alert("Email is not in database")
+                    }
+
+                })
+            } else {
+                alert("Invalid Email");
+            }
+        }
+
+        function changeLanguage(langCode){
+            var queryString = window.location.search;
+            var params = new URLSearchParams(queryString);
+            if(!params.has("lang")){
+                params.append("lang",langCode);
+            }else{
+                params.set("lang",langCode);
+            }
+            window.location.href = window.location.pathname +"?"+ params;
+        }
+
+        //end
+        //nghia's code
+        function loginCheck(){
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("pass").value;
+            var formData = new FormData();
+            formData.append("email",email);
+            formData.append("password",password);
+            formData.append("currentpage",currentpage);
+            fetch("/ChildrenCare/api-login/signIn",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+                window.location.reload();
+            })
+        }
+
+        function register(){
+            var email_register = document.getElementById("email_register").value;
+            var username_register = document.getElementById("username_register").value;
+            var fullname_register = document.getElementById("fullname_register").value;
+            var address_register = document.getElementById("address_register").value;
+            var gender_register = document.getElementById("gender_register").value;
+            var notes_register = document.getElementById("notes_register").value;
+            var password_register = document.getElementById("password_register").value;
+            var phone_register = document.getElementById("phone_register").value;
+            var formData = new FormData();
+            formData.append("email",email_register);
+            formData.append("username",username_register);
+            formData.append("fullname",fullname_register);
+            formData.append("address",address_register);
+            formData.append("gender",gender_register);
+            formData.append("notes",notes_register);
+            formData.append("password",password_register);
+            formData.append("phone",phone_register);
+            fetch("/ChildrenCare/api-login/signUp",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+                window.location.reload();
+            })
+        }
+
+
+
+    </script>
     
 </head>
 
 <body>
-<div class="boxed_wrapper">
+<div class="boxed_wrapper" th:replace="authentication.html :: authentication('')"></div>
 
 <div class="preloader"></div> 
 
-<!-- Start Top Bar area -->  
-<section class="top-bar-area">
+<!-- Start Top Bar area -->
+<section class="top-bar-area" th:fragment="top-bar">
     <div class="container">
         <div class="row">
-            <div class="col-xl-7 col-lg-6">
+            <div class="col-xl-5 col-lg-3">
                 <div class="top-left">
-                    <ul>
+                    <!--<ul>
                         <li><a href="#">Locations</a></li>
                         <li><a href="#">Special Offers</a></li>
                         <li><a href="#">Teeth Cleaning Tips</a></li>
-                    </ul>
-                </div>    
-            </div>   
-            <div class="col-xl-5 col-lg-6">
+                    </ul> !-->
+                </div>
+            </div>
+            <div class="col-xl-1 col-lg-3 container-fluid">
+                <div class="inner-content clearfix ">
+                    <nav class="main-menu style1 clearfix">
+                        <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
+                            <ul class="navigation clearfix">
+                                <li >
+                                    <button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" >
+                                        <i class="far fa-user text-white"  onclick="triggerLoginForm('block')"></i></button>
+                                    <ul>
+                                        <li><a href="/ChildrenCare/setting/profile">Settings</a></li>
+                                        <li><a href="/ChildrenCare/logout">Log out</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-12">
                 <div class="top-right">
-                    <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
                     <ul class="sociallinks-style-one">
-                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
+                        <li th:if="${session.user == null}">
+                            <a class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form">
+                                <i class="far fa-user text-white" onclick="triggerLoginForm('block')"></i></a>
+                        </li>
+                        <li>
+                            <a href="/ChildrenCare/reservation/reser">
+                                <i class="fas fa-shopping-cart" style="
+                        			font-size: 33px;
+    								color: white;
+    								position : relative;
+                        		">
+                        			<span id="shopping-cart-items" style="
+                        				border-radius: 100%;
+    									background-color: white;
+    									font-weight: bold;
+    									position: absolute;
+    									right: 0;
+    									top: 0;
+    									font-size: 14px;
+    									color: red;
+    									border: 1px solid black;
+    									padding: 3px;
+                        			" th:text="${session.list == null ? '' : session.list.size}"></span>
+                                </i>
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
+                            <label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
+                            <select class="form-control" id="languages-switcher"
+                                    onchange="changeLanguage(this.value)"
+                                    style="height : 34px;"
+                            >
+                                <option value="en" th:selected="${lang == 'en'}">
+                                    <span th:text="#{lang.en}"></span>
+                                </option>
+                                <option value="vi" th:selected="${lang == 'vi'}">
+                                    <span th:text="#{lang.vn}"></span>
+                                </option>
+                                <option value="ja" th:selected="${lang == 'ja'}">
+                                    <span th:text="#{lang.ja}"></span>
+                                </option>
+                            </select>
+                        </li>
                     </ul>
-                </div>    
-            </div>   
+                </div>
+            </div>
         </div>
     </div>
 </section>
 <!-- End Top Bar area -->  
  
 <!--Start header style1 area-->
-<header class="header-style1-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12">
-                <div class="inner-content clearfix">
-                    <div class="header-style1-logo float-left">
-                        <a href="index-2.html">
-                            <img src="images/resources/logo.png" alt="Awesome Logo">
-                        </a>
-                    </div>   
-                    <div class="header-contact-info float-left">
-                        <ul>
-                            <li>
-                                <div class="single-item">
-                                    <div class="icon">
-                                        <span class="icon-support"></span>    
-                                    </div>
-                                    <div class="text">
-                                        <p>+1 555-7890-123</p> 
-                                        <span>support@example.com</span>   
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single-item">
-                                    <div class="icon">
-                                        <span class="icon-gps"></span>    
-                                    </div>
-                                    <div class="text">
-                                        <p>86 Brattle Street</p> 
-                                        <span>Cambridge, MA 02138</span>   
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>  
-                    </div>
-                    <div class="header-style1-button float-right">
-                        <a href="#"><span class="icon-date"></span>Make Appointment</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>        
-</header>  
+<header th:replace="header.html :: header"></header>
 <!--End header style1 area-->
     
 <!--Start mainmenu area-->
-<section class="mainmenu-area stricky">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="inner-content clearfix">
-                    <nav class="main-menu style1 clearfix">
-                        <div class="navbar-header clearfix">   	
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div class="navbar-collapse collapse clearfix">
-                            <ul class="navigation clearfix">
-                                <li class="dropdown"><a href="index-2.html">Home</a>
-                                    <ul>
-                                        <li><a href="index-2.html">Home Page 01</a></li>
-                                        <li><a href="index-3.html">Home Page 02</a></li>
-                                    </ul>  
-                                </li>
-                                <li class="current"><a href="about.html">About Us</a></li>
-                                <li class="dropdown"><a href="specialities.html">Specialities</a>
-                                    <ul>
-                                        <li><a href="spec-dental-implants.html">Dental Implants</a></li>
-                                        <li><a href="spec-cosmetic-dentistry.html">Cosmetic Dentistry</a></li>
-                                        <li><a href="spec-laser-dentistry.html">Laser Dentistry</a></li>
-                                        <li><a href="spec-orthodontics.html">Orthodontics</a></li>
-                                        <li><a href="spec-endodontics.html">Endodontics</a></li>
-                                        <li><a href="spec-periodontics.html">Periodontics</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="doctors.html">Doctors</a></li>
-                                <li class="dropdown"><a href="blog.html">Blog</a>
-                                    <ul>
-                                        <li><a href="blog.html">Blog Default</a></li>
-                                        <li><a href="blog-large.html">Blog Large Image</a></li>
-                                        <li><a href="blog-single.html">Blog Single Post</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="#">More</a>
-                                    <ul>
-                                        <li><a href="faq.html">FAQ’s</a></li>
-                                        <li><a href="pricing.html">Pricing Plans</a></li>
-                                        <li><a href="testimonials.html">Testimonials</a></li>
-                                        <li><a href="timetable.html">Timetable</a></li>
-                                        <li><a href="apppointment.html">Apppointment</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                    
-                    <div class="mainmenu-right">
-                        <div class="search-box-style1">
-                            <form class="search-form" method="post" action="http://st.ourhtmldemo.com/new/Dento/index.html">
-							    <input type="search" name="search" placeholder="Search..." required>
-							    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-						    </form>        
-                        </div>
-                        <div class="toggler-button">
-                            <div class="nav-toggler hidden-bar-opener">
-                                <div class="inner">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </div>    
-                        </div>
-                    </div> 
-                      
-                </div>
-            </div>
-        </div>
-    </div>
-</section>                 
+<section th:replace="mainmenu.html :: mainMenu(actionForm='',placeholder='Search...',current='about',search='')">
+</section>
 <!--End mainmenu area--> 
   
 <!-- Hidden Navigation Bar -->
@@ -207,15 +262,15 @@
             <ul>
                 <li>
                     <h5>Address</h5>
-                    <p>Romanian  9520 Faires Farm Road,<br> Carlsbad, NC 28213.</p>
+                    <p>FPT University<br> Hoa Lac, Thach That, Ha Noi</p>
                 </li>
                 <li>
                     <h5>Phone</h5>
-                    <p>Phone 1: +1 555-7890-123</p>
+                    <p>Phone : 0964040501</p>
                 </li>
                 <li>
                     <h5>Email</h5>
-                    <p>supportyou@example.com</p>
+                    <p>thainthe150042@fpt.edu.vn</p>
                 </li>
             </ul>
         </div>       
@@ -677,17 +732,17 @@
                     <div class="about-us">
                         <div class="footer-logo fix">
                             <a href="index-2.html">
-                                <img src="images/resources/logo-2.png" alt="Awesome Logo">
+                                <img th:src=@{/images/resources/anhlogo.jpg} width="300" height="200" alt="Awesome Logo">
                             </a>
-                        </div>  
+                        </div>
                         <div class="text-box fix">
-                            <p>Dento was started in the year 1995 as a small private dental clinic in Binghamton, NY, USA. Looking for affordable dental care?</p>
-                            <p class="bottom-text">To take a trivial example, which of us ever undertakes laborious physical 
-                            exercise, except to obtain.</p>
+                            <p>ChildrenCare was started in the year 2022 as a small private service clinic in FPT University, Hoa Lac, Thach That, Ha Noi. Looking for affordable dental care?</p>
+                            <p class="bottom-text">To take a trivial example, which of us ever undertakes laborious physical
+                                exercise, except to obtain.</p>
                         </div>
                         <div class="button fix">
-                            <a class="btn-one" href="#">Read More</a>
-                        </div>   
+                            <a class="btn-one" href="/ChildrenCare/about">Read More</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -700,13 +755,9 @@
                         <h3>Specialities</h3>
                     </div>
                     <ul class="specialities">
-                        <li><a href="#">Dental Implants</a></li>
-                        <li><a href="#">Laser Dentistry</a></li>
-                        <li><a href="#">Cosmetic Dentistry</a></li>
-                        <li><a href="#">Orthodontics</a></li>
-                        <li><a href="#">Pedodontics</a></li>
-                        <li><a href="#">Prosthodontics</a></li>
-                        <li><a href="#">Oral & Maxsillosacial</a></li>
+                        <li th:each="serviceCategory : ${servicecategories}">
+                            <a th:href="'/ChildrenCare/service/services?category='+${serviceCategory.serviceCategoryId}" th:text="${serviceCategory.serviceCategoryName}"></a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -719,13 +770,9 @@
                         <h3>Facilities</h3>
                     </div>
                     <ul class="facilities">
-                        <li><a href="#">Individual Tooth X-Ray</a></li>
-                        <li><a href="#">Intensive Care Unit</a></li>
-                        <li><a href="#">Blood Bank</a></li>
-                        <li><a href="#">Critical Care Areas</a></li>
-                        <li><a href="#">Laboratories</a></li>
-                        <li><a href="#">Scale and Clean</a></li>
-                        <li><a href="#">Fissure Sealants</a></li>
+                        <li><a href="/ChildrenCare/service/services">Service</a></li>
+                        <li><a th:href="@{/blog}">Blog</a></li>
+                        <li><a th:href="@{/feedback}">Feedback</a></li>
                     </ul>
                 </div>
             </div>
@@ -756,7 +803,7 @@
 <!--End footer area-->
 
 <!--Start footer bottom area-->
-<section class="footer-bottom-area">
+<section class="footer-bottom-area" th:fragment="footer">
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -772,16 +819,16 @@
                         </ul>
                     </div>
                     <div class="copyright-text text-center">
-                        <p>© <a href="#">Dento</a> 2018, All Rights Reserved.</p>
+                        <p>© <a href="#">FPT University</a> Hoa Lac, Thach That, Ha Noi</p>
                     </div>
                     <ul class="footer-menu float-right">
                         <li><a href="#">Terms & Condition</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                     </ul>
-                </div>   
+                </div>
             </div>
         </div>
-    </div>    
+    </div>
 </section>
 <!--End footer bottom area-->   
 
