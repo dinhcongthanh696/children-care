@@ -237,9 +237,8 @@
                                                         <div class="col-auto">
                                                             <p><b>Status: </b>
                                                                 <span
-                                                                        th:if="${reservationByReserId.isStatus()}">Submitted</span>
-                                                                <span
-                                                                        th:if="${!reservationByReserId.isStatus()}">UnSubmitted</span>
+                                                                        th:text="${reservationByReserId.getStatusReservation().getStatusName()}"></span>
+
                                                             </p>
                                                         </div>
                                                         <div class="row mt-4">

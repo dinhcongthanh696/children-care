@@ -19,8 +19,8 @@ public class UserService {
     UserRepository userRepository;
     
     
-    public List<UserModel> findAllDoctor(){
-        return userRepository.findUserModelByUserRole("doctor");
+    public List<UserModel> findAllManager(){
+        return userRepository.findUserModelByUserRole("manager");
     }
 	
 	public Page<UserModel> getPartialUsers(int page , int size , String search){

@@ -199,7 +199,7 @@
                 <div class="col-xl-8 col-lg-7 col-md-12 col-sm-12">
                     <div class="blog-post">
                         <!--Start Single blog Post-->
-                        <div class="single-blog-post blog-large" th:each="listPost:${listPost}">
+                        <div class="single-blog-post blog-large" th:each="list:${listPost}">
                             <div class="left-box">
                                 <div class="post-author">
                                     <img src="images/blog/auth-1.png" alt="Awesome Image">
@@ -213,20 +213,20 @@
                             </div>
                             <div class="inner-content">
                                 <div class="img-holder">
-                                    <img src="images/blog/v2-1.jpg" alt="Awesome Image">
+                                    <img th:src="${'data:image/gif;base64,'+ list.getBase64ThumbnailEncode()}" alt="Awesome Image">
                                     <div class="categorie-button">
                                         <a class="btn-one" href="#"
-                                           th:text="${listPost.getPostCategory().getPostCategoryName()}"></a>
+                                           th:text="${list.getPostCategory().getPostCategoryName()}"></a>
                                     </div>
                                 </div>
                                 <div class="text-holder">
                                     <h3 class="blog-title"><a href="blog-single.html"
-                                                              th:text="${listPost.getTitle()}"></a></h3>
+                                                              th:text="${list.getTitle()}"></a></h3>
                                     <div class="text-box">
-                                        <p th:text="${listPost.getBriefInfo()}"></p>
+                                        <p th:text="${list.getBriefInfo()}"></p>
                                     </div>
                                     <div class="readmore-button">
-                                        <a class="btn-one" th:href="@{/blogDetail(postId=${listPost.getPostId()})}">Read More</a>
+                                        <a class="btn-one" th:href="@{/blogDetail(postId=${list.getPostId()})}">Read More</a>
                                     </div>
                                 </div>
                             </div>
@@ -293,7 +293,7 @@
                             <ul class="recent-post" th:each="listTop3:${listTop3RecentPost}">
                                 <li>
                                     <div class="img-holder">
-                                        <img src="images/sidebar/recent-post-1.jpg" alt="Awesome Image">
+                                        <img th:src="${'data:image/gif;base64,'+ listTop3.getBase64ThumbnailEncode()}" alt="Awesome Image">
                                         <div class="overlay-style-one">
                                             <div class="box">
                                                 <div class="content">

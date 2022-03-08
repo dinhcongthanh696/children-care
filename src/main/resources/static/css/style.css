@@ -6793,8 +6793,9 @@ box-shadow: 0px 1px 15px 3px #f9f9f9;
     position: relative;
     display: block;
     margin-top: 15px;
+    min-width: 100%;
 }
-.appointment-right form .button-box button{
+.appointment-right form .button-box div{
     padding: 14px 30px 14px; 
     margin-right: 7px;
     background: #ffffff;

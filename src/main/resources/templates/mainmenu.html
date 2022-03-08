@@ -33,7 +33,6 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li th:class="${current == 'doctors' ? 'dropdown current' : 'dropdown'}"><a href="#" th:text="#{doctors}"></a></li>
                                 <li th:class="${current == 'blog' ? 'dropdown current' : 'dropdown'}"><a th:href="@{/blog}" th:text="#{blog}"></a>
                                     <ul >
                                         <li class="categories clearfix" th:each="listCategory:${listCategoryPost}">

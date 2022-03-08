@@ -70,7 +70,7 @@ public class ScheduleController {
 
         model.addAttribute("reservationId", reservationId);
 
-       double price = reservationService.getReservationByID(reservationId).getTotalReservationPrice();
+        double price = reservationService.getReservationByID(reservationId).getTotalReservationPrice();
         model.addAttribute("totalPrice", price);
         return "apppointment";
     }

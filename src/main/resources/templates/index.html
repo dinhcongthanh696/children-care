@@ -141,8 +141,12 @@
                 return respond.text();
             }).then(message => {
                 alert(message);
+                window.location.reload();
             })
         }
+
+
+
 	</script>
 <!--    end-->
 
@@ -192,8 +196,8 @@
                     <ul class="sociallinks-style-one">
                         <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
                         <li th:if="${session.user == null}">
-                            <button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form">
-                                <i class="far fa-user text-white" onclick="triggerLoginForm('block')"></i></button>
+                            <a class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form">
+                                <i class="far fa-user text-white" onclick="triggerLoginForm('block')"></i></a>
                         </li>
                         <li>
                         	<a href="/ChildrenCare/reservation/reser">
@@ -774,390 +778,6 @@
 </section>
 <!--End team area v2-->
 
-<!--Start works area-->
-<section class="works-area">
-    <div class="container wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
-        <div class="sec-title-box text-center">
-            <h3>We promised to take care our patients…<br> and we delivered.</h3>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="works-content">
-                    <div class="works-tab-box">
-                        <div class="tabmenu-box text-center">
-                            <ul class="tab-btns tab-buttons">
-                                <li class="p-tab-btn active-btn" data-tab="#p-tab-1"><span>Implants</span></li>
-                                <li class="p-tab-btn" data-tab="#p-tab-2"><span>Thereaphy</span></li>
-                                <li class="p-tab-btn" data-tab="#p-tab-3"><span>surgery</span></li>
-                                <li class="p-tab-btn" data-tab="#p-tab-4"><span>Braces</span></li>
-                                <li class="p-tab-btn" data-tab="#p-tab-5"><span>Cleaning</span></li>
-                            </ul>
-                        </div>
-                        <div class="tab-content-box">
-                           
-                            <div class="single-tab-content active-tab" id="p-tab-1">
-                                <div class="tab-content-carousel owl-carousel owl-theme">
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                </div>
-                            </div>
-                            
-                            <div class="single-tab-content" id="p-tab-2">
-                                <div class="tab-content-carousel owl-carousel owl-theme">
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                </div>
-                            </div>
-                            
-                            <div class="single-tab-content" id="p-tab-3">
-                                <div class="tab-content-carousel owl-carousel owl-theme">
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                </div>
-                            </div>
-                            
-                            <div class="single-tab-content" id="p-tab-4">
-                                <div class="tab-content-carousel owl-carousel owl-theme">
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                </div>
-                            </div>
-                            
-                            <div class="single-tab-content" id="p-tab-5">
-                                <div class="tab-content-carousel owl-carousel owl-theme">
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                    <!--Start Single Item-->
-                                    <div class="single-item">
-                                        <div class="row mar0">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-before-1.jpg" alt="Awesome Image">
-                                                    <div class="before">
-                                                        <a href="#">Before</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pd0">
-                                                <div class="img-holder">
-                                                    <img src="images/resources/teeth-after-1.jpg" alt="Awesome Image">
-                                                    <div class="after">
-                                                        <a href="#">After</a>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Single Item-->
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--End works area-->
 
 <!--Start Testimonial area-->
 <section class="testimonial-area">
@@ -1169,7 +789,7 @@
                     <h1>What Our Customers Say?</h1>
                 </div> 
                 <div class="button float-right">
-                    <a class="btn-one" href="#">Read More</a>
+                    <a class="btn-one" th:href="@{/feedback}">Give Feedback</a>
                 </div>   
             </div>
         </div>
@@ -1209,12 +829,12 @@
         </div>
         <div class="row">
             <!--Start single blog post-->
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12" th:each="listtop3:${list3recentPost}">
                 <div class="single-blog-post">
                     <div class="img-holder">
-                        <img src="images/blog/lat-blog-1.jpg" alt="Awesome Image">
+                        <img th:src="${'data:image/gif;base64,'+ listtop3.getBase64ThumbnailEncode()}" alt="Awesome Image">
                         <div class="categorie-button">
-                            <a class="btn-one" href="#">Healthy Teeth</a>    
+                            <a class="btn-one" th:href="@{/blog(categoryId=${listtop3.getPostCategory().getPostCategoryId()})}" th:text="${listtop3.getPostCategory().getPostCategoryName()}">Healthy Teeth</a>
                         </div>
                     </div>
                     <div class="text-holder">
@@ -1223,77 +843,17 @@
                                 <img src="images/blog/author-1.png" alt="Image">
                             </div>
                             <ul class="meta-info">
-                                <li><a href="#">By Megan Clarks</a></li>
-                                <li><a href="#">Nov 14, 2018</a></li>
-                            </ul>    
+                                <li><a href="#" th:text="${listtop3.getAuthor().getFullname()}"></a></li>
+                                <li><a href="#" th:text="${listtop3.getCreateAt().getDate()+'/'+${listtop3.getCreateAt().getMonth()+1}+'/'+listtop3.getCreateAt().getYear()}"></a></li>
+                            </ul>
                         </div>
-                        <h3 class="blog-title"><a href="blog-single.html">A guide for dentists and patients</a></h3> 
+                        <h3 class="blog-title"><a th:href="@{/blogDetail(postId=${listtop3.getPostId()})}" th:text="${listtop3.getTitle()}"></a></h3>
                         <div class="text-box">
-                            <p>No one rejects, dislikes our avoids pleasures itself, because it is all pleasure, but because those who do not know.</p>
+                            <p th:text="${listtop3.getBriefInfo()}"></p>
                         </div>
                         <div class="readmore-button">
-                            <a class="btn-two" href="#"><span class="flaticon-next"></span>Continue REading</a>
-                        </div>  
-                    </div>
-                </div>
-            </div>
-            <!--End single blog post-->
-            <!--Start single blog post-->
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                <div class="single-blog-post">
-                    <div class="img-holder">
-                        <img src="images/blog/lat-blog-2.jpg" alt="Awesome Image">
-                        <div class="categorie-button">
-                            <a class="btn-one" href="#">Technology</a>    
+                            <a class="btn-two" th:href="@{/blogDetail(postId=${listtop3.getPostId()})}"><span class="flaticon-next"></span>Continue Reading</a>
                         </div>
-                    </div>
-                    <div class="text-holder">
-                        <div class="meta-box">
-                            <div class="author-thumb">
-                                <img src="images/blog/author-2.png" alt="Image">
-                            </div>
-                            <ul class="meta-info">
-                                <li><a href="#">By Megan Clarks</a></li>
-                                <li><a href="#">Nov 14, 2018</a></li>
-                            </ul>    
-                        </div>
-                        <h3 class="blog-title"><a href="blog-single.html">Should i go for a smile design?</a></h3> 
-                        <div class="text-box">
-                            <p>Nor again is there anyone who love pursues or desires to obtain pain of itself, bepain, but occasionally circumstances.</p>
-                        </div>
-                        <div class="readmore-button">
-                            <a class="btn-two" href="#"><span class="flaticon-next"></span>Continue REading</a>
-                        </div>  
-                    </div>
-                </div>
-            </div>
-            <!--End single blog post-->
-            <!--Start single blog post-->
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                <div class="single-blog-post">
-                    <div class="img-holder">
-                        <img src="images/blog/lat-blog-3.jpg" alt="Awesome Image">
-                        <div class="categorie-button">
-                            <a class="btn-one" href="#">Dental Care</a>    
-                        </div>
-                    </div>
-                    <div class="text-holder">
-                        <div class="meta-box">
-                            <div class="author-thumb">
-                                <img src="images/blog/author-3.png" alt="Image">
-                            </div>
-                            <ul class="meta-info">
-                                <li><a href="#">By Megan Clarks</a></li>
-                                <li><a href="#">Nov 14, 2018</a></li>
-                            </ul>    
-                        </div>
-                        <h3 class="blog-title"><a href="blog-single.html">What you need to know teeth?</a></h3> 
-                        <div class="text-box">
-                            <p>It not only helps you to chew and eat your food frames your faceany missing tooth can major impact your quality of life.</p>
-                        </div>
-                        <div class="readmore-button">
-                            <a class="btn-two" href="#"><span class="flaticon-next"></span>Continue REading</a>
-                        </div>  
                     </div>
                 </div>
             </div>
@@ -1303,33 +863,7 @@
 </section>
 <!--End latest blog area--> 
 
-<!--Start newsletter area-->
-<section class="newsletter-area">
-    <div class="container">
-        <div class="newsletter-title text-center">
-            <h3>Newsletter Subscription</h3>
-            <span>Subscribe us and get latest news, updates and offers in your inbox.</span>
-        </div>
-        <form class="newsletter-form" action="#">
-            <div class="row">
-                <div class="col-xl-3 col-lg-3 col-md-12">
-                    <input type="text" name="fname" placeholder="First Name">    
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-12">
-                    <input type="text" name="lname" placeholder="Last Name">      
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-12">
-                    <input type="email" name="email" placeholder="Email">    
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-12">
-                    <button class="btn-one" type="submit">Subscribe</button> 
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
-<!--End newsletter area-->
- 
+
 <!--Start Footer Contact Info Area-->
 <section class="footer-contact-info-area">
     <div class="container">
@@ -1341,7 +875,7 @@
                     </div>
                     <div class="text-holder">
                         <h3>Our Location</h3>
-                        <p>44 Shirley Ave. West Chicago, IL 60185, USA</p>
+                        <p>FPT University, Hoa Lac, Thach That, Ha Noi</p>
                         <a class="btn-two" href="#">Find Our Location</a>
                     </div>
                 </div>
@@ -1374,16 +908,16 @@
                     <div class="about-us">
                         <div class="footer-logo fix">
                             <a href="index-2.html">
-                                <img src="images/resources/logo-2.png" alt="Awesome Logo">
+                                <img th:src=@{/images/resources/anhlogo.jpg} width="300" height="200" alt="Awesome Logo">
                             </a>
                         </div>  
                         <div class="text-box fix">
-                            <p>Dento was started in the year 1995 as a small private dental clinic in Binghamton, NY, USA. Looking for affordable dental care?</p>
+                            <p>ChildrenCare was started in the year 2022 as a small private service clinic in FPT University, Hoa Lac, Thach That, Ha Noi. Looking for affordable dental care?</p>
                             <p class="bottom-text">To take a trivial example, which of us ever undertakes laborious physical 
                             exercise, except to obtain.</p>
                         </div>
                         <div class="button fix">
-                            <a class="btn-one" href="#">Read More</a>
+                            <a class="btn-one" href="about.html">Read More</a>
                         </div>   
                     </div>
                 </div>
@@ -1394,16 +928,13 @@
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                 <div class="single-footer-widget martop6 marbtm50">
                     <div class="title">
-                        <h3>Specialities</h3>
+                        <h3>Service Category</h3>
                     </div>
                     <ul class="specialities">
-                        <li><a href="#">Dental Implants</a></li>
-                        <li><a href="#">Laser Dentistry</a></li>
-                        <li><a href="#">Cosmetic Dentistry</a></li>
-                        <li><a href="#">Orthodontics</a></li>
-                        <li><a href="#">Pedodontics</a></li>
-                        <li><a href="#">Prosthodontics</a></li>
-                        <li><a href="#">Oral & Maxsillosacial</a></li>
+                        <li th:each="serviceCategory : ${servicecategories}">
+                            <a th:href="'/ChildrenCare/service/services?category='+${serviceCategory.serviceCategoryId}" th:text="${serviceCategory.serviceCategoryName}"></a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -1416,10 +947,9 @@
                         <h3>Facilities</h3>
                     </div>
                     <ul class="facilities">
-                        <li><a href="#">Service</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Doctor</a></li>
-                        <li><a href="#">Feedback</a></li>
+                        <li><a href="/ChildrenCare/service/services">Service</a></li>
+                        <li><a th:href="@{/blog}">Blog</a></li>
+                        <li><a th:href="@{/feedback}">Feedback</a></li>
                     </ul>
                 </div>
             </div>
@@ -1466,7 +996,7 @@
                         </ul>
                     </div>
                     <div class="copyright-text text-center">
-                        <p>© <a href="#">Dento</a> 2018, All Rights Reserved.</p>
+                        <p>© <a href="#">FPT University</a> Hoa Lac, Thach That, Ha Noi</p>
                     </div>
                     <ul class="footer-menu float-right">
                         <li><a href="#">Terms & Condition</a></li>

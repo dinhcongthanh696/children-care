@@ -76,7 +76,7 @@ public class PaypalController {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if(payment.getState().equals("approved")){
-                return "success";
+                return "thank_you";
             }
         } catch (PayPalRESTException e) {
             log.error(e.getMessage());

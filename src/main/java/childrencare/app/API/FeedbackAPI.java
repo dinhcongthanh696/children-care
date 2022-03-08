@@ -15,7 +15,9 @@ import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import childrencare.app.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import childrencare.app.CaptchaGenerator;
 import childrencare.app.model.FeedbackModel;
-import childrencare.app.model.ReservationModel;
-import childrencare.app.model.ServiceModel;
 import childrencare.app.model.UserModel;
 import childrencare.app.repository.FeedbackRepository;
 import childrencare.app.repository.ReservationRepository;
-import childrencare.app.repository.ServiceRepository;
 import childrencare.app.repository.UserRepository;
 
 @RestController
@@ -43,14 +42,19 @@ public class FeedbackAPI {
 	private final FeedbackRepository feedbackRepository;
 	private final ReservationRepository reservationRepository;
 	private Map<String,String> usersCaptcha;
+	private final FeedbackService feedbackService;
 	
 	@Autowired
-	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,FeedbackRepository feedbackRepository,ReservationRepository reservationRepository) {
+	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,
+					   FeedbackRepository feedbackRepository,
+					   ReservationRepository reservationRepository,
+					   FeedbackService feedbackService) {
 		this.mailSender = mailSender;
 		this.userRepository = userRepository;
 		this.feedbackRepository = feedbackRepository;
 		this.reservationRepository = reservationRepository;
 		this.usersCaptcha = new HashMap<String,String>();
+		this.feedbackService = feedbackService;
 	}
 	
 	@PostMapping("/verify-captcha")
@@ -149,5 +153,20 @@ public class FeedbackAPI {
 			return "fail";
 		}
 		return "success";
+	}
+
+	@GetMapping("/feedback")
+	public Page<FeedbackModel> filterFeedback(
+			@RequestParam(name="page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name="serviceId", required = false, defaultValue = "-1") Integer sid,
+			@RequestParam(name="numberOfStar", required = false, defaultValue = "-1") Integer numberOfStar,
+			@RequestParam(name="status", required = false, defaultValue = "-1") Integer status,
+			@RequestParam(name="content", required = false, defaultValue = "") String content,
+			@RequestParam(name="contactName", required = false, defaultValue = "") String contactName
+	) {
+
+		Page<FeedbackModel> feedbacks = feedbackService.getPaginatedFeedback
+				(page, 3, sid, numberOfStar, contactName, content, status);
+		return feedbacks;
 	}
 }
