@@ -94,15 +94,15 @@ public class ManagerController {
     	List<String> sortProperties = Arrays.asList("u.email","u.fullname","u.phone","u.status");
     	Collections.swap(sortProperties, sortProperties.indexOf("u."+sortProperty), 0);
     	Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, directions);
-    	model.addAttribute("customers", customersPageable.toList().stream().map(customer -> {
+    	for(CustomerModel customer : customersPageable.toList()) {
     		if(customer.getCustomer_user().getAvatar() != null)
-    		customer.getCustomer_user().setBase64AvatarEncode(
-    				Base64
-    				.getEncoder().
-    				encodeToString(customer.getCustomer_user().getAvatar()));
-    		return customer;
-    	}).toList()
-    	);
+        		customer.getCustomer_user().setBase64AvatarEncode(
+        				Base64
+        				.getEncoder().
+        				encodeToString(customer.getCustomer_user().getAvatar()));
+    	}
+    	
+    	model.addAttribute("customers",customersPageable.toList());
     	model.addAttribute("currentPage", customersPageable.getNumber());
     	model.addAttribute("totalPages", customersPageable.getTotalPages());
     	model.addAttribute("directionsValue", directionsValue);

@@ -102,6 +102,7 @@ public class AdminController {
 		List<Integer> reservationTotalNumbers = new ArrayList<>();
 		int totalReservationCanceled = 0;
 		int totalReservationSubmitted = 0;
+		int totalReservationSuccess = 0;
 		for(int i = 0 ; i < 7 ; i++) {
 			sevenLastDays.add(dateFormatter.format(currentDate.getTime()));
 			int reservationSuccess = reservationService.countReservationByStatusAndDate("success", currentDate.getTime());
@@ -109,12 +110,12 @@ public class AdminController {
 			int reservationSubmitted = reservationService.countReservationByStatusAndDate("submitted", currentDate.getTime());
 			totalReservationSubmitted += reservationSubmitted;
 			totalReservationCanceled += reservationCanceled;
+			totalReservationSuccess += reservationSuccess;
 			reservationSuccessNumbers.add(reservationSuccess);
 			reservationTotalNumbers.add(reservationSuccess+reservationCanceled+reservationSubmitted);
 			currentDate.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		ObjectMapper objectMapper = new ObjectMapper();
-		int totalReservationSuccess = reservationSuccessNumbers.stream().reduce(0,(a,b) -> a + b);
 		
 		model.addAttribute("totalCustomerNewlyRegistered", totalCustomerNewlyRegistered);
 		model.addAttribute("totalCustomerNewlyReserved", totalCustomerNewlyReserved);
