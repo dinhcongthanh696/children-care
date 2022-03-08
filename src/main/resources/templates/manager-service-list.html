@@ -129,6 +129,8 @@ th, td {
         			<label for="service-file">Image </label>
         			<img id="service-image" />
     				<input type="file" class="form-control" id="service-file" onchange="imagePreviewHandler(this)"/>
+    				<span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
+    				<h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
         		</div>
         		<div class="form-check">
         			<label for="service-status" class="form-check-label">Status(Showing or Hiding)</label>
@@ -137,7 +139,8 @@ th, td {
         		<button onclick="addNewService()"
         			th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
 					th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
-					th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"        			
+					th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
+					id="add-new-service-button"        			
         		>Save your changes</button>
       		</div>
       		<div class="modal-footer">
@@ -406,6 +409,25 @@ th, td {
 		lastChosenPreview = URL.createObjectURL(imageFile);
 		var imageElement = document.getElementById("service-image");
 		imageElement.src = lastChosenPreview;
+		
+		var isValidImageFile = true;
+		var message = "";
+		if(imageFile.type.split("/")[0] !== "image"){
+			message = "File must be image";
+			isValidImageFile = false;
+		}else if(imageFile.size / 1000000 > 20){ // COVERT size of file to MB
+			message =  "File is more than 20 MB";
+			isValidImageFile = false;
+		}
+		
+		const addNewServiceButtonElement = document.getElementById("add-new-service-button");
+		const imageFileMessageElement = document.getElementById("image-file-message");
+		if(!isValidImageFile){
+			addNewServiceButtonElement.disabled = true;
+		}else{
+			addNewServiceButtonElement.disabled = false;
+		}
+		imageFileMessageElement.innerHTML = message;
 	}
 	
 	</script>

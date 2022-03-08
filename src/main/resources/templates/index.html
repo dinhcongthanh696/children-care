@@ -224,7 +224,10 @@
                         <li>
                         	<i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
                         	<label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
-                        	<select class="form-control" id="languages-switcher" onchange="changeLanguage(this.value)">
+                        	<select class="form-control" id="languages-switcher" 
+                        			onchange="changeLanguage(this.value)"
+                        			style="height : 34px;"
+                        			>
                         		<option value="en" th:selected="${lang == 'en'}">
                         			<span th:text="#{lang.en}"></span>
                         		</option>
