@@ -37,6 +37,9 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
     @Query(value = "select max(p.post_id) from post as p", nativeQuery = true)
     int maxPostID();
 
+    @Query(value = "select * from post as p where p.post_id = ?1", nativeQuery = true)
+    PostModel getPostModelByPostId(int pid);
+
 
     @Modifying
     @Query(value = "UPDATE post \n" +
