@@ -71,7 +71,7 @@ public class ManagerController {
         return "ServiceDetail-Manager";
     }
     
-    /*@GetMapping("/customers")
+    @GetMapping("/customers")
     @Transactional
     public String toCustomersList(@RequestParam(name = "search" , required = false , defaultValue = "") String search ,
     		@RequestParam(name = "status" , required = false , defaultValue = "-1") int status , 
@@ -113,7 +113,7 @@ public class ManagerController {
     	model.addAttribute("sortProperties", sortProperties);
     	
     	return "manager-customer-list";
-    }*/
+    }
 
 
 //    @RequestMapping(value = "/feedback", method = {RequestMethod.GET, RequestMethod.POST})
