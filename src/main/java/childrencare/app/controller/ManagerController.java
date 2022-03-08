@@ -64,7 +64,8 @@ public class ManagerController {
             , @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page
             , @RequestParam(name = "type", required = false, defaultValue = "-1") String type
             , @RequestParam(name = "categoryId", required = false, defaultValue = "-1") String categoryId
-            , @RequestParam(name = "titleORauthor", required = false) String title) {
+            , @RequestParam(name = "titleORauthor", required = false) String title
+            , @RequestParam(name = "sortBy", required = false, defaultValue = "post_id") String sortBy) {
         List<PostCategoryModel> postCategoryModelList = blogCategoryService.findAll();
 
 
@@ -72,18 +73,17 @@ public class ManagerController {
         Page<PostModel> postModels = null;
 
         if (categoryId.equals("-1") && type.equals("-1")) {
-            postModels = postService.findAllAndSearch(title, null, null, currentPage, POSTSIZE);
+            postModels = postService.findAllAndSearch(title, null, null, sortBy, currentPage, POSTSIZE);
         } else if (categoryId.equals("-1") && !type.equals("-1")) {
-            postModels = postService.findAllAndSearch(title, null, type, currentPage, POSTSIZE);
+            postModels = postService.findAllAndSearch(title, null, type, sortBy, currentPage, POSTSIZE);
         } else if (!categoryId.equals("-1") && type.equals("-1")) {
-            postModels = postService.findAllAndSearch(title, categoryId, null, currentPage, POSTSIZE);
+            postModels = postService.findAllAndSearch(title, categoryId, null, sortBy, currentPage, POSTSIZE);
         } else {
-            postModels = postService.findAllAndSearch(title, categoryId, type, currentPage, POSTSIZE);
+            postModels = postService.findAllAndSearch(title, categoryId, type, sortBy, currentPage, POSTSIZE);
         }
 
         List<PostModel> list = postModels.getContent();
-        for (PostModel p : list
-        ) {
+        for (PostModel p : list) {
             p.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(p.getThumbnail()));
         }
 
@@ -114,6 +114,7 @@ public class ManagerController {
         model.addAttribute("type", type);
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("titleORauthor", title);
+        model.addAttribute("sortBy", sortBy);
 
 
         return "post_manager";
@@ -169,9 +170,9 @@ public class ManagerController {
         Calendar cal = Calendar.getInstance();
 
         Date dateUpdate = null;
-        if(!updateAt.equals("")){
+        if (!updateAt.equals("")) {
             dateUpdate = formatter.parse(updateAt);
-        }else{
+        } else {
             dateUpdate = cal.getTime();
         }
 

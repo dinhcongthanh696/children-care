@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 import java.sql.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 @Controller
@@ -34,12 +37,14 @@ public class ReservationListStaffController {
     @Autowired
     private StatusService statusService;
 
+    @GetMapping(value = "/staffView/reservationStaff/home")
+    public String viewHome(Model model,HttpSession session){
+        return getPageStaff(model,1,session,0,"reservation_id","asc");
+    }
 
     @RequestMapping(value = "/home/page/{pageNum}", method = { RequestMethod.GET, RequestMethod.POST })
-    public String getPage(Model model, @PathVariable(name = "pageNum") int pageNum,
+    public String getPageStaff(Model model, @PathVariable(name = "pageNum") int pageNum,
                           HttpSession session,
-                          @RequestParam(name = "dateFrom",required = false) Date dateFrom,
-                          @RequestParam(value = "dateTo",required = false) Date dateTo,
                           @RequestParam(name =  "key",required = false,defaultValue = "0") int key,
                           @RequestParam(name =  "sortField",required = false,defaultValue = "reservation_id") String sortField,
                           @RequestParam(name =  "sortDir",required = false,defaultValue = "asc") String sortDir){
