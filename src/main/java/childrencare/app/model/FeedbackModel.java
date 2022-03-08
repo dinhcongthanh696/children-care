@@ -40,7 +40,7 @@ public class FeedbackModel {
 	private ServiceModel service;
 	
 	@Column(name = "rated_star")
-	private double ratedStart;
+	private double ratedStar;
 	
 	private String comment;
 	

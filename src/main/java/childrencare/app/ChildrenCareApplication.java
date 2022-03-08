@@ -9,6 +9,13 @@ import javax.transaction.Transactional;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+
+import childrencare.app.model.CustomerModel;
+import childrencare.app.repository.CustomerRepository;
 
 
 
@@ -24,7 +31,6 @@ public class ChildrenCareApplication {
 		ReservationModel test = reservationRepository.getReservationModelByReservationId(1);
 		System.out.println("12345678987665432");
 		System.out.println(test.getFullname());*/
-		
 		
 	}
 

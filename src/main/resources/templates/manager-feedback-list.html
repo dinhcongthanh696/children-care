@@ -1,275 +1,316 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Director | Simple Tables</title>
-  <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-  <meta name="description" content="Developed By M Abdur Rokib Promy">
-  <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
-  <!-- bootstrap 3.0.2 -->
-  <link href="../css_admin/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-  <!-- font Awesome -->
-  <link href="../css_admin/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-  <!-- Ionicons -->
-  <link href="../css_admin/ionicons.min.css" rel="stylesheet" type="text/css"/>
-  <!-- google font -->
-  <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-  <!-- Theme style -->
-  <link href="../css_admin/style.css" rel="stylesheet" type="text/css"/>
-  <link rel="stylesheet" href="../css/paging.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+    <meta charset="UTF-8">
+    <title>Director | Simple Tables</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="description" content="Developed By M Abdur Rokib Promy">
+    <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
+    <!-- bootstrap 3.0.2 -->
+    <link href="../css_admin/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <!-- font Awesome -->
+    <link href="../css_admin/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <!-- Ionicons -->
+    <link href="../css_admin/ionicons.min.css" rel="stylesheet" type="text/css"/>
+    <!-- google font -->
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <!-- Theme style -->
+    <link href="../css_admin/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="../css/paging.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-  <![endif]-->
-  <script>
-    var lastChoosenImg;
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 
-    function reviewImg(inputElement, slideId) {
-      if (lastChoosenImg)
-        URL.revokeObjectURL(lastChoosenImg);
-      var file = inputElement.files[0];
-      lastChoosenImg = URL.createObjectURL(file);
-      var img = document.getElementById('previewImg' + slideId);
-      img.src = lastChoosenImg;
+    <script>
+        var lastChoosenImg;
 
-    }
+        function reviewImg(inputElement, slideId) {
+            if (lastChoosenImg)
+                URL.revokeObjectURL(lastChoosenImg);
+            var file = inputElement.files[0];
+            lastChoosenImg = URL.createObjectURL(file);
+            var img = document.getElementById('previewImg' + slideId);
+            img.src = lastChoosenImg;
 
-    function addImgPreview(input) {
-      if (lastChoosenImg)
-        URL.revokeObjectURL(lastChoosenImg);
-      var file = input.files[0];
-      lastChoosenImg = URL.createObjectURL(file);
-      var img = document.getElementById('imgAddPreview');
-      img.src = lastChoosenImg;
-    }
+        }
 
-  </script>
+        function addImgPreview(input) {
+            if (lastChoosenImg)
+                URL.revokeObjectURL(lastChoosenImg);
+            var file = input.files[0];
+            lastChoosenImg = URL.createObjectURL(file);
+            var img = document.getElementById('imgAddPreview');
+            img.src = lastChoosenImg;
+        }
+
+        //getData
+        function getFeedbackData(page) {
+
+            var numberOfStar = $('#star-slt-box').val();
+            var serviceId = $('#service-slt-box').val();
+            var status = $('#status-slt-box').val();
+            var content = $('#content-box').val();
+            var contactName = $('#contactName-box').val();
+            var url = '/ChildrenCare/manager/feedback?';
+            // var formData = new FormData();
+            // formData.append("page", page);
+            // formData.append("serviceId", serviceId);
+            // formData.append("numberOfStar", numberOfStar);
+            // formData.append("content", content);
+            // formData.append("contactName", contactName);
+            url += 'page=' + page;
+            url += '&serviceId=' + serviceId;
+            url += '&numberOfStar=' + numberOfStar;
+            url += '&status=' + status;
+            url += '&content=' + content;
+            url += '&contactName=' + contactName;
+            window.location.href = url;
+        }
+        function updateStatus(fid, status){
+            let i;
+            if(status){
+                i = 0;
+            }
+            else{
+                i = 1;
+            }
+            window.location.href = "/ChildrenCare/manager/updateFeedbackStatus?feedback_id=" + fid + "&status=" + i;
+        }
+
+    </script>
 
 </head>
 <body class="skin-black">
 <!-- header logo: style can be found in header.less -->
 <header class="header">
-  <a href="index.html" class="logo">
-    <!-- Add the class icon to your logo image or logo icon to add the margining -->
-    ChildrenCare
-  </a>
-  <!-- Header Navbar: style can be found in header.less -->
-  <div th:replace="header_admin::navbarRight"></div>
+    <a href="index.html" class="logo">
+        <!-- Add the class icon to your logo image or logo icon to add the margining -->
+        ChildrenCare
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <div th:replace="header_admin::navbarRight"></div>
 </header>
 <div class="wrapper row-offcanvas row-offcanvas-left">
-  <!-- Left side column. contains the logo and sidebar -->
-  <div th:replace="navBar_admin::leftSide_admin('/manager/post')"></div>
-  <!-- Right side column. Contains the navbar and content of the page -->
-  <aside class="right-side">
-    <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="panel">
-            <header class="panel-heading">
-              Post Manager
-            </header>
-            <h3>No slider</h3>
-            <!-- <div class="box-header"> -->
-            <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
-            <div class="panel-body table-responsive">
-              <div class="row">
-                <div class="col-sm-6">
-                  <form th:action="@{/manager/post}">
-                    <input type="text" name="titleORauthor" class="form-control input-sm pull-left"
-                           style="width: 200px;"
-                           placeholder="Search by title/author.."/>
-                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                  </form>
-                </div>
-                <div class="col-sm-4">
-                  <form id="myForm" th:action="@{/manager/post}">
-                    <select name="type" th:onchange="filterFunction()">
-                      <option th:selected="${type} == -1" value="-1">All</option>
-                      <option th:selected="${type} == 1" value="1">Show</option>
-                      <option th:selected="${type} == 0" value="0">Hide</option>
-                    </select>
-
-                    <select name="categoryId" th:onchange="filterFunction()">
-                      <option th:selected="${categoryId} == -1" value="-1">All</option>
-                      <div th:each="listCategoryPost:${postCategoryModelList}">
-                        <option th:selected="${categoryId} == ${listCategoryPost.getPostCategoryId()}"
-                                th:value="${listCategoryPost.getPostCategoryId()}"
-                                th:text="${listCategoryPost.getPostCategoryName()}">
-                        </option>
-                      </div>
-                    </select>
-                  </form>
-                </div>
-                <div class="col-sm-2">
-                  <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
-                    <i class="fa fa-plus" aria-hidden="true"></i> <span>New Slider</span></a>
-                  <!-- Add Modal HTML -->
-                  <div id="addSliderModal" class="modal fade">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <form action="/ChildrenCare/managerblog" method="post"
-                              enctype="multipart/form-data">
-                          <div class="modal-header">
-                            <h4 class="modal-title">Add New Post</h4>
-                            <button type="button" class="close" data-dismiss="modal"
-                                    aria-hidden="true">&times;
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="form-group">
-                              <label>Post ID</label>
-                              <input name="" type="text" class="form-control"
-                                     required>
+    <!-- Left side column. contains the logo and sidebar -->
+    <div th:replace="navBar_admin::leftSide_admin('/manager/feedback')"></div>
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side">
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            Feedback Manager
+                        </header>
+                        <h4>Filter By</h4>
+                        <!-- <div class="box-header"> -->
+<!--                        <h3 class="box-title">Feedback Table</h3>-->
+                        <div class="panel-body table-responsive">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-sm-3 col-md-3">
+                                        <label> Contact Name </label>
+                                        <input class="form-control mb-4" id="contactName-box" type="text"
+                                               placeholder="Search by Contact Name"
+                                               th:value="${contactName}"
+                                               th:onchange="getFeedbackData([[${feedbackPage.number}]]">
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <label> Service </label>
+                                        <select id="service-slt-box" class="form-control mb-0">
+                                            <option th:selected="${serviceId == -1 ? true : false}" value="-1">All</option>
+                                            <div th:each="service : ${serviceList}">
+                                                <option
+                                                        th:selected="${serviceId == service.serviceId ? true : false}"
+                                                        th:value="${service.serviceId}"
+                                                        th:text="${service.title}">
+                                                </option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <label> Rated Star </label>
+                                        <select id="star-slt-box" class="form-control mb-0">
+                                            <option th:selected="${numberOfStar == -1 ? true : false}" value="-1">All</option>
+                                            <option th:selected="${numberOfStar == 0 ? true : false}" value="0">0</option>
+                                            <option th:selected="${numberOfStar == 1 ? true : false}" value="1">1</option>
+                                            <option th:selected="${numberOfStar == 2 ? true : false}" value="2">2</option>
+                                            <option th:selected="${numberOfStar == 3 ? true : false}" value="3">3</option>
+                                            <option th:selected="${numberOfStar == 4 ? true : false}" value="4">4</option>
+                                            <option th:selected="${numberOfStar == 5 ? true : false}" value="5">5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <label> Status </label>
+                                        <select id="status-slt-box" class="form-control mb-0">
+                                            <option th:selected="${status == -1}" value="-1">All</option>
+                                            <option th:selected="${status == 1}" value="0"> Hide</option>
+                                            <option th:selected="${status == 1}" value="1"> Show</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3 col-md-3">
+                                        <label> Content </label>
+                                        <input class="form-control mb-4" id="content-box" type="text"
+                                               placeholder="Search by Content" th:value="${content}">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                              <label>Brief Infor</label>
-                              <input name="" type="text" class="form-control"
-                                     required>
+                            <br>
+                            <div class="row" style="text-align: center" >
+                                <button type="button" class="btn btn-primary"
+                                        th:onclick="getFeedbackData([[${feedbackPage.number + 1}]])"> Filter </button>
                             </div>
-                            <div class="form-group">
-                              <label>Create At</label>
-                              <input name="" type="date" class="form-control"
-                                     required>
+                            <div class="row">
+                                <table id="emp-table" class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Contact Full Name</th>
+                                        <th>Service</th>
+                                        <th>Rated Star</th>
+                                        <th>Status</th>
+                                        <th>Content</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="feedback : ${feedbacks}">
+                                        <td th:text="${feedback.customer.customer_user.fullname}"></td>
+                                        <td th:text="${feedback.service.title}"></td>
+                                        <td th:text="${feedback.ratedStar}"></td>
+                                        <td th:text="${feedback.status}"></td>
+                                        <td th:text="${feedback.comment}"></td>
+                                        <td>
+                                            <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
+                                                <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
+                                                <span>Edit</span></a>
+                                            <a href="#" class="btn btn-success " data-toggle="modal"
+                                               th:onclick="updateStatus([[${feedback.feedbackId}]],
+                                                            [[${feedback.status}]])">
+                                                <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
+                                                <span>Change Status</span></a>
+                                            <!-- Add Modal HTML -->
+                                            <div id="addSliderModal" class="modal fade">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Feedback Details</h4>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-hidden="true">&times;
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label>Contact Full Name</label>
+                                                                    <input name="" type="text" class="form-control"
+                                                                           th:value="${feedback.customer.customer_user.fullname}"
+                                                                           readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Email</label>
+                                                                    <input name="" type="text" class="form-control"
+                                                                           th:value="${feedback.customer.customer_user.email}"
+                                                                           readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Mobile</label>
+                                                                    <input name="" type="date" class="form-control"
+                                                                           th:value="${feedback.customer.customer_user.phone}"
+                                                                           readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Service</label>
+                                                                    <input name="" type="text" class="form-control"
+                                                                           th:value="${feedback.service.serviceId}"
+                                                                           readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Rated Star</label>
+                                                                    <input name="" type="text" class="form-control"
+                                                                           th:value="${feedback.ratedStar}"
+                                                                           readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Thumbnail</label>
+                                                                    <img th:src="${'data:image/gif;base64,'+ feedback.base64ImageEncode}"
+                                                                         style="width : 280px;"/>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Post Status</label>
+                                                                    <select name="statusAdd"
+                                                                            class="medium_grey text-muted mb-1">
+                                                                        <option value="1">Show</option>
+                                                                        <option value="0">Hide</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="button" class="btn btn-default"
+                                                                       data-dismiss="modal" value="Cancel">
+                                                                <input type="submit" class="btn btn-success"
+                                                                       th:onclick="updateStatus([[${feedback.feedbackId}]],
+                                                                                                [[${feedback.status}]])"
+                                                                       value="Save">
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="form-group">
-                              <label>Post Detail</label>
-                              <input name="" type="text" class="form-control"
-                                     required>
-                            </div>
-                            <div class="form-group">
-                              <label>Thumbnail</label>
-                              <img id="imgAddPreview" style="height: 200px"
-                                   class="form-control" alt="No image" required>
-                              <input name="" onchange="addImgPreview(this)"
-                                     type="file">
-
-                            </div>
-                            <div class="form-group">
-                              <label>Post Title</label>
-                              <input name="" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                              <label>Author</label>
-                              <input name="" type="text" class="form-control"
-                                     required>
-                            </div>
-                            <div class="form-group">
-                              <label>Post Status</label>
-                              <select name="statusAdd" class="small text-muted mb-1">
-                                <option value="1">Show</option>
-                                <option value="0">Hide</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <input type="button" class="btn btn-default"
-                                   data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                          </div>
-                        </form>
-                      </div>
+                        </div><!-- /.box -->
                     </div>
-                  </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <ul class="post-pagination2 text-center">
+                        <li><a class="left"
+                               href="#"
+                               th:if="${feedbackPage.number != 1}"
+                               th:onclick="getFeedbackData(1)"><i
+                                class="fa fa-angle-double-left"
+                                aria-hidden="true"></i><span>FIRST</span> </a>
+                        </li>
+                        <li th:each="pageNumber:${pageNumbers}"
+                            th:if="${feedbackPage.totalPages > 1}"
+                            th:class="${pageNumber == feedbackPage.number}?'page-item active':'page-item'">
+                            <a href="#" th:onclick="getFeedbackData([[${pageNumber + 1}]])"
+                               th:text="${pageNumber + 1}"> </a>
+                        </li>
 
-
-                <table id="emp-table" class="table table-hover">
-                  <thead>
-                  <tr>
-                    <th>Post ID</th>
-                    <th>Thumbnail</th>
-                    <th>Post Title</th>
-                    <th>Featured</th>
-                    <th>Post Category</th>
-                    <th>Author</th>
-                    <th>Status</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <div th:each="list:${listPost}">
-                    <tr>
-
-                      <td th:text="${list.getPostId()}"></td>
-                      <td>
-                        <div>
-                          <img style="width: 100px; height: 50px;">
-                        </div>
-                      </td>
-                      <td th:text="${list.getTitle()}"></td>
-                      <td th:text="${list.getPostId()}"></td>
-                      <td th:text="${list.getPostCategory().getPostCategoryName()}"></td>
-                      <td th:text="${list.getAuthor().getFullname()}"></td>
-                      <td>
-                        <form id="myForm2" th:action="@{/manager/post}" method="post">
-                          <input type="checkbox" name="status"
-                                 th:checked="${list.isStatus()}"
-                                 th:value="${list.isStatus() ? '0':'1'}"
-                                 th:onchange="filterFunction2()">
-                          <input type="hidden" name="pid" th:value="${list.getPostId}">
-                        </form>
-                        <i th:class="${list.isStatus() ? 'fas fa-eye' : 'fas fa-eye-slash'}"
-                           th:text="${list.isStatus() ? '-Showing' : '-Hiding'}"
-                           style="color : back;"
-                           th:id="'service-status-icon'+${list.getPostId()}"></i>
-                      </td>
-                      <td>
-                        <a th:href="@{post(pid=${1})}">Details</a>
-                        <a th:href="@{post(pid=${1})}">Edit</a>
-                      </td>
-                    </tr>
-                  </div>
-                  </tbody>
-                </table>
-              </div>
-            </div><!-- /.box -->
-          </div>
+                        <li><a class="right"
+                                 href="#"
+                               th:if="${feedbackPage.number != feedbackPage.totalPages }"
+                               th:onclick="getFeedbackData([[${feedbackPage.totalPages}]])"><span>LAST</span><i
+                                class="fa fa-angle-double-right"
+                                aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section><!-- /.content -->
+        <div class="footer-main">
+            Children-Care System Management
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xl-12">
-          <ul class="post-pagination2 text-center">
-            <li><a class="left"
-                   th:href="@{/manager/post(page=0,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><i
-                    class="fa fa-angle-double-left"
-                    aria-hidden="true"></i><span>FIRST</span></a>
-            </li>
-            <li class="page-item active" th:each="pageNumber:${pageNumbers}"
-                th:if="${pagingPost.totalPages >1}"
-                th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
-              <a th:href="@{/manager/post(page=${pageNumber},type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"
-                 th:text="${pageNumber}"></a>
-            </li>
 
-            <li><a class="right"
-                   th:href="@{/manager/post(page=${pagingPost.totalPages}-1,type=${type},categoryId=${categoryId},titleORauthor=${titleORauthor})}"><span>LAST</span><i
-                    class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section><!-- /.content -->
-    <div class="footer-main">
-      Children-Care System Management
-    </div>
-  </aside><!-- /.right-side -->
+    </aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
-
-<script>
-
-  function filterFunction() {
-    document.getElementById("myForm").submit();
-  }
-
-  function filterFunction2() {
-    document.getElementById("myForm2").submit();
-  }
-</script>
 
 
 <!-- jQuery 2.0.2 -->

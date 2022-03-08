@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class FeedbackController {
     }
 
     @PostMapping("/feedback")
+    @Transactional
     public void feedbackHome(@RequestParam("fullname") String fullname,
                                @RequestParam("gender") Integer get_gender,
                                @RequestParam("email") String email,
@@ -66,19 +68,6 @@ public class FeedbackController {
     }
 
 
-    /* @GetMapping(path = "/services/{id}")
-    public String getServiceFeedback(Model model, @PathVariable(name = "id") int id){
-        ServiceModel serviceModel = new ServiceModel();
-        serviceModel.setServiceId(id);
-        List<FeedbackModel> feedbackModels = feedbackRepository.findByService(serviceModel);
-        for (FeedbackModel feedbackModel:feedbackModels
-             ) {
-            System.out.print(feedbackModel.getComment());
-        }
-        model.addAttribute("feedbackModels", feedbackModels);
-        return "ServiceDetail";
-    }
-    */
 
     @GetMapping("/managerPage")
     public String getManagerScreen(){

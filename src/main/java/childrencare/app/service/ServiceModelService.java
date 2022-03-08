@@ -45,7 +45,7 @@ public class ServiceModelService {
 			double averageStars = 0;
 			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
-				averageStars += feedback.getRatedStart();
+				averageStars += feedback.getRatedStar();
 				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
@@ -73,7 +73,7 @@ public class ServiceModelService {
 			double averageStars = 0;
 			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
-				averageStars += feedback.getRatedStart();
+				averageStars += feedback.getRatedStar();
 				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
@@ -105,7 +105,7 @@ public class ServiceModelService {
 			feedbacks = feedbackRepository.findByServiceByLastDays(service.getServiceId(), numberOfDays);
 			service.setFeedbacks(feedbacks);
 			for(FeedbackModel feedback : service.getFeedbacks()) {
-				averageStars += feedback.getRatedStart();
+				averageStars += feedback.getRatedStar();
 				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {
@@ -133,7 +133,7 @@ public class ServiceModelService {
 			double averageStars = 0;
 			boolean isHavingFeedback = false;
 			for(FeedbackModel feedback : service.getFeedbacks()) {
-				averageStars += feedback.getRatedStart();
+				averageStars += feedback.getRatedStar();
 				isHavingFeedback = true;
 			}
 			if(averageStars != 0) {

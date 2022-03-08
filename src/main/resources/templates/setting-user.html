@@ -67,6 +67,17 @@
 							<div class="container-fluid">
 	
 	<div class="container-fluid">
+		<div class="row" style="background-color: #EDEDED;color : black;padding: 25px;">
+				<form th:action="@{/admin/setting/users}" method="post">
+					<label for="search-query" class="form-check-label">Search : </label>
+							<input type="text" class="form-check-input" placeholder="Search By username..."
+									id="search" th:value="${search}" name="search"
+							>
+								<button type="submit" class="btn btn-primary input-group-text">
+									<span class="fa fa-search"></span>
+								</button>
+				</form>
+		</div>
 		<table class="table table-hover table-striped table-dark table-borderless">
 			<thead>
 				<tr>
@@ -119,9 +130,7 @@
 	
 	<script type="text/javascript">
 	function changePage(pageNumber) {
-		var search = document.querySelector("#search").value;
-		window.location = "/ChildrenCare/admin/setting/users?page=" + pageNumber
-				+ "&search=" + search;
+		window.location = "/ChildrenCare/admin/setting/users?page=" + pageNumber;
 	}
 	
 	function saveSettingsUser(){

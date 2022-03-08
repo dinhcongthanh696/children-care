@@ -34,6 +34,11 @@ public class ReservationListManagerController {
     @Autowired
     private StatusService statusService;
 
+    @GetMapping(value = "/managerView/reservationManager/home")
+    public String viewHome(Model model){
+        return getPage(model,1,0,"id","asc");
+    }
+
     @RequestMapping(value = "/home/page/{pageNum}", method = { RequestMethod.GET, RequestMethod.POST })
     public String getPage(Model model, @PathVariable(name = "pageNum") int pageNum,
                            @RequestParam(name =  "key",required = false,defaultValue = "0") int key,
