@@ -79,15 +79,42 @@
             url += '&contactName=' + contactName;
             window.location.href = url;
         }
+        function renderStar(){
+            // for(let i = 0; i < 5; i++){
+            //     let star = document.createElement('i');
+            //     star.classList.add('fas fa-star rated');
+            //     $('#star').appendChild(star);
+            // }
+            alert("Load");
+        }
         function updateStatus(fid, status){
             let i;
             if(status){
-                i = 0;
-            }
-            else{
                 i = 1;
             }
-            window.location.href = "/ChildrenCare/manager/updateFeedbackStatus?feedback_id=" + fid + "&status=" + i;
+            else{
+                i = 0;
+            }
+            let url = "/ChildrenCare/manager/updateFeedbackStatus";
+            let formData = new FormData;
+            formData.append("feedback_id", fid);
+            formData.append("status", i);
+            fetch(url, {
+                method: 'PUT',
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                body : formData;
+            }).then(response => {
+                switch(response.status){
+                    case 403 :
+                        alert("Your are not allowed to save any changes");
+                        break;
+                    case 200 :
+                        alert('Success');
+                        location.reload();
+                }
+            })
+
         }
 
     </script>
@@ -113,10 +140,9 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel">
-                        <header class="panel-heading">
+                        <header class="panel-heading" style="text-align: center">
                             Feedback Manager
                         </header>
-                        <h4>Filter By</h4>
                         <!-- <div class="box-header"> -->
 <!--                        <h3 class="box-title">Feedback Table</h3>-->
                         <div class="panel-body table-responsive">
@@ -190,18 +216,25 @@
                                     <tr th:each="feedback : ${feedbacks}">
                                         <td th:text="${feedback.customer.customer_user.fullname}"></td>
                                         <td th:text="${feedback.service.title}"></td>
-                                        <td th:text="${feedback.ratedStar}"></td>
-                                        <td th:text="${feedback.status}"></td>
+                                        <td>
+                                            <span th:each="index : ${#numbers.sequence(1, feedback.ratedStar)}">
+                                                <i class="fas fa-star rated" style="color: #d9b814"> </i>
+                                            </span>
+                                            <span th:each="index : ${#numbers.sequence(feedback.ratedStar + 1, 5)}">
+                                                <i class="fas fa-star rated"> </i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <i 	th:class="${feedback.status ? 'fas fa-eye' : 'fas fa-eye-slash'}"
+                                                  th:text="${feedback.status ? '-Showing' : '-Hiding'}"
+                                                  style="color : black;"
+                                                  th:id="'service-status-icon'+${feedback.feedbackId}"></i>
+                                        </td>
                                         <td th:text="${feedback.comment}"></td>
                                         <td>
                                             <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
                                                 <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
                                                 <span>Edit</span></a>
-                                            <a href="#" class="btn btn-success " data-toggle="modal"
-                                               th:onclick="updateStatus([[${feedback.feedbackId}]],
-                                                            [[${feedback.status}]])">
-                                                <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
-                                                <span>Change Status</span></a>
                                             <!-- Add Modal HTML -->
                                             <div id="addSliderModal" class="modal fade">
                                                 <div class="modal-dialog">

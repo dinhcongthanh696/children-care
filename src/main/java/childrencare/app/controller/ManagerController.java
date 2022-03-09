@@ -223,10 +223,9 @@ public class ManagerController {
     }
 
     @Transactional
-    @GetMapping("/updateFeedbackStatus")
-    public String updateStatus(@RequestParam(name = "feedback_id") Integer fid,
+    @PutMapping("/updateFeedbackStatus")
+    public void updateStatus(@RequestParam(name = "feedback_id") Integer fid,
                                @RequestParam(name = "status") Integer status){
         feedbackService.changeFeedbackStatus(status, fid);
-        return "redirect:/manager/feedback?page=1";
     }
 }

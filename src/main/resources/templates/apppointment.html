@@ -283,12 +283,10 @@
                             </div>
                             <form method="post" th:action="@{/pay?price=} + ${totalPrice}">
                                 <div class="button-box">
-                                    <input type="radio" name="payment" required>
-                                    <div class="btn-one" id="paypal-btn"
-                                    > <b> Check out with Pay<span style="color: #3250a8">Pal</span> </b> </div>
+                                    <button class="btn-one" id="paypal-btn"
+                                    > <b> Check out with Pay<span style="color: #3250a8">Pal</span> </b> </button>
                                 </div>
                                 <div class="button-box">
-                                    <input type="radio" name="payment">
                                     <div class="btn-one" id="cashCheck-btn"
                                     > <b> Check out with Cash</b> </div>
                                 </div>

@@ -30,7 +30,7 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-        	<li th:each="permission : ${session.user.userRole.permissions.?[screen.method == 'GET']}" 
+        	<li th:each="permission : ${session.user.userRole.permissions.?[screen.method == 'GET']}"
         		th:if="not ${#strings.containsIgnoreCase(permission.screen.url,'api')} and not ${#strings.containsIgnoreCase(permission.screen.screenName,'detail')} and not ${#strings.containsIgnoreCase(permission.screen.url,'changStatus')}"
         		th:class="${currentUrl == permission.screen.url} ? 'active' : ''" >
         		<a th:href="@{${permission.screen.url}}">
@@ -39,7 +39,7 @@
         	</li>
 <!--            de tam thanh nhe-->
             <li>
-                <a href="/ChildrenCare/manager/feedbackManager/page/1">
+                <a href="/ChildrenCare/manager/feedback?page=1">
                     <i class="fa fa-database" aria-hidden="true"></i> <span>Feedback Manager</span>
                 </a>
             </li>
