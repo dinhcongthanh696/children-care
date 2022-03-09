@@ -3,6 +3,7 @@ package childrencare.app.repository;
 import java.util.Date;
 import java.util.List;
 
+import childrencare.app.model.UserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -55,5 +56,6 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 
 	@Query(value = "select MAX(customer_id) from customer",nativeQuery = true)
 	int lastIDCus();
+
 
 }

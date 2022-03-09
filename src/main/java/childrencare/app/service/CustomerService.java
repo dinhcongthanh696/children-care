@@ -2,6 +2,7 @@ package childrencare.app.service;
 
 import childrencare.app.model.CustomerModel;
 import childrencare.app.model.ReservationModel;
+import childrencare.app.model.ServiceModel;
 import childrencare.app.repository.UserRepository;
 
 import java.util.List;
@@ -81,5 +82,9 @@ public class CustomerService {
 
 	public int lastIDCus() {
 		return customerRepository.lastIDCus();
+	}
+
+	public CustomerModel getCustomerById(int id){
+		return customerRepository.findById(id).get();
 	}
 }
