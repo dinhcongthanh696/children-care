@@ -70,6 +70,17 @@ public class ManagerController {
         model.addAttribute("service", service);
         return "ServiceDetail-Manager";
     }
+
+    @GetMapping("/customers/{id}")
+    public String toCustomerDetail(Model model, @PathVariable(name = "id")int id){
+        CustomerModel customer = customerService.getCustomerById(id);
+        if(customer.getCustomer_user().getAvatar() != null) {
+            customer.getCustomer_user().setBase64AvaterEncode(customer.getCustomer_user().getAvatar());
+        }
+        model.addAttribute("customer", customer);
+        return "CustomerDetail-Manager";
+
+    }
     
     @GetMapping("/customers")
     @Transactional
