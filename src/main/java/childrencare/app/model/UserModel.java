@@ -1,5 +1,6 @@
 package childrencare.app.model;
 
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -87,5 +88,11 @@ public class UserModel {
 	
 	@OneToOne(mappedBy = "staff_user")
 	private StaffModel staff;
+
+	public void setBase64AvaterEncode(byte[] image) {
+		if(image != null) {
+			this.base64AvatarEncode = Base64.getEncoder().encodeToString(image);
+		}
+	}
 
 }
