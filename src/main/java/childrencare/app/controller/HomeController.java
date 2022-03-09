@@ -82,4 +82,10 @@ public class HomeController {
     }
 
     // end thanh code
+
+    @GetMapping("/about")
+    public String goToAbout(Model model){
+        model.addAttribute("servicecategories", serviceCategoryService.findAll());
+        return "about";
+    }
 }

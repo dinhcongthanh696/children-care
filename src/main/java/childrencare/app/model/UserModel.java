@@ -85,7 +85,7 @@ public class UserModel {
 	@OneToOne(mappedBy = "customer_user",fetch = FetchType.LAZY)
 	private CustomerModel customer;
 	
-	@OneToOne(mappedBy = "staff_user")
+	@OneToOne(mappedBy = "staff_user",fetch = FetchType.LAZY)
 	private StaffModel staff;
 
 }

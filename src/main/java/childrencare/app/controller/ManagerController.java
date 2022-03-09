@@ -76,7 +76,7 @@ public class ManagerController {
     public String toCustomersList(@RequestParam(name = "search" , required = false , defaultValue = "") String search ,
     		@RequestParam(name = "status" , required = false , defaultValue = "-1") int status , 
     		@RequestParam(name = "directions" , required = false , defaultValue = "ascending,ascending,ascending,ascending") String directionsParam,
-    		@RequestParam(name = "sortProperty" , required = false , defaultValue = "email") String sortProperty ,
+    		@RequestParam(name = "sortProperty" , required = false , defaultValue = "fullname") String sortProperty ,
     		@RequestParam(name = "page" , required = false , defaultValue = "0") int page,
     		Model model) {
     	int startBitRange = -1;
@@ -91,8 +91,13 @@ public class ManagerController {
     	for(int i = 0 ; i < directionsValue.length ; i++) {
     		directions[i] = (directionsValue[i].equals("ascending")) ? Direction.ASC : Direction.DESC;
     	}
-    	List<String> sortProperties = Arrays.asList("u.email","u.fullname","u.phone","u.status");
+    	LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("u.fullname","u.email","u.phone","u.status") );
     	Collections.swap(sortProperties, sortProperties.indexOf("u."+sortProperty), 0);
+    	if(sortProperties.indexOf("u."+sortProperty) != 0) {
+    		sortProperties.remove(sortProperties.indexOf("u."+sortProperty));
+    		sortProperties.addFirst("u."+sortProperty);
+    	}
+    	
     	Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, directions);
     	for(CustomerModel customer : customersPageable.toList()) {
     		if(customer.getCustomer_user().getAvatar() != null)

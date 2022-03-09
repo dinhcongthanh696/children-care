@@ -419,13 +419,11 @@
              <div class="control">
 
                  <!-- Start Button buying -->
-                 <button class="btn" id="buy-now">
+                 <button class="btn" id="buy-now" style="width: 200px">
                      <!--    the Price -->
                      <span class="price" th:text="${service.originalPrice}"></span>
                      <!--    shopping cart icon-->
-                     <span class="shopping-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-                     <!--    Buy Now / ADD to Cart-->
-                     <span class="buy">Buy Now</span>
+                     <span class="shopping-cart"><i th:text="'Sale: '+ ${service.salePrice}" aria-hidden="true"></i></span>
                  </button>
                  <!-- End Button buying -->
 
@@ -448,7 +446,6 @@
                  <h2>More Information</h2>
                  <ul>
                      <li th:text="'Sale Price: ' + ${service.salePrice}"></li>
-                     <li th:text="'Quantity: ' + ${service.quantity}"></li>
                      <li th:text="'Service Category: ' + ${service.serviceCategory.serviceCategoryName}"></li>
                  </ul>
              </div>
