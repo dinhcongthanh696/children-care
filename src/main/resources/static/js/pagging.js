@@ -6,9 +6,9 @@ function renderPages() {
 		
 		var prevButton = "";
 		if(currentPage == 0 && totalPages > 1){
-			prevButton = "<span class='fas fa-arrow-left pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')> </span>"
+			prevButton = "Previous <span class='fas fa-arrow-left pageNumberElement' onclick=changePage(\'"+ (totalPages - 1) +"\')> </span>"
 		}else if(totalPages > 1){
-			prevButton = "<span class='fas fa-arrow-left pageNumberElement' onclick=changePage(\'"+ (currentPage - 1) +"\') > </span>";
+			prevButton = "Previous <span class='fas fa-arrow-left pageNumberElement' onclick=changePage(\'"+ (currentPage - 1) +"\') > </span>";
 		}
 
 		pageListContainer.innerHTML += prevButton;
@@ -50,9 +50,9 @@ function renderPages() {
 		var nextButton = "";
 
 		if(currentPage == (totalPages - 1) && totalPages > 1){
-			nextButton = "<span class='fas fa-arrow-right pageNumberElement' onclick=changePage('0')> </span>"
+			nextButton = "<span class='fas fa-arrow-right pageNumberElement' onclick=changePage('0')> </span> Next"
 		}else if(totalPages > 1){
-			nextButton = "<span class='fas fa-arrow-right pageNumberElement' onclick=changePage(\'"+ (currentPage + 1) +"\') > </span>";
+			nextButton = "<span class='fas fa-arrow-right pageNumberElement' onclick=changePage(\'"+ (currentPage + 1) +"\') ></span>Next";
 		}
 
 		pageListContainer.innerHTML += nextButton;

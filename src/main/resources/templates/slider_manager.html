@@ -34,6 +34,25 @@
             var img = document.getElementById('previewImg'+slideId);
             img.src = lastChoosenImg;
 
+            var isValidImageFile = true;
+            var message = "";
+            if(file.type.split("/")[0] !== "image"){
+                message = "File must be image";
+                isValidImageFile = false;
+            }else if(file.size / 1000000 > 20){ // COVERT size of file to MB
+                message =  "File is more than 20 MB";
+                isValidImageFile = false;
+            }
+
+            const saveSlideButtonElement = document.getElementById("update-slide-button");
+            const imageFileMessageElement = document.getElementById("image-file-message");
+            if(!isValidImageFile){
+                saveSlideButtonElement.disabled = true;
+            }else{
+                saveSlideButtonElement.disabled = false;
+            }
+            imageFileMessageElement.innerHTML = message;
+
         }
         function addImgPreview(input){
             if(lastChoosenImg)
@@ -42,6 +61,13 @@
             lastChoosenImg = URL.createObjectURL(file);
             var img = document.getElementById('imgAddPreview');
             img.src = lastChoosenImg;
+
+
+        }
+
+        function changeStatusSlide(slideId,status) {
+            status = !status;
+            window.location.href = "/ChildrenCare/manager/changSlideStatus?sid=" + slideId + "&status=" + status;
         }
 
     </script>
@@ -155,6 +181,7 @@
                                     <th>Slider Image</th>
                                     <th>Slider BlackLink</th>
                                     <th>Slider Status</th>
+                                    <td></td>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -170,6 +197,15 @@
                                     </td>
                                     <td th:text="${s.backLink}"></td>
                                     <td th:utext="${s.status} ?'Show':'Hide'"></td>
+                                    <td>
+                                    <input type="checkbox"
+                                           th:checked="${s.isStatus()}"
+                                           th:onclick="changeStatusSlide([[${s.slideId}]],
+                                                                                    [[${s.isStatus()}]])">
+                                    <i th:class="${s.isStatus() ? 'fas fa-eye' : 'fas fa-eye-slash'}"
+                                       th:text="${s.isStatus() ? '-Showing' : '-Hiding'}"
+                                       style="color : black;"></i>
+                                    </td>
                                     <td>
                                         <a th:attr="data-target='#detailSlider'+${s.slideId}" class="details text-danger" data-toggle="modal">Details</a>
                                         <!--                                     details modal-->
@@ -237,6 +273,10 @@
                                                                 <input name="imgUpdate" th:onchange="'reviewImg(this,'+${s.slideId}+')'" type="file">
                                                             </div>
                                                             <div class="form-group">
+                                                                <span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
+                                                                <h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label>Backlink</label>
                                                                 <input th:value="${s.backLink}" name="backlink" type="text" class="form-control" required>
                                                             </div>
@@ -253,7 +293,7 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                                                <button  type="submit" class="btn btn-primary  btn-default">Update</button>
+                                                                <button id="save-slide-button"  type="submit" class="btn btn-primary  btn-default">Update</button>
                                                             </div>
                                                         </form>
                                                     </div>

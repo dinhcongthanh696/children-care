@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+<!--leftSide_admin(currentUrl)-->
 <aside class="left-side sidebar-offcanvas" th:fragment="leftSide_admin(currentUrl)">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -30,41 +31,14 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-        	<li th:each="permission : ${session.user.userRole.permissions.?[screen.method == 'GET']}"
-        		th:if="not ${#strings.containsIgnoreCase(permission.screen.url,'api')} and not ${#strings.containsIgnoreCase(permission.screen.screenName,'detail')} and not ${#strings.containsIgnoreCase(permission.screen.url,'changStatus')}"
+        	<li th:each="permission : ${session.user.userRole.permissions.?[screen.method == 'GET']}" 
+        		th:if="not ${#strings.containsIgnoreCase(permission.screen.url,'api')} and not ${#strings.containsIgnoreCase(permission.screen.screenName,'detail')}"
         		th:class="${currentUrl == permission.screen.url} ? 'active' : ''" >
         		<a th:href="@{${permission.screen.url}}">
         			<span th:text="${permission.screen.screenName}"></span>
         		</a>
         	</li>
-<!--            de tam thanh nhe-->
-            <li>
-                <a href="/ChildrenCare/manager/feedback?page=1">
-                    <i class="fa fa-database" aria-hidden="true"></i> <span>Feedback Manager</span>
-                </a>
-            </li>
-            <li>
-                <a href="/ChildrenCare/manager/sliderManager/page/1">
-                    <i class="fa fa-database" aria-hidden="true"></i> <span>Slider Manager</span>
-                </a>
-            </li>
-            <li>
-                <a href="/ChildrenCare/manager/home/page/1">
-                    <i class="fa fa-database" aria-hidden="true"></i> <span>Reservation List Manager</span>
-                </a>
-            </li>
-            <li>
-                <a href="/ChildrenCare/staff/home">
-                    <i class="fa fa-database" aria-hidden="true"></i> <span>Reservation List Staff</span>
-                </a>
-            </li>
-            <li>
-                <a href="/ChildrenCare/manager/post">
-                    <i class="fa fa-glass"></i> <span>Post Manager</span>
-                </a>
-            </li>
 
-<!--de tam thanh nhe-->
         </ul>
     </section>
     <!-- /.sidebar -->

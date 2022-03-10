@@ -1,7 +1,9 @@
 package childrencare.app.API;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -18,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,12 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import childrencare.app.CaptchaGenerator;
 import childrencare.app.model.FeedbackModel;
-import childrencare.app.model.ReservationModel;
-import childrencare.app.model.ServiceModel;
 import childrencare.app.model.UserModel;
 import childrencare.app.repository.FeedbackRepository;
 import childrencare.app.repository.ReservationRepository;
-import childrencare.app.repository.ServiceRepository;
 import childrencare.app.repository.UserRepository;
 
 @RestController
@@ -43,8 +41,8 @@ public class FeedbackAPI {
 	private final UserRepository userRepository;
 	private final FeedbackRepository feedbackRepository;
 	private final ReservationRepository reservationRepository;
+	private Map<String,String> usersCaptcha;
 	private final FeedbackService feedbackService;
-	private String captcha;
 	
 	@Autowired
 	public FeedbackAPI(JavaMailSender mailSender,UserRepository userRepository,
@@ -55,6 +53,7 @@ public class FeedbackAPI {
 		this.userRepository = userRepository;
 		this.feedbackRepository = feedbackRepository;
 		this.reservationRepository = reservationRepository;
+		this.usersCaptcha = new HashMap<String,String>();
 		this.feedbackService = feedbackService;
 	}
 	
@@ -65,14 +64,16 @@ public class FeedbackAPI {
 			return "user exsist";
 		}
 		
-		if(!captcha.equals(userInputcaptcha)) {
+		if(!usersCaptcha.get(email).equals(userInputcaptcha)) {
 			return "fail";
 		}
 		UserModel user = userRepository.findByEmail(email);
 		if(user == null) {
 			return "not exsist";
 		}
+		usersCaptcha.remove(email);
 		session.setAttribute("user", user);
+		if(user.getAvatar() != null) user.setBase64AvatarEncode(Base64.getEncoder().encodeToString(user.getAvatar()));
 		return "success";
 	}
 	
@@ -82,7 +83,9 @@ public class FeedbackAPI {
 			return "verified";
 		}
 		// 1. Generate captcha
-		captcha = CaptchaGenerator.generateCaptchaCode();
+		
+		String captcha = CaptchaGenerator.generateCaptchaCode();
+		usersCaptcha.put(email, captcha);
 		
 		// if user does not have account
 		// 2. identify user email

@@ -30,6 +30,7 @@
     <link rel="icon" type="image/png"
           href="../../images/favicon/favicon-16x16.png" sizes="16x16">
     <link rel="stylesheet" href="../../css/color-themes/ServiceDetailCss.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
         .navbar-nav {
             width: 100%
@@ -372,8 +373,8 @@
 </head>
 <body>
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
-<div th:insert="index :: top-bar">
-</div>
+<div id="top-bar" th:insert="index :: top-bar"></div>
+<header th:replace="header.html :: header"></header>
 <section id="main-menu" th:replace="mainmenu.html :: mainMenu('','Service Detail','services','Search service')"></section>
 <div class="head">
     <a href="/ChildrenCare">Home </a> <a>> </a> <a href="/ChildrenCare/service/services">Our Services</a><a> > </a> <a th:text="${service.title}"></a>
@@ -385,9 +386,9 @@
  <div class="row">
     <div class="col-3">
         <span>
-            <h1>  <a href="/ChildrenCare/service/services">Our Services</a> </h1>
+            <h1>  <a style="color: blue" href="/ChildrenCare/service/services">Our Services</a> </h1>
             <h4 th:each="ser : ${services}">
-                <a th:href="'/ChildrenCare/service/services/'+${ser.serviceId}" th:text="${ser.title}"></a> <br>
+                <a style="color: blue" th:href="'/ChildrenCare/service/services/'+${ser.serviceId}" th:text="${ser.title}"></a> <br>
             </h4>
         </span>
     </div>
@@ -419,13 +420,11 @@
              <div class="control">
 
                  <!-- Start Button buying -->
-                 <button class="btn" id="buy-now">
+                 <button class="btn" id="buy-now" style="width: 200px">
                      <!--    the Price -->
                      <span class="price" th:text="${service.originalPrice}"></span>
                      <!--    shopping cart icon-->
-                     <span class="shopping-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-                     <!--    Buy Now / ADD to Cart-->
-                     <span class="buy">Buy Now</span>
+                     <span class="shopping-cart"><i th:text="'Sale: '+ ${service.salePrice}" aria-hidden="true"></i></span>
                  </button>
                  <!-- End Button buying -->
 
@@ -448,7 +447,6 @@
                  <h2>More Information</h2>
                  <ul>
                      <li th:text="'Sale Price: ' + ${service.salePrice}"></li>
-                     <li th:text="'Quantity: ' + ${service.quantity}"></li>
                      <li th:text="'Service Category: ' + ${service.serviceCategory.serviceCategoryName}"></li>
                  </ul>
              </div>
@@ -480,9 +478,10 @@
                     <h1 style="color: black">Feedback</h1>
                     <div th:each="feedback : ${feedbackModels}">
                         <div class="col-sm-11 comment  text-justify">
+                            <img class="w3-circle" style="height: 50px;width: 38px;" th:src="${'data:image/gif;base64,'+feedback.customer.customer_user.base64AvatarEncode}">
                             <h4 th:text="${feedback.customer.customer_user.email}"></h4> <br>
                             <p th:text="${feedback.getComment()}"></p>
-                            <img th:src="${'data:image/gif;base64,'+feedback.base64ImageEncode}" />
+                            <img style="width: 240px" th:src="${'data:image/gif;base64,'+feedback.base64ImageEncode}" />
                         </div>
                     </div>
                 </div>
@@ -504,11 +503,40 @@
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <script type="text/javascript">
     function triggerLoginForm(displayStyle){
-        alert(document.readyState);
         const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
-        alert(modalBoxWrapper.tagName)
         modalBoxWrapper.style.display = displayStyle;
     }
+    function startLoginForm(){
+        /*	$('#tab1').on('click' , function(){
+                $('#tab1').addClass('login-shadow');
+                $('#tab2').removeClass('signup-shadow');
+            }); */
+        triggerModal("my-modal-contact-menu","none");
+
+        const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+        modalBoxWrapper.style.display = "block";
+
+        const triggerLoginForm = document.getElementById("trigger-login-form");
+        triggerLoginForm.click();
+    }
+    function loginCheck(){
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("pass").value;
+        var formData = new FormData();
+        formData.append("email",email);
+        formData.append("password",password);
+        formData.append("currentpage",currentpage);
+        fetch("/ChildrenCare/api-login/signIn",{
+            method : "post",
+            body : formData
+        }).then(respond => {
+            return respond.text();
+        }).then(message => {
+            alert(message);
+            window.location.reload();
+        })
+    }
+
 </script>
 </body>
 </html>

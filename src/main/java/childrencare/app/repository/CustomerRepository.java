@@ -3,6 +3,9 @@ package childrencare.app.repository;
 import java.util.Date;
 import java.util.List;
 
+import childrencare.app.model.UserModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,6 +33,15 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 
 	@Query(value = "Select * from customer where customer_email = ?1", nativeQuery = true)
 	CustomerModel findByEmail(String email);
+	
+	@Query(value = "SELECT * FROM customer as c INNER JOIN user_model as u on c.customer_email = u.email "
+			+ "WHERE (u.status > ?2 AND u.status < ?3) AND "
+			+ "(u.phone LIKE ?1 OR u.fullname LIKE ?1 OR u.email LIKE ?1) ",
+			countQuery = " SELECT COUNT(*) FROM customer as c inner join user_model as u on c.customer_email = u.email "
+					+ "WHERE (u.status > ?2 AND u.status < ?3) AND "
+					+ "(u.phone LIKE ?1 OR u.fullname LIKE ?1 OR u.email LIKE ?1)",
+			nativeQuery = true)
+	public Page<CustomerModel> findCustomerByStatusAndSearchQuery(String search,int startBitRange,int endBitRange,PageRequest pageRequest);
 
 	@Modifying
 	@Query(value = "Insert into customer values(1, ?1)", nativeQuery = true)
@@ -44,5 +56,6 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 
 	@Query(value = "select MAX(customer_id) from customer",nativeQuery = true)
 	int lastIDCus();
+
 
 }

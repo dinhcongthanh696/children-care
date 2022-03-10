@@ -32,15 +32,17 @@ public class ServiceController {
 	private final ServiceModelService serviceModelService;
 	private final ServiceCategoryService serviceCategoryService;
 	private final FeedbackRepository feedbackRepository;
+	private final CustomerRepository customerRepository;
 	private final int SERVICESIZE = 15;
 	@Autowired
 	public ServiceController(ServiceCategoryRepository serviceCategoryRepository,
-			ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService,
-			FeedbackRepository feedbackRepository) {
+							 ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService,
+							 FeedbackRepository feedbackRepository, CustomerRepository customerRepository) {
 		this.serviceCategoryRepository = serviceCategoryRepository;
 		this.serviceModelService = serviceModelService;
 		this.serviceCategoryService = serviceCategoryService;
 		this.feedbackRepository = feedbackRepository;
+		this.customerRepository = customerRepository;
 	}
 	
 	@RequestMapping(value = "/services", method = { RequestMethod.GET, RequestMethod.POST })
@@ -92,8 +94,13 @@ public class ServiceController {
 		ServiceModel service = serviceModelService.getServiceById(id).get();
 		service.setBase64ThumbnailEncode(service.getThumbnail());
 		List<FeedbackModel> feedbackModels = feedbackRepository.findByService(service);
+		UserModel userModel;
 		for(FeedbackModel feedback : feedbackModels) {
-			feedback.setBase64ImageEncode(feedback.getImage());
+			userModel = feedback.getCustomer().getCustomer_user();
+			if(feedback.getImage() != null) {
+				feedback.setBase64ImageEncode(feedback.getImage());
+				userModel.setBase64AvaterEncode(userModel.getAvatar());
+			}
 		}
 		model.addAttribute("servicecategories", serviceCategory);
 		model.addAttribute("service", service);

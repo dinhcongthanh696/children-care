@@ -100,23 +100,43 @@ public class AdminController {
 		List<Integer> reservationSuccessNumbers = new ArrayList<>();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		List<Integer> reservationTotalNumbers = new ArrayList<>();
-		int totalReservationCanceled = 0;
+		int totalReservationCanceledLast7days = 0;
+		int totalReservationSubmittedLast7days = 0;
+		int totalReservationSuccessLast7days = 0;
+		int totalReservationCanceledLast14days = 0;
+		int totalReservationSubmittedLast14days = 0;
+		int totalReservationSuccessLast14days = 0;
+		
+		Calendar tempCalendar = calendar.getInstance();
 		for(int i = 0 ; i < 7 ; i++) {
 			sevenLastDays.add(dateFormatter.format(currentDate.getTime()));
-			int reservationSuccess = reservationService.countReservationByStatusAndDate(1, currentDate.getTime());
-			int reservationCanceled = reservationService.countReservationByStatusAndDate(0, currentDate.getTime());
-			totalReservationCanceled += reservationCanceled;
+			tempCalendar.set(Calendar.DAY_OF_YEAR, currentDate.get(Calendar.DAY_OF_YEAR) - 7);
+			int reservationSuccess = reservationService.countReservationByStatusAndDate("success", currentDate.getTime());
+			int reservationCanceled = reservationService.countReservationByStatusAndDate("cancled", currentDate.getTime());
+			int reservationSubmitted = reservationService.countReservationByStatusAndDate("submitted", currentDate.getTime());
+			totalReservationCanceledLast14days += reservationService.countReservationByStatusAndDate("cancled",tempCalendar.getTime());
+			totalReservationSuccessLast14days += reservationService.countReservationByStatusAndDate("success", tempCalendar.getTime());
+			totalReservationSubmittedLast14days += reservationService.countReservationByStatusAndDate("submitter", tempCalendar.getTime());
+			
+			totalReservationSubmittedLast7days += reservationSubmitted;
+			totalReservationCanceledLast7days += reservationCanceled;
+			totalReservationSuccessLast7days += reservationSuccess;
 			reservationSuccessNumbers.add(reservationSuccess);
 			reservationTotalNumbers.add(reservationSuccess+reservationCanceled);
 			currentDate.add(Calendar.DAY_OF_YEAR, 1);
 		}
+		
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-		int totalReservationSuccess = reservationSuccessNumbers.stream().reduce(0,(a,b) -> a + b);
 		
 		model.addAttribute("totalCustomerNewlyRegistered", totalCustomerNewlyRegistered);
 		model.addAttribute("totalCustomerNewlyReserved", totalCustomerNewlyReserved);
-		model.addAttribute("reservationsSuccess",totalReservationSuccess);
-		model.addAttribute("reservationsCanceled", totalReservationCanceled);
+		model.addAttribute("reservationsSuccess",totalReservationSuccessLast7days);
+		model.addAttribute("reservationsCanceled", totalReservationCanceledLast7days);
+		model.addAttribute("reservationsSubmitted", totalReservationSubmittedLast7days);
+		model.addAttribute("totalReservationCanceledLast14days", totalReservationCanceledLast14days);
+		model.addAttribute("totalReservationSuccessLast14days", totalReservationSuccessLast14days);
+		model.addAttribute("totalReservationSubmittedLast14days", totalReservationSubmittedLast14days);
 		model.addAttribute("categories", categories);
 		model.addAttribute("revenueDate", revenueDate);
 		model.addAttribute("services", services.toList());

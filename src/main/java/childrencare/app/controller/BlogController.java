@@ -59,6 +59,7 @@ public class BlogController {
         List<PostModel> list = postModels.getContent();
         for (PostModel p : list
         ) {
+        	if(p.getThumbnail() != null)
             p.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(p.getThumbnail()));
         }
 

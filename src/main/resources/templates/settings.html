@@ -65,15 +65,35 @@
                 alert(message);
             })
         }
-        var lastPreviewAvarta;
-        function previewAvatar(inputFileElement){
-            if(lastPreviewAvarta){
-                URL.revokeObjectURL(lastPreviewAvarta);
+        var lastChosenPreview;
+        function imagePreviewHandler(fileInputElement){
+            if(lastChosenPreview){
+                URL.revokeObjectURL(lastChosenPreview);  // for performance
             }
-            var image = inputFileElement.files[0];
-            lastPreviewAvarta = URL.createObjectURL(image);
-            var formAva = document.getElementById("form-avarta");
-            formAva.src = lastPreviewAvarta;
+
+            var imageFile = fileInputElement.files[0];
+            lastChosenPreview = URL.createObjectURL(imageFile);
+            var imageElement = document.getElementById("form-avarta");
+            imageElement.src = lastChosenPreview;
+
+            var isValidImageFile = true;
+            var message = "";
+            if(imageFile.type.split("/")[0] !== "image"){
+                message = "File must be image";
+                isValidImageFile = false;
+            }else if(imageFile.size / 1000000 > 20){ // COVERT size of file to MB
+                message =  "File is more than 20 MB";
+                isValidImageFile = false;
+            }
+
+            const addNewServiceButtonElement = document.getElementById("add-new-service-button");
+            const imageFileMessageElement = document.getElementById("image-file-message");
+            if(!isValidImageFile){
+                addNewServiceButtonElement.disabled = true;
+            }else{
+                addNewServiceButtonElement.disabled = false;
+            }
+            imageFileMessageElement.innerHTML = message;
         }
     </script>
 
@@ -94,9 +114,11 @@
                     <a class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title="" data-original-title="You currently have 290 Reward points to spend"><i class="fa fa-award text-md"></i>&nbsp;290 points</a></div>
                 <div class="author-card-profile">
 
-                    <img class="img-circle" th:src="${'data:image/gif;base64,'+session.user.base64AvatarEncode}" style="width: 190px" id="form-avarta" alt="ai do">
+                    <img  class="img-circle" th:src="${'data:image/gif;base64,'+session.user.base64AvatarEncode}" style="width: 190px" id="form-avarta" alt="ai do">
 
-                    <input  name="avatar" type="file" id="avatar" onchange="previewAvatar(this)">
+                    <input id="avatar" name="avatar" type="file" onchange="imagePreviewHandler(this)">
+                    <span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
+                    <h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
                     <h5 th:text="${session.email}" class="author-card-name text-dark text-lg"></h5><span th:text="${session.username}" class="author-card-position"></span>
 
                 </div>
@@ -162,7 +184,7 @@
                 <div class="col-12">
                     <hr class="mt-2 mb-3">
                     <div class="d-flex flex-wrap justify-content-between align-items-center">
-                        <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly." onclick="update()">Update Profile</button>
+                        <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly." id="add-new-service-button" onclick="update()">Update Profile</button>
                     </div>
                 </div>
         </div>

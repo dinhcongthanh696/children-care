@@ -58,10 +58,9 @@ public class AdminSettingController {
 		return "setting-role";
 	}
 	
-	@RequestMapping("/users")
+	@RequestMapping(value = "/users",method = {RequestMethod.GET,RequestMethod.POST})
 	public String toSettingUser(Model model , @RequestParam(name = "page" , required = false , defaultValue = "0") int page,
-			@RequestParam(name = "search" , required = false , defaultValue = "") String search,
-			@RequestParam(name = "gender" , required = false , defaultValue = "false") boolean gender
+			@RequestParam(name = "search" , required = false , defaultValue = "") String search
 			) {
 		List<RoleModel> roles = roleService.getAllRoles();
 		Page<UserModel> users = userService.getPartialUsers(page, USERSIZE, search);
