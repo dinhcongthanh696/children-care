@@ -87,7 +87,10 @@
             // }
             alert("Load");
         }
-        function updateStatus(fid, status){
+        function updateStatus(fid, status, page){
+            if(page == 0){
+                page = 1;
+            }
             let i;
             if(status){
                 i = 1;
@@ -95,19 +98,14 @@
             else{
                 i = 0;
             }
-            let url = "/ChildrenCare/manager/updateFeedbackStatus";
-            let formData = new FormData;
-            formData.append("feedback_id", fid);
-            formData.append("status", i);
+            let url = "/ChildrenCare/manager/updateFeedbackStatus?feedback_id=" + fid + "&status=" + i + "&page=" + page;
+            alert(url);
             fetch(url, {
-                method: 'PUT',
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                body : formData;
+                method: 'POST'
             }).then(response => {
                 switch(response.status){
                     case 403 :
-                        alert("Your are not allowed to save any changes");
+                        alert("Fail");
                         break;
                     case 200 :
                         alert('Success');
@@ -225,18 +223,21 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <i 	th:class="${feedback.status ? 'fas fa-eye' : 'fas fa-eye-slash'}"
+                                            <button th:class="${feedback.status ? 'fas fa-eye' : 'fas fa-eye-slash'}"
                                                   th:text="${feedback.status ? '-Showing' : '-Hiding'}"
+                                                  th:onclick="updateStatus([[${feedback.feedbackId}]],
+                                                                            [[${!feedback.status}]],
+                                                                            [[${feedbackPage.number}]])"
                                                   style="color : black;"
-                                                  th:id="'service-status-icon'+${feedback.feedbackId}"></i>
+                                                  th:id="'service-status-icon'+${feedback.feedbackId}"></button>
                                         </td>
                                         <td th:text="${feedback.comment}"></td>
                                         <td>
-                                            <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
+                                            <a th:href="|#addSliderModal${feedback.feedbackId}|" class="btn btn-success " data-toggle="modal">
                                                 <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
                                                 <span>Edit</span></a>
                                             <!-- Add Modal HTML -->
-                                            <div id="addSliderModal" class="modal fade">
+                                            <div th:id="|addSliderModal${feedback.feedbackId}|" class="modal fade" >
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                             <div class="modal-header">
@@ -285,8 +286,8 @@
                                                                     <label>Post Status</label>
                                                                     <select name="statusAdd"
                                                                             class="medium_grey text-muted mb-1">
-                                                                        <option value="1">Show</option>
-                                                                        <option value="0">Hide</option>
+                                                                        <option value="1" th:selected="${feedback.status}">Show</option>
+                                                                        <option value="0" th:selected="${!feedback.status}">Hide</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -295,7 +296,8 @@
                                                                        data-dismiss="modal" value="Cancel">
                                                                 <input type="submit" class="btn btn-success"
                                                                        th:onclick="updateStatus([[${feedback.feedbackId}]],
-                                                                                                [[${feedback.status}]])"
+                                                                                                [[${feedback.status}]],
+                                                                                                [[${feedbackPage.number}]])"
                                                                        value="Save">
                                                             </div>
                                                     </div>
