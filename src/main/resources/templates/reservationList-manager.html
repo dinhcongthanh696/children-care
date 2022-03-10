@@ -59,6 +59,9 @@
                            placeholder="Tìm kiếm theo mã đơn hàng.."/>
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </form>
+                  <button style="padding: 5px; border-radius: 10px;" class="btn-circle btn-danger">
+                    <a style="color: black; font: bold;" th:href="@{/manager/export}">Export PDF</a>
+                  </button>
                 </div>
                 <div class="col-sm-4">
                   <form id="myForm1" th:action="@{/manager/managerView/filter/1}">
