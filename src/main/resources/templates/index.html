@@ -151,14 +151,10 @@
 <!--    end-->
 
 </head>
-
-
 <body>
-
 <!-- nghia's code -->
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('')"></div>
 <!--nghia's code-->
-
 <div class="preloader"></div>
 <!-- Start Top Bar area -->
 <section class="top-bar-area" th:fragment="top-bar">
@@ -178,9 +174,8 @@
                     <nav class="main-menu style1 clearfix">
                         <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
                             <ul class="navigation clearfix">
-                                <li >
-                                    <button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" >
-                                        <i class="far fa-user text-white"  onclick="triggerLoginForm('block')"></i></button>
+                                <li>
+                                    <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" class="far fa-user fa-2x text-white "  onclick="triggerLoginForm('block')"></i>
                                     <ul>
                                         <li><a href="/ChildrenCare/setting/profile">Settings</a></li>
                                         <li><a href="/ChildrenCare/logout">Log out</a></li>
@@ -196,8 +191,8 @@
                     <ul class="sociallinks-style-one">
                         <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
                         <li th:if="${session.user == null}">
-                            <a class="btn" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form">
-                                <i class="far fa-user text-white" onclick="triggerLoginForm('block')"></i></a>
+                            <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form"
+                               class="far fa-user fa-2x text-white" onclick="triggerLoginForm('block')"></i>
                         </li>
                         <li>
                         	<a href="/ChildrenCare/reservation/reser">
@@ -305,18 +300,15 @@
         </div> 
     </div>
 </section>
-<!-- End Hidden Bar -->     
-    
+<!-- End Hidden Bar -->
 <!--Main Slider-->
 <section class="main-slider">
-    <div class="rev_slider_wrapper fullwidthbanner-container"  id="rev_slider_one_wrapper" data-source="gallery">
-        <div class="rev_slider fullwidthabanner" id="rev_slider_one" data-version="5.4.1">
+    <div  class="rev_slider_wrapper fullwidthbanner-container "  id="rev_slider_one_wrapper" data-source="gallery">
+        <div  class="rev_slider fullwidthabanner" id="rev_slider_one" data-version="5.4.1">
             <ul>
-                <li data-description="Slide Description" data-easein="default" data-easeout="default" data-fsmasterspeed="1500" data-fsslotamount="7" data-fstransition="fade" data-hideafterloop="0" data-hideslideonmobile="off" data-index="rs-1689" data-masterspeed="default" data-param1="" data-param10="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-rotate="0" data-saveperformance="off" data-slotamount="default" data-thumb="images/slides/v1-1.jpg" data-title="Slide Title" data-transition="parallaxvertical">
-
-                    <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="images/slides/v1-1.jpg"> 
-
-                    <div class="tp-caption" 
+                <li th:each="item : ${sliders}" data-description="Slide Description" data-easein="default" data-easeout="default" data-fsmasterspeed="1500" data-fsslotamount="7" data-fstransition="fade" data-hideafterloop="0" data-hideslideonmobile="off" data-index="rs-1689" data-masterspeed="default" data-param1="" data-param10="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-rotate="0" data-saveperformance="off" data-slotamount="default" data-thumb="images/slides/v1-1.jpg" data-title="Slide Title" data-transition="parallaxvertical">
+                    <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""th:src="${'data:image/gif;base64,'+item.base64ThumbnailEncode}">
+                    <div class="tp-caption"
                     data-paddingbottom="[0,0,0,0]"
                     data-paddingleft="[0,0,0,0]"
                     data-paddingright="[0,0,0,0]"
@@ -335,11 +327,11 @@
                     style="z-index: 7; white-space: nowrap;">
                         <div class="slide-content left-slide">
                             <div class="big-title">
-                               <br>Modern dentistry<br/> in a calm &<br> relaxed feeling.
-                            </div>    
+                               <h1 th:text="${item.title}"></h1>
+                            </div>
                         </div>
                     </div>
-                    <div class="tp-caption" 
+                    <div class="tp-caption"
                     data-paddingbottom="[0,0,0,0]"
                     data-paddingleft="[0,0,0,0]"
                     data-paddingright="[0,0,0,0]"
@@ -357,10 +349,12 @@
                     data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                         style="z-index: 7; white-space: nowrap;">
                         <div class="slide-content left-slide">
-                            <div class="text">Maintains a highly trained, qualified and experienced Dentists.</div>    
+                            <div id="textSlide" class="text">
+                                <h3 th:text="${item.notes}"></h3>
+                            </div>
                         </div>
                     </div>
-                    <div class="tp-caption" 
+                    <div class="tp-caption"
                         data-paddingbottom="[0,0,0,0]"
                         data-paddingleft="[0,0,0,0]"
                         data-paddingright="[0,0,0,0]"
@@ -379,162 +373,19 @@
                         style="z-index: 7; white-space: nowrap;">
                         <div class="slide-content left-slide">
                             <div class="btn-box">
-                                <a class="btn-one" href="#">Oue Specialities</a>
-                            </div>    
+                                <a class="btn-one" th:href="${item.backLink}">Oue Specialities</a>
+                            </div>
                         </div>
                     </div>
-                </li>
-                
-                <li data-description="Slide Description" data-easein="default" data-easeout="default" data-fsmasterspeed="1500" data-fsslotamount="7" data-fstransition="fade" data-hideafterloop="0" data-hideslideonmobile="off" data-index="rs-1687" data-masterspeed="default" data-param1="" data-param10="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-rotate="0" data-saveperformance="off" data-slotamount="default" data-thumb="images/slides/v1-2.jpg" data-title="Slide Title" data-transition="parallaxvertical">
-                
-                    <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="images/slides/v1-2.jpg">
-                    
-                    <div class="tp-caption" 
-                    data-paddingbottom="[0,0,0,0]"
-                    data-paddingleft="[0,0,0,0]"
-                    data-paddingright="[0,0,0,0]"
-                    data-paddingtop="[0,0,0,0]"
-                    data-responsive_offset="on"
-                    data-type="text"
-                    data-height="none"
-                    data-width="['900','900','800','560']"
-                    data-whitespace="normal"
-                    data-hoffset="['15','15','15','15']"
-                    data-voffset="['-90','-100','-90','-100']"
-                    data-x="['center','center','center','center']"
-                    data-y="['middle','middle','middle','middle']"
-                    data-textalign="['top','top','top','top']"
-                    data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                    style="z-index: 7; white-space: nowrap;">
-                        <div class="slide-content middle-slide text-center">
-                            <div class="big-title">
-                                An attractive smile makes a<br> lasting impression!
-                            </div>    
-                        </div>
-                    </div>
-                    <div class="tp-caption" 
-                    data-paddingbottom="[0,0,0,0]"
-                    data-paddingleft="[0,0,0,0]"
-                    data-paddingright="[0,0,0,0]"
-                    data-paddingtop="[0,0,0,0]"
-                    data-responsive_offset="on"
-                    data-type="text"
-                    data-height="none"
-                    data-whitespace="normal"
-                    data-width="['900','900','800','560']"
-                    data-hoffset="['15','15','15','15']"
-                    data-voffset="['30','10','10','0']"
-                    data-x="['center','center','center','center']"
-                    data-y="['middle','middle','middle','middle']"
-                    data-textalign="['top','top','top','top']"
-                    data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                    style="z-index: 7; white-space: nowrap;">
-                        <div class="slide-content middle-slide text-center">
-                            <div class="text">Over 200 Dentists join us in giving <span>you the best of  modern</span><br> dentalcare, stay with healthy smile.</div> 
-                        </div>
-                    </div>
-                    <div class="tp-caption" 
-                        data-paddingbottom="[0,0,0,0]"
-                        data-paddingleft="[0,0,0,0]"
-                        data-paddingright="[0,0,0,0]"
-                        data-paddingtop="[0,0,0,0]"
-                        data-responsive_offset="on"
-                        data-type="text"
-                        data-height="none"
-                        data-width="['900','900','800','560']"
-                        data-whitespace="normal"
-                        data-hoffset="['15','15','15','15']"
-                        data-voffset="['120','100','105','100']"
-                        data-x="['center','center','center','center']"
-                        data-y="['middle','middle','middle','middle']"
-                        data-textalign="['top','top','top','top']"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                        style="z-index: 7; white-space: nowrap;">
-                        <div class="slide-content middle-slide text-center">
-                            <div class="btn-box">
-                                <a class="btn-one" href="#">Learn More</a>
-                            </div>    
-                        </div>
-                    </div>       
-                </li>
-                
-                <li data-description="Slide Description" data-easein="default" data-easeout="default" data-fsmasterspeed="1500" data-fsslotamount="7" data-fstransition="fade" data-hideafterloop="0" data-hideslideonmobile="off" data-index="rs-1688" data-masterspeed="default" data-param1="" data-param10="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-rotate="0" data-saveperformance="off" data-slotamount="default" data-thumb="images/slides/v1-3.jpg" data-title="Slide Title" data-transition="parallaxvertical">
-                <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="images/slides/v1-3.jpg"> 
 
-                    <div class="tp-caption" 
-                    data-paddingbottom="[0,0,0,0]"
-                    data-paddingleft="[0,0,0,0]"
-                    data-paddingright="[0,0,0,0]"
-                    data-paddingtop="[0,0,0,0]"
-                    data-responsive_offset="on"
-                    data-type="text"
-                    data-height="none"
-                    data-width="['600','600','650','400']"
-                    data-whitespace="normal"
-                    data-hoffset="['15','15','15','15']"
-                    data-voffset="['-75','-75','-80','-90']"
-                    data-x="['right','right','right','right']"
-                    data-y="['middle','middle','middle','middle']"
-                    data-textalign="['top','top','top','top']"
-                    data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                        style="z-index: 7; white-space: nowrap;">
-                        <div class="slide-content">
-                            <div class="big-title">
-                                The healthy smile<br> through science<br> and artistry. 
-                            </div>    
-                        </div>
-                    </div>
-                    
-                    <div class="tp-caption" 
-                    data-paddingbottom="[0,0,0,0]"
-                    data-paddingleft="[0,0,0,0]"
-                    data-paddingright="[0,0,0,0]"
-                    data-paddingtop="[0,0,0,0]"
-                    data-responsive_offset="on"
-                    data-type="text"
-                    data-height="none"
-                    data-whitespace="normal"
-                    data-width="['600','600','650','400']"
-                    data-hoffset="['15','15','15','15']"
-                    data-voffset="['65','50','30','15']"
-                    data-x="['right','right','right','right']"
-                    data-y="['middle','middle','middle','middle']"
-                    data-textalign="['top','top','top','top']"
-                    data-frames='[{"from":"x:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                        style="z-index: 7; white-space: nowrap;">
-                        <div class="slide-content">
-                            <div class="text">Maintains a highly trained, qualified and experienced Dentists.</div>    
-                        </div>
-                    </div>
-                    
-                    <div class="tp-caption" 
-                        data-paddingbottom="[0,0,0,0]"
-                        data-paddingleft="[0,0,0,0]"
-                        data-paddingright="[0,0,0,0]"
-                        data-paddingtop="[0,0,0,0]"
-                        data-responsive_offset="on"
-                        data-type="text"
-                        data-height="none"
-                        data-width="['600','600','650','400']"
-                        data-whitespace="normal"
-                        data-hoffset="['15','15','15','15']"
-                        data-voffset="['140','120','110','105']"
-                        data-x="['right','right','right','right']"
-                        data-y="['middle','middle','middle','middle']"
-                        data-textalign="['top','top','top','top']"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                        style="z-index: 7; white-space: nowrap;">
-                        <div class="slide-content">
-                            <div class="btn-box">
-                                <a class="btn-one" href="#">Meet Our Doctors</a>
-                            </div>    
-                        </div>
-                    </div>
                 </li>
-                
+
+
             </ul>
         </div>
+
     </div>
+
 </section>
 <!--End Main Slider-->
 

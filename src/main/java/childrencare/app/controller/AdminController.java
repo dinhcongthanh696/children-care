@@ -122,7 +122,7 @@ public class AdminController {
 			totalReservationCanceledLast7days += reservationCanceled;
 			totalReservationSuccessLast7days += reservationSuccess;
 			reservationSuccessNumbers.add(reservationSuccess);
-			reservationTotalNumbers.add(reservationSuccess+reservationCanceled+reservationSubmitted);
+			reservationTotalNumbers.add(reservationSuccess+reservationCanceled);
 			currentDate.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		

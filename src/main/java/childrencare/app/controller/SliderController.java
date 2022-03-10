@@ -92,6 +92,15 @@ public class SliderController {
         return "redirect:/manager/sliderManager/page/1";
     }
 
+    @GetMapping("/changSlideStatus")
+    @Transactional
+    public String changeStatusSlider(@RequestParam("sid") int rid,
+                                   @RequestParam("status") String status,
+                                   Model model) {
+        slidersService.changeStatusSlide((status.equals("true")) ? 1 : 0, rid);
+        return "redirect:/manager/managerView/sliderManager/home";
+    }
+
 
 
 
