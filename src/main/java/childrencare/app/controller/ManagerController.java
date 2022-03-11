@@ -70,13 +70,24 @@ public class ManagerController {
         model.addAttribute("service", service);
         return "ServiceDetail-Manager";
     }
+
+    @GetMapping("/customers/{id}")
+    public String toCustomerDetail(Model model, @PathVariable(name = "id")int id){
+        CustomerModel customer = customerService.getCustomerById(id);
+        if(customer.getCustomer_user().getAvatar() != null) {
+            customer.getCustomer_user().setBase64AvaterEncode(customer.getCustomer_user().getAvatar());
+        }
+        model.addAttribute("customer", customer);
+        return "CustomerDetail-Manager";
+
+    }
     
     @GetMapping("/customers")
     @Transactional
     public String toCustomersList(@RequestParam(name = "search" , required = false , defaultValue = "") String search ,
     		@RequestParam(name = "status" , required = false , defaultValue = "-1") int status , 
     		@RequestParam(name = "directions" , required = false , defaultValue = "ascending,ascending,ascending,ascending") String directionsParam,
-    		@RequestParam(name = "sortProperty" , required = false , defaultValue = "email") String sortProperty ,
+    		@RequestParam(name = "sortProperty" , required = false , defaultValue = "fullname") String sortProperty ,
     		@RequestParam(name = "page" , required = false , defaultValue = "0") int page,
     		Model model) {
     	int startBitRange = -1;
@@ -91,8 +102,13 @@ public class ManagerController {
     	for(int i = 0 ; i < directionsValue.length ; i++) {
     		directions[i] = (directionsValue[i].equals("ascending")) ? Direction.ASC : Direction.DESC;
     	}
-    	List<String> sortProperties = Arrays.asList("u.email","u.fullname","u.phone","u.status");
+    	LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("u.fullname","u.email","u.phone","u.status") );
     	Collections.swap(sortProperties, sortProperties.indexOf("u."+sortProperty), 0);
+    	if(sortProperties.indexOf("u."+sortProperty) != 0) {
+    		sortProperties.remove(sortProperties.indexOf("u."+sortProperty));
+    		sortProperties.addFirst("u."+sortProperty);
+    	}
+    	
     	Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, directions);
     	for(CustomerModel customer : customersPageable.toList()) {
     		if(customer.getCustomer_user().getAvatar() != null)
@@ -306,10 +322,11 @@ public class ManagerController {
     }
 
     @Transactional
-    @GetMapping("/updateFeedbackStatus")
+    @PostMapping("/updateFeedbackStatus")
     public String updateStatus(@RequestParam(name = "feedback_id") Integer fid,
-                               @RequestParam(name = "status") Integer status) {
+                               @RequestParam(name = "status") Integer status,
+                                @RequestParam(name = "page") Integer page) {
         feedbackService.changeFeedbackStatus(status, fid);
-        return "redirect:/manager/feedback?page=1";
+        return "redirect:/manager/feedback?page=" + page;
     }
 }

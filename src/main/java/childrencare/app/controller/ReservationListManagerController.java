@@ -3,6 +3,7 @@ package childrencare.app.controller;
 
 import childrencare.app.model.*;
 import childrencare.app.service.*;
+import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -116,6 +119,18 @@ public class ReservationListManagerController {
     }
 
 
+    @GetMapping("/export")
+    public void exportToPDF(HttpServletResponse response)throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        String headerKey ="Content-Disposition";
+        String headerValue = "attachment;filename=Manager-List-AllReservation.pdf";
+        response.setHeader(headerKey,headerValue);
+        List<ReservationModel> listReservations = reservationService.findAll();
+        ReservationPDFExporter exporter = new ReservationPDFExporter(listReservations);
+        exporter.export(response);
+
+
+    }
 
 
 

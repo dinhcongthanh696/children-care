@@ -1,5 +1,6 @@
 package childrencare.app.model;
 
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -78,6 +79,10 @@ public class UserModel {
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
 	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@OneToMany(mappedBy = "updatedBy")
+	private List<CustomerHistoryModel> customerHistories;
+	
 	public String toString() {
 		return "User : "+username+" Role : "+userRole.getRoleName();
 	}
@@ -85,7 +90,13 @@ public class UserModel {
 	@OneToOne(mappedBy = "customer_user",fetch = FetchType.LAZY)
 	private CustomerModel customer;
 	
-	@OneToOne(mappedBy = "staff_user")
+	@OneToOne(mappedBy = "staff_user",fetch = FetchType.LAZY)
 	private StaffModel staff;
+
+	public void setBase64AvaterEncode(byte[] image) {
+		if(image != null) {
+			this.base64AvatarEncode = Base64.getEncoder().encodeToString(image);
+		}
+	}
 
 }

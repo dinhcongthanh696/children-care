@@ -39,7 +39,7 @@ public class SlidersService  {
     }
 
     public Page<SliderModel> listAll(int pageNum, String keyword) {
-        Pageable pageable = PageRequest.of(pageNum - 1, 1);
+        Pageable pageable = PageRequest.of(pageNum - 1, 5);
         if(keyword != null){
             return slidersRepository.findAllByField(keyword,pageable);
         }
@@ -48,10 +48,20 @@ public class SlidersService  {
 
 
     public Page<SliderModel> filterByStatus(int pageNum,int status) {
-        Pageable pageable1 = PageRequest.of(pageNum - 1, 1);
+        Pageable pageable1 = PageRequest.of(pageNum - 1, 5);
         if(status == -1){
             return slidersRepository.findAll(pageable1);
         }
         return slidersRepository.filterByStatus(status, pageable1);
+    }
+
+
+    public void changeStatusSlide(int status, int rid) {
+        slidersRepository.changeStatusSlide(status, rid);
+    }
+
+
+    public List<SliderModel> listSliderHomepage(int status) {
+        return slidersRepository.listSliderHomepage(status);
     }
 }

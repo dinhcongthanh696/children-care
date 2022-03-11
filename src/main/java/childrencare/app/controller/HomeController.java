@@ -6,19 +6,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import childrencare.app.model.FeedbackModel;
-import childrencare.app.model.PostModel;
-import childrencare.app.service.BlogService;
-import childrencare.app.service.FeedbackService;
+import childrencare.app.model.*;
+import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import childrencare.app.model.ServiceCategoryModel;
-import childrencare.app.model.ServiceModel;
-import childrencare.app.service.ServiceCategoryService;
-import childrencare.app.service.ServiceModelService;
 
 @Controller
 @RequestMapping(path = "/")
@@ -35,6 +28,9 @@ public class HomeController {
 
     @Autowired
     private FeedbackService feedbackService;
+
+    @Autowired
+    private SlidersService slidersService;
 
     public HomeController(ServiceModelService serviceModelService) {
         this.serviceModelService = serviceModelService;
@@ -55,11 +51,16 @@ public class HomeController {
         for (ServiceModel service : services) {
             service.setBase64ThumbnailEncode(service.getThumbnail());
         }
+        List<SliderModel> sliders = slidersService.listSliderHomepage(1);
+        for (SliderModel slider : sliders) {
+            slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
+        }
 
         model.addAttribute("serviceitems", serviceModelService.getHighestRatedStarServices(size));
         model.addAttribute("servicecategories", serviceCategoryService.findAll());
         model.addAttribute("feedbacks", feedbacks);
         model.addAttribute("lang", lang);
+        model.addAttribute("sliders",sliders);
 
         List<PostModel> list = blogService.findTop3RecentPost();
         for (PostModel p : list
@@ -82,4 +83,14 @@ public class HomeController {
     }
 
     // end thanh code
+
+    @GetMapping("/about")
+    public String goToAbout(Model model){
+        model.addAttribute("servicecategories", serviceCategoryService.findAll());
+        return "about";
+    }
+
+
+
+
 }

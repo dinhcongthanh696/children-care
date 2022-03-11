@@ -40,4 +40,15 @@ public interface SlidersRepository extends PagingAndSortingRepository<SliderMode
             "            where [status] = ?1",nativeQuery = true)
     public Page<SliderModel> filterByStatus(int status, Pageable pageable);
 
+    @Query(value = "select * from slide\n" +
+            "            where [status] = ?1",nativeQuery = true)
+    public List<SliderModel> listSliderHomepage(int status);
+
+
+    @Modifying
+    @Query(value = "UPDATE slide \n" +
+            "   SET status = ?1\n" +
+            " WHERE slide_id = ?2", nativeQuery = true)
+    void changeStatusSlide(int status, int rid);
+
 }
