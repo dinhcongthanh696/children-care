@@ -65,12 +65,15 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "   SET  [staff_id] = ?1 where booked_date = ?2 and slot_id = ?3",nativeQuery =true)
     void assginOtherStaff(int staffID, Date booked_date, int slot_id);
     
-    @Query(value = "select * from "
+    @Query(value = "select rs.booked_date,rs.slot_id,rs.staff_id,rs.price,rs.reservation_id,rs.service_id from "
     		+ "reservation as r inner join reservation_service as rs "
     		+ "on r.reservation_id = rs.reservation_id inner join reservation_service_drug as rsd "
-    		+ "on r.reservation_id = rs.reservation_id "
-    		+ "WHERE rs.staff_id = ?1 OR rs.service_id = ?2 OR rsd.drug_id IN ?3 " , nativeQuery = true)
-    Page<ReservationServiceModel> listReservationByStaffAndServiceAndDrugs(int staffId , int serviceId , Integer[] drugIds , Pageable pageable);
+    		+ "on r.reservation_id = rs.reservation_id AND rs.service_id = rsd.service_id "
+    		+ "WHERE rs.staff_id = (?1) "
+    		+ "AND (rs.service_id = (?2) OR (?2) = -1) "
+    		+ "AND (rsd.drug_id IN (?3) OR (?3) IS NULL) "
+    		+ "GROUP BY rs.booked_date,rs.slot_id,rs.staff_id,rs.price,rs.reservation_id,rs.service_id" , nativeQuery = true)
+    Page<ReservationServiceModel> listReservationByStaffAndServiceAndDrugs(int staffId , int serviceId , List<Integer> drugIds , Pageable pageable);
 
 
 

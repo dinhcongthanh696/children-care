@@ -14,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageRequest;
 
+import childrencare.app.model.DrugModel;
+import childrencare.app.model.ReservationServiceDrugModel;
 import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.repository.ReservationServiceRepository;
 
@@ -32,15 +34,19 @@ public class ChildrenCareApplication {
 		System.out.println("12345678987665432");
 		System.out.println(test.getFullname());*/
 		
-		ReservationServiceRepository repository = context.getBean(ReservationServiceRepository.class);
+	/*	ReservationServiceRepository repository = context.getBean(ReservationServiceRepository.class);
 		
 		
 		List<ReservationServiceModel> services = 
-		repository.listReservationByStaffAndServiceAndDrugs(0, 0, new Integer[] {}, PageRequest.of(0, 3)).toList();
+		repository.listReservationByStaffAndServiceAndDrugs(1, -1, null, PageRequest.of(0, 3)).toList();
 		
 		for(ReservationServiceModel service : services) {
-			System.out.println("Service Id : "+service.getService().getServiceId() + " Reservation Id : "+service.getReservation().getReservationId());
-		}
+			System.out.println("Service Id : "+service.getService().getServiceId() 
+					+ " Reservation Id : "+service.getReservation().getReservationId() + "   Drugs : ");
+			for(ReservationServiceDrugModel drug : service.getReservation().getReservationServiceDrugs()) {
+				System.out.println("-  "+drug.getDrug().getDrugName());
+			}
+		} */
 	}
 
 }

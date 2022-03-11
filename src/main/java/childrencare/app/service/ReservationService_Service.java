@@ -63,6 +63,21 @@ public class ReservationService_Service {
     public List<ReservationServiceModel> findAllServiceByStaffAndRid(int staffID, int reservation_id) {
         return reservationServiceRepository.findAllServiceByStaffAndRid(staffID, reservation_id);
     }
+    
+    public Page<ReservationServiceModel> findReservationServiceByStaffAndServiceAndDrugs( int page , 
+    		int size , int staffId , int serviceId , List<Integer> drugIds
+    ){
+    	if(page < 0) page = 0;
+    	Page<ReservationServiceModel> reservationServicesPageable = 
+    			reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds, PageRequest.of(page, size));
+    	if(reservationServicesPageable.getTotalPages() > 0 && 
+    		page >= reservationServicesPageable.getTotalPages()	) {
+    		page = reservationServicesPageable.getTotalPages() - 1;
+    		reservationServicesPageable = 
+        			reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds, PageRequest.of(page, size));
+    	}
+    	return reservationServicesPageable;
+    }
 
 
     public void assginOtherStaff(int staffID, Date booked_date, int slot_id) {
