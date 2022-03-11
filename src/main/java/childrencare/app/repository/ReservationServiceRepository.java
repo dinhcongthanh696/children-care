@@ -64,6 +64,13 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
     @Query(value = "UPDATE [reservation_service]\n" +
             "   SET  [staff_id] = ?1 where booked_date = ?2 and slot_id = ?3",nativeQuery =true)
     void assginOtherStaff(int staffID, Date booked_date, int slot_id);
+    
+    @Query(value = "select * from "
+    		+ "reservation as r inner join reservation_service as rs "
+    		+ "on r.reservation_id = rs.reservation_id inner join reservation_service_drug as rsd "
+    		+ "on r.reservation_id = rs.reservation_id "
+    		+ "WHERE rs.staff_id = ?1 OR rs.service_id = ?2 OR rsd.drug_id IN ?3 " , nativeQuery = true)
+    Page<ReservationServiceModel> listReservationByStaffAndServiceAndDrugs(int staffId , int serviceId , Integer[] drugIds , Pageable pageable);
 
 
 
