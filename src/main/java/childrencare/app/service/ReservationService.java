@@ -113,6 +113,14 @@ public class ReservationService {
         }
         return repository.listReservationByStaff(staffID, reservationID, pageable);
     }
+    
+    public Page<ReservationModel> listReservationByStaff(int page , int size , int staffId , List<String> sortFields , String[] directions){
+    	if(page < 0) page = 0;
+    	
+    	
+    	return null;
+    	
+    }
 
     public Page<ReservationModel> listReservationByStaffDate(int pageNum, int staffID, Date dateFrom
             , Date dateTo, String sortField, String sortDir) {
