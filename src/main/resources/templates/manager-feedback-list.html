@@ -79,15 +79,38 @@
             url += '&contactName=' + contactName;
             window.location.href = url;
         }
-        function updateStatus(fid, status){
+
+        function updateStatusClick(fid, page){
+            var status = $('#changeStatus').find(":selected").val();
+            updateStatus(fid, status == 1, page);
+
+        }
+        function updateStatus(fid, status, page){
+            if(page == 0){
+                page = 1;
+            }
             let i;
             if(status){
-                i = 0;
-            }
-            else{
                 i = 1;
             }
-            window.location.href = "/ChildrenCare/manager/updateFeedbackStatus?feedback_id=" + fid + "&status=" + i;
+            else{
+                i = 0;
+            }
+            let url = "/ChildrenCare/manager/updateFeedbackStatus?feedback_id=" + fid + "&status=" + i + "&page=" + page;
+            alert(url);
+            fetch(url, {
+                method: 'POST'
+            }).then(response => {
+                switch(response.status){
+                    case 403 :
+                        alert("Fail");
+                        break;
+                    case 200 :
+                        alert('Success');
+                        location.reload();
+                }
+            })
+
         }
 
     </script>
@@ -113,10 +136,9 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel">
-                        <header class="panel-heading">
+                        <header class="panel-heading" style="text-align: center">
                             Feedback Manager
                         </header>
-                        <h4>Filter By</h4>
                         <!-- <div class="box-header"> -->
 <!--                        <h3 class="box-title">Feedback Table</h3>-->
                         <div class="panel-body table-responsive">
@@ -190,20 +212,30 @@
                                     <tr th:each="feedback : ${feedbacks}">
                                         <td th:text="${feedback.customer.customer_user.fullname}"></td>
                                         <td th:text="${feedback.service.title}"></td>
-                                        <td th:text="${feedback.ratedStar}"></td>
-                                        <td th:text="${feedback.status}"></td>
+                                        <td>
+                                            <span th:each="index : ${#numbers.sequence(1, feedback.ratedStar)}">
+                                                <i class="fas fa-star rated" style="color: #d9b814"> </i>
+                                            </span>
+                                            <span th:each="index : ${#numbers.sequence(feedback.ratedStar + 1, 5)}">
+                                                <i class="fas fa-star rated"> </i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button th:class="${feedback.status ? 'fas fa-eye' : 'fas fa-eye-slash'}"
+                                                  th:text="${feedback.status ? '-Showing' : '-Hiding'}"
+                                                  th:onclick="updateStatus([[${feedback.feedbackId}]],
+                                                                            [[${!feedback.status}]],
+                                                                            [[${feedbackPage.number}]])"
+                                                  style="color : black;"
+                                                  th:id="'service-status-icon'+${feedback.feedbackId}"></button>
+                                        </td>
                                         <td th:text="${feedback.comment}"></td>
                                         <td>
-                                            <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
+                                            <a th:href="|#addSliderModal${feedback.feedbackId}|" class="btn btn-success " data-toggle="modal">
                                                 <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
                                                 <span>Edit</span></a>
-                                            <a href="#" class="btn btn-success " data-toggle="modal"
-                                               th:onclick="updateStatus([[${feedback.feedbackId}]],
-                                                            [[${feedback.status}]])">
-                                                <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
-                                                <span>Change Status</span></a>
                                             <!-- Add Modal HTML -->
-                                            <div id="addSliderModal" class="modal fade">
+                                            <div th:id="|addSliderModal${feedback.feedbackId}|" class="modal fade" >
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                             <div class="modal-header">
@@ -250,10 +282,10 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Post Status</label>
-                                                                    <select name="statusAdd"
+                                                                    <select name="statusAdd" id="changeStatus"
                                                                             class="medium_grey text-muted mb-1">
-                                                                        <option value="1">Show</option>
-                                                                        <option value="0">Hide</option>
+                                                                        <option value="1" th:selected="${feedback.status}">Show</option>
+                                                                        <option value="0" th:selected="${!feedback.status}">Hide</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -261,8 +293,8 @@
                                                                 <input type="button" class="btn btn-default"
                                                                        data-dismiss="modal" value="Cancel">
                                                                 <input type="submit" class="btn btn-success"
-                                                                       th:onclick="updateStatus([[${feedback.feedbackId}]],
-                                                                                                [[${feedback.status}]])"
+                                                                       th:onclick="updateStatusClick([[${feedback.feedbackId}]],
+                                                                                                [[${feedbackPage.number}]])"
                                                                        value="Save">
                                                             </div>
                                                     </div>
