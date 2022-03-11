@@ -28,6 +28,7 @@ public class CustomerModel {
 	@OneToMany(mappedBy = "customer")
 	private List<FeedbackModel> feedbacks;
 
-	
+	@OneToMany(mappedBy = "customer")
+	private List<CustomerHistoryModel> customerHistories;
 	
 }

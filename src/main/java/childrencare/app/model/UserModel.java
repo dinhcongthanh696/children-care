@@ -79,6 +79,10 @@ public class UserModel {
 	@OneToMany(mappedBy = "author")
 	private List<PostModel> userPosts;
 	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@OneToMany(mappedBy = "updatedBy")
+	private List<CustomerHistoryModel> customerHistories;
+	
 	public String toString() {
 		return "User : "+username+" Role : "+userRole.getRoleName();
 	}
