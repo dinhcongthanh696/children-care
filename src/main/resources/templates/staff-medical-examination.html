@@ -120,7 +120,6 @@ th, td {
 											<th>Booked Date</th>
 											<th>Time</th>
 											<th>Drugs</th>
-											<th></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -136,9 +135,10 @@ th, td {
 											</td>
 											<td>
 												<button class="btn btn-primary">Edit Drug Prescription</button>
+												<h5 th:text="${reservationService.drugs.isEmpty() ? 'NO DRUGS' : 'List of drugs : '}"></h5>
 												<ul>
-													<li th:each="reservationServiceDrug : ${reservationService.getReservation().getReservationServiceDrugs()}"
-														th:text="${reservationServiceDrug.getDrug().getDrugName()}"></li>
+													<li th:each="drug : ${reservationService.drugs}"
+														th:text="${drug.drugName}"></li>
 												</ul>
 											</td>
 										</tr>

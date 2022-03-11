@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 @Entity
 @Table(name = "Reservation_Service")
@@ -34,6 +35,9 @@ public class ReservationServiceModel {
 	@JoinColumn(name = "staff_id")
 	@MapsId("staff_id")
 	private StaffModel staff;
+	
+	@Transient
+	public List<DrugModel> drugs;
 
 	@ManyToOne
 	@JoinColumn(name = "slot_id")

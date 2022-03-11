@@ -51,8 +51,13 @@ public class StaffController {
 		UserModel staff = (UserModel) session.getAttribute("user"); 
 		Page<ReservationServiceModel> reservationServicesPageable = 
 				reservationService_Service.findReservationServiceByStaffAndServiceAndDrugs(page, RESERVATIONSERVICESIZE, staff.getStaff().getStaff_id(), serviceId, drugIds);
+		for(ReservationServiceModel reservationService : reservationServicesPageable.toList()) {
+			int rid = reservationService.getReservation().getReservationId();
+			int sid = reservationService.getService().getServiceId();
+			reservationService.setDrugs(drugService.findByReservationAndService(rid,sid));
+		} 
+		
 		List<DrugModel> drugs = drugService.findAllDrugs();
-		System.out.println(reservationServicesPageable.toList() == null);
 		model.addAttribute("drugs", drugs);
 		model.addAttribute("totalPages", reservationServicesPageable.getTotalPages());
 		model.addAttribute("currentPage", reservationServicesPageable.getNumber());

@@ -16,4 +16,8 @@ public class DrugService {
 	public List<DrugModel> findAllDrugs(){
 		return drugRepository.findAll();
 	}
+	
+	public List<DrugModel> findByReservationAndService(int reservationId , int serviceId){
+		return drugRepository.findDrugByReservationAndService(reservationId, serviceId);
+	}
 }
