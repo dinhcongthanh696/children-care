@@ -69,12 +69,12 @@ public class ReservationService_Service {
     ){
     	if(page < 0) page = 0;
     	Page<ReservationServiceModel> reservationServicesPageable = 
-    			reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds, PageRequest.of(page, size));
+    			reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds,drugIds.size(), PageRequest.of(page, size));
     	if(reservationServicesPageable.getTotalPages() > 0 && 
     		page >= reservationServicesPageable.getTotalPages()	) {
     		page = reservationServicesPageable.getTotalPages() - 1;
     		reservationServicesPageable = 
-        			reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds, PageRequest.of(page, size));
+        			reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds ,drugIds.size(), PageRequest.of(page, size));
     	}
     	return reservationServicesPageable;
     }
