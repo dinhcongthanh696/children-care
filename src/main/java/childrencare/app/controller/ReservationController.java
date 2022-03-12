@@ -199,13 +199,13 @@ public class ReservationController {
         if (user != null) {
             cus = customerService.findCustomerByEmail(user.getEmail());
             if (cus == null) {
-            customerService.insertToCus(1, user.getEmail());
-            int cid = customerService.lastIDCus();
-            cus.setCustomer_id(cid);
-            reservationModel.setCustomer(cus);
-           }
+                customerService.insertToCus(1, user.getEmail());
+                int cid = customerService.lastIDCus();
+                cus.setCustomer_id(cid);
+                reservationModel.setCustomer(cus);
+            }
             if (cus != null) {
-            reservationModel.setCustomer(cus);
+                reservationModel.setCustomer(cus);
             }
         }
         reservationModel.setTotalReservationPrice((Double) session.getAttribute("total"));
