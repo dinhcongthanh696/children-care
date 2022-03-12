@@ -1,8 +1,11 @@
 package childrencare.app.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import childrencare.app.model.DrugModel;
@@ -23,5 +26,11 @@ public class DrugService {
 	
 	public void updateDrugQuantity(DrugModel drug) {
 		drugRepository.updateDrugQuantity(drug.getDrugId(), drug.getQuantity());
+	}
+	public Page<DrugModel> findAll(int page, int size){
+		return drugRepository.findAll(PageRequest.of(page,size));
+	}
+	public void addDrug(Date createDate, String drugname, Date endDate, int price, boolean status, byte[] image, String type, int quantity){
+		drugRepository.addDrug(createDate, drugname, endDate, price, status, image, type, quantity);
 	}
 }
