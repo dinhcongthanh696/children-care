@@ -87,4 +87,7 @@ public class CustomerService {
 	public CustomerModel getCustomerById(int id){
 		return customerRepository.findById(id).get();
 	}
+	public int getCusIDByEmail(String email){
+		return customerRepository.getCusIdByEmail(email);
+	}
 }

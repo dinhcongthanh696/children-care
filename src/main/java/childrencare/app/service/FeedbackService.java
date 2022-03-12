@@ -21,8 +21,12 @@ public class FeedbackService {
         this.feedbackRepository = feedbackRepository;
     }
 
-    public void saveGeneralFeedback(String fullname, boolean gender, String email, String phone, byte[] image, Integer ratedStar, String comment){
-        feedbackRepository.saveGeneralFeedback(fullname, gender, email, phone, image, ratedStar, comment);
+    public void saveGeneralFeedback(String comment,String date, byte[] image, Integer ratedStar,boolean status,  int custom_id){
+        feedbackRepository.saveGeneralFeedback(comment, date, image, ratedStar, status, custom_id);
+    }
+
+    public void saveGeneralFeedback(String comment,String date, byte[] image, Integer ratedStar,boolean status){
+        feedbackRepository.saveGeneralFeedback(comment, date, image, ratedStar, status);
     }
 
     public List<FeedbackModel> getAll(){

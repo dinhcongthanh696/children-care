@@ -57,5 +57,9 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 	@Query(value = "select MAX(customer_id) from customer",nativeQuery = true)
 	int lastIDCus();
 
+	@Query(value = "SELECT [customer_id]\n" +
+			"  FROM [customer]\n" +
+			"  where customer_email = ?1",nativeQuery = true)
+	public int getCusIdByEmail(String email);
 
 }
