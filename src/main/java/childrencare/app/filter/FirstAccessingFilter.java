@@ -40,6 +40,10 @@ public class FirstAccessingFilter implements Filter {
 		List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
 		if (services == null && cookieCarts != null) {
 			String cartsValue = cookieCarts.getValue();
+			if(cartsValue.isEmpty()){
+				chain.doFilter(request,response);
+				return;
+			}
 			String[] serviceCarts_split = cartsValue.split("[-]");
 			String[] serviceCartAttributes;
 			ServiceModel service;

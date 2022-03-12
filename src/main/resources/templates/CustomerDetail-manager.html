@@ -264,28 +264,33 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="title">Fullname</label>
-                  <input  th:value="${customer.customer_user.fullname}" class="form-control" type="text"   id="title" required="">
+                  <label for="fullname">Fullname</label>
+                  <input  th:value="${customer.customer_user.fullname}" class="form-control" type="text"   id="fullname" required="">
                 </div>
 
                 <div class="form-group">
-                  <label for="category">Gender</label>
-                  <input  th:value="${customer.customer_user.gender ? 'Male' : 'Fenale'}" class="form-control" type="text"   id="category" required="">
+                  <label for="gender">Gender</label>
+                  <input  th:value="${customer.customer_user.gender ? 'Male' : 'Fenale'}" class="form-control" type="text"   id="gender" required="">
                 </div>
 
                 <div class="form-group">
-                  <label for="briefInfo">Email</label>
-                  <input  th:value="${customer.customer_user.email}" readonly class="form-control" type="text"   id="briefInfo" required="">
+                  <label for="email">Email</label>
+                  <input  th:value="${customer.customer_user.email}" readonly class="form-control" type="text"   id="email" required="">
                 </div>
 
                 <div class="form-group">
-                  <label for="description">Phone</label>
-                  <input  th:value="${customer.customer_user.phone}" class="form-control" type="text"   id="description" required="">
+                  <label for="phone">Phone</label>
+                  <input  th:value="${customer.customer_user.phone}" class="form-control" type="text"   id="phone" required="">
                 </div>
 
                 <div class="form-group">
-                  <label for="originPrice">Status</label>
-                  <input  th:value="${customer.customer_user.status}" readonly class="form-control" type="text"   id="originPrice" required="">
+                  <label for="address">Address</label>
+                  <input  th:value="${customer.customer_user.address}" class="form-control" type="text"   id="address" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Status</label>
+                  <input  th:value="${customer.customer_user.status}" readonly class="form-control" type="text"   id="status" required="">
                 </div>
 
 
@@ -369,23 +374,23 @@
 <script type="text/javascript">
   function update(){
     var id = document.getElementById("id").value;
-    var title = document.getElementById("title").value;
-    var briefinfo = document.getElementById("briefInfo").value;
-    var category = document.getElementById("category").value;
-    var desccription = document.getElementById("description").value;
-    var orginprice = document.getElementById("originPrice").value;
-    var saleprice = document.getElementById("salePrice").value;
+    var fullname = document.getElementById("fullname").value;
+    var gender = document.getElementById("gender").value;
+    var email = document.getElementById("email").value;
+    var phone = document.getElementById("phone").value;
+    var address = document.getElementById("address").value;
+    var status = document.getElementById("status").value;
     var avatar = document.getElementById("input-ava").files[0];
     var formData = new FormData();
     formData.append("id", id);
-    formData.append("title",title);
-    formData.append("briefinfo",briefinfo);
-    formData.append("category",category);
-    formData.append("originprice", orginprice);
-    formData.append("saleprice",saleprice);
-    formData.append("description",desccription);
+    formData.append("fullname",fullname);
+    formData.append("gender",gender);
+    formData.append("email",email);
+    formData.append("phone", phone);
+    formData.append("address",address);
+    formData.append("status",status);
     formData.append("avatar",avatar);
-    fetch("/ChildrenCare/api-service/update-service",{
+    fetch("/ChildrenCare/api-user/update",{
       method : "post",
       body : formData
     }).then(respond => {
