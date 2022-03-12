@@ -390,7 +390,7 @@
     formData.append("address",address);
     formData.append("status",status);
     formData.append("avatar",avatar);
-    fetch("/ChildrenCare/api-user/update",{
+    fetch("/ChildrenCare/api-user/updateByManager",{
       method : "post",
       body : formData
     }).then(respond => {
@@ -398,6 +398,7 @@
     }).then(message => {
       alert(message);
     })
+
   }
 
   var lastPreviewAvarta;

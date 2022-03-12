@@ -32,4 +32,10 @@ public class CustomerHistoryModel {
 	@ManyToOne
 	@JoinColumn(name = "email")
 	private UserModel updatedBy;
+
+	private String fullname;
+	private String customer_email;
+	private boolean gender;
+	private String mobile;
+	private String address;
 }
