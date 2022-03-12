@@ -306,6 +306,38 @@
         </div>
 
       </div>
+      <h2>History Change</h2>
+      <div class="table-wrapper">
+        <table class="fl-table">
+          <thead>
+          <tr>
+            <th>History_ID</th>
+            <th>Customer_ID</th>
+            <th>Customer_Email</th>
+            <th>Address</th>
+            <th>FullName</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Updated Date</th>
+            <th>Updated By</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="customer_history : ${history}">
+            <td th:text="${customer_history.historyId}"></td>
+            <td th:text="${customer_history.customer.customer_id}"></td>
+            <td th:text="${customer_history.customer_email}"></td>
+            <td th:text="${customer_history.address}"></td>
+            <td th:text="${customer_history.fullname}"></td>
+            <td th:text="${customer_history.gender ? 'Male' : 'Female'}"></td>
+            <td th:text="${customer_history.mobile}"></td>
+            <td th:text="${customer_history.updatedDate}"></td>
+            <td th:text="${customer_history.updatedBy}"></td>
+          </tr>
+
+          <tbody>
+        </table>
+      </div>
     </section><!-- /.content -->
     <div class="footer-main">
       <h3>Copyright &copy SWP391 SPRING 2022 SE1517-NET TEAM 2</h3>
