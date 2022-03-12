@@ -20,4 +20,8 @@ public class DrugService {
 	public List<DrugModel> findByReservationAndService(int reservationId , int serviceId){
 		return drugRepository.findDrugByReservationAndService(reservationId, serviceId);
 	}
+	
+	public void updateDrugQuantity(DrugModel drug) {
+		drugRepository.updateDrugQuantity(drug.getDrugId(), drug.getQuantity());
+	}
 }

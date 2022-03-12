@@ -4,6 +4,7 @@ import childrencare.app.model.CustomerModel;
 import childrencare.app.model.FeedbackModel;
 import childrencare.app.model.ServiceCategoryModel;
 import childrencare.app.model.ServiceModel;
+import childrencare.app.repository.CustomerRepository;
 import childrencare.app.repository.ServiceRepository;
 import childrencare.app.service.CustomerService;
 import childrencare.app.service.FeedbackService;
@@ -47,6 +48,8 @@ public class ManagerController {
     @Autowired
     FeedbackService feedbackService;
 
+    @Autowired
+    CustomerRepository customerRepository;
 
     @Autowired
     private BlogCategoryService blogCategoryService;
@@ -74,10 +77,12 @@ public class ManagerController {
     @GetMapping("/customers/{id}")
     public String toCustomerDetail(Model model, @PathVariable(name = "id")int id){
         CustomerModel customer = customerService.getCustomerById(id);
+        List<CustomerHistoryModel> customerHistoryModels = customer.getCustomerHistories();
         if(customer.getCustomer_user().getAvatar() != null) {
             customer.getCustomer_user().setBase64AvaterEncode(customer.getCustomer_user().getAvatar());
         }
         model.addAttribute("customer", customer);
+        model.addAttribute("history", customerHistoryModels);
         return "CustomerDetail-Manager";
 
     }

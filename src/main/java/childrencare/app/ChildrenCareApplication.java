@@ -4,6 +4,7 @@ package childrencare.app;
 
 
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import childrencare.app.model.DrugModel;
 import childrencare.app.model.ReservationServiceDrugModel;
 import childrencare.app.model.ReservationServiceModel;
+import childrencare.app.repository.ReservationServiceDrugRepository;
 import childrencare.app.repository.ReservationServiceRepository;
 import childrencare.app.service.DrugService;
 
@@ -34,24 +36,6 @@ public class ChildrenCareApplication {
 		ReservationModel test = reservationRepository.getReservationModelByReservationId(1);
 		System.out.println("12345678987665432");
 		System.out.println(test.getFullname());*/
-		
-		ReservationServiceRepository repository = context.getBean(ReservationServiceRepository.class);
-		DrugService drugService = context.getBean(DrugService.class);
-		
-		List<ReservationServiceModel> services = 
-		repository.listReservationByStaffAndServiceAndDrugs(1, -1, null, PageRequest.of(0, 3)).toList();
-		
-		
-		
-		for(ReservationServiceModel service : services) {
-			System.out.println("Service Id : "+service.getService().getServiceId() 
-					+ " Reservation Id : "+service.getReservation().getReservationId() + "   Drugs : ");
-			int reservationId = service.getReservation().getReservationId();
-			int serviceId = service.getService().getServiceId();
-			for(DrugModel drug : drugService.findByReservationAndService(reservationId, serviceId)) {
-				System.out.println("-  "+drug.getDrugName());
-			}
-		} 
 	}
 
 }

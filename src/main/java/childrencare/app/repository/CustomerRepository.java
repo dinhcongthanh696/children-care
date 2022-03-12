@@ -54,6 +54,27 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 			"           (?1,?2)", nativeQuery = true)
 	void insertToCus(int cStatus ,String email);
 
+	@Modifying
+	@Query(value = "INSERT INTO [customer_history]\n" +
+			"           ([address]\n" +
+			"           ,[customer_email]\n" +
+			"           ,[fullname]\n" +
+			"           ,[gender]\n" +
+			"           ,[mobile]\n" +
+			"           ,[updated_date]\n" +
+			"           ,[customer_id]\n" +
+			"           ,[email])\n" +
+			"     VALUES\n" +
+			"           (?1\n" +
+			"           ,?2\n" +
+			"           ,?3\n" +
+			"           ,?4\n" +
+			"           ,?5\n" +
+			"           ,?6\n" +
+			"           ,?7\n" +
+			"           ,?8)", nativeQuery = true)
+	void insertToCusHistory(String address,String customer_email,String fullname,boolean gender,String mobile,Date updated_date,int customer_id,String updated_by);
+
 	@Query(value = "select MAX(customer_id) from customer",nativeQuery = true)
 	int lastIDCus();
 
@@ -61,5 +82,7 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Integer
 			"  FROM [customer]\n" +
 			"  where customer_email = ?1",nativeQuery = true)
 	public int getCusIdByEmail(String email);
+
+
 
 }

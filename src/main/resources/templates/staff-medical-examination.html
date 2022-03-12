@@ -89,7 +89,7 @@ th, td {
 											<label for="service-filter" class="form-check-label">Filter by service</label>
 											<select id="service-filter" class="form-check-input" 
 													style="margin-left: 10px;border-radius: 5px;"
-													th:onchange="'changePage('+ ${currentPage} +')'"
+													onchange="changePage()"
 												>
 													<option value="-1">None</option>
 													<option th:each="service : ${services}"
@@ -105,6 +105,7 @@ th, td {
 											<label for="${drug.drugId}" th:text="${drug.drugName}"></label>
 											<input type="checkbox" name="drugs" 
 											th:value="${drug.drugId}" id="${drug.drugId}" 
+											onclick="changePage()"
 											th:checked="${currentDrugIdS != null} and ${currentDrugIdS.?[#this == __${drug.drugId}__].size() > 0 }"/>
 										</th:block>	
 									</div>
@@ -134,7 +135,9 @@ th, td {
 												<span th:text="${reservationService.slot.end > 12 ? reservationService.slot.end + ' pm' : reservationService.slot.end + ' am'}"></span>
 											</td>
 											<td>
-												<button class="btn btn-primary">Edit Drug Prescription</button>
+												<button class="btn btn-primary" 
+													th:onclick="'viewPrescription('+ ${reservationService.reservation.reservationId} + ',' + ${reservationService.service.serviceId} +')'"
+												>Edit Drug Prescription</button>
 												<h5 th:text="${reservationService.drugs.isEmpty() ? 'NO DRUGS' : 'List of drugs : '}"></h5>
 												<ul>
 													<li th:each="drug : ${reservationService.drugs}"
@@ -216,12 +219,28 @@ th, td {
             });
 		</script>
 		<script type="text/javascript">
+			function viewPrescription(rid,sid){
+				window.location.href = "/ChildrenCare/staff/prescription?rid="+rid+"&sid="+sid;
+			}
+			
+			function changePage(){
+				var serviceId = document.getElementById("service-filter").value;
+				var currentPage = document.getElementById("currentPage").value;
+				var drugIds = "";
+				var drugCheckBoxElements = document.getElementsByName("drugs");
+				drugCheckBoxElements.forEach(drugCheckBoxElement => {
+					if(drugCheckBoxElement.checked){
+						drugIds += drugCheckBoxElement.value + ",";
+					}
+				})
+				window.location.href="/ChildrenCare/staff/medical-examination?page="+currentPage
+						+"&service="+serviceId+"&drugs="+drugIds;
+				
+			}
+			
 	
-	function changePage(pageNumber) {
-		
-	}
 	
-	</script>
+		</script>
 		  
 </body>
 </html>
