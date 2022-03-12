@@ -33,6 +33,12 @@ public class Slot {
     @JsonIgnore
     @OneToMany(mappedBy = "slot")
     private List<ReservationServiceModel> reservationServices;
+    
+    private String getTime() {
+    	String startTime = start > 12 ? start + ":pm" : start + "am";
+		String endTime = end > 12 ? end+ ":pm" : end + "am";
+		return startTime + " -> "+endTime;
+    }
 
 
 }

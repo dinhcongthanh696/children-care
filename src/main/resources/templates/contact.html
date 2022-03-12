@@ -32,6 +32,147 @@
     <script src="js/html5shiv.js"></script>
     <![endif]-->
 
+    <script>
+        var lastChoosenImg;
+
+        function reviewImg(inputElement, slideId) {
+            if (lastChoosenImg)
+                URL.revokeObjectURL(lastChoosenImg);
+            var file = inputElement.files[0];
+            lastChoosenImg = URL.createObjectURL(file);
+            var img = document.getElementById('previewImg' + slideId);
+            img.src = lastChoosenImg;
+
+        }
+
+        function addImgPreview(input) {
+            if (lastChoosenImg)
+                URL.revokeObjectURL(lastChoosenImg);
+            var file = input.files[0];
+            lastChoosenImg = URL.createObjectURL(file);
+            var img = document.getElementById('imgAddPreview');
+            img.src = lastChoosenImg;
+        }
+
+        function addImgPreview2(input) {
+            if (lastChoosenImg)
+                URL.revokeObjectURL(lastChoosenImg);
+            var file = input.files[0];
+            lastChoosenImg = URL.createObjectURL(file);
+            var img = document.getElementById('imgAddPreview2');
+            img.src = lastChoosenImg;
+        }
+
+    </script>
+    <script>
+        function triggerLoginForm(displayStyle){
+            const modalBoxWrapper = document.getElementsByClassName('boxed_wrapper')[0];
+            modalBoxWrapper.style.display = displayStyle;
+        }
+        //thai's code
+        function resetEmail() {
+            var email = document.getElementById("reset-email").value;
+            if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                var formData = new FormData();
+                //var formData1 = new FormData();
+                formData.append("email", email);
+                fetch("/ChildrenCare/api-user/user", {
+                    method: 'post',
+                    body: formData
+                }).then(response => {
+                    return response.text();
+                }).then(message => {
+                    if (message !== "not exist") {
+                        //formData1.append("email",email);
+                        fetch("/ChildrenCare/api-login/reset",{
+                            method : 'post',
+                            body : formData
+                        }).then(response => {
+                            return response.text(); //tra ket qua tu server -> text
+                        }).then(message => {
+                            if(message === "Success"){
+                                alert("Success");
+                                var closeButton = document.getElementById("big-button-close");
+                                var closeReset = document.getElementById("close-reset");
+                                closeButton.click();
+                                closeReset.click();
+                            }else{
+                                alert("Fail");
+                            }
+                        })
+                    } else{
+                        alert("Email is not in database")
+                    }
+
+                })
+            } else {
+                alert("Invalid Email");
+            }
+        }
+
+        function changeLanguage(langCode){
+            var queryString = window.location.search;
+            var params = new URLSearchParams(queryString);
+            if(!params.has("lang")){
+                params.append("lang",langCode);
+            }else{
+                params.set("lang",langCode);
+            }
+            window.location.href = window.location.pathname +"?"+ params;
+        }
+
+        //end
+        //nghia's code
+        function loginCheck(){
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("pass").value;
+            var formData = new FormData();
+            formData.append("email",email);
+            formData.append("password",password);
+            formData.append("currentpage",currentpage);
+            fetch("/ChildrenCare/api-login/signIn",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+                window.location.reload();
+            })
+        }
+
+        function register(){
+            var email_register = document.getElementById("email_register").value;
+            var username_register = document.getElementById("username_register").value;
+            var fullname_register = document.getElementById("fullname_register").value;
+            var address_register = document.getElementById("address_register").value;
+            var gender_register = document.getElementById("gender_register").value;
+            var notes_register = document.getElementById("notes_register").value;
+            var password_register = document.getElementById("password_register").value;
+            var phone_register = document.getElementById("phone_register").value;
+            var formData = new FormData();
+            formData.append("email",email_register);
+            formData.append("username",username_register);
+            formData.append("fullname",fullname_register);
+            formData.append("address",address_register);
+            formData.append("gender",gender_register);
+            formData.append("notes",notes_register);
+            formData.append("password",password_register);
+            formData.append("phone",phone_register);
+            fetch("/ChildrenCare/api-login/signUp",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+                window.location.reload();
+            })
+        }
+
+
+
+    </script>
 </head>
 
 <body>
@@ -40,26 +181,83 @@
     <div class="preloader"></div>
 
     <!-- Start Top Bar area -->
-    <section class="top-bar-area">
+    <section class="top-bar-area" th:fragment="top-bar">
         <div class="container">
             <div class="row">
-                <div class="col-xl-7 col-lg-6">
+                <div class="col-xl-5 col-lg-3">
                     <div class="top-left">
-                        <ul>
+                        <!--<ul>
                             <li><a href="#">Locations</a></li>
                             <li><a href="#">Special Offers</a></li>
                             <li><a href="#">Teeth Cleaning Tips</a></li>
-                        </ul>
+                        </ul> !-->
                     </div>
                 </div>
-                <div class="col-xl-5 col-lg-6">
+                <div class="col-xl-1 col-lg-3 container-fluid">
+                    <div class="inner-content clearfix ">
+                        <nav class="main-menu style1 clearfix">
+                            <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
+                                <ul class="navigation clearfix">
+                                    <li>
+                                        <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" class="far fa-user fa-2x text-white "  onclick="triggerLoginForm('block')"></i>
+                                        <ul>
+                                            <li><a href="/ChildrenCare/setting/profile">Settings</a></li>
+                                            <li><a href="/ChildrenCare/logout">Log out</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-12">
                     <div class="top-right">
-                        <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
                         <ul class="sociallinks-style-one">
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
+                            <li th:if="${session.user == null}">
+                                <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form"
+                                   class="far fa-user fa-2x text-white" onclick="triggerLoginForm('block')"></i>
+                            </li>
+                            <li>
+                                <a href="/ChildrenCare/reservation/reser">
+                                    <i class="fas fa-shopping-cart" style="
+                        			font-size: 33px;
+    								color: white;
+    								position : relative;
+                        		">
+                        			<span id="shopping-cart-items" style="
+                        				border-radius: 100%;
+    									background-color: white;
+    									font-weight: bold;
+    									position: absolute;
+    									right: 0;
+    									top: 0;
+    									font-size: 14px;
+    									color: red;
+    									border: 1px solid black;
+    									padding: 3px;
+                        			" th:text="${session.list == null ? '' : session.list.size}"></span>
+                                    </i>
+                                </a>
+                            </li>
+                            <li>
+                                <i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
+                                <label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
+                                <select class="form-control" id="languages-switcher"
+                                        onchange="changeLanguage(this.value)"
+                                        style="height : 34px;"
+                                >
+                                    <option value="en" th:selected="${lang == 'en'}">
+                                        <span th:text="#{lang.en}"></span>
+                                    </option>
+                                    <option value="vi" th:selected="${lang == 'vi'}">
+                                        <span th:text="#{lang.vn}"></span>
+                                    </option>
+                                    <option value="ja" th:selected="${lang == 'ja'}">
+                                        <span th:text="#{lang.ja}"></span>
+                                    </option>
+                                </select>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -69,50 +267,7 @@
     <!-- End Top Bar area -->
 
     <!--Start header style1 area-->
-    <header class="header-style1-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="inner-content clearfix">
-                        <div class="header-style1-logo float-left">
-                            <a href="index-2.html">
-                                <img src="images/resources/logo.png" alt="Awesome Logo">
-                            </a>
-                        </div>
-                        <div class="header-contact-info float-left">
-                            <ul>
-                                <li>
-                                    <div class="single-item">
-                                        <div class="icon">
-                                            <span class="icon-support"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>+1 555-7890-123</p>
-                                            <span>support@example.com</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="single-item">
-                                        <div class="icon">
-                                            <span class="icon-gps"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>86 Brattle Street</p>
-                                            <span>Cambridge, MA 02138</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="header-style1-button float-right">
-                            <a href="#"><span class="icon-date"></span>Make Appointment</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <header th:replace="header.html :: header"></header>
     <!--End header style1 area-->
 
     <!--Start mainmenu area-->
@@ -177,13 +332,13 @@
                 <div class="col-xl-12">
                     <div class="inner-content clearfix">
                         <div class="title float-left">
-                            <h2>Contact Us</h2>
+                            <h2>Feedback</h2>
                         </div>
                         <div class="breadcrumb-menu float-right">
                             <ul class="clearfix">
-                                <li><a href="index-2.html">Home</a></li>
+                                <li><a>Home</a></li>
                                 <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                                <li class="active">Contact Us</li>
+                                <li class="active">Feedback</li>
                             </ul>
                         </div>
                     </div>
@@ -210,24 +365,23 @@
                               action="/ChildrenCare/feedback" method="post">
                             <div class="row">
                                 <div class="col-md-6">
+                                    <div class="input-box" th:if="${user != null}">
+                                        <input type="hidden" name="cus_email" th:if="${(user.getUserRole().getRoleId() == 2)}" th:value="${user.getEmail()}">
+                                        <input type="hidden" name="cus_email" th:if="${(user.getUserRole().getRoleId() != 2)}" th:value="empty_email">
+                                    </div>
+                                    <div class="input-box" th:if="${user == null}">
+                                        <input type="hidden" name="cus_email" th:value="empty_email">
+                                    </div>
                                     <div class="input-box">
-                                        <input type="text" name="fullname" value="" placeholder="Your Name*"
+                                        <label style="color: black">Create Date:</label>
+                                        <input type="date" name="create_date" value=""
                                                required="">
                                     </div>
                                     <div class="input-box" style="color: #0a2722">
-                                        <input type="radio" name="gender" value="1" checked="">Male
-                                        <input type="radio" name="gender" value="0" >Female
-                                    </div>
-                                    <div class="input-box">
-                                        <input type="email" name="email" value="" placeholder="Your Mail*"
-                                               required="">
-                                    </div>
-                                    <div class="input-box">
-                                        <input type="text" name="phone" value="" placeholder="Phone">
-                                    </div>
-                                    <div class="input-box" style="color: #0a2722">
-                                        <label for="myfile">Select a file:</label>
-                                        <input type="file" id="myfile" name="myfile"><br><br>
+                                        <img id="imgAddPreview2" style="height: 200px"
+                                             class="form-control" alt="No image">
+                                        <input name="image" onchange="addImgPreview(this)"
+                                               type="file">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -242,11 +396,18 @@
                                         <textarea name="message" placeholder="Your Message.."
                                                   required=""></textarea>
                                     </div>
-                                    <div class="button-box">
+                                    <div class="button-box" th:if="${user != null}">
                                         <input id="form_botcheck" name="form_botcheck" class="form-control"
                                                type="hidden" value="">
-                                        <button class="btn-one" type="submit" data-loading-text="Please wait...">Send
+                                        <button class="btn-one" type="submit" data-loading-text="Your feedback has been noted">Send
                                             Your Message
+                                        </button>
+                                    </div>
+                                    <div class="button-box" th:if="${user == null}">
+                                        <!--<input id="form_botcheck" name="form_botcheck" class="form-control"
+                                               type="hidden" value="">-->
+                                        <button class="btn-danger" type="button" >
+                                            You must login to feedback
                                         </button>
                                     </div>
                                 </div>

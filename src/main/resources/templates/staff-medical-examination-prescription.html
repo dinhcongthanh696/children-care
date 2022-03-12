@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Staff | Prescription </title>
+<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="description" content="Developed By M Abdur Rokib Promy">
+    <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
+    <!-- bootstrap 3.0.2 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../css_admin/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- font Awesome -->
+    <link href="../css_admin/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons -->
+    <link href="../css_admin/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Morris chart -->
+    <link href="../css_admin/morris/morris.css" rel="stylesheet" type="text/css" />
+    <!-- jvectormap -->
+    <link href="../css_admin/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <!-- Date Picker -->
+    <link href="../css_admin/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+    <!-- fullCalendar -->
+    <!-- <link href="css/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" /> -->
+    <!-- Daterange picker -->
+    <link href="../css_admin/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link href="../css_admin/iCheck/all.css" rel="stylesheet" type="text/css" />
+    <!-- bootstrap wysihtml5 - text editor -->
+    <!-- <link href="css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" /> -->
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <!-- Theme style -->
+    <link href="../css_admin/style.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+          <![endif]-->
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180"
+	href="../images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png"
+	href="../images/favicon/favicon-16x16.png" sizes="16x16">
+
+<!--  thanh style -->
+<style>
+	table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+	
+</style>
+</head>
+<body class="skin-black">
+	<header class="header" >
+            <a th:href="@{/admin/dashboard}" class="logo" th:text="${session.user.userRole.roleName}">
+               
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+           <div th:replace="header_admin::navbarRight"></div>
+        </header>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+                    <!-- Left side column. contains the logo and sidebar -->
+                    <div th:replace="navBar_admin::leftSide_admin('/staff/prescription')" ></div>
+					
+
+                    <aside class="right-side">    
+						<section class="content">
+							<div class="container-fluid">
+								<div class="row" style="background-color: #EDEDED;color : black;padding: 25px;">
+									<div class="col-sm-6">
+											<label for="search-query" class="form-check-label">Search : </label>
+  											<input type="text" class="form-check-input" placeholder="Search By Drug Name..."
+  													id="search-query"
+  													onkeyup="searchDrug(this.value)" 
+  											/>
+									</div>
+							</div>
+							<div class="row">
+								<table class="table table-bordered table-hover table-dark table-striped">
+									<thead>
+										<tr>
+											<th>#Drug Id</th>
+											<th>Thumbnail</th>
+											<th>Drug Name</th>
+											<th>Manufacture Date</th>
+											<th>Expired Date</th>
+											<th>Price</th>
+											<th>Quantity</th>
+											<th>Type</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="drug : ${drugs}" class="drug-item" th:id="'drug-'+${drug.drugId}">
+											<td th:text="${drug.drugId}" class="drug-id"></td>
+											<td>
+												<img th:src="${'data:image/gif;base64,'+drug.base64ThumbnailEncode}" 
+													class="drug-thumbnail" />
+											</td>
+											<td th:text="${drug.drugName}" class="drug-name"></td>
+											<td th:text="${drug.createdDate}"></td>
+											<td th:text="${drug.endDate}"></td>
+											<td th:text="${drug.price}" class="drug-price"></td>
+											<th th:text="${drug.quantity}" class="drug-quantity"></th>
+											<td th:text="${drug.type}" class="drug-type"></td>
+											<td>
+												<button class="btn btn-primary" th:id="'drug-button-'+${drug.drugId}"
+													th:onclick="'addDrugToPrescription('+ ${drug.drugId} +')'"
+													th:disabled="${prescription.?[drug.drugId == __${drug.drugId}__].size() > 0 }"
+													th:text="${prescription.?[drug.drugId == __${drug.drugId}__].size() == 0 ? 'Add drug to prescription' : 'This drug was in prescription'}"
+												></button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+									
+									<div id="prescription">
+										<h4> - Prescription</h4>
+										<table class="table table-bordered table-hover table-dark table-striped">
+												<thead>
+													<tr>
+														<th>#Drug Id</th>
+														<th>Drug Name</th>
+														<th>Price</th>
+														<th>Quantity</th>
+														<th>Type</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody id="prescription-content">
+														<tr
+															th:each="element : ${prescription}"
+															th:id="'prescription-drug-'+${element.drug.drugId}"
+														>
+															<td th:text="${element.drug.drugId}"></td>
+															<td th:text="${element.drug.drugName}"></td>
+															<td th:text="${element.drug.price * element.quantity}" th:id="'prescription-drug-price-' + ${element.drug.drugId}"></td>
+															<td>
+																<input type="number" th:value="${element.quantity}" th:onchange="'updateQuantity('+ ${element.drug.drugId} + ',' + this.value +')'" 
+																	th:onfocus="'storePreviousQuantity(' + ${element.drug.drugId} + ',' + this.value +')'"
+																	th:id="'input-quantity-' + ${element.drug.drugId}"
+																/>
+																<input type="hidden"  th:id="'drug-previous-quantity-' + ${element.drug.drugId}"/>
+															</td>
+															<td th:text="${element.drug.type}"></td>
+															<td>
+																<button class="btn btn-danger" th:onclick="'removeDrugFromPrescription('+ ${element.drug.drugId} +')'">Remove Drug</button>
+															</td>
+														</tr>
+												</tbody>
+									
+										</table>
+										<h4>
+											Total Price : <span th:text="${totalPrice}" id="total-price"></span> | <button class="btn btn-success">Save Prescription</button>
+										</h4>
+									</div>
+							</div>
+							</section><!-- /.content -->
+                <div class="footer-main">
+                   <h3>Copyright &copy SWP391 SPRING 2022 SE1517-NET TEAM 2</h3> 
+                </div>
+            </aside><!-- /.right-side -->
+
+        </div><!-- ./wrapper -->
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="../js/pagging.js"></script>
+	<!-- jQuery 2.0.2 -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="../js_admin/jquery.min.js" type="text/javascript"></script>
+
+        <!-- jQuery UI 1.10.3 -->
+        <script src="../js_admin/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
+        <!-- Bootstrap -->
+        <script src="../js_admin/bootstrap.min.js" type="text/javascript"></script>
+        <!-- daterangepicker -->
+        <script src="../js_admin/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+
+        <script src="../js_admin/plugins/chart.js" type="text/javascript"></script>
+
+        <!-- datepicker
+        <script src="js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>-->
+        <!-- Bootstrap WYSIHTML5
+        <script src="js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>-->
+        <!-- iCheck -->
+        <script src="../js_admin/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+        <!-- calendar -->
+        <script src="../js_admin/plugins/fullcalendar/fullcalendar.js" type="text/javascript"></script>
+
+        <!-- Director App -->
+        <script src="../js_admin/Director/app.js" type="text/javascript"></script>
+
+        <!-- Director dashboard demo (This is only for demo purposes) -->
+        <script src="../js_admin/Director/dashboard.js" type="text/javascript"></script>
+         <script type="text/javascript">
+            $('input').on('ifChecked', function(event) {
+                // var element = $(this).parent().find('input:checkbox:first');
+                // element.parent().parent().parent().addClass('highlight');
+                $(this).parents('li').addClass("task-done");
+                console.log('ok');
+            });
+            $('input').on('ifUnchecked', function(event) {
+                // var element = $(this).parent().find('input:checkbox:first');
+                // element.parent().parent().parent().removeClass('highlight');
+                $(this).parents('li').removeClass("task-done");
+                console.log('not');
+            });
+
+        </script>
+        <script>
+            $('#noti-box').slimScroll({
+                height: '400px',
+                size: '5px',
+                BorderRadius: '5px'
+            });
+
+            $('input[type="checkbox"].flat-grey, input[type="radio"].flat-grey').iCheck({
+                checkboxClass: 'icheckbox_flat-grey',
+                radioClass: 'iradio_flat-grey'
+            });
+		</script>
+		<script type="text/javascript">
+			function addDrugToPrescription(drugId){
+				var drugItemElement = document.getElementById("drug-"+drugId);
+				var drugId = drugItemElement.getElementsByClassName("drug-id")[0].innerHTML;
+				var drugName = drugItemElement.getElementsByClassName("drug-name")[0].innerHTML;
+				var drugPrice = drugItemElement.getElementsByClassName("drug-price")[0].innerHTML;
+				var drugQuantity = drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML;
+				drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML = parseInt(drugQuantity) - 1;
+				
+				var drugType = drugItemElement.getElementsByClassName("drug-type")[0].innerHTML;
+				
+				const trElement = document.createElement("tr");
+				trElement.id = "prescription-drug-"+drugId;
+				var tdElement = document.createElement("td");
+				tdElement.innerHTML = drugId;
+				trElement.appendChild(tdElement);
+				
+				tdElement = document.createElement("td");
+				tdElement.innerHTML = drugName;
+				trElement.appendChild(tdElement);
+				
+				tdElement = document.createElement("td");
+				tdElement.innerHTML = drugPrice;
+				trElement.appendChild(tdElement);
+				
+				tdElement = document.createElement("td");
+				
+				var inputElement = document.createElement("input");
+				inputElement.value = 1;
+				inputElement.type = "number";
+				inputElement.id = "input-quantity-"+drugId;
+				inputElement.onchange = function(){
+					updateQuantity(drugId);
+				}
+				inputElement.onfocus = function(){
+					storePreviousQuantity(drugId);
+				}
+				tdElement.appendChild(inputElement);
+				inputElement = document.createElement("input");
+				inputElement.type = "hidden";
+				inputElement.id = "drug-previous-quantity-"+drugId;
+				tdElement.appendChild(inputElement);
+				trElement.appendChild(tdElement);
+				
+				tdElement = document.createElement("td");
+				tdElement.innerHTML = drugType;
+				trElement.appendChild(tdElement);
+				
+				tdElement = document.createElement("td");
+				var buttonElement = document.createElement("button");
+				buttonElement.className = "btn btn-danger";
+				buttonElement.innerHTML = "Remove Drug";
+				buttonElement.onclick = function(){
+					removeDrugFromPrescription(drugId);
+				}
+				tdElement.appendChild(buttonElement);
+				trElement.appendChild(tdElement);
+				
+				var prescriptionContentElement = document.getElementById("prescription-content");
+				prescriptionContentElement.appendChild(trElement);
+				
+				var addDrugButtonElement = drugItemElement.getElementsByClassName("btn")[0];
+				addDrugButtonElement.disabled = true;
+				addDrugButtonElement.innerHTML = "This drug was in prescription";
+			}
+			
+			function removeDrugFromPrescription(drugId){
+				var prescriptionContent = document.getElementById("prescription-content");
+				var prescriptionDrug = document.getElementById("prescription-drug-"+drugId);
+				var prescriptionDrugQuantity = document.getElementById("input-quantity-"+drugId).value;
+				var drugItemElement = document.getElementById("drug-"+drugId);
+				var drugQuantity = drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML;
+				drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML = parseInt(drugQuantity) + parseInt(prescriptionDrugQuantity);
+				prescriptionContent.removeChild(prescriptionDrug);
+				var addDrugButtonElement = drugItemElement.getElementsByClassName("btn")[0];
+				addDrugButtonElement.disabled = false;
+				addDrugButtonElement.innerHTML = "Add drug to prescription";
+			}
+			
+			function searchDrug(search){
+				var drugItems = document.getElementsByClassName("drug-item");
+				for(let i = 0 ; i < drugItems.length ; i++){
+					var drugName = drugItems[i].getElementsByClassName("drug-name")[0].innerHTML;
+					if(drugName.toLowerCase().includes(search.toLowerCase())){
+						drugItems[i].style.display = "";
+					}else{
+						drugItems[i].style.display = "none";
+					}
+				}
+			}
+			
+			function updateQuantity(drugId){
+				var currentQuantity = document.getElementById("input-quantity-"+drugId).value;
+				var drugItemElement = document.getElementById("drug-"+drugId);
+				var drugQuantity = drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML;
+				var drugPreviousQuantityInputElement = document.getElementById("drug-previous-quantity-"+drugId);
+				var updatedQuantity = currentQuantity - drugPreviousQuantityInputElement.value;
+				var drugCurrentQuantityInputElement = document.getElementById("input-quantity-"+drugId);
+				if(parseInt(drugQuantity) - updatedQuantity >= 0){
+					drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML = parseInt(drugQuantity) - updatedQuantity;
+					drugCurrentQuantityInputElement.blur();
+					var prescriptionDrugPriceElement = document.getElementById("prescription-drug-price-"+drugId);
+					var drugPrice = parseInt(drugItemElement.getElementsByClassName("drug-price")[0].innerHTML);
+					prescriptionDrugPriceElement.innerHTML = parseFloat(prescriptionDrugPriceElement.innerHTML) + (parseFloat(drugPrice) * updatedQuantity);
+					document.getElementById("total-price").innerHTML = parseInt(document.getElementById("total-price").innerHTML) + (parseFloat(drugPrice) * updatedQuantity);
+					alert("Update Quantity Succusfully");
+				}else{
+					drugCurrentQuantityInputElement.value = drugPreviousQuantityInputElement.value;
+					alert("Not enough quantity for this drug");
+				}
+			}
+			
+			function storePreviousQuantity(drugId){
+				var drugPreviousQuantity = document.getElementById("drug-previous-quantity-"+drugId);
+				drugPreviousQuantity.value = document.getElementById("input-quantity-"+drugId).value;
+			}
+	
+		</script>
+		  
+</body>
+</html>

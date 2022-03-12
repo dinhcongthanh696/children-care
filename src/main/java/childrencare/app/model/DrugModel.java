@@ -34,6 +34,7 @@ public class DrugModel {
 	private String base64ThumbnailEncode;
 	private boolean status;
 	private double price;
+	private int quantity;
 	@Column(name = "create_date")
 	private Date createdDate;
 	@Column(name = "end_date")
