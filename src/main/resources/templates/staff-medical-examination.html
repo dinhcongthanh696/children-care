@@ -134,7 +134,9 @@ th, td {
 												<span th:text="${reservationService.slot.end > 12 ? reservationService.slot.end + ' pm' : reservationService.slot.end + ' am'}"></span>
 											</td>
 											<td>
-												<button class="btn btn-primary">Edit Drug Prescription</button>
+												<button class="btn btn-primary" 
+													th:onclick="'viewPrescription('+ ${reservationService.reservation.reservationId} + ',' + ${reservationService.service.serviceId} +')'"
+												>Edit Drug Prescription</button>
 												<h5 th:text="${reservationService.drugs.isEmpty() ? 'NO DRUGS' : 'List of drugs : '}"></h5>
 												<ul>
 													<li th:each="drug : ${reservationService.drugs}"
@@ -216,12 +218,12 @@ th, td {
             });
 		</script>
 		<script type="text/javascript">
+			function viewPrescription(rid,sid){
+				window.location.href = "/ChildrenCare/staff/prescription?rid="+rid+"&sid="+sid;
+			}
 	
-	function changePage(pageNumber) {
-		
-	}
 	
-	</script>
+		</script>
 		  
 </body>
 </html>

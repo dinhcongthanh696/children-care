@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import childrencare.app.model.DrugModel;
+import childrencare.app.model.ReservationServiceDrugModel;
 import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.model.StaffModel;
 import childrencare.app.model.UserModel;
 import childrencare.app.service.DrugService;
 import childrencare.app.service.ReservationService;
+import childrencare.app.service.ReservationServiceDrugService;
 import childrencare.app.service.ReservationService_Service;
 import childrencare.app.service.ServiceModelService;
 
@@ -32,13 +34,17 @@ public class StaffController {
 	
 	private final DrugService drugService;
 	
+	private final ReservationServiceDrugService rsdService;
+	
 	@Autowired
 	public StaffController(ServiceModelService service_service,
 			ReservationService_Service reservationService_Service,
-			DrugService drugService) {
+			DrugService drugService,
+			ReservationServiceDrugService rsdService) {
 		this.service_service = service_service;
 		this.reservationService_Service = reservationService_Service;
 		this.drugService = drugService;
+		this.rsdService = rsdService;
 	}
 	
 	@GetMapping("/medical-examination")
@@ -66,5 +72,22 @@ public class StaffController {
 		model.addAttribute("currentServiceId", serviceId);
 		model.addAttribute("currentDrugIdS", drugIds);
 		return "staff-medical-examination";
+	}
+	
+	@GetMapping("/prescription")
+	public String toPrescription(Model model,
+			@RequestParam(name = "rid") int rid,
+			@RequestParam(name = "sid") int sid) {
+		List<ReservationServiceDrugModel> prescription = rsdService.findByReservationAndService(rid, sid);
+		List<DrugModel> drugs = drugService.findAllDrugs();
+		int totalPrice = 0;
+		for(ReservationServiceDrugModel rsd : prescription) {
+			totalPrice += rsd.getQuantity() * rsd.getDrug().getPrice();
+		}
+		
+		model.addAttribute("prescription", prescription);
+		model.addAttribute("drugs", drugs);
+		model.addAttribute("totalPrice", totalPrice);
+		return "staff-medical-examination-prescription";
 	}
 }
