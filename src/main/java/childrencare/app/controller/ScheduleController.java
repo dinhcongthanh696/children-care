@@ -51,6 +51,9 @@ public class ScheduleController {
     UserService userService;
 
     @Autowired
+    PayService payService;
+
+    @Autowired
     JavaMailSender mailSender;
     //Reservation Completion - KVA
 
@@ -68,8 +71,11 @@ public class ScheduleController {
                 reservationService_service.getAllBookedSchedule(reservationId);
         model.addAttribute("schedules", schedules);
 
-        model.addAttribute("reservationId", reservationId);
+        List<Payment> payments = payService.findAll();
+        model.addAttribute("payments", payments);
 
+        model.addAttribute("reservationId", reservationId);
+       
         double price = reservationService.getReservationByID(reservationId).getTotalReservationPrice();
         model.addAttribute("totalPrice", price);
         return "apppointment";

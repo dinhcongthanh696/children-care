@@ -51,6 +51,9 @@ public class ReservationModel {
 	
 	@OneToMany(mappedBy = "reservation")
 	private List<ReservationServiceDrugModel> reservationServiceDrugs;
-	
-	
+
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "payment_id")
+	private Payment payment;
 }

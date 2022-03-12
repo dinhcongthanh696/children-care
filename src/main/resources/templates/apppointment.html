@@ -4,13 +4,13 @@
 <!-- Mirrored from st.ourhtmldemo.com/new/Dento/apppointment.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Jan 2021 02:08:58 GMT -->
 <head>
     <meta charset="UTF-8">
-    <title>Apppointment || Dento || Responsive HTML 5 Template</title>
+    <title> Children Care | Booking Schedule </title>
 
     <!-- responsive meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- For IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+    <link href="/css_admin/ionicons.min.css" rel="stylesheet" type="text/css"/>
     <!-- master stylesheet -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Responsive stylesheet -->
@@ -24,10 +24,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
     <style>
         #scheduleInfo {
             font-family: Arial, Helvetica, sans-serif;
@@ -40,9 +36,13 @@
             padding: 8px;
         }
 
-        #scheduleInfotr:nth-child(even){background-color: #f2f2f2;}
+        #scheduleInfotr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-        #scheduleInfo tr:hover {background-color: #ddd;}
+        #scheduleInfo tr:hover {
+            background-color: #ddd;
+        }
 
         #scheduleInfo th {
             padding-top: 12px;
@@ -62,322 +62,228 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <![endif]-->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
-    <header th:replace="header.html :: header"></header>
+<div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
+<header th:replace="header.html :: header"></header>
 
-    <div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
-    <!--End mainmenu area-->
-
-
+<div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
+<!--End mainmenu area-->
 
 
-    <!--Start breadcrumb area-->
-    <section class="breadcrumb-area" style="background-image: url(images/resources/breadcrumb-bg.jpg);">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="inner-content clearfix">
-                        <div class="title float-left">
-                            <h2>Make Apppointment</h2>
-                        </div>
-                        <div class="breadcrumb-menu float-right">
-                            <ul class="clearfix">
-                                <li><a href="/ChildrenCare">Home</a></li>
-                                <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                                <li> <a href="ChildrenCare/reservation/reser">Cart</a> </li>
-                                <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                                <li> <a href="/ChildrenCare/reservation/contact">Contact </a> </li>
-                                <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                                <li class="active">Schedule and Payment</li>
-                            </ul>
-                        </div>
+<!--Start breadcrumb area-->
+<section class="breadcrumb-area" style="background-image: url(images/resources/breadcrumb-bg.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="inner-content clearfix">
+                    <div class="title float-left">
+                        <h2>Make Apppointment</h2>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--End breadcrumb area-->
-
-    <!--Start Appointment area -->
-    <div class="appointment-area2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="sec-title max-width text-center">
-                        <h1>Make an Appointment</h1>
-                        <p>Here you can get doctors available time & you can get your perfect visiting time to hospital.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-8">
-                    <div class="appointment-form-left">
-                        <form name="appointment-form" action="" method="post">
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="single-box">
-                                        <input type="hidden" th:value="${reservationId}" id="reservationId">
-                                        <div class="title">
-                                            <h5>Your service</h5>
-                                        </div>
-                                        <div class="input-box">
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <select class="selectmenu" id="chosenService">
-                                                        <!-- Insert user's chosen service -->
-                                                        <th:block th:each="service : ${services}">
-                                                            <option th:utext="${service.title}" th:value ="${service.serviceId}"> </option>
-                                                        </th:block>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="single-box">
-                                        <div class="title">
-                                            <h5>Date</h5>
-                                        </div>
-                                        <div class="input-box">
-                                            <input type="text" name="bookedDate" placeholder="Date" id="datepicker">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="single-box">
-                                        <div class="title">
-                                            <h5>Doctor</h5>
-                                        </div>
-                                        <div class="input-box">
-                                            <select class="selectmenu" id = "staffMenu">
-                                                <!-- Insert available doctor here -->
-                                                <option th:value = "0"> Automatically </option>
-                                                <th:block th:each="staff : ${staffs}">
-                                                    <option th:utext="${staff.staff_user.fullname}" th:value="${staff.staff_id}"> </option>
-                                                </th:block>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="single-box">
-                                        <div class="title">
-                                            <h5>Available at</h5>
-                                        </div>
-                                        <div class="input-box">
-                                            <div class="available-time">
-                                                <ul id="available-slot">
-                                                    <!-- Insert available time here-->
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <form action = "#" method="post">
-                            <div class="title">
-                                <h5>Your booked schedule</h5>
-                            </div>
-                            <div class = "row">
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="input-box">
-                                        <table id = 'scheduleInfo'>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Slot</th>
-                                                <th>Doctor</th>
-                                                <th>Service</th>
-                                                <th></th>
-                                            </tr>
-                                            <th:block th:each="sc : ${schedules}">
-                                                <tr>
-                                                    <td th:utext="${sc.id.bookedDate}" th:value="${sc.id.bookedDate}">              </td>
-                                                    <td th:utext="${#numbers.formatInteger(sc.slot.start, 2) + ':00'}" th:value="${sc.id.slot_id}">  </td>
-                                                    <td th:utext="${sc.staff.staff_user.fullname}" th:value="${sc.id.staff_id}">    </td>
-                                                    <td th:utext="${sc.service.title}" th:value="${sc.id.staff_id}">    </td>
-                                                    <td> <button type="button" class="btn btn-danger cancel"
-                                                        th:onclick="deleteSchedule([[${sc.id.bookedDate}]],
-                                                                                   [[${sc.id.slot_id}]],
-                                                                                   [[${sc.id.staff_id}]]) ">
-                                                        Cancel</button>
-                                                    </td>
-                                                </tr>
-                                            </th:block>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <button type="button" class="btn btn-outline-success confirm">Send mail confirm</button>
-                            </div>
-                            <div class="row" id="message" style="display: none">
-                                <p>Please check you email to confirm you booking!</p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-9">
-                    <div class="appointment-right">
-                            <div class="confirm-booking">
-                                <h3>Your Payment</h3>
-                                <div class="tab-content">
-                                    <!-- credit card info-->
-                                    <input type="hidden" value="" >
-                                </div>
-                            </div>
-                            <form method="post" th:action="@{/pay?price=} + ${totalPrice}">
-                                <div class="button-box">
-                                    <button class="btn-one" id="paypal-btn"
-                                    > <b> Check out with Pay<span style="color: #3250a8">Pal</span> </b> </button>
-                                </div>
-                            </form>
-                        <form method="post" th:action="@{/pay?price=} + ${totalPrice}">
-                            <div class="button-box">
-                                <button class="btn-one" id="paypal-btn"
-                                > <b> Check out with Pay<span style="color: #3250a8">Pal</span> </b> </button>
-                            </div>
-                            <div class="button-box">
-                                <div class="btn-one" id="cashCheck-btn"
-                                > <b> Check out with Cash</b> </div>
-                            </div>
-                        </form>
-                            <br>
+                    <div class="breadcrumb-menu float-right">
+                        <ul class="clearfix">
+                            <li><a href="/ChildrenCare">Home</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
+                            <li><a href="ChildrenCare/reservation/reser">Cart</a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
+                            <li><a href="/ChildrenCare/reservation/contact">Contact </a></li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
+                            <li class="active">Schedule and Payment</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--End Appointment area -->
+</section>
+<!--End breadcrumb area-->
 
-    <!--Start footer area-->
-    <footer class="footer-area pdtop80">
-        <div class="container">
-            <div class="row">
-                <!--Start single footer widget-->
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                    <div class="single-footer-widget marbtm50">
-                        <div class="about-us">
-                            <div class="footer-logo fix">
-                                <a href="index-2.html">
-                                    <img src="images/resources/logo-2.png" alt="Awesome Logo">
-                                </a>
-                            </div>
-                            <div class="text-box fix">
-                                <p>Dento was started in the year 1995 as a small private dental clinic in Binghamton, NY, USA. Looking for affordable dental care?</p>
-                                <p class="bottom-text">To take a trivial example, which of us ever undertakes laborious physical
-                                    exercise, except to obtain.</p>
-                            </div>
-                            <div class="button fix">
-                                <a class="btn-one" href="#">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--End single footer widget-->
-
-                <!--Start single footer widget-->
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                    <div class="single-footer-widget martop6 marbtm50">
-                        <div class="title">
-                            <h3>Specialities</h3>
-                        </div>
-                        <ul class="specialities">
-                            <li><a href="#">Dental Implants</a></li>
-                            <li><a href="#">Laser Dentistry</a></li>
-                            <li><a href="#">Cosmetic Dentistry</a></li>
-                            <li><a href="#">Orthodontics</a></li>
-                            <li><a href="#">Pedodontics</a></li>
-                            <li><a href="#">Prosthodontics</a></li>
-                            <li><a href="#">Oral & Maxsillosacial</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!--End single footer widget-->
-
-                <!--Start single footer widget-->
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                    <div class="single-footer-widget martop6 pdbtm50">
-                        <div class="title">
-                            <h3>Facilities</h3>
-                        </div>
-                        <ul class="facilities">
-                            <li><a href="#">Individual Tooth X-Ray</a></li>
-                            <li><a href="#">Intensive Care Unit</a></li>
-                            <li><a href="#">Blood Bank</a></li>
-                            <li><a href="#">Critical Care Areas</a></li>
-                            <li><a href="#">Laboratories</a></li>
-                            <li><a href="#">Scale and Clean</a></li>
-                            <li><a href="#">Fissure Sealants</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!--End single footer widget-->
-
-                <!--Start single footer widget-->
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                    <div class="single-footer-widget martop6 pdtop-50">
-                        <div class="title">
-                            <h3>Opening Hours</h3>
-                        </div>
-                        <ul class="opening-hours">
-                            <li>Monday <span class="float-right">8.30am–6.30pm</span></li>
-                            <li>Tuesday <span class="float-right">10.00am–8.00pm</span></li>
-                            <li>Wednesday <span class="float-right">8.30am–6.30pm</span></li>
-                            <li>Thursday <span class="float-right">8.30am–7.00pm</span></li>
-                            <li>Friday <span class="float-right">8.30am–3.00pm</span></li>
-                            <li>Saturday <span class="float-right">8.30am–2.00pm</span></li>
-                            <li>Sunday <span class="float-right clr-green">Closed</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <!--End single footer widget-->
-
-            </div>
-        </div>
-    </footer>
-    <!--End footer area-->
-
-    <!--Start footer bottom area-->
-    <section class="footer-bottom-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <div class="inner clearfix">
-                        <div class="footer-social-links float-left">
-                            <ul class="sociallinks-style-one">
-                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="copyright-text text-center">
-                            <p>© <a href="#">Dento</a> 2018, All Rights Reserved.</p>
-                        </div>
-                        <ul class="footer-menu float-right">
-                            <li><a href="#">Terms & Condition</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                        </ul>
-                    </div>
+<!--Start Appointment area -->
+<div class="appointment-area2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="sec-title max-width text-center">
+                    <h1>Make an Appointment</h1>
+                    <p>Here you can get doctors available time & you can get your perfect visiting time to hospital.</p>
                 </div>
             </div>
         </div>
-    </section>
-    <!--End footer bottom area-->
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="appointment-form-left">
+                    <form name="appointment-form" action="" method="post">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <input type="hidden" th:value="${reservationId}" id="reservationId">
+                                    <div class="title">
+                                        <h5>Your service</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <select class="selectmenu" id="chosenService">
+                                                    <!-- Insert user's chosen service -->
+                                                    <th:block th:each="service : ${services}">
+                                                        <option th:utext="${service.title}"
+                                                                th:value="${service.serviceId}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Date</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="text" name="bookedDate" placeholder="Date" id="datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Doctor</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <select class="selectmenu" id="staffMenu">
+                                            <!-- Insert available doctor here -->
+                                            <option th:value="0"> Automatically</option>
+                                            <th:block th:each="staff : ${staffs}">
+                                                <option th:utext="${staff.staff_user.fullname}"
+                                                        th:value="${staff.staff_id}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="single-box">
+                                    <div class="title">
+                                        <h5>Available at</h5>
+                                    </div>
+                                    <div class="input-box">
+                                        <div class="available-time">
+                                            <ul id="available-slot">
+                                                <!-- Insert available time here-->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form action="#" method="post">
+                        <div class="title">
+                            <h5>Your booked schedule</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="input-box">
+                                    <table id='scheduleInfo'>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Slot</th>
+                                            <th>Doctor</th>
+                                            <th>Service</th>
+                                            <th></th>
+                                        </tr>
+                                        <th:block th:each="sc : ${schedules}">
+                                            <tr>
+                                                <td th:utext="${sc.id.bookedDate}" th:value="${sc.id.bookedDate}"></td>
+                                                <td th:utext="${#numbers.formatInteger(sc.slot.start, 2) + ':00'}"
+                                                    th:value="${sc.id.slot_id}"></td>
+                                                <td th:utext="${sc.staff.staff_user.fullname}"
+                                                    th:value="${sc.id.staff_id}"></td>
+                                                <td th:utext="${sc.service.title}" th:value="${sc.id.staff_id}"></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger cancel"
+                                                            th:onclick="deleteSchedule([[${sc.id.bookedDate}]],
+                                                                                   [[${sc.id.slot_id}]],
+                                                                                   [[${sc.id.staff_id}]]) ">
+                                                        Cancel
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <button type="button" class="btn btn-outline-success confirm">Send mail confirm</button>
+                        </div>
+                        <div class="row" id="message" style="display: none">
+                            <p>Please check you email to confirm you booking!</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-9">
+                <div class="appointment-right">
+                    <div class="confirm-booking">
+                        <h2 style="text-align: center; color: #0F9E5E"> Your Payment</h2>
+                        <div class="tab-content">
+                            <!-- credit card info-->
+                            <input type="hidden" value="">
+                        </div>
+                    </div>
+                    <form method="post" th:action="@{/payment}">
+                        <input type="hidden" th:value="${reservationId}" name="reservationId">
+                        <input type="hidden" th:value="${totalPrice}" name="price">
+                        <th:block th:each="p : ${payments}">
+                            <div style="margin-top: 30px">
+                                <input type="radio" th:value="${p.id}" name="payMethod">
+                                <b> <span class="btn-box alert alert-primary"
+                                          th:text="|  Check out with ${p.name}|"> </span> </b>
+                                <br>
+                            </div>
+                        </th:block>
+                        <br>
+                        <button class="btn btn-outline-success btn-lg btn-radius fa-align-center">
+                            <b> Check out </b>
+                        </button>
+                    </form>
+                    <br>
+
+                    <th:block>
+                        <div class="alert alert-warning" role="alert" th:if="">
+                            <i class="fa fa-warning" style="color: #ff835e"></i>You need to choose payment method so can
+                            check out!
+                        </div>
+                        <div class="alert alert-success" role="alert">
+                            <i class="fa fa-check" style="color: #0F9E5E"></i> Check out success!
+                        </div>
+                    </th:block>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Appointment area -->
+
+<!--Start footer area-->
+<div id="pages"></div>
+<div id="footer" th:insert="index :: footer"></div>
+<!--End footer area-->
 
 </div>
 
@@ -470,27 +376,28 @@
 <script>
 
     /*=====  Cancel a booked reservation */
-    function deleteSchedule(booked_date, slot_id, staff_id){
+    function deleteSchedule(booked_date, slot_id, staff_id) {
         console.log(booked_date + "_" + slot_id + "_" + staff_id);
         var formData = new FormData();
         formData.append("booked_date", booked_date);
         formData.append("slot_id", slot_id);
         formData.append("staff_id", staff_id);
 
-        fetch("/ChildrenCare/api-reservation/schedule",{
-            method : 'DELETE',
+        fetch("/ChildrenCare/api-reservation/schedule", {
+            method: 'DELETE',
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
-            body : formData
+            body: formData
         })
             .then(response => {
-                switch(response.status){
+                switch (response.status) {
                     case 403 :
                         alert("Your are not allowed to save any changes");
                         break;
                     case 200 :
                         alert("Delete success");
-                        location.reload();l
+                        location.reload();
+                        l
                 }
             })
     }
@@ -515,6 +422,7 @@
             .catch(function (err) {
                 console.log('error: ' + err);
             });
+
         function appendData(data) {
             $('#available-slot').empty();
             var mainContainer = document.getElementById("available-slot");
@@ -529,22 +437,22 @@
         }
     });
 
-    function getPickedDate(date){
+    function getPickedDate(date) {
         let dd = String(date.getDate()).padStart(2, '0');
         let mm = String(date.getMonth() + 1).padStart(2, '0');
         let yyyy = date.getFullYear();
         return yyyy + '-' + mm + '-' + dd;
     }
 
-    function renderHour(hour){
-        hour = parseInt(hour,10);
-        if(hour > 12){
+    function renderHour(hour) {
+        hour = parseInt(hour, 10);
+        if (hour > 12) {
             return hour + ":00 pm";
-        }
-        else{
+        } else {
             return hour + ":00 am";
         }
     }
+
     /* ====== Create a schedule ====== */
     $(document).on('click', '.slot_Booked', function () {
         let slot_id = this.id;
@@ -572,14 +480,14 @@
 
         alert(bookedInfo);
 
-        fetch("/ChildrenCare/api-reservation/schedule",{
-            method : 'PUT',
+        fetch("/ChildrenCare/api-reservation/schedule", {
+            method: 'PUT',
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
-            body : formData
+            body: formData
         })
             .then(response => {
-                switch(response.status){
+                switch (response.status) {
                     case 403 :
                         alert("Your are not allowed to save any changes");
                         break;
@@ -590,16 +498,16 @@
                 }
             })
     });
-    $(document).on("click", ".confirm", function(){
+    $(document).on("click", ".confirm", function () {
         let reservation_id = $("#reservationId").val();
         let mess = document.getElementById("message");
         mess.style.display = 'block';
         test();
-        fetch("/ChildrenCare/updateReservationInfo?reservationId=" + reservation_id,{
-            method : 'PUT'
+        fetch("/ChildrenCare/updateReservationInfo?reservationId=" + reservation_id, {
+            method: 'PUT'
         })
             .then(response => {
-                switch(response.status){
+                switch (response.status) {
                     case 403 :
                         alert("Your are not allowed to save any changes");
                         break;
@@ -610,10 +518,12 @@
                 }
             })
     });
-    function test(){
-        var list = document.getElementsByClassName('slot_Booked');
-        console.log(list.length);
+
+    function pay() {
+
     }
+
+
 </script>
 
 
