@@ -64,7 +64,6 @@
     <![endif]-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -74,55 +73,8 @@
     <div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
     <!--End mainmenu area-->
 
-    <!-- Hidden Navigation Bar -->
-    <section class="hidden-bar right-align">
-        <div class="hidden-bar-closer">
-            <button><span class="flaticon-remove"></span></button>
-        </div>
-        <div class="hidden-bar-wrapper">
-            <div class="logo">
-                <a href="index-2.html"><img src="images/resources/logo-3.png" alt=""/></a>
-            </div>
-            <div class="contact-info-box">
-                <h3>Contact Info</h3>
-                <ul>
-                    <li>
-                        <h5>Address</h5>
-                        <p>Romanian  9520 Faires Farm Road,<br> Carlsbad, NC 28213.</p>
-                    </li>
-                    <li>
-                        <h5>Phone</h5>
-                        <p>Phone 1: +1 555-7890-123</p>
-                    </li>
-                    <li>
-                        <h5>Email</h5>
-                        <p>supportyou@example.com</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="newsletter-form-box">
-                <h3>Newsletter Subscribe</h3>
-                <span>Get healthy tips & latest updates in inbox.</span>
-                <form action="#">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <input type="email" name="email" placeholder="Email Address...">
-                            <button type="submit"><span class="flaticon-arrow"></span></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="offer-box text-center" style="background-image: url(images/resources/offer-box.jpg);">
-                <div class="big-title">50% <span>Offer</span></div>
-                <h3>5 Years Warranty</h3>
-                <a class="btn-one" href="#">Pricing Plans</a>
-            </div>
-            <div class="copy-right-text">
-                <p>© Dento 2018, All Rights Reserved.</p>
-            </div>
-        </div>
-    </section>
-    <!-- End Hidden Bar -->
+
+
 
     <!--Start breadcrumb area-->
     <section class="breadcrumb-area" style="background-image: url(images/resources/breadcrumb-bg.jpg);">
@@ -135,9 +87,13 @@
                         </div>
                         <div class="breadcrumb-menu float-right">
                             <ul class="clearfix">
-                                <li><a href="index-2.html">Home</a></li>
+                                <li><a href="/ChildrenCare">Home</a></li>
                                 <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                                <li class="active">Make Apppointment</li>
+                                <li> <a href="ChildrenCare/reservation/reser">Cart</a> </li>
+                                <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
+                                <li> <a href="/ChildrenCare/reservation/contact">Contact </a> </li>
+                                <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
+                                <li class="active">Schedule and Payment</li>
                             </ul>
                         </div>
                     </div>
@@ -286,11 +242,17 @@
                                     <button class="btn-one" id="paypal-btn"
                                     > <b> Check out with Pay<span style="color: #3250a8">Pal</span> </b> </button>
                                 </div>
-                                <div class="button-box">
-                                    <div class="btn-one" id="cashCheck-btn"
-                                    > <b> Check out with Cash</b> </div>
-                                </div>
                             </form>
+                        <form method="post" th:action="@{/pay?price=} + ${totalPrice}">
+                            <div class="button-box">
+                                <button class="btn-one" id="paypal-btn"
+                                > <b> Check out with Pay<span style="color: #3250a8">Pal</span> </b> </button>
+                            </div>
+                            <div class="button-box">
+                                <div class="btn-one" id="cashCheck-btn"
+                                > <b> Check out with Cash</b> </div>
+                            </div>
+                        </form>
                             <br>
                     </div>
                 </div>
