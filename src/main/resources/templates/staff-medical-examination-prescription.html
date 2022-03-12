@@ -157,12 +157,14 @@ th, td {
 																<input type="number" th:value="${element.quantity}" th:onchange="'updateQuantity('+ ${element.drug.drugId} + ',' + this.value +')'" 
 																	th:onfocus="'storePreviousQuantity(' + ${element.drug.drugId} + ',' + this.value +')'"
 																	th:id="'input-quantity-' + ${element.drug.drugId}"
+																	class="input-quantity"
 																/>
 																<input type="hidden"  th:id="'drug-previous-quantity-' + ${element.drug.drugId}"/>
 															</td>
 															<td th:text="${element.drug.type}"></td>
 															<td>
-																<input type="text" th:id="'input-prescription-notes-' + ${element.drug.drugId}" th:value="${element.notes}">
+																<input type="text" th:id="'input-prescription-notes-' + ${element.drug.drugId}"
+																 class="input-prescription-notes" th:value="${element.notes}">
 															</td>
 															<td>
 																<button class="btn btn-danger" th:onclick="'removeDrugFromPrescription('+ ${element.drug.drugId} +')'">Remove Drug</button>
@@ -247,13 +249,22 @@ th, td {
 			function saveChanges(){
 				var prescriptionDrugElements = document.getElementsByClassName("prescription-drug");
 				var prescriptionDrugs = [];
+				var drugs = [];
 				var rid = parseInt(document.getElementById("rid").value);
-				var sid = parseInt(document.getElementById("rid").value);
+				var sid = parseInt(document.getElementById("sid").value);
 				
 				for(let i = 0 ; i < prescriptionDrugElements.length ; i++){
-					const prescriptionDrugId = parseInt(prescriptionDrugElements[i].getElementsByClassName("prescription-drug-id")[0].innerHTML);
-					const notes = document.getElementById("input-prescription-notes-"+prescriptionDrugId).value;
-					const quantity = parseInt(document.getElementById("input-quantity-"+prescriptionDrugId).value);
+					const prescriptionDrugId = prescriptionDrugElements[i].getElementsByClassName("prescription-drug-id")[0].innerHTML;
+					const notes = prescriptionDrugElements[i].getElementsByClassName("input-prescription-notes")[0].value;
+					const prescriptionQuantity = parseInt(prescriptionDrugElements[i].getElementsByClassName("input-quantity")[0].value);
+					const drugItemElement = document.getElementById("drug-"+prescriptionDrugId);
+					const quantity = parseInt(drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML);
+					
+					const drug = {
+							drugId : parseInt(prescriptionDrugId),
+							quantity : quantity
+					}
+					
 					const prescriptionDrug = {
 							reservation : {
 								reservationId : rid
@@ -261,20 +272,34 @@ th, td {
 							service : {
 								serviceId : sid
 							}   ,
-							quantity : quantity  ,
+							quantity : prescriptionQuantity  ,
 							notes : notes ,
 							drug : {
-								drugId : prescriptionDrugId
+								drugId : parseInt(prescriptionDrugId)
 							}
 					}
 					prescriptionDrugs.push(prescriptionDrug);
+					drugs.push(drug);
 				}
-				alert(prescriptionDrugs);
+				var formData = new FormData();
+				formData.append("rid",rid);
+				formData.append("sid",sid);
+				formData.append("prescriptionDrugs",JSON.stringify(prescriptionDrugs));
+				formData.append("drugs",JSON.stringify(drugs));
+				
+				fetch("/ChildrenCare/staff/api-staff/prescription",{
+					method : 'POST',
+					body : formData
+				})
+				.then(response => response.text())
+				.then(message => {
+					alert(message);
+				})
+				
 			}
 		
 			function addDrugToPrescription(drugId){
 				var drugItemElement = document.getElementById("drug-"+drugId);
-				var drugId = drugItemElement.getElementsByClassName("drug-id")[0].innerHTML;
 				var drugName = drugItemElement.getElementsByClassName("drug-name")[0].innerHTML;
 				var drugPrice = drugItemElement.getElementsByClassName("drug-price")[0].innerHTML;
 				var drugQuantity = drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML;
@@ -283,9 +308,11 @@ th, td {
 				var drugType = drugItemElement.getElementsByClassName("drug-type")[0].innerHTML;
 				
 				const trElement = document.createElement("tr");
+				trElement.className = "prescription-drug";
 				trElement.id = "prescription-drug-"+drugId;
 				var tdElement = document.createElement("td");
 				tdElement.innerHTML = drugId;
+				tdElement.className = "prescription-drug-id";
 				trElement.appendChild(tdElement);
 				
 				tdElement = document.createElement("td");
@@ -303,6 +330,7 @@ th, td {
 				inputElement.value = 1;
 				inputElement.type = "number";
 				inputElement.id = "input-quantity-"+drugId;
+				inputElement.className = "input-quantity";
 				inputElement.onchange = function(){
 					updateQuantity(drugId);
 				}
@@ -324,6 +352,7 @@ th, td {
 				inputElement = document.createElement("input");
 				inputElement.type = "text";
 				inputElement.id = "input-prescription-notes-"+drugId;
+				inputElement.className = "input-prescription-notes";
 				inputElement.value = "";
 				tdElement.appendChild(inputElement);
 				trElement.appendChild(tdElement);

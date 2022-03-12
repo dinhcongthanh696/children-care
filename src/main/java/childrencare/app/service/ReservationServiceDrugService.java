@@ -16,4 +16,19 @@ public class ReservationServiceDrugService {
 	public List<ReservationServiceDrugModel> findByReservationAndService(int rid,int sid){
 		return rsdRepository.findByReservationAndService(rid, sid);
 	}
+	
+	public void deletByReservationAndService(int rid,int sid) {
+		rsdRepository.deleteByReservationAndService(rid, sid);
+	}
+	
+	public void addPrescriptionDrugs(List<ReservationServiceDrugModel> prescriptionDrugs) {
+		for(ReservationServiceDrugModel drug : prescriptionDrugs) {
+			rsdRepository.save(
+					drug.getDrug().getDrugId(),
+					drug.getReservation().getReservationId(),
+					drug.getService().getServiceId(),
+					drug.getNotes(),
+					drug.getQuantity());
+		}
+	}
 }

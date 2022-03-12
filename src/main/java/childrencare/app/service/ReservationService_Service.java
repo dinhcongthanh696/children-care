@@ -83,6 +83,10 @@ public class ReservationService_Service {
     public void assginOtherStaff(int staffID, Date booked_date, int slot_id) {
         reservationServiceRepository.assginOtherStaff(staffID,booked_date, slot_id);
     }
+    
+    public void updateReservationServicePrice(int rid,int sid) {
+    	reservationServiceRepository.updateReservationServicePrice(rid, sid);
+    }
 
 
 }

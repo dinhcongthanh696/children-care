@@ -74,7 +74,13 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
     		+ "AND (rsd.drug_id IN (?3) OR (?3) IS NULL) "
     		+ "GROUP BY rs.booked_date,rs.slot_id,rs.staff_id,rs.price,rs.reservation_id,rs.service_id" , nativeQuery = true)
     Page<ReservationServiceModel> listReservationByStaffAndServiceAndDrugs(int staffId , int serviceId , List<Integer> drugIds , Pageable pageable);
-
+    
+    @Modifying
+    @Query(value = "UPDATE reservation_service SET price = (SELECT sale_price FROM service where service_id = ?2) "
+    		+ " + (SELECT SUM(d.price * rsd.quantity) FROM reservation_service_drug as rsd inner join drug as d ON rsd.drug_id = d.drug_id  "
+    		+ "WHERE rsd.reservation_id = ?1 AND rsd.service_id = ?2) "
+    		+ "WHERE reservation_id = ?1 AND service_id = ?2" , nativeQuery = true)
+    public void updateReservationServicePrice(int reservationId,int serviceid);
 
 
 
