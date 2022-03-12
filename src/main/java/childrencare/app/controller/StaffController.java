@@ -1,5 +1,6 @@
 package childrencare.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -50,9 +51,17 @@ public class StaffController {
 	@GetMapping("/medical-examination")
 	public String toMedicalExamination(Model model,
 		@RequestParam(name = "service" , required = false , defaultValue = "-1") int serviceId,
-		@RequestParam(name = "drugs" , required = false) List<Integer> drugIds , 
+		@RequestParam(name = "drugs" , required = false , defaultValue = "") String drugIdValues , 
 		@RequestParam(name = "page" , required = false , defaultValue = "0") int page ,
 		HttpSession session) {
+		List<Integer> drugIds = new ArrayList<>();
+		if(!drugIdValues.isEmpty()) {
+			String[] drugIdValuesSplit = drugIdValues.split("[,]");
+			for(int i = 0 ; i < drugIdValuesSplit.length ; i++) {
+				drugIds.add(Integer.parseInt(drugIdValuesSplit[i]));
+			}
+		}
+		
 		List<ServiceModel> services = service_service.getServices();
 		UserModel staff = (UserModel) session.getAttribute("user"); 
 		Page<ReservationServiceModel> reservationServicesPageable = 
