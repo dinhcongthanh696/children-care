@@ -73,7 +73,10 @@ th, td {
     <div class="wrapper row-offcanvas row-offcanvas-left">
                     <!-- Left side column. contains the logo and sidebar -->
                     <div th:replace="navBar_admin::leftSide_admin('/staff/prescription')" ></div>
-					
+					<!-- hidden fields -->
+						<input type="hidden" th:value="${rid}" id="rid"/>
+						<input type="hidden" th:value="${sid}" id="sid"/>
+					<!-- /hidden fields -->
 
                     <aside class="right-side">    
 						<section class="content">
@@ -137,6 +140,7 @@ th, td {
 														<th>Price</th>
 														<th>Quantity</th>
 														<th>Type</th>
+														<th>Notes</th>
 														<th></th>
 													</tr>
 												</thead>
@@ -144,8 +148,9 @@ th, td {
 														<tr
 															th:each="element : ${prescription}"
 															th:id="'prescription-drug-'+${element.drug.drugId}"
+															class="prescription-drug"
 														>
-															<td th:text="${element.drug.drugId}"></td>
+															<td th:text="${element.drug.drugId}" class="prescription-drug-id"></td>
 															<td th:text="${element.drug.drugName}"></td>
 															<td th:text="${element.drug.price * element.quantity}" th:id="'prescription-drug-price-' + ${element.drug.drugId}"></td>
 															<td>
@@ -157,6 +162,9 @@ th, td {
 															</td>
 															<td th:text="${element.drug.type}"></td>
 															<td>
+																<input type="text" th:id="'input-prescription-notes-' + ${element.drug.drugId}" th:value="${element.notes}">
+															</td>
+															<td>
 																<button class="btn btn-danger" th:onclick="'removeDrugFromPrescription('+ ${element.drug.drugId} +')'">Remove Drug</button>
 															</td>
 														</tr>
@@ -164,7 +172,7 @@ th, td {
 									
 										</table>
 										<h4>
-											Total Price : <span th:text="${totalPrice}" id="total-price"></span> | <button class="btn btn-success">Save Prescription</button>
+											Total Price : <span th:text="${totalPrice}" id="total-price"></span> | <button class="btn btn-success" onclick="saveChanges()">Save Prescription</button>
 										</h4>
 									</div>
 							</div>
@@ -236,6 +244,34 @@ th, td {
             });
 		</script>
 		<script type="text/javascript">
+			function saveChanges(){
+				var prescriptionDrugElements = document.getElementsByClassName("prescription-drug");
+				var prescriptionDrugs = [];
+				var rid = parseInt(document.getElementById("rid").value);
+				var sid = parseInt(document.getElementById("rid").value);
+				
+				for(let i = 0 ; i < prescriptionDrugElements.length ; i++){
+					const prescriptionDrugId = parseInt(prescriptionDrugElements[i].getElementsByClassName("prescription-drug-id")[0].innerHTML);
+					const notes = document.getElementById("input-prescription-notes-"+prescriptionDrugId).value;
+					const quantity = parseInt(document.getElementById("input-quantity-"+prescriptionDrugId).value);
+					const prescriptionDrug = {
+							reservation : {
+								reservationId : rid
+							}	,
+							service : {
+								serviceId : sid
+							}   ,
+							quantity : quantity  ,
+							notes : notes ,
+							drug : {
+								drugId : prescriptionDrugId
+							}
+					}
+					prescriptionDrugs.push(prescriptionDrug);
+				}
+				alert(prescriptionDrugs);
+			}
+		
 			function addDrugToPrescription(drugId){
 				var drugItemElement = document.getElementById("drug-"+drugId);
 				var drugId = drugItemElement.getElementsByClassName("drug-id")[0].innerHTML;
@@ -258,6 +294,7 @@ th, td {
 				
 				tdElement = document.createElement("td");
 				tdElement.innerHTML = drugPrice;
+				tdElement.id = "prescription-drug-price-"+drugId;
 				trElement.appendChild(tdElement);
 				
 				tdElement = document.createElement("td");
@@ -284,6 +321,14 @@ th, td {
 				trElement.appendChild(tdElement);
 				
 				tdElement = document.createElement("td");
+				inputElement = document.createElement("input");
+				inputElement.type = "text";
+				inputElement.id = "input-prescription-notes-"+drugId;
+				inputElement.value = "";
+				tdElement.appendChild(inputElement);
+				trElement.appendChild(tdElement);
+				
+				tdElement = document.createElement("td");
 				var buttonElement = document.createElement("button");
 				buttonElement.className = "btn btn-danger";
 				buttonElement.innerHTML = "Remove Drug";
@@ -299,6 +344,8 @@ th, td {
 				var addDrugButtonElement = drugItemElement.getElementsByClassName("btn")[0];
 				addDrugButtonElement.disabled = true;
 				addDrugButtonElement.innerHTML = "This drug was in prescription";
+				
+				document.getElementById("total-price").innerHTML = parseInt(document.getElementById("total-price").innerHTML) + parseInt(drugPrice);
 			}
 			
 			function removeDrugFromPrescription(drugId){
@@ -307,11 +354,15 @@ th, td {
 				var prescriptionDrugQuantity = document.getElementById("input-quantity-"+drugId).value;
 				var drugItemElement = document.getElementById("drug-"+drugId);
 				var drugQuantity = drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML;
+				var drugPrice = parseInt(drugItemElement.getElementsByClassName("drug-price")[0].innerHTML);
 				drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML = parseInt(drugQuantity) + parseInt(prescriptionDrugQuantity);
 				prescriptionContent.removeChild(prescriptionDrug);
 				var addDrugButtonElement = drugItemElement.getElementsByClassName("btn")[0];
 				addDrugButtonElement.disabled = false;
 				addDrugButtonElement.innerHTML = "Add drug to prescription";
+				
+				document.getElementById("total-price").innerHTML = parseInt(document.getElementById("total-price").innerHTML) - 
+				(drugPrice * prescriptionDrugQuantity);
 			}
 			
 			function searchDrug(search){

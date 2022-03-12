@@ -88,6 +88,8 @@ public class StaffController {
 		model.addAttribute("prescription", prescription);
 		model.addAttribute("drugs", drugs);
 		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("rid", rid);
+		model.addAttribute("sid", sid);
 		return "staff-medical-examination-prescription";
 	}
 }
