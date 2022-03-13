@@ -93,10 +93,11 @@ public class ScheduleController {
         reservationService.changeStatus(rid);
         // Update quantity
         List<ServiceModel> listService = (List<ServiceModel>) session.getAttribute("list");
-        for (ServiceModel sm : listService) {
-            serviceService.updateQuantity(sm.getQuantity(), sm.getServiceId());
+        if(listService != null) {
+            for (ServiceModel sm : listService) {
+                serviceService.updateQuantity(sm.getQuantity(), sm.getServiceId());
+            }
         }
-
         //Check if the customer is new or changed
         ReservationModel reservation = reservationService.getReservatonInforByID(rid);
         String customerEmail = reservation.getCustomer().getCustomer_user().getEmail();

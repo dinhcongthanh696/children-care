@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import childrencare.app.configuration.PaypalPaymentIntent;
 import childrencare.app.configuration.PaypalPaymentMethod;
+import childrencare.app.service.PayService;
 import childrencare.app.service.PaypalService;
 import childrencare.app.service.ReservationService;
 import org.slf4j.Logger;
@@ -21,6 +22,9 @@ import com.paypal.base.rest.PayPalRESTException;
 public class PaypalController {
     @Autowired
     ReservationService reservationService;
+
+    @Autowired
+    PayService payService;
 
     public static final String URL_PAYPAL_SUCCESS = "pay/success";
     public static final String URL_PAYPAL_CANCEL = "pay/cancel";
@@ -86,8 +90,9 @@ public class PaypalController {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if(payment.getState().equals("approved")){
+                payService.setPaymentMethod(2, rid);
                 reservationService.changeStatusReservation(4, rid);
-                return "redirect:/bookingSchedule?reservationId=" + rid;
+                return "thank_you";
             }
         } catch (PayPalRESTException e) {
             log.error(e.getMessage());

@@ -1,31 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Mirrored from st.ourhtmldemo.com/new/Dento/apppointment.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Jan 2021 02:08:58 GMT -->
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title> Children Care | Booking Schedule </title>
+
+    <!-- responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- For IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="/css_admin/ionicons.min.css" rel="stylesheet" type="text/css"/>
+    <!-- master stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive stylesheet -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!--Color Switcher Mockup-->
+    <link rel="stylesheet" href="css/color-switcher-design.css">
+    <!--Color Themes-->
+    <link rel="stylesheet" href="css/color-themes/default-theme.css" id="theme-color-file">
+    <link rel="stylesheet" href="css/authentication.css">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+    <style>
+        #scheduleInfo {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #scheduleInfo td, #scheduleInfo th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #scheduleInfotr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #scheduleInfo tr:hover {
+            background-color: #ddd;
+        }
+
+        #scheduleInfo th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+    <!-- Fixing Internet Explorer-->
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/html5shiv.js"></script>
+
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
 </head>
+
 <body>
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Insert title here</title>
-</head>
-<body>
+<div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
+<header th:replace="header.html :: header"></header>
+
+<div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
     <section class="mainmenu-area stricky" th:fragment="mainMenu(actionForm,placeholder,current,search)">
         <div class="container-fluid">
             <div class="jumbotron text-center">
                 <h1 class="display-3">Thank You!</h1>
-                <p class="lead"><strong>Please check your email</strong> for further instructions on how to complete your account setup.</p>
-                <hr>
+                <div class="alert alert-success" role="alert" id="success-mess">
+                    <i class="fa fa-check" style="color: #0F9E5E"></i> Check out success!
+                    <p class="lead"><strong>Please check your email for your booking infomation</strong> </p>
+                </div>
                 <p>
-                    Having trouble? <a href="">Contact us</a>
+                    <h4> Have a nice day </h4>
                 </p>
                 <p class="lead">
-                    <a class="btn btn-primary btn-sm" href="/ChildrenCare" role="button">Continue to homepage</a>
+                    <a class="btn-one btn-success btn-sm" href="/ChildrenCare" role="button">Continue to homepage</a>
                 </p>
             </div>
         </div>
     </section>
 </body>
+<!--Start footer area-->
+<div id="pages"></div>
+<div id="footer" th:insert="index :: footer"></div>
+<!--End footer area-->
 </html>

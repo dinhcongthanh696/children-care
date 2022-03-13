@@ -1,5 +1,6 @@
 package childrencare.app.controller;
 
+import childrencare.app.service.PayService;
 import childrencare.app.service.PaypalService;
 import childrencare.app.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class PayController {
     @Autowired
     ReservationService reservationService;
 
+    @Autowired
+    PayService payService;
+
     @Transactional
     @PostMapping("/payment")
     public String checkOut(Model model, @RequestParam(name="reservationId") Integer rid
@@ -28,6 +32,7 @@ public class PayController {
         else{
             reservationService.changeStatusReservation(3, rid);
         }
-        return "redirect:/bookingSchedule?reservationId=" + rid;
+        payService.setPaymentMethod(payMethod, rid);
+        return "thank_you";
     }
 }
