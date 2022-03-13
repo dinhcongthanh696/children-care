@@ -59,10 +59,32 @@ th, td {
   padding: 8px;
 }
 
+#prescription{
+	margin-top: 30px;
+}
+
 .drug-thumbnail{
 	width : 150px;
 }
 
+.outside{
+	height : 190px;
+	overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+     background: #ccc;
+     border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #39435C;
+}
 	
 </style>
 </head>
@@ -94,44 +116,46 @@ th, td {
   											/>
 									</div>
 							</div>
-							<div class="row">
-								<table class="table table-bordered table-hover table-dark table-striped">
-									<thead>
-										<tr>
-											<th>#Drug Id</th>
-											<th>Thumbnail</th>
-											<th>Drug Name</th>
-											<th>Manufacture Date</th>
-											<th>Expired Date</th>
-											<th>Price</th>
-											<th>Quantity</th>
-											<th>Type</th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="drug : ${drugs}" class="drug-item" th:id="'drug-'+${drug.drugId}">
-											<td th:text="${drug.drugId}" class="drug-id"></td>
-											<td>
-												<img th:src="${'data:image/gif;base64,'+drug.base64ThumbnailEncode}" 
-													class="drug-thumbnail" />
-											</td>
-											<td th:text="${drug.drugName}" class="drug-name"></td>
-											<td th:text="${drug.createdDate}"></td>
-											<td th:text="${drug.endDate}"></td>
-											<td th:text="${drug.price}" class="drug-price"></td>
-											<th th:text="${drug.quantity}" class="drug-quantity"></th>
-											<td th:text="${drug.type}" class="drug-type"></td>
-											<td>
-												<button class="btn btn-primary" th:id="'drug-button-'+${drug.drugId}"
-													th:onclick="'addDrugToPrescription('+ ${drug.drugId} +')'"
-													th:disabled="${prescription.?[drug.drugId == __${drug.drugId}__].size() > 0 }"
-													th:text="${prescription.?[drug.drugId == __${drug.drugId}__].size() == 0 ? 'Add drug to prescription' : 'This drug was in prescription'}"
-												></button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+							<div class="row outside">
+								<div class="inner-content">
+									<table class="table table-bordered table-hover table-dark table-striped">
+										<thead>
+											<tr>
+												<th>#Drug Id</th>
+												<th>Thumbnail</th>
+												<th>Drug Name</th>
+												<th>Manufacture Date</th>
+												<th>Expired Date</th>
+												<th>Price</th>
+												<th>Quantity</th>
+												<th>Type</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="drug : ${drugs}" class="drug-item" th:id="'drug-'+${drug.drugId}">
+												<td th:text="${drug.drugId}" class="drug-id"></td>
+												<td>
+													<img th:src="${'data:image/gif;base64,'+drug.base64ThumbnailEncode}" 
+														class="drug-thumbnail" />
+												</td>
+												<td th:text="${drug.drugName}" class="drug-name"></td>
+												<td th:text="${#dates.format(drug.createdDate,'dd/MM/yyyy')}"></td>
+												<td th:text="${#dates.format(drug.endDate,'dd/MM/yyyy')}"></td>
+												<td th:text="${drug.price}" class="drug-price"></td>
+												<th th:text="${drug.quantity}" class="drug-quantity"></th>
+												<td th:text="${drug.type}" class="drug-type"></td>
+												<td>
+													<button class="btn btn-primary" th:id="'drug-button-'+${drug.drugId}"
+														th:onclick="'addDrugToPrescription('+ ${drug.drugId} +')'"
+														th:disabled="${prescription.?[drug.drugId == __${drug.drugId}__].size() > 0 }"
+														th:text="${prescription.?[drug.drugId == __${drug.drugId}__].size() == 0 ? 'Add drug to prescription' : 'This drug was in prescription'}"
+													></button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>	
 							</div>
 									
 									<div id="prescription">
