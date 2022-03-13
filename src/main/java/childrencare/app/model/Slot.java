@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
@@ -34,10 +36,17 @@ public class Slot {
     @OneToMany(mappedBy = "slot")
     private List<ReservationServiceModel> reservationServices;
     
-    private String getTime() {
-    	String startTime = start > 12 ? start + ":pm" : start + "am";
-		String endTime = end > 12 ? end+ ":pm" : end + "am";
-		return startTime + " -> "+endTime;
+    public String getTimeToString(boolean isStart) {
+    	double time = end;
+    	if(isStart) time = start;
+    	
+    	int preComma = (int) Math.floor(time);
+    	double sufComma = time % (preComma); 
+    	
+    	String hour = preComma + "h";
+    	String minute = (sufComma == 0) ? "" : (int) ( sufComma * 60 ) + "p" ;
+    	
+    	return hour + minute;
     }
 
 

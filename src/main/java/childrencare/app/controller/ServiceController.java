@@ -89,7 +89,8 @@ public class ServiceController {
 	UserRepository userRepository;
 
 	@GetMapping(path = "/services/{id}")
-	public String getServiceById(Model model, @PathVariable(name = "id") int id) {
+	public String getServiceById(Model model, @PathVariable(name = "id") int id ,
+			@RequestParam(name = "lang",required = false, defaultValue = "en") String lang) {
 		List<ServiceCategoryModel> serviceCategory = serviceCategoryRepository.findAll();
 		ServiceModel service = serviceModelService.getServiceById(id).get();
 		service.setBase64ThumbnailEncode(service.getThumbnail());
@@ -106,6 +107,7 @@ public class ServiceController {
 		model.addAttribute("service", service);
 		model.addAttribute("services",serviceModelService.getServices());
 		model.addAttribute("feedbackModels", feedbackModels);
+		model.addAttribute("lang", lang);
 		return "ServiceDetail";
 	}
 }

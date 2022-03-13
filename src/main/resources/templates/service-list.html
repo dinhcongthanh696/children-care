@@ -408,7 +408,8 @@
 		if (event.target.tagName !== "SPAN" && event.target.id !== 'give-feedback-button' &&
 			event.target.tagName !== "I"	
 			||event.target.className === "service-tooltip"	) { // EXPLANATION : DIV ONCLICK EVENT WILL ALSO BE TRIGGERD WHEN CLICK SPAN INSIDE IT
-			window.location = "/ChildrenCare/service/services/" + service_id;
+			const lang = document.getElementById("languages-switcher").value;
+			window.location = "/ChildrenCare/service/services/" + service_id + "?lang=" + lang;
 		}
 	}
 	

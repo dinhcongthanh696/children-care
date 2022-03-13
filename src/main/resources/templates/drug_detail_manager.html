@@ -71,7 +71,7 @@
 </header>
 <div class="wrapper row-offcanvas row-offcanvas-left">
     <!-- Left side column. contains the logo and sidebar -->
-    <div th:replace="navBar_admin::leftSide_admin('/manager/postDetail')"></div>
+    <div th:replace="navBar_admin::leftSide_admin('/manager/drugDetail')"></div>
     <!-- Right side column. Contains the navbar and content of the page -->
     <aside class="right-side">
         <!-- Main content -->
@@ -80,78 +80,55 @@
                 <div class="col-xs-12">
                     <div class="panel">
                         <header class="panel-heading">
-                            Post Manager
+                            Drug Detail
                         </header>
                         <!--<h3>No slider</h3>-->
-                        <form action="/ChildrenCare/manager/post/update" method="post"
+                        <form action="/ChildrenCare/manager/drug/update" method="post"
                               enctype="multipart/form-data">
                             <div class="modal-header">
-                                <h4 class="modal-title" th:text="'Update Post '+${post.getPostId()}"></h4>
+                                <h4 class="modal-title"></h4>
                                 <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label>Brief Infor</label>
-                                    <input name="postId" type="hidden" class="form-control"
-                                           th:value="${post.getPostId()}">
-                                    <input name="briefInfor" type="text" class="form-control"
-                                           th:value="${post.getBriefInfo()}">
+                                    <label>Drug Name</label>
+                                    <input name="drugid" type="hidden" class="form-control" th:value="${drugdetail.getDrugId()}">
+                                    <input name="drugname" type="text" class="form-control"
+                                           th:value="${drugdetail.getDrugName()}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Update At</label>
-                                    <input name="updateAt" type="date" class="form-control"
+                                    <label>Create At</label>
+                                    <input name="createAt" type="date" class="form-control"
                                     >
                                 </div>
                                 <div class="form-group">
-                                    <label>Post Detail</label>
-                                    <input name="detail" type="text" class="form-control"
-                                           th:value="${post.getDetails()}">
+                                    <label>End At</label>
+                                    <input name="endAt" type="date" class="form-control"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input name="price" type="text" class="form-control"
+                                           th:value="${drugdetail.getPrice()}">
                                 </div>
                                 <div class="form-group">
                                     <label>Thumbnail</label>
                                     <img id="imgAddPreview2" style="height: 400px"
-                                         class="form-control" alt="No image"
-                                         th:src="${'data:image/gif;base64,'+ post.getBase64ThumbnailEncode()}">
+                                         class="form-control" alt="No image"  th:src="${'data:image/gif;base64,'+ drugdetail.getBase64ThumbnailEncode()}">
                                     <input name="image" onchange="addImgPreview(this)"
                                            type="file">
                                 </div>
                                 <div class="form-group">
-                                    <label>Post Title</label>
-                                    <input name="title" class="form-control" th:value="${post.getTitle()}">
+                                    <label>Type</label>
+                                    <input name="type" class="form-control" th:value="${drugdetail.getType()}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Author</label>
-                                    <!--<input name="" type="text" class="form-control"
-                                           required>-->
-                                    <select name="author">
-                                        <div th:each="listManager:${listManagers}">
-                                            <option th:selected="${listManager.getEmail() == post.getAuthor().getEmail()}"
-                                                    th:value="${listManager.getEmail()}"
-                                                    th:text="${listManager.getUsername()}"></option>
-                                        </div>
-                                    </select>
+                                    <label>Quantity</label>
+                                    <input name="quantity" class="form-control" th:value="${drugdetail.getQuantity()}">
                                 </div>
-                                <div class="form-group">
-                                    <label>Category</label>
-                                    <!--<input name="" type="text" class="form-control"
-                                           required>-->
-                                    <select name="category">
-                                        <div th:each="listCate:${postCategoryModelList}">
-                                            <option th:selected="${listCate.getPostCategoryId() == post.getPostCategory().getPostCategoryId()}"
-                                                    th:value="${listCate.getPostCategoryId()}"
-                                                    th:text="${listCate.getPostCategoryName()}"></option>
-                                        </div>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Post Status</label>
-                                    <select name="statusAdd" class="small text-muted mb-1">
-                                        <option value="1">Show</option>
-                                        <option value="0">Hide</option>
-                                    </select>
-                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <input type="button" th:onclick="redirect()" class="btn btn-default"
@@ -172,7 +149,7 @@
 
 <script>
     function redirect() {
-        window.location.href = "/ChildrenCare/manager/post";
+        window.location.href = "/ChildrenCare/manager/drug";
     }
 
     /*function sortFunction() {

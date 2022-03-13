@@ -89,7 +89,7 @@ th, td {
 											<label for="service-filter" class="form-check-label">Filter by service</label>
 											<select id="service-filter" class="form-check-input" 
 													style="margin-left: 10px;border-radius: 5px;"
-													th:onchange="'changePage('+ ${currentPage} +')'"
+													onchange="changePage()"
 												>
 													<option value="-1">None</option>
 													<option th:each="service : ${services}"
@@ -102,9 +102,10 @@ th, td {
 									<div class="col-sm-12" style="margin-top : 20px;">
 										<h4>Filter by drugs</h4>
 										<th:block th:each="drug : ${drugs}">
-											<label for="${drug.drugId}" th:text="${drug.drugName}"></label>
+											<label th:for="${drug.drugId}" th:text="${drug.drugName}"></label>
 											<input type="checkbox" name="drugs" 
-											th:value="${drug.drugId}" id="${drug.drugId}" 
+											th:value="${drug.drugId}" th:id="${drug.drugId}" 
+											onclick="changePage()"
 											th:checked="${currentDrugIdS != null} and ${currentDrugIdS.?[#this == __${drug.drugId}__].size() > 0 }"/>
 										</th:block>	
 									</div>
@@ -115,7 +116,7 @@ th, td {
 									<thead>
 										<tr>
 											<th>Reservation Id</th>
-											<th>Service Name</th>
+											<th>Service Title</th>
 											<th>Price</th>
 											<th>Booked Date</th>
 											<th>Time</th>
@@ -125,18 +126,21 @@ th, td {
 									<tbody>
 										<tr th:each="reservationService : ${reservationServices}">
 											<td th:text="${reservationService.reservation.reservationId}"></td>
-											<td th:text="${reservationService.service.serviceId}"></td>
+											<td th:text="${reservationService.service.title}"></td>
 											<td th:text="${reservationService.price}"></td>
 											<td th:text="${reservationService.id.bookedDate}"></td>
 											<td>
-												<span th:text="${reservationService.slot.start > 12 ? reservationService.slot.start + ' pm' : reservationService.slot.start + ' am'}"></span>
+												<span th:text="${reservationService.slot.getTimeToString(true)}"></span>
 												-->
-												<span th:text="${reservationService.slot.end > 12 ? reservationService.slot.end + ' pm' : reservationService.slot.end + ' am'}"></span>
+												<span th:text="${reservationService.slot.getTimeToString(false)}"></span>
 											</td>
 											<td>
-												<button class="btn btn-primary" 
+												<button 
+													th:disabled="${currentDate.getTime() - reservationService.id.bookedDate.getTime() > 86400000}"
+													class="btn btn-primary" 
 													th:onclick="'viewPrescription('+ ${reservationService.reservation.reservationId} + ',' + ${reservationService.service.serviceId} +')'"
-												>Edit Drug Prescription</button>
+													th:text="${currentDate.getTime() - reservationService.id.bookedDate.getTime() > 86400000 ? 'The Reservation Service is out of time' : 'Edit Drug Prescription'}"
+												></button>
 												<h5 th:text="${reservationService.drugs.isEmpty() ? 'NO DRUGS' : 'List of drugs : '}"></h5>
 												<ul>
 													<li th:each="drug : ${reservationService.drugs}"
@@ -221,6 +225,22 @@ th, td {
 			function viewPrescription(rid,sid){
 				window.location.href = "/ChildrenCare/staff/prescription?rid="+rid+"&sid="+sid;
 			}
+			
+			function changePage(){
+				var serviceId = document.getElementById("service-filter").value;
+				var currentPage = document.getElementById("currentPage").value;
+				var drugIds = "";
+				var drugCheckBoxElements = document.getElementsByName("drugs");
+				drugCheckBoxElements.forEach(drugCheckBoxElement => {
+					if(drugCheckBoxElement.checked){
+						drugIds += drugCheckBoxElement.value + ",";
+					}
+				})
+				window.location.href="/ChildrenCare/staff/medical-examination?page="+currentPage
+						+"&service="+serviceId+"&drugs="+drugIds;
+				
+			}
+			
 	
 	
 		</script>

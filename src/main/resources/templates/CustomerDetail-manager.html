@@ -252,7 +252,9 @@
 
                 <div class="preview-pic tab-content">
                   <div class="tab-pane active" id="pic-1"><img id="avatar" th:src="${'data:image/gif;base64,'+ customer.customer_user.base64AvatarEncode}" /></div>
-                  <input id="input-ava" name="avatar" type="file"  onchange="previewAvatar(this)">
+                  <input id="input-ava" name="avatar" type="file"  onchange="imagePreviewHandler(this)">
+                  <span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
+                  <h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
                 </div>
               </div>
               <div class="details col-md-6">
@@ -265,13 +267,15 @@
 
                 <div class="form-group">
                   <label for="fullname">Fullname</label>
-                  <input  th:value="${customer.customer_user.fullname}" class="form-control" type="text"   id="fullname" required="">
+                  <input  th:value="${customer.customer_user.fullname}" class="form-control" type="text"   id="fullname" required="" onkeyup="check()">
                 </div>
+                <input  th:value="${customer.customer_user.fullname}" class="form-control" type="hidden"   id="test-fullname" >
 
                 <div class="form-group">
                   <label for="gender">Gender</label>
-                  <input  th:value="${customer.customer_user.gender ? 'Male' : 'Fenale'}" class="form-control" type="text"   id="gender" required="">
+                  <input  th:value="${customer.customer_user.gender ? 'Male' : 'Female'}" class="form-control" type="text"   id="gender" required="" onkeyup="check()">
                 </div>
+                  <input  th:value="${customer.customer_user.gender ? 'Male' : 'Female'}" class="form-control" type="hidden"   id="test-gender" required="">
 
                 <div class="form-group">
                   <label for="email">Email</label>
@@ -280,24 +284,26 @@
 
                 <div class="form-group">
                   <label for="phone">Phone</label>
-                  <input  th:value="${customer.customer_user.phone}" class="form-control" type="text"   id="phone" required="">
+                  <input  th:value="${customer.customer_user.phone}" class="form-control" type="text"   id="phone" required="" onkeyup="check()">
                 </div>
+                <input  th:value="${customer.customer_user.phone}" class="form-control" type="hidden"   id="test-phone" required="">
 
                 <div class="form-group">
                   <label for="address">Address</label>
-                  <input  th:value="${customer.customer_user.address}" class="form-control" type="text"   id="address" required="">
+                  <input  th:value="${customer.customer_user.address}" class="form-control" type="text"   id="address" required="" onkeyup="check()">
                 </div>
+                <input  th:value="${customer.customer_user.address}" class="form-control" type="hidden"   id="test-address" required="">
 
                 <div class="form-group">
                   <label for="status">Status</label>
-                  <input  th:value="${customer.customer_user.status}" readonly class="form-control" type="text"   id="status" required="">
+                  <input  th:value="${customer.customer_user.status ? 'Online' : 'Offline'}" readonly class="form-control" type="text"   id="status" required="">
                 </div>
 
 
                 <div class="col-12">
                   <hr class="mt-2 mb-3">
                   <div class="d-flex flex-wrap justify-content-between align-items-center">
-                    <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly." onclick="update()">Save</button>
+                    <button class="btn btn-style-1 btn-primary" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly." id="add-new-service-button" onclick="update()">Save</button>
                   </div>
                 </div>
               </div>
@@ -305,6 +311,38 @@
           </div>
         </div>
 
+      </div>
+      <h2>History Change</h2>
+      <div class="table-wrapper">
+        <table class="fl-table">
+          <thead>
+          <tr>
+            <th>History_ID</th>
+            <th>Customer_ID</th>
+            <th>Customer_Email</th>
+            <th>Address</th>
+            <th>FullName</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Updated Date</th>
+            <th>Updated By</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="customer_history : ${history}">
+            <td th:text="${customer_history.historyId}"></td>
+            <td th:text="${customer_history.customer.customer_id}"></td>
+            <td th:text="${customer_history.customer_email}"></td>
+            <td th:text="${customer_history.address}"></td>
+            <td th:text="${customer_history.fullname}"></td>
+            <td th:text="${customer_history.gender ? 'Male' : 'Female'}"></td>
+            <td th:text="${customer_history.mobile}"></td>
+            <td th:text="${customer_history.updatedDate}"></td>
+            <td th:text="${customer_history.updatedBy.email}"></td>
+          </tr>
+
+          <tbody>
+        </table>
       </div>
     </section><!-- /.content -->
     <div class="footer-main">
@@ -401,15 +439,53 @@
 
   }
 
-  var lastPreviewAvarta;
-  function previewAvatar(inputFileElement) {
-    if (lastPreviewAvarta) {
-      URL.revokeObjectURL(lastPreviewAvarta);
+  var lastChosenPreview;
+  function imagePreviewHandler(fileInputElement){
+    if(lastChosenPreview){
+      URL.revokeObjectURL(lastChosenPreview);  // for performance
     }
-    var image = inputFileElement.files[0];
-    lastPreviewAvarta = URL.createObjectURL(image);
-    var formAva = document.getElementById("avatar");
-    formAva.src = lastPreviewAvarta;
+
+    var imageFile = fileInputElement.files[0];
+    lastChosenPreview = URL.createObjectURL(imageFile);
+    var imageElement = document.getElementById("avatar");
+    imageElement.src = lastChosenPreview;
+
+    var isValidImageFile = true;
+    var message = "";
+    if(imageFile.type.split("/")[0] !== "image"){
+      message = "File must be image";
+      isValidImageFile = false;
+    }else if(imageFile.size / 1000000 > 20){ // COVERT size of file to MB
+      message =  "File is more than 20 MB";
+      isValidImageFile = false;
+    }
+
+    const addNewServiceButtonElement = document.getElementById("add-new-service-button");
+    const imageFileMessageElement = document.getElementById("image-file-message");
+    if(!isValidImageFile){
+      addNewServiceButtonElement.disabled = true;
+    }else{
+      addNewServiceButtonElement.disabled = false;
+    }
+    imageFileMessageElement.innerHTML = message;
+  }
+
+  function check(){
+    var fullname = document.getElementById("fullname").value;
+    var test_fullname = document.getElementById("test-fullname").value;
+    var gender = document.getElementById("gender").value;
+    var test_gender = document.getElementById("test-gender").value;
+    var phone = document.getElementById("phone").value;
+    var test_phone = document.getElementById("test-phone").value;
+    var address = document.getElementById("address").value;
+    var test_address = document.getElementById("test-address").value;
+    const addNewServiceButtonElement = document.getElementById("add-new-service-button");
+
+    if(fullname.trim() === test_fullname.trim() && gender.trim() === test_gender.trim() && phone.trim() === test_phone.trim() && address.trim() === test_address.trim() ){
+      addNewServiceButtonElement.disabled = true;
+    }else{
+      addNewServiceButtonElement.disabled = false;
+    }
   }
 
 

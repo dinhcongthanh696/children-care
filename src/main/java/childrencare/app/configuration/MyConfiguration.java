@@ -43,6 +43,7 @@ public class MyConfiguration implements WebMvcConfigurer{
 		register.setOrder(2);
 		register.addUrlPatterns("/admin/*");
 		register.addUrlPatterns("/manager/*");
+		register.addUrlPatterns("/staff/*");
 		return register;
 	}
 	
