@@ -28,4 +28,16 @@ public interface DrugRepository extends JpaRepository<DrugModel, Integer> {
     @Modifying
     @Query(value = "INSERT INTO [drug]([create_date],[drug_name],[end_date],[price],[status],[thumbnail],[type],[quantity]) VALUES (?1,?2,?3,?4,?5,?6,?7,?8)", nativeQuery = true)
     public void addDrug(Date createDate, String drugname, Date endDate, int price, boolean status, byte[] image, String type, int quantity);
+
+    @Modifying
+    @Query(value = "UPDATE [drug]\n" +
+            "   SET [create_date] = ?1\n" +
+            "      ,[drug_name] = ?2\n" +
+            "      ,[end_date] = ?3\n" +
+            "      ,[price] = ?4\n" +
+            "      ,[thumbnail] = ?5\n" +
+            "      ,[type] = ?6\n" +
+            "      ,[quantity] = ?7\n" +
+            " WHERE drug_id = ?8", nativeQuery = true)
+    public void updateDrug(Date createDate, String drugname, Date endDate, float price, byte[] image, String type, int quantity, int drug_id);
 }

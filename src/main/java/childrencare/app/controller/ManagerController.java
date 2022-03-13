@@ -41,7 +41,7 @@ public class ManagerController {
 
     @Autowired
     ServiceRepository serviceRepository;
-    
+
     @Autowired
     private ServiceCategoryService serviceCategoryService;
 
@@ -148,34 +148,34 @@ public class ManagerController {
 //
 //        return "manager-service-list";
 //    }
-    
-    @RequestMapping(value = "/services", method = { RequestMethod.GET, RequestMethod.POST })
-	public String searchServiceListByTitle(Model model,
-			@RequestParam(name =  "page",required = false, defaultValue = "0") int page,
-			@RequestParam(name =  "search",required = false, defaultValue = "") String search,
-			@RequestParam(name = "status",required = false,defaultValue = "") String rawStatus,
-			@RequestParam(name = "sort" , required = false , defaultValue = "title") String sort) {
-		Page<ServiceModel> services;
-		int startBitRangeValue = -1;
-		int endBitRangeValue = 2;
-		if(rawStatus.equals("true")) {
-			startBitRangeValue = 0;
-		}else if(rawStatus.equals("false")) {
-			endBitRangeValue = 1;
-		}
-		services = serviceModelService.getServicesPaginated(page, SERVICESIZE, startBitRangeValue, endBitRangeValue, search,sort);
-		
-		List<ServiceCategoryModel> categories = serviceCategoryService.findAll();
-		
-		model.addAttribute("services",services.toList());
-		model.addAttribute("totalPages",services.getTotalPages());
-		model.addAttribute("currentPage",services.getNumber());
-		model.addAttribute("search", search);
-		model.addAttribute("status", rawStatus);
-		model.addAttribute("categories", categories);
-		model.addAttribute("sort", sort);
-		return "manager-service-list";
-	}
+
+    @RequestMapping(value = "/services", method = {RequestMethod.GET, RequestMethod.POST})
+    public String searchServiceListByTitle(Model model,
+                                           @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                           @RequestParam(name = "search", required = false, defaultValue = "") String search,
+                                           @RequestParam(name = "status", required = false, defaultValue = "") String rawStatus,
+                                           @RequestParam(name = "sort", required = false, defaultValue = "title") String sort) {
+        Page<ServiceModel> services;
+        int startBitRangeValue = -1;
+        int endBitRangeValue = 2;
+        if (rawStatus.equals("true")) {
+            startBitRangeValue = 0;
+        } else if (rawStatus.equals("false")) {
+            endBitRangeValue = 1;
+        }
+        services = serviceModelService.getServicesPaginated(page, SERVICESIZE, startBitRangeValue, endBitRangeValue, search, sort);
+
+        List<ServiceCategoryModel> categories = serviceCategoryService.findAll();
+
+        model.addAttribute("services", services.toList());
+        model.addAttribute("totalPages", services.getTotalPages());
+        model.addAttribute("currentPage", services.getNumber());
+        model.addAttribute("search", search);
+        model.addAttribute("status", rawStatus);
+        model.addAttribute("categories", categories);
+        model.addAttribute("sort", sort);
+        return "manager-service-list";
+    }
 
     @RequestMapping("/post")
     public String reservationInfor(Model model
@@ -392,13 +392,14 @@ public class ManagerController {
         List<DrugModel> list = pagingdrug.toList();
         for (DrugModel d : list
         ) {
-        	if(d.getThumbnail() != null)
-            d.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(d.getThumbnail()));
+            if (d.getThumbnail() != null)
+                d.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(d.getThumbnail()));
         }
         model.addAttribute("druglist", list);
         model.addAttribute("pagingPost", pagingdrug);
         return "drug_manager";
     }
+
     @PostMapping("/drug")
     @Transactional
     public String addDrug(@RequestParam(name = "drugname") String drugname,
@@ -415,9 +416,56 @@ public class ManagerController {
         Date dateEnd = formatter.parse(endAt);
 
 
-        drugService.addDrug(dateCreate,drugname,dateEnd,price,true,imgConvertAdd,type,quantity);
+        drugService.addDrug(dateCreate, drugname, dateEnd, price, true, imgConvertAdd, type, quantity);
 
         return "redirect:/manager/drug";
+    }
+
+    @PostMapping("/drug/update")
+    @Transactional
+    public String updateDrug(
+
+            @RequestParam(name = "drugname") String drugname,
+            @RequestParam(name = "createAt") String createAt,
+            @RequestParam(name = "endAt") String endAt,
+            @RequestParam(name = "image") MultipartFile thumbnail,
+            @RequestParam(name = "price") float price,
+            @RequestParam(name = "quantity") int quantity,
+            @RequestParam(name = "type") String type,
+            @RequestParam(name = "drugid") int drugId
+    ) throws Exception {
+        byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        Calendar cal = Calendar.getInstance();
+
+        Date dateCreate = null;
+        Date dateEnd = null;
+        if (!createAt.equals("") && !endAt.equals("")) {
+            dateCreate = formatter.parse(createAt);
+            dateEnd = formatter.parse(endAt);
+        } else if (!createAt.equals("") && endAt.equals("")) {
+            dateCreate = formatter.parse(createAt);
+            dateEnd = cal.getTime();
+        } else if (createAt.equals("") && !endAt.equals("")) {
+            dateCreate = cal.getTime();
+            dateEnd = formatter.parse(endAt);
+
+        } else {
+            dateCreate = cal.getTime();
+            dateEnd = cal.getTime();
+        }
+        drugService.updateDrug(dateCreate, drugname, dateEnd, price, imgConvertAdd, type, quantity, drugId);
+        return "redirect:/manager/drug";
+    }
+    @GetMapping("/drugDetail")
+    public String getDrugDetail(Model model,
+                                @RequestParam(name = "did", required = false) int did){
+        DrugModel drugdetail = drugService.getDrugByID(did);
+        drugdetail.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(drugdetail.getThumbnail()));
+
+        model.addAttribute("drugdetail", drugdetail);
+        return "drug_detail_manager";
+
     }
 
 }

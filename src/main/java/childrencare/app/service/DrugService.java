@@ -37,4 +37,10 @@ public class DrugService {
 	public void addDrug(Date createDate, String drugname, Date endDate, int price, boolean status, byte[] image, String type, int quantity){
 		drugRepository.addDrug(createDate, drugname, endDate, price, status, image, type, quantity);
 	}
+	public void updateDrug(Date createDate, String drugname, Date endDate, float price, byte[] image, String type, int quantity, int drug_id){
+		drugRepository.updateDrug(createDate, drugname, endDate, price, image, type, quantity, drug_id);
+	}
+	public DrugModel getDrugByID(int did){
+		return drugRepository.getById(did);
+	}
 }

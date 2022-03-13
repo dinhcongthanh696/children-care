@@ -82,7 +82,7 @@
                         <header class="panel-heading">
                             Drug Manager
                         </header>
-                        <h3>No slider</h3>
+                        <!--<h3>No slider</h3>-->
                         <!-- <div class="box-header"> -->
                         <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
                         <div class="panel-body table-responsive">
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
-                                        <i class="fa fa-plus" aria-hidden="true"></i> <span>New Post</span></a>
+                                        <i class="fa fa-plus" aria-hidden="true"></i> <span>New Drug</span></a>
                                     <!-- Add Modal HTML -->
                                     <div id="addSliderModal" class="modal fade">
                                         <div class="modal-dialog">
@@ -190,7 +190,7 @@
                                         <td th:text="${list.getEndDate()}"></td>
                                         <td th:text="${list.getType()}"></td>
                                         <td>
-                                            <a th:href="@{postDetail(did=${list.getDrugId()})}">Details</a>
+                                            <a th:href="@{drugDetail(did=${list.getDrugId()})}">Details</a>
                                             <a th:attr="data-target='#editDrug'+${list.getDrugId()}"  class="editModal text-primary" data-toggle="modal" >Edit</a>
                                             <!--  edit modal-->
                                             <div th:id="${'editDrug'+ list.getDrugId()}" class="modal fade">
@@ -207,7 +207,7 @@
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     <label>Drug Name</label>
-                                                                    <!--<input name="drugid" type="hidden" class="form-control" th:value="${list.getDrugId()}">-->
+                                                                    <input name="drugid" type="hidden" class="form-control" th:value="${list.getDrugId()}">
                                                                     <input name="drugname" type="text" class="form-control"
                                                                            th:value="${list.getDrugName()}">
                                                                 </div>
@@ -218,18 +218,18 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>End At</label>
-                                                                    <input name="endeAt" type="date" class="form-control"
+                                                                    <input name="endAt" type="date" class="form-control"
                                                                     >
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Price</label>
-                                                                    <input name="detail" type="text" class="form-control"
+                                                                    <input name="price" type="text" class="form-control"
                                                                            th:value="${list.getPrice()}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Thumbnail</label>
                                                                     <img id="imgAddPreview2" style="height: 200px"
-                                                                         class="form-control" alt="No image">
+                                                                         class="form-control" alt="No image"  th:src="${'data:image/gif;base64,'+ list.getBase64ThumbnailEncode()}">
                                                                     <input name="image" onchange="addImgPreview(this)"
                                                                            type="file">
                                                                 </div>
