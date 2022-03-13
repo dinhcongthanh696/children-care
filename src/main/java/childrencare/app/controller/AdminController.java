@@ -44,34 +44,6 @@ public class AdminController {
 	}
 	
 	
-	@RequestMapping(value = "/services", method = { RequestMethod.GET, RequestMethod.POST })
-	public String searchServiceListByTitle(Model model,
-			@RequestParam(name =  "page",required = false, defaultValue = "0") int page,
-			@RequestParam(name =  "search",required = false, defaultValue = "") String search,
-			@RequestParam(name = "status",required = false,defaultValue = "") String rawStatus,
-			@RequestParam(name = "sort" , required = false , defaultValue = "title") String sort) {
-		Page<ServiceModel> services;
-		int startBitRangeValue = -1;
-		int endBitRangeValue = 2;
-		if(rawStatus.equals("true")) {
-			startBitRangeValue = 0;
-		}else if(rawStatus.equals("false")) {
-			endBitRangeValue = 1;
-		}
-		services = serviceModelSerivce.getServicesPaginated(page, SERVICESIZE, startBitRangeValue, endBitRangeValue, search,sort);
-		
-		List<ServiceCategoryModel> categories = serviceCategoryService.findAll();
-		
-		model.addAttribute("services",services.toList());
-		model.addAttribute("totalPages",services.getTotalPages());
-		model.addAttribute("currentPage",services.getNumber());
-		model.addAttribute("search", search);
-		model.addAttribute("status", rawStatus);
-		model.addAttribute("categories", categories);
-		model.addAttribute("sort", sort);
-		return "manager-service-list";
-	}
-	
 	@GetMapping("/dashboard")
 	public String toAdminDashBoard(Model model,
 			@RequestParam(name = "revenueDate",required = false,defaultValue = "") String revenueDate,

@@ -6,9 +6,6 @@ import childrencare.app.model.ServiceCategoryModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.repository.CustomerRepository;
 import childrencare.app.repository.ServiceRepository;
-import childrencare.app.service.CustomerService;
-import childrencare.app.service.FeedbackService;
-import childrencare.app.service.ServiceModelService;
 import childrencare.app.model.*;
 import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,7 @@ import java.util.stream.IntStream;
 public class ManagerController {
 
     private int FEEDBACKSIZE = 6;
-
+    private final int SERVICESIZE = 6;
     private final int CUSTOMERSIZE = 6;
     private int POSTSIZE = 5;
     private final ServiceModelService serviceModelService;
@@ -44,6 +41,9 @@ public class ManagerController {
 
     @Autowired
     ServiceRepository serviceRepository;
+    
+    @Autowired
+    private ServiceCategoryService serviceCategoryService;
 
     @Autowired
     FeedbackService feedbackService;
@@ -142,6 +142,34 @@ public class ManagerController {
 //
 //        return "manager-service-list";
 //    }
+    
+    @RequestMapping(value = "/services", method = { RequestMethod.GET, RequestMethod.POST })
+	public String searchServiceListByTitle(Model model,
+			@RequestParam(name =  "page",required = false, defaultValue = "0") int page,
+			@RequestParam(name =  "search",required = false, defaultValue = "") String search,
+			@RequestParam(name = "status",required = false,defaultValue = "") String rawStatus,
+			@RequestParam(name = "sort" , required = false , defaultValue = "title") String sort) {
+		Page<ServiceModel> services;
+		int startBitRangeValue = -1;
+		int endBitRangeValue = 2;
+		if(rawStatus.equals("true")) {
+			startBitRangeValue = 0;
+		}else if(rawStatus.equals("false")) {
+			endBitRangeValue = 1;
+		}
+		services = serviceModelService.getServicesPaginated(page, SERVICESIZE, startBitRangeValue, endBitRangeValue, search,sort);
+		
+		List<ServiceCategoryModel> categories = serviceCategoryService.findAll();
+		
+		model.addAttribute("services",services.toList());
+		model.addAttribute("totalPages",services.getTotalPages());
+		model.addAttribute("currentPage",services.getNumber());
+		model.addAttribute("search", search);
+		model.addAttribute("status", rawStatus);
+		model.addAttribute("categories", categories);
+		model.addAttribute("sort", sort);
+		return "manager-service-list";
+	}
 
     @RequestMapping("/post")
     public String reservationInfor(Model model
