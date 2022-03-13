@@ -1,5 +1,6 @@
 package childrencare.app.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,14 +11,18 @@ import org.springframework.stereotype.Repository;
 import childrencare.app.model.DrugModel;
 
 @Repository
-public interface DrugRepository extends JpaRepository<DrugModel, Integer>{
-	
-	
-	@Query(value = "SELECT * FROM drug as d inner join reservation_service_drug as rsd\r\n"
-			+ "on d.drug_id = rsd.drug_id WHERE rsd.reservation_id = ?1 AND rsd.service_id = ?2" , nativeQuery = true)
-	public List<DrugModel> findDrugByReservationAndService(int reservationId , int serviceId);
-	
-	@Modifying
-	@Query(value = "UPDATE drug SET quantity = ?2 WHERE drug_id = ?1",nativeQuery = true)
-	public void updateDrugQuantity(int drugId , int quantity);
+public interface DrugRepository extends JpaRepository<DrugModel, Integer> {
+
+
+    @Query(value = "SELECT * FROM drug as d inner join reservation_service_drug as rsd\r\n"
+            + "on d.drug_id = rsd.drug_id WHERE rsd.reservation_id = ?1 AND rsd.service_id = ?2", nativeQuery = true)
+    public List<DrugModel> findDrugByReservationAndService(int reservationId, int serviceId);
+
+    @Modifying
+    @Query(value = "UPDATE drug SET quantity = ?2 WHERE drug_id = ?1", nativeQuery = true)
+    public void updateDrugQuantity(int drugId, int quantity);
+
+    @Modifying
+    @Query(value = "INSERT INTO [drug]([create_date],[drug_name],[end_date],[price],[status],[thumbnail],[type],[quantity]) VALUES (?1,?2,?3,?4,?5,?6,?7,?8)", nativeQuery = true)
+    public void addDrug(Date createDate, String drugname, Date endDate, int price, boolean status, byte[] image, String type, int quantity);
 }

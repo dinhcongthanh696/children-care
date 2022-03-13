@@ -58,6 +58,8 @@ public class ManagerController {
     private PostService postService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private DrugService drugService;
 
     @Autowired
     public ManagerController(ServiceModelService serviceModelService, CustomerService customerService) {
@@ -75,10 +77,10 @@ public class ManagerController {
     }
 
     @GetMapping("/customers/{id}")
-    public String toCustomerDetail(Model model, @PathVariable(name = "id")int id){
+    public String toCustomerDetail(Model model, @PathVariable(name = "id") int id) {
         CustomerModel customer = customerService.getCustomerById(id);
         List<CustomerHistoryModel> customerHistoryModels = customer.getCustomerHistories();
-        if(customer.getCustomer_user().getAvatar() != null) {
+        if (customer.getCustomer_user().getAvatar() != null) {
             customer.getCustomer_user().setBase64AvaterEncode(customer.getCustomer_user().getAvatar());
         }
         model.addAttribute("customer", customer);
@@ -86,54 +88,58 @@ public class ManagerController {
         return "CustomerDetail-Manager";
 
     }
-    
+
     @GetMapping("/customers")
     @Transactional
-    public String toCustomersList(@RequestParam(name = "search" , required = false , defaultValue = "") String search ,
-    		@RequestParam(name = "status" , required = false , defaultValue = "-1") int status , 
-    		@RequestParam(name = "directions" , required = false , defaultValue = "ascending,ascending,ascending,ascending") String directionsParam,
-    		@RequestParam(name = "sortProperty" , required = false , defaultValue = "fullname") String sortProperty ,
-    		@RequestParam(name = "page" , required = false , defaultValue = "0") int page,
-    		Model model) {
-    	int startBitRange = -1;
-    	int endBitRange = 2;
-    	switch(status) {
-    		case 0 : endBitRange--;break;
-    		case 1 : startBitRange++;break;
-    	}
-    	
-    	String[] directionsValue = directionsParam.split("[,]");
-    	Direction[] directions = new Direction[directionsValue.length];
-    	for(int i = 0 ; i < directionsValue.length ; i++) {
-    		directions[i] = (directionsValue[i].equals("ascending")) ? Direction.ASC : Direction.DESC;
-    	}
-    	LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("u.fullname","u.email","u.phone","u.status") );
-    	Collections.swap(sortProperties, sortProperties.indexOf("u."+sortProperty), 0);
-    	if(sortProperties.indexOf("u."+sortProperty) != 0) {
-    		sortProperties.remove(sortProperties.indexOf("u."+sortProperty));
-    		sortProperties.addFirst("u."+sortProperty);
-    	}
-    	
-    	Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, directions);
-    	for(CustomerModel customer : customersPageable.toList()) {
-    		if(customer.getCustomer_user().getAvatar() != null)
-        		customer.getCustomer_user().setBase64AvatarEncode(
-        				Base64
-        				.getEncoder().
-        				encodeToString(customer.getCustomer_user().getAvatar()));
-    	}
-    	
-    	model.addAttribute("customers",customersPageable.toList());
-    	model.addAttribute("currentPage", customersPageable.getNumber());
-    	model.addAttribute("totalPages", customersPageable.getTotalPages());
-    	model.addAttribute("directionsValue", directionsValue);
-    	model.addAttribute("directionsParam", directionsParam);
-    	model.addAttribute("search",search);
-    	model.addAttribute("status", status);
-    	model.addAttribute("sortProperty", sortProperty);
-    	model.addAttribute("sortProperties", sortProperties);
-    	
-    	return "manager-customer-list";
+    public String toCustomersList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
+                                  @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
+                                  @RequestParam(name = "directions", required = false, defaultValue = "ascending,ascending,ascending,ascending") String directionsParam,
+                                  @RequestParam(name = "sortProperty", required = false, defaultValue = "fullname") String sortProperty,
+                                  @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                  Model model) {
+        int startBitRange = -1;
+        int endBitRange = 2;
+        switch (status) {
+            case 0:
+                endBitRange--;
+                break;
+            case 1:
+                startBitRange++;
+                break;
+        }
+
+        String[] directionsValue = directionsParam.split("[,]");
+        Direction[] directions = new Direction[directionsValue.length];
+        for (int i = 0; i < directionsValue.length; i++) {
+            directions[i] = (directionsValue[i].equals("ascending")) ? Direction.ASC : Direction.DESC;
+        }
+        LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("u.fullname", "u.email", "u.phone", "u.status"));
+        Collections.swap(sortProperties, sortProperties.indexOf("u." + sortProperty), 0);
+        if (sortProperties.indexOf("u." + sortProperty) != 0) {
+            sortProperties.remove(sortProperties.indexOf("u." + sortProperty));
+            sortProperties.addFirst("u." + sortProperty);
+        }
+
+        Page<CustomerModel> customersPageable = customerService.getCustomerPageinately(search, page, CUSTOMERSIZE, startBitRange, endBitRange, sortProperties, directions);
+        for (CustomerModel customer : customersPageable.toList()) {
+            if (customer.getCustomer_user().getAvatar() != null)
+                customer.getCustomer_user().setBase64AvatarEncode(
+                        Base64
+                                .getEncoder().
+                                encodeToString(customer.getCustomer_user().getAvatar()));
+        }
+
+        model.addAttribute("customers", customersPageable.toList());
+        model.addAttribute("currentPage", customersPageable.getNumber());
+        model.addAttribute("totalPages", customersPageable.getTotalPages());
+        model.addAttribute("directionsValue", directionsValue);
+        model.addAttribute("directionsParam", directionsParam);
+        model.addAttribute("search", search);
+        model.addAttribute("status", status);
+        model.addAttribute("sortProperty", sortProperty);
+        model.addAttribute("sortProperties", sortProperties);
+
+        return "manager-customer-list";
     }
 
 
@@ -180,8 +186,8 @@ public class ManagerController {
             , @RequestParam(name = "sortBy", required = false, defaultValue = "post_id") String sortBy) {
         List<PostCategoryModel> postCategoryModelList = blogCategoryService.findAll();
 
-
         int currentPage = page.orElse(0);
+
         Page<PostModel> postModels = null;
 
         if (categoryId.equals("-1") && type.equals("-1")) {
@@ -234,7 +240,7 @@ public class ManagerController {
 
     @RequestMapping("/postDetail")
     public String postDetail(Model model,
-            @RequestParam(name = "pid", required = false) int pid
+                             @RequestParam(name = "pid", required = false) int pid
     ) {
         PostModel post = postService.getPostDetail(pid);
 
@@ -358,8 +364,59 @@ public class ManagerController {
     @PostMapping("/updateFeedbackStatus")
     public String updateStatus(@RequestParam(name = "feedback_id") Integer fid,
                                @RequestParam(name = "status") Integer status,
-                                @RequestParam(name = "page") Integer page) {
+                               @RequestParam(name = "page") Integer page) {
         feedbackService.changeFeedbackStatus(status, fid);
         return "redirect:/manager/feedback?page=" + page;
     }
+
+    @RequestMapping("/drug")
+    public String drugManager(Model model,
+                              @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page) {
+        int currentPage = page.orElse(0);
+        Page<DrugModel> pagingdrug = drugService.findAll(currentPage, 3);
+
+
+        int totalPages = pagingdrug.getTotalPages();
+        if (totalPages > 0) {
+            int start = Math.max(0, currentPage - 2);
+            int end = Math.min(currentPage + 2, totalPages - 1);
+            if (totalPages > 5) {
+                if (end == totalPages) start = end - 5;
+                else if (start == 1) end = start + 5;
+
+            }
+            List<Integer> pageNumbers = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        List<DrugModel> list = pagingdrug.toList();
+        for (DrugModel d : list
+        ) {
+            d.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(d.getThumbnail()));
+        }
+        model.addAttribute("druglist", list);
+        model.addAttribute("pagingPost", pagingdrug);
+        return "drug_manager";
+    }
+    @PostMapping("/drug")
+    @Transactional
+    public String addDrug(@RequestParam(name = "drugname") String drugname,
+                          @RequestParam(name = "createAt") String createAt,
+                          @RequestParam(name = "endAt") String endAt,
+                          @RequestParam(name = "image") MultipartFile thumbnail,
+                          @RequestParam(name = "price") int price,
+                          @RequestParam(name = "quantity") int quantity,
+                          @RequestParam(name = "type") String type) throws Exception {
+        byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        Date dateCreate = formatter.parse(createAt);
+        Date dateEnd = formatter.parse(endAt);
+
+
+        drugService.addDrug(dateCreate,drugname,dateEnd,price,true,imgConvertAdd,type,quantity);
+
+        return "redirect:/manager/drug";
+    }
+
 }

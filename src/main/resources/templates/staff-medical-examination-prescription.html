@@ -408,6 +408,12 @@ th, td {
 			
 			function updateQuantity(drugId){
 				var currentQuantity = document.getElementById("input-quantity-"+drugId).value;
+				if(currentQuantity <= 0){
+					alert("Quantity must be > 0");
+					var lastQuantity = document.getElementById("drug-previous-quantity-"+drugId).value;
+					document.getElementById("input-quantity-"+drugId).value = lastQuantity;
+					return;
+				}
 				var drugItemElement = document.getElementById("drug-"+drugId);
 				var drugQuantity = drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML;
 				var drugPreviousQuantityInputElement = document.getElementById("drug-previous-quantity-"+drugId);
