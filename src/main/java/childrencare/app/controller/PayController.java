@@ -33,6 +33,6 @@ public class PayController {
             reservationService.changeStatusReservation(3, rid);
         }
         payService.setPaymentMethod(payMethod, rid);
-        return "thank_you";
+        return "redirect:/updateReservationInfo?reservationId=" + rid;
     }
 }

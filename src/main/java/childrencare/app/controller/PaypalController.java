@@ -92,7 +92,7 @@ public class PaypalController {
             if(payment.getState().equals("approved")){
                 payService.setPaymentMethod(2, rid);
                 reservationService.changeStatusReservation(4, rid);
-                return "thank_you";
+                return "redirect:/updateReservationInfo?reservationId=" + rid;
             }
         } catch (PayPalRESTException e) {
             log.error(e.getMessage());
