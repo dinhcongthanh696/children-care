@@ -128,7 +128,7 @@ th, td {
 											<td th:text="${reservationService.reservation.reservationId}"></td>
 											<td th:text="${reservationService.service.title}"></td>
 											<td th:text="${reservationService.price}"></td>
-											<td th:text="${reservationService.id.bookedDate}"></td>
+											<td th:text="${#dates.format(reservationService.id.bookedDate,'dd/MM/yyyy')}"></td>
 											<td>
 												<span th:text="${reservationService.slot.getTimeToString(true)}"></span>
 												-->
