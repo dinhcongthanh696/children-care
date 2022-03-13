@@ -21,6 +21,9 @@ public interface DrugRepository extends JpaRepository<DrugModel, Integer> {
     @Modifying
     @Query(value = "UPDATE drug SET quantity = ?2 WHERE drug_id = ?1", nativeQuery = true)
     public void updateDrugQuantity(int drugId, int quantity);
+    
+    @Query(value = "SELECT * FROM drug WHERE status = ?1",nativeQuery = true)
+    public List<DrugModel> findDrugByStatus(boolean status);
 
     @Modifying
     @Query(value = "INSERT INTO [drug]([create_date],[drug_name],[end_date],[price],[status],[thumbnail],[type],[quantity]) VALUES (?1,?2,?3,?4,?5,?6,?7,?8)", nativeQuery = true)

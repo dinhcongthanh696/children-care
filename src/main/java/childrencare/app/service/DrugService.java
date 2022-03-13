@@ -20,6 +20,10 @@ public class DrugService {
 		return drugRepository.findAll();
 	}
 	
+	public List<DrugModel> findAllByStatus(boolean status){
+		return drugRepository.findDrugByStatus(status);
+	}
+	
 	public List<DrugModel> findByReservationAndService(int reservationId , int serviceId){
 		return drugRepository.findDrugByReservationAndService(reservationId, serviceId);
 	}

@@ -392,6 +392,7 @@ public class ManagerController {
         List<DrugModel> list = pagingdrug.toList();
         for (DrugModel d : list
         ) {
+        	if(d.getThumbnail() != null)
             d.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(d.getThumbnail()));
         }
         model.addAttribute("druglist", list);

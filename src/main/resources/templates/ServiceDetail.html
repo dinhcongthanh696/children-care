@@ -375,7 +375,7 @@
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('/service/services')"></div>
 <div id="top-bar" th:insert="index :: top-bar"></div>
 <header th:replace="header.html :: header"></header>
-<section id="main-menu" th:replace="mainmenu.html :: mainMenu('','Service Detail','services','Search service')"></section>
+<section id="main-menu" th:replace="mainmenu.html :: mainMenu('','Service Detail','services',#{search.by.title})"></section>
 <div class="head">
     <a href="/ChildrenCare">Home </a> <a>> </a> <a href="/ChildrenCare/service/services">Our Services</a><a> > </a> <a th:text="${service.title}"></a>
 </div>
@@ -536,6 +536,17 @@
             window.location.reload();
         })
     }
+    
+    function changeLanguage(langCode){
+		var queryString = window.location.search;
+		var params = new URLSearchParams(queryString);
+		if(!params.has("lang")){
+			params.append("lang",langCode);
+		}else{
+			params.set("lang",langCode);
+		}
+		window.location.href = window.location.pathname +"?"+ params;
+	}
 
 </script>
 </body>

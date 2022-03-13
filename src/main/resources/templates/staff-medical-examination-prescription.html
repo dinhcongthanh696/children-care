@@ -59,6 +59,10 @@ th, td {
   padding: 8px;
 }
 
+.drug-thumbnail{
+	width : 150px;
+}
+
 	
 </style>
 </head>
@@ -423,9 +427,9 @@ th, td {
 					drugItemElement.getElementsByClassName("drug-quantity")[0].innerHTML = parseInt(drugQuantity) - updatedQuantity;
 					drugCurrentQuantityInputElement.blur();
 					var prescriptionDrugPriceElement = document.getElementById("prescription-drug-price-"+drugId);
-					var drugPrice = parseInt(drugItemElement.getElementsByClassName("drug-price")[0].innerHTML);
-					prescriptionDrugPriceElement.innerHTML = parseFloat(prescriptionDrugPriceElement.innerHTML) + (parseFloat(drugPrice) * updatedQuantity);
-					document.getElementById("total-price").innerHTML = parseInt(document.getElementById("total-price").innerHTML) + (parseFloat(drugPrice) * updatedQuantity);
+					var drugPrice = parseFloat(drugItemElement.getElementsByClassName("drug-price")[0].innerHTML);
+					prescriptionDrugPriceElement.innerHTML = parseFloat(prescriptionDrugPriceElement.innerHTML) + (drugPrice * updatedQuantity);
+					document.getElementById("total-price").innerHTML = parseFloat(document.getElementById("total-price").innerHTML) + (drugPrice * updatedQuantity);
 					alert("Update Quantity Succusfully");
 				}else{
 					drugCurrentQuantityInputElement.value = drugPreviousQuantityInputElement.value;

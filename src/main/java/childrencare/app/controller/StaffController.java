@@ -1,6 +1,8 @@
 package childrencare.app.controller;
 
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -73,6 +75,7 @@ public class StaffController {
 		} 
 		
 		List<DrugModel> drugs = drugService.findAllDrugs();
+		model.addAttribute("currentDate", new Date());
 		model.addAttribute("drugs", drugs);
 		model.addAttribute("totalPages", reservationServicesPageable.getTotalPages());
 		model.addAttribute("currentPage", reservationServicesPageable.getNumber());
@@ -88,12 +91,15 @@ public class StaffController {
 			@RequestParam(name = "rid") int rid,
 			@RequestParam(name = "sid") int sid) {
 		List<ReservationServiceDrugModel> prescription = rsdService.findByReservationAndService(rid, sid);
-		List<DrugModel> drugs = drugService.findAllDrugs();
+		List<DrugModel> drugs = drugService.findAllByStatus(true); // only active drugs
+		for(DrugModel drug : drugs) {
+			if(drug.getThumbnail() != null)
+				drug.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(drug.getThumbnail()));
+		}
 		int totalPrice = 0;
 		for(ReservationServiceDrugModel rsd : prescription) {
 			totalPrice += rsd.getQuantity() * rsd.getDrug().getPrice();
 		}
-		
 		model.addAttribute("prescription", prescription);
 		model.addAttribute("drugs", drugs);
 		model.addAttribute("totalPrice", totalPrice);
