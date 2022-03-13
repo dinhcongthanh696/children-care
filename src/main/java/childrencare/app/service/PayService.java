@@ -17,4 +17,8 @@ public class PayService {
     public List<Payment> findAll(){
         return payRepository.findAll();
     }
+
+    public void setPaymentMethod(int pid, int rid){
+        payRepository.setPaymentMethod(pid, rid);
+    }
 }

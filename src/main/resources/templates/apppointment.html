@@ -226,13 +226,6 @@
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
-                            <button type="button" class="btn btn-outline-success confirm">Send mail confirm</button>
-                        </div>
-                        <div class="row" id="message" style="display: none">
-                            <p>Please check you email to confirm you booking!</p>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -245,34 +238,51 @@
                             <input type="hidden" value="">
                         </div>
                     </div>
-                    <form method="post" th:action="@{/payment}">
+                    <form method="post" th:action="@{/payment}" id="paymentForm">
                         <input type="hidden" th:value="${reservationId}" name="reservationId">
                         <input type="hidden" th:value="${totalPrice}" name="price">
                         <th:block th:each="p : ${payments}">
                             <div style="margin-top: 30px">
-                                <input type="radio" th:value="${p.id}" name="payMethod">
+                                <input type="radio" th:value="${p.id}" name="payMethod" class="paymentMethod">
                                 <b> <span class="btn-box alert alert-primary"
                                           th:text="|  Check out with ${p.name}|"> </span> </b>
                                 <br>
                             </div>
                         </th:block>
                         <br>
-                        <button class="btn btn-outline-success btn-lg btn-radius">
+                        <button class="btn btn-outline-success btn-lg btn-radius" style="display: none" id="checkOut">
                             <b> Check out </b>
                         </button>
                     </form>
                     <br>
 
                     <th:block>
-                        <div class="alert alert-warning" role="alert">
+                        <div class="alert alert-warning" role="alert" id="warning-mess">
                             <i class="fa fa-warning" style="color: #ff835e"></i>
                             You need to choose payment method so can check out!
                         </div>
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success" role="alert" id="success-mess" style="display: none;"
+                             th:if="${
+                                reservation.getStatusReservation().getStatusId() == 3
+                                || reservation.getStatusReservation().getStatusId() == 4}">
                             <i class="fa fa-check" style="color: #0F9E5E"></i> Check out success!
                         </div>
                     </th:block>
                     <br>
+                    <div id="mail-confirm">
+                        <div class="row" th:if="${
+                                reservation.getStatusReservation().getStatusId() == 3
+                                || reservation.getStatusReservation().getStatusId() == 4}">
+                            <button type="button" class="btn-one btn-outline-success confirm" style="color: #0a1821">
+                                <b> Send mail confirm </b> <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <br>
+                        <div class="row alert alert-success" id="message" style="display: none">
+                            <p>Please check you email to confirm you booking! <i class="fa fa-envelope-open-o"
+                                                                                 aria-hidden="true"></i></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -519,9 +529,10 @@
             })
     });
 
-    function pay() {
-
-    }
+    $(document).on('click', '.paymentMethod', function () {
+        document.getElementById("checkOut").style.display = "block";
+        document.getElementById("warning-mess").style.display = "none";
+    })
 
 
 </script>
