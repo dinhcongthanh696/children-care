@@ -21,7 +21,7 @@ public class ServiceCategoryService {
 	
 	public List<ServiceCategoryModel> findAll(){
 		List<ServiceCategoryModel> categories = serviceCategoryRepository.findAll();
-		for(ServiceCategoryModel category : categories) {
+		/* for(ServiceCategoryModel category : categories) {
 			double totalRevenue = 0;
 			for(ServiceModel service : category.getServices()) {
 				for(ReservationServiceModel reservationService : service.getReservationServices()) {
@@ -29,7 +29,7 @@ public class ServiceCategoryService {
 				}
 			}
 			category.setTotalRevenue(totalRevenue);
-		}
+		} */
 		
 		return categories;
 	}
