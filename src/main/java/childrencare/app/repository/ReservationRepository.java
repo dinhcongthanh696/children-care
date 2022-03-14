@@ -77,9 +77,9 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "join r.customer c join c.customer_user u")
     Page<ReservationModel> findAll(Pageable pageable);
 
-    @Query(value = "select r from ReservationModel r join r.customer c " +
-            "join c.customer_user u where  r.reservationId = ?1")
-    Page<ReservationModel> findReservationStaff(int keyword, Pageable pageable);
+    @Query(value = "select r from ReservationModel  r join r.statusReservation rt join r.customer c " +
+            "join c.customer_user u where  r.reservationId = ?1 or rt.statusId = ?2")
+    Page<ReservationModel> findReservationStaff(int keyword,int statusID, Pageable pageable);
 
     @Query(value = "select r from ReservationModel r join r.statusReservation rt " +
             "join r.customer c " +

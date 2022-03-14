@@ -24,6 +24,7 @@
   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
   <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
   <![endif]-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="skin-black">
 <!-- header logo: style can be found in header.less -->
@@ -37,7 +38,7 @@
 </header>
 <div class="wrapper row-offcanvas row-offcanvas-left">
   <!-- Left side column. contains the logo and sidebar -->
-  <div th:replace="navBar_admin::leftSide_admin('/managerView/reservationManager/home/page')" ></div>
+  <div th:replace="navBar_admin::leftSide_admin('/managerView/reservationManager/home')" ></div>
   <!-- Right side column. Contains the navbar and content of the page -->
   <aside class="right-side">
     <!-- Main content -->
@@ -54,23 +55,22 @@
             <div class="panel-body table-responsive">
               <div class="row">
                 <div class="col-sm-8">
-                  <form th:action="@{/manager/home/page/1}">
+                  <form action="/ChildrenCare/manager/managerView/reservationManager/home">
                     <input th:value="${key} == 0 ?'':${key}" type="text" name="key" class="form-control input-sm pull-left" style="width: 260px;"
                            placeholder="Tìm kiếm theo mã đơn hàng.."/>
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </form>
                   <button style="padding: 5px; border-radius: 10px;" class="btn-circle btn-danger">
-                    <a style="color: black; font: bold;" th:href="@{/manager/export}">Export PDF</a>
+                    <a style="color: black; font: bold;" href="/ChildrenCare/manager/managerView/reservationManager/home/export">Export PDF</a>
                   </button>
                 </div>
                 <div class="col-sm-4">
-                  <form id="myForm1" th:action="@{/manager/managerView/filter/1}">
-                    <a class="text-danger" href="/ChildrenCare/manager/home/page/1">Tất cả đơn đặt dịch vụ | </a>
+                  <form id="myForm1" action="/ChildrenCare/manager/managerView/reservationManager/home">
+                    <a class="text-danger" href="/ChildrenCare/manager/managerView/reservationManager/home">Tất cả đơn đặt dịch vụ | </a>
                     Trạng thái: <select name="filterValue" th:onchange="filterReservation()">
-                    <option th:selected="${filterValue} == -1" value="-1">Tất cả</option>
+                    <option th:selected="${filterValue} == 0" value="0">Tất cả</option>
                     <option th:each="item: ${statusList}" th:selected="${item.statusId == filterValue}"  th:value="${item.statusId}" th:text="${item.statusName}"></option>
                     </select>
-
                   </form>
                 </div>
                 <script>
@@ -82,12 +82,12 @@
               <table  id="emp-table" class="table table-hover">
                 <thead>
                 <tr>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Mã đơn hàng</a></th>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">Ngày đặt hàng</a></th>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=customer&sortDir=' + ${reverseSortDir}}">Tên khách hàng</a></th>
+                  <th><a th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage} + '&sortField=id&sortDir=' + ${reverseSortDir}}">Mã đơn hàng</a></th>
+                  <th><a th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage} + '&sortField=date&sortDir=' + ${reverseSortDir}}">Ngày đặt hàng</a></th>
+                  <th><a th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage} + '&sortField=customer&sortDir=' + ${reverseSortDir}}">Tên khách hàng</a></th>
                   <th></th>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=totalReservationPrice&sortDir=' + ${reverseSortDir}}">Tổng tiền đơn hàng</a></th>
-                  <th><a th:href="@{'/manager/home/page/' + ${currentPage} + '?sortField=statusReservation&sortDir=' + ${reverseSortDir}}">Trạng thái</a></th>
+                  <th><a th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage} + '&sortField=totalReservationPrice&sortDir=' + ${reverseSortDir}}">Tổng tiền đơn hàng</a></th>
+                  <th><a th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage} + '&sortField=statusReservation&sortDir=' + ${reverseSortDir}}">Trạng thái</a></th>
                   <th>Kiểm tra</th>
 
                 </tr>
@@ -101,7 +101,7 @@
                   <td th:text="${#numbers.formatDecimal(info.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
                   <td th:text="${info.statusReservation.statusName}"></td>
                   <td>
-                    <a th:href="@{/manager/{rid}(rid=${info.reservationId})}">Chi tiết</a>
+                    <a th:href=" '/ChildrenCare/manager/managerView/reservationManager/home/detailsReservation?rid=' +${info.reservationId} ">Chi tiết</a>
                     <a th:attr="data-target='#modalManagerReservation'+${info.reservationId}" type="button" class="btn" data-toggle="modal" data-target="#modalReservation"> <i class="fa fa-eye" aria-hidden="true"></i></a>
                     <div class="modal fade" th:id="${'modalManagerReservation'+ info.reservationId}"  tabindex="-1" aria-labelledby="modalReservation" aria-hidden="true">
                       <div class="modal-dialog">
@@ -143,60 +143,30 @@
                 </tr>
                 </tbody>
               </table>
-              <div th:if="${filterValue} == null">
                 <div th:if="${totalPages > 1} ">
                   Tổng số lượng đơn đặt: [[${totalItems}]]
                   &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/home/page/1'+${key != null? '?keyword='+ key:  ''} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Trang đầu</a>
+                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=1'+${key != null? '&keyword='+ key:  ''} + '&sortField=id&sortDir=' + ${reverseSortDir}}">Trang đầu</a>
                   <span th:unless="${currentPage > 1}">Trang đầu</span>
                   &nbsp;&nbsp;
 
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/home/page/' + ${currentPage - 1} +${key != null? '?keyword='+ key:  ''}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang trước</a>
+                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage - 1} +${key != null? '&keyword='+ key:  ''}+ '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang trước</a>
                   <span th:unless="${currentPage > 1}">Trang trước</span>
 
                   &nbsp;&nbsp;
 
                   <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			                  <a th:if="${currentPage != i}" th:href="@{'/manager/home/page/'+ ${i} +${key != null? '?keyword='+ key:  ''} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
+			                  <a th:if="${currentPage != i}" th:href="@{'/manager/managerView/reservationManager/home?pageNum='+ ${i}+ ${filterValue != null? '&filterValue='+ filterValue:  ''} +${key != null? '&keyword='+ key:  ''} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
 			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
 
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/home/page/' + ${currentPage + 1} +${key != null? '?keyword='+ key:  ''} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Trang tiếp </a>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage + 1} +${key != null? '&keyword='+ key:  ''} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Trang tiếp </a>
                   <span th:unless="${currentPage < totalPages}">Trang tiếp</span>
                   &nbsp;&nbsp;
 
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/home/page/' + ${totalPages}+${key != null? '?keyword='+ key:  ''}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang cuối</a>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${totalPages}+${key != null? '&keyword='+ key:  ''}+ '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang cuối</a>
                   <span th:unless="${currentPage < totalPages}">Trang cuối</span>
                 </div>
-              </div>
-
-              <div th:if="${filterValue} != null">
-                <div th:if="${totalPages > 1} ">
-                  Total Items: [[${totalItems}]]
-                  &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/filter/1'+${filterValue != null? '?filterValue='+ filterValue:  ''}}">Trang đầu</a>
-                  <span th:unless="${currentPage > 1}">Trang đầu</span>
-                  &nbsp;&nbsp;
-
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/filter/' + ${currentPage - 1} +${filterValue != null? '?filterValue='+ filterValue:  ''} }">Trang trước</a>
-                  <span th:unless="${currentPage > 1}">Trang trước</span>
-
-                  &nbsp;&nbsp;
-
-                  <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			                  <a th:if="${currentPage != i}" th:href="@{'/manager/managerView/filter/'+ ${i} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">[[${i}]]</a>
-			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
-
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/filter/' + ${currentPage + 1} +${filterValue != null? '?filterValue='+ filterValue:  ''}}">Trang tiếp</a>
-                  <span th:unless="${currentPage < totalPages}">Trang tiếp</span>
-                  &nbsp;&nbsp;
-
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/filter/' + ${totalPages}+${filterValue != null? '?filterValue='+ filterValue:  ''} }">Trang cuối</a>
-                  <span th:unless="${currentPage < totalPages}">Trang cuối</span>
-                </div>
-              </div>
-
             </div><!-- /.box-body -->
           </div><!-- /.box -->
         </div>
@@ -205,8 +175,40 @@
     <div class="footer-main">
       Children-Care System Management
     </div>
-  </aside><!-- /.right-side -->
+  </aside>
+  <!-- /.right-side -->
+  <div style="margin-left: 300px; height: 800px; width:800px;">
+    <canvas id="myChart"></canvas>
+  </div>
+
+
 </div><!-- ./wrapper -->
+
+
+<script>
+  const labels = JSON.parse(document.getElementById("last7Days").value);
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'My First dataset',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [0, 10, 5, 2, 20, 30, 45],
+    }]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {}
+  };
+
+  const myChart = new Chart(
+          document.getElementById('myChart'),
+          config
+  );
+</script>
 
 
 <!-- jQuery 2.0.2 -->

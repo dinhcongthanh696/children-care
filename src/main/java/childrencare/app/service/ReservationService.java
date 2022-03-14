@@ -84,15 +84,16 @@ public class ReservationService {
         return repository.getReservationByReservationId(reserID);
     }
 
-    public Page<ReservationModel> listAll(int pageNum, int keyword, String sortField, String sortDir) {
+    public Page<ReservationModel> listAll(int pageNum, int keyword,int statusID, String sortField, String sortDir) {
         Pageable pageable = PageRequest.of(pageNum - 1, 6,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending()
         );
-        if (keyword == 0) {
+        if (keyword == 0 && statusID == 0) {
             return repository.findAll(pageable);
         }
-        return repository.findReservationStaff(keyword, pageable);
+
+        return repository.findReservationStaff(keyword, statusID, pageable);
     }
 
     public Page<ReservationModel> filterReservation1(int pageNum, int status) {
