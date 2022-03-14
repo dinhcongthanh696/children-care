@@ -227,6 +227,11 @@
                             </div>
                         </div>
                     </form>
+                    <br>
+                    <div th:if="${schedules.size() == 0}" class="alert alert-warning" role="alert">
+                        <i class="fa fa-warning" style="color: #ff835e"></i>
+                        Your booking must contains at least 1 appointment
+                    </div>
                 </div>
             </div>
             <div class="col-xl-4 col-lg-6 col-md-9">
@@ -250,9 +255,12 @@
                             </div>
                         </th:block>
                         <br>
-                        <button class="btn btn-outline-success btn-lg btn-radius confirm" style="display: none" id="checkOut">
-                            <b> Check out </b>
-                        </button>
+                        <th:block th:if="${schedules.size() > 0}">
+                            <button class="btn btn-outline-success btn-lg btn-radius confirm" style="display: none"
+                                    id="checkOut">
+                                <b> Check out </b>
+                            </button>
+                        </th:block>
                     </form>
                     <br>
                 </div>
@@ -487,25 +495,26 @@
                 }
             })
     });
-    $(document).on("click", ".confirm", function () {
-        let reservation_id = $("#reservationId").val();
-        let mess = document.getElementById("message");
-        mess.style.display = 'block';
-        fetch("/ChildrenCare/updateReservationInfo?reservationId=" + reservation_id, {
-            method: 'PUT'
-        })
-            .then(response => {
-                switch (response.status) {
-                    case 403 :
-                        alert("Your are not allowed to save any changes");
-                        break;
-                    case 200 :
-                        //
-                        $(this).hide();
-                        location.reload();
-                }
-            })
-    });
+    // $(document).on("click", ".confirm", function () {
+    //     let reservation_id = $("#reservationId").val();
+    //     let mess = document.getElementById("message");
+    //     mess.style.display = 'block';
+    //     fetch("/ChildrenCare/updateReservationInfo?reservationId=" + reservation_id, {
+    //         method: 'PUT'
+    //     })
+    //         .then(response => {
+    //             switch (response.status) {
+    //                 case 403 :
+    //                     alert("Your are not allowed to save any changes");
+    //                     break;
+    //                 case 200 :
+    //                     //
+    //                     $(this).hide();
+    //                     location.reload();
+    //             }
+    //         })
+    //     alert("Confirm");
+    // });
 
     $(document).on('click', '.paymentMethod', function () {
         document.getElementById("checkOut").style.display = "block";

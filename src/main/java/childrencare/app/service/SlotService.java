@@ -27,5 +27,8 @@ public class SlotService {
         return slotByRid;
     }
 
+    public List<Slot> getAllSlot(){
+        return slotRepository.findAll();
+    }
 
 }

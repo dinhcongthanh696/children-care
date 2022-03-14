@@ -85,8 +85,8 @@ public class ScheduleController {
     }
 
     @Transactional
-    @PutMapping("/updateReservationInfo")
-    public void updateInfo(@RequestParam(name = "reservationId") Integer rid,
+    @GetMapping("/updateReservationInfo")
+    public String updateInfo(@RequestParam(name = "reservationId") Integer rid,
                            HttpSession session, Model model,
                            HttpServletRequest request, HttpServletResponse response){
         //Update status
@@ -158,6 +158,7 @@ public class ScheduleController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return "thank_you";
     }
 
 

@@ -62,6 +62,9 @@ public class ManagerController {
     private DrugService drugService;
 
     @Autowired
+    private SlotService slotService;
+
+    @Autowired
     public ManagerController(ServiceModelService serviceModelService, CustomerService customerService) {
         this.serviceModelService = serviceModelService;
         this.customerService = customerService;
@@ -457,6 +460,7 @@ public class ManagerController {
         drugService.updateDrug(dateCreate, drugname, dateEnd, price, imgConvertAdd, type, quantity, drugId);
         return "redirect:/manager/drug";
     }
+
     @GetMapping("/drugDetail")
     public String getDrugDetail(Model model,
                                 @RequestParam(name = "did", required = false) int did){
@@ -469,4 +473,10 @@ public class ManagerController {
 
     }
 
+    @GetMapping("/slot")
+    public String getSlotData(Model model){
+        List<Slot> slots = slotService.getAllSlot();
+        model.addAttribute("slots", slots);
+        return "manager-slot-list";
+    }
 }
