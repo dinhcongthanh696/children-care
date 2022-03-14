@@ -36,9 +36,18 @@ public class FeedbackService {
 
     public Page<FeedbackModel> getPaginatedFeedback(int page, int size, int sid, int star,
                                                     String contactName, String content, int status){
-
+        Page<FeedbackModel> feedbackModelPage = null;
         Pageable pageable = PageRequest.of(page, size);
-        return feedbackRepository.getAllFeedBack(sid, star, status, content, contactName, pageable);
+        if(sid == 0){
+            feedbackModelPage = feedbackRepository.getAllGeneralFeedback(star, status, content, contactName, pageable);
+        }
+        else{
+            feedbackModelPage = feedbackRepository.getAllFeedBack(sid, star, status, content, contactName, pageable);
+        }
+        for(FeedbackModel feedback : feedbackModelPage){
+            feedback.setBase64ImageEncode(feedback.getImage());
+        }
+        return  feedbackModelPage;
     }
 
     public void changeFeedbackStatus(int status, int fid){

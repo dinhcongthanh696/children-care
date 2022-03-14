@@ -44,7 +44,7 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
 
 
     @Query(value = "select * from feedback where 1=1 " +
-            "and (:sid = -1 or :sid = 6) " +
+            "and (:sid = -1  or service_id = :sid) " +
             "and (:star = -1 or :star = 4) " +
             "and (:status = -1 or status = :status) " +
             "and (:content = '' or comment like %:content%) " +
@@ -53,6 +53,19 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
             "inner join user_model u on c.customer_email = u.email " +
             "where u.fullname like %:contactName%) ) ", nativeQuery = true)
     Page<FeedbackModel> getAllFeedBack(@Param("sid")int sid, @Param("star")int star,
+                                       @Param("status")int status, @Param("content")String content,
+                                       @Param("contactName") String contactName, Pageable pageable);
+
+    @Query(value = "select * from feedback where 1=1 " +
+            "and service_id is null " +
+            "and (:star = -1 or :star = 4) " +
+            "and (:status = -1 or status = :status) " +
+            "and (:content = '' or comment like %:content%) " +
+            "and (:contactName = '' or customer_id in " +
+            "(select customer_id from customer c " +
+            "inner join user_model u on c.customer_email = u.email " +
+            "where u.fullname like %:contactName%) ) ", nativeQuery = true)
+    Page<FeedbackModel> getAllGeneralFeedback(@Param("star")int star,
                                        @Param("status")int status, @Param("content")String content,
                                        @Param("contactName") String contactName, Pageable pageable);
 
