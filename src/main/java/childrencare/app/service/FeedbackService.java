@@ -38,6 +38,9 @@ public class FeedbackService {
                                                     String contactName, String content, int status){
 
         Pageable pageable = PageRequest.of(page, size);
+        if(sid == 0){
+            return feedbackRepository.getAllGeneralFeedback(star, status, content, contactName, pageable);
+        }
         return feedbackRepository.getAllFeedBack(sid, star, status, content, contactName, pageable);
     }
 
