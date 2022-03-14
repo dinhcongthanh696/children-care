@@ -234,10 +234,12 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Thumbnail</label>
-                                                                    <img id="imgAddPreview2" style="height: 200px"
+                                                                    <!--<img id="imgAddPreview2" style="height: 200px"
                                                                          class="form-control" alt="No image"  th:src="${'data:image/gif;base64,'+ list.getBase64ThumbnailEncode()}">
                                                                     <input name="image" onchange="addImgPreview(this)"
-                                                                           type="file">
+                                                                           type="file">-->
+                                                                    <img style="height: 200px" th:id="'previewImg'+${list.getDrugId()}" th:src="${'data:image/gif;base64,'+list.base64ThumbnailEncode}" alt="anh bi loi"  class="form-control" required>
+                                                                    <input name="imgUpdate" th:onchange="'reviewImg(this,'+${list.getDrugId()}+')'" type="file">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Type</label>
