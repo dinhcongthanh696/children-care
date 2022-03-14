@@ -77,9 +77,9 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "join r.customer c join c.customer_user u")
     Page<ReservationModel> findAll(Pageable pageable);
 
-    @Query(value = "select r from ReservationModel r join r.customer c " +
-            "join c.customer_user u where  r.reservationId = ?1")
-    Page<ReservationModel> findReservationStaff(int keyword, Pageable pageable);
+    @Query(value = "select r from ReservationModel  r join r.statusReservation rt join r.customer c " +
+            "join c.customer_user u where  r.reservationId = ?1 or rt.statusId = ?2")
+    Page<ReservationModel> findReservationStaff(int keyword,int statusID, Pageable pageable);
 
     @Query(value = "select r from ReservationModel r join r.statusReservation rt " +
             "join r.customer c " +
@@ -110,8 +110,8 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     @Query(value = "select * from reservation where reservation_id in\n" +
             "(select distinct reservation_id\n" +
             " from reservation_service\n" +
-            " where staff_id = ?1 and reservation_id = ?2)",nativeQuery = true)
-    Page<ReservationModel> listReservationByStaff(int staffID,int reservationID,Pageable pageable);
+            " where staff_id = ?1 and (reservation_id = ?2 or [status_reservation_id] = ?3) )",nativeQuery = true)
+    Page<ReservationModel> listReservationByStaff(int staffID,int keyword,int statusID,Pageable pageable);
 
 
     @Query(value = "select * from reservation where reservation_id in\n" +

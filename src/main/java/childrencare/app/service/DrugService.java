@@ -31,8 +31,8 @@ public class DrugService {
 	public void updateDrugQuantity(DrugModel drug) {
 		drugRepository.updateDrugQuantity(drug.getDrugId(), drug.getQuantity());
 	}
-	public Page<DrugModel> findAll(int page, int size){
-		return drugRepository.findAll(PageRequest.of(page,size));
+	public Page<DrugModel> findAll(String title,int page, int size){
+		return drugRepository.findAllBy(title,PageRequest.of(page,size));
 	}
 	public void addDrug(Date createDate, String drugname, Date endDate, int price, boolean status, byte[] image, String type, int quantity){
 		drugRepository.addDrug(createDate, drugname, endDate, price, status, image, type, quantity);

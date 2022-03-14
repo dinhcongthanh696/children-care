@@ -37,15 +37,12 @@ public class ReservationListStaffController {
     @Autowired
     private StatusService statusService;
 
-    @GetMapping(value = "/staffView/reservationStaff/home")
-    public String viewHome(Model model,HttpSession session){
-        return getPageStaff(model,1,session,0,"reservation_id","asc");
-    }
 
-    @RequestMapping(value = "/home/page/{pageNum}", method = { RequestMethod.GET, RequestMethod.POST })
-    public String getPageStaff(Model model, @PathVariable(name = "pageNum") int pageNum,
+    @RequestMapping(value = "/staffView/reservationStaff/home", method = { RequestMethod.GET, RequestMethod.POST })
+    public String getPageStaff(Model model, @RequestParam(name = "pageNum",defaultValue = "1") int pageNum,
                           HttpSession session,
                           @RequestParam(name =  "key",required = false,defaultValue = "0") int key,
+                               @RequestParam(name =  "filterValueByStaff",required = false,defaultValue = "0") int filterValue,
                           @RequestParam(name =  "sortField",required = false,defaultValue = "reservation_id") String sortField,
                           @RequestParam(name =  "sortDir",required = false,defaultValue = "asc") String sortDir){
         String emailFromSession = (String) session.getAttribute("email");
@@ -53,7 +50,7 @@ public class ReservationListStaffController {
         if(staffModel != null){
             List<StatusModel> statusModels = statusService.findAll();
             Page<ReservationModel> page =
-                    reservationService.listReservationByStaff(pageNum,staffModel.getStaff_id(),key,sortField,sortDir);
+                    reservationService.listReservationByStaff(pageNum,staffModel.getStaff_id(),key,filterValue,sortField,sortDir);
             List<ReservationModel> listReserByStaff = page.getContent();
             model.addAttribute("statusList",statusModels);
             model.addAttribute("listByStaff",listReserByStaff);
@@ -64,6 +61,7 @@ public class ReservationListStaffController {
             model.addAttribute("sortField", sortField);
             model.addAttribute("sortDir", sortDir);
             model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+            model.addAttribute("filterValueByStaff", filterValue);
         }else{
             model.addAttribute("mess","Bạn hiện chưa có đơn hàng nào được đặt!");
         }
@@ -71,8 +69,8 @@ public class ReservationListStaffController {
     }
 
 
-    @RequestMapping(value = "/home/pageByDate/{pageNum}", method = { RequestMethod.GET, RequestMethod.POST })
-    public String getPageByDate(Model model, @PathVariable(name = "pageNum") int pageNum,
+    @RequestMapping(value = "/staffView/reservationStaff/pageByDate", method = { RequestMethod.GET, RequestMethod.POST })
+    public String getPageByDate(Model model, @RequestParam(name = "pageNum",defaultValue = "1") int pageNum,
                           HttpSession session,
                           @RequestParam(name = "dateFrom",required = false) Date dateFrom,
                           @RequestParam(value = "dateTo",required = false) Date dateTo,
@@ -98,23 +96,23 @@ public class ReservationListStaffController {
     }
 
 
-    @GetMapping("/staffView/filter/{pageNum}")
-    public String updateSlider(Model model,@PathVariable(name ="pageNum") int pageNum,
-                               @Param("filterValueByStaff") int filterValueByStaff,
-                               HttpSession session) {
-        String emailFromSession = (String) session.getAttribute("email");
-        StaffModel staffModel = staffService.findStaffByEmail(emailFromSession);
-        List<StatusModel> statusModels = statusService.findAll();
-        Page<ReservationModel> page = reservationService.filterReservationByStaff(pageNum,staffModel.getStaff_id(),filterValueByStaff);
-        List<ReservationModel> listByStaff = page.getContent();
-        model.addAttribute("statusList",statusModels);
-        model.addAttribute("currentPage", pageNum);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("listByStaff", listByStaff);
-        model.addAttribute("filterValueByStaff", filterValueByStaff);
-        return "reservationList-staff";
-    }
+//    @GetMapping("/staffView/filter/{pageNum}")
+//    public String updateSlider(Model model,@PathVariable(name ="pageNum") int pageNum,
+//                               @Param("filterValueByStaff") int filterValueByStaff,
+//                               HttpSession session) {
+//        String emailFromSession = (String) session.getAttribute("email");
+//        StaffModel staffModel = staffService.findStaffByEmail(emailFromSession);
+//        List<StatusModel> statusModels = statusService.findAll();
+//        Page<ReservationModel> page = reservationService.filterReservationByStaff(pageNum,staffModel.getStaff_id(),filterValueByStaff);
+//        List<ReservationModel> listByStaff = page.getContent();
+//        model.addAttribute("statusList",statusModels);
+//        model.addAttribute("currentPage", pageNum);
+//        model.addAttribute("totalPages", page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//        model.addAttribute("listByStaff", listByStaff);
+//        model.addAttribute("filterValueByStaff", filterValueByStaff);
+//        return "reservationList-staff";
+//    }
 
 
     @GetMapping("/{rid}")

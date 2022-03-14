@@ -33,8 +33,8 @@ public interface SlidersRepository extends PagingAndSortingRepository<SliderMode
     public void addSlider(String back_link, byte[] img, String notes, boolean status, String title);
 
     @Query(value = "select * from slide \n" +
-            "where CONCAT(title,back_link) like %?1%",nativeQuery = true)
-    public Page<SliderModel> findAllByField(String keyword, Pageable pageable);
+            "where CONCAT(title,back_link) like %?1% or [status] = ?2",nativeQuery = true)
+    public Page<SliderModel> findAllByField(String keyword,int status, Pageable pageable);
 
     @Query(value = "select * from slide\n" +
             "            where [status] = ?1",nativeQuery = true)

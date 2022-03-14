@@ -88,5 +88,9 @@ public class ReservationService_Service {
     	reservationServiceRepository.updateReservationServicePrice(rid, sid);
     }
 
+    public float getSumService(int reserId){
+        return reservationServiceRepository.getSumService(reserId);
+    }
+
 
 }
