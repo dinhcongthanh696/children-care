@@ -38,16 +38,24 @@ public class SlidersService  {
         slidersRepository.save(entity);
     }
 
-    public Page<SliderModel> listAll(int pageNum, String keyword) {
+    public Page<SliderModel> listAll(int pageNum, String keyword,int status) {
         Pageable pageable = PageRequest.of(pageNum - 1, 5);
-        if(keyword != null){
-            return slidersRepository.findAllByField(keyword,pageable);
+        if(keyword == null && status == -1){
+            return slidersRepository.findAll(pageable);
         }
+        return slidersRepository.findAllByField(keyword,status,pageable);
+
+    }
+
+//    public Page<SliderModel> findAllByField(String keyword, Pageable pageable) {
+//        return slidersRepository.findAllByField(keyword, pageable);
+//    }
+
+    public Page<SliderModel> findAll(Pageable pageable) {
         return slidersRepository.findAll(pageable);
     }
 
-
-    public Page<SliderModel> filterByStatus(int pageNum,int status) {
+    public Page<SliderModel> filterByStatus(int pageNum, int status) {
         Pageable pageable1 = PageRequest.of(pageNum - 1, 5);
         if(status == -1){
             return slidersRepository.findAll(pageable1);
