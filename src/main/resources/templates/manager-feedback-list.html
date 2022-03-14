@@ -220,7 +220,7 @@
                                             <span th:each="index : ${#numbers.sequence(1, feedback.ratedStar)}">
                                                 <i class="fas fa-star rated" style="color: #d9b814"> </i>
                                             </span>
-                                            <span th:each="index : ${#numbers.sequence(feedback.ratedStar + 1, 5)}">
+                                            <span th:if="${feedback.ratedStar < 5}" th:each="index : ${#numbers.sequence(feedback.ratedStar + 1, 5)}">
                                                 <i class="fas fa-star rated"> </i>
                                             </span>
                                         </td>
@@ -279,7 +279,7 @@
                                                                 <span th:each="index : ${#numbers.sequence(1, feedback.ratedStar)}">
                                                                     <i class="fas fa-star rated" style="color: #d9b814"> </i>
                                                                 </span>
-                                                                <span th:each="index : ${#numbers.sequence(feedback.ratedStar + 1, 5)}">
+                                                                <span th:if="${feedback.ratedStar < 5}" th:each="index : ${#numbers.sequence(feedback.ratedStar + 1, 5)}">
                                                                     <i class="fas fa-star rated"> </i>
                                                                 </span>
                                                             </div>
