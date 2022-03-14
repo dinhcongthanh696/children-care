@@ -2,9 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Director | Simple Tables</title>
+    <title>Feedback Manager</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <meta name="description" content="Developed By M Abdur Rokib Promy">
     <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
     <!-- bootstrap 3.0.2 -->
     <link href="../css_admin/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -97,7 +96,6 @@
                 i = 0;
             }
             let url = "/ChildrenCare/manager/updateFeedbackStatus?feedback_id=" + fid + "&status=" + i + "&page=" + page;
-            alert(url);
             fetch(url, {
                 method: 'POST'
             }).then(response => {
@@ -106,7 +104,6 @@
                         alert("Fail");
                         break;
                     case 200 :
-                        alert('Success');
                         location.reload();
                 }
             })
@@ -200,7 +197,7 @@
                             <br>
                             <div class="row" style="text-align: center">
                                 <button type="button" class="btn btn-primary"
-                                        th:onclick="getFeedbackData([[${feedbackPage.number + 1}]])"> Filter
+                                        th:onclick="getFeedbackData([[${feedbackPage.number + 1}]])">  Filter <i class="fas fa-filter"></i>
                                 </button>
                             </div>
                             <div class="row">
