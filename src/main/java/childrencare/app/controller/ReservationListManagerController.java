@@ -65,7 +65,7 @@ public class ReservationListManagerController {
         return "reservationList-manager";
     }
 
-    @RequestMapping(value = "/managerView/reservationManager/home/detailsReservation", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/managerView/reservationManager/detailsReservation", method = { RequestMethod.GET, RequestMethod.POST })
     public String reservationDetailStaff(@RequestParam(name =  "rid") int rid,
                                          Model model){
         ReservationModel reservationModel = reservationService.getreservationDetail(rid);
@@ -85,13 +85,13 @@ public class ReservationListManagerController {
 
         return "reservation-details-manager";
     }
-    @PostMapping("/updateStatus")
+    @PostMapping("/reservation/updateStatus")
     @Transactional
     public String reservationDetailStaff(@RequestParam("rid") int rid,
                                          @RequestParam("status") int status,
                                          Model model){
         reservationService.changeStatusReservation(status,rid);
-        return "redirect:/manager/"+rid;
+        return "redirect:/manager/managerView/reservationManager/detailsReservation?rid="+rid;
     }
 
     @PostMapping("/assignOtherStaff")
@@ -102,7 +102,7 @@ public class ReservationListManagerController {
             @RequestParam(name = "bookedDate") Date bookedDate,
             @RequestParam(name = "slotId") Integer slotId) {
         reservationService_service.assginOtherStaff(staffID, bookedDate, slotId);
-        return "redirect:/manager/"+rid;
+        return "redirect:/manager/managerView/reservationManager/detailsReservation?rid="+rid;
     }
 
 

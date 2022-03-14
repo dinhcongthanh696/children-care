@@ -67,7 +67,7 @@
 
         function changeStatusSlide(slideId,status) {
             status = !status;
-            window.location.href = "/ChildrenCare/manager/changSlideStatus?sid=" + slideId + "&status=" + status;
+            window.location.href = "/ChildrenCare/manager/slider/changSlideStatus?sid=" + slideId + "&status=" + status;
         }
 
     </script>
@@ -258,7 +258,7 @@
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="/ChildrenCare/manager/update" method="post" enctype="multipart/form-data">
+                                                            <form action="/ChildrenCare/manager/slider/update" method="post" enctype="multipart/form-data">
                                                                 <div class="form-group">
                                                                     <label>ID</label>
                                                                     <input readonly th:value="${s.slideId}" name="id" type="text" class="form-control" required>
@@ -336,6 +336,7 @@
                         </div><!-- /.box -->
                     </div>
                 </div>
+            </div>
         </section><!-- /.content -->
         <div class="footer-main">
             Children-Care System Management

@@ -64,6 +64,7 @@
                     <a style="color: black; font: bold;" href="/ChildrenCare/manager/managerView/reservationManager/home/export">Export PDF</a>
                   </button>
                 </div>
+
                 <div class="col-sm-4">
                   <form id="myForm1" action="/ChildrenCare/manager/managerView/reservationManager/home">
                     <a class="text-danger" href="/ChildrenCare/manager/managerView/reservationManager/home">Tất cả đơn đặt dịch vụ | </a>
@@ -101,7 +102,7 @@
                   <td th:text="${#numbers.formatDecimal(info.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
                   <td th:text="${info.statusReservation.statusName}"></td>
                   <td>
-                    <a th:href=" '/ChildrenCare/manager/managerView/reservationManager/home/detailsReservation?rid=' +${info.reservationId} ">Chi tiết</a>
+                    <a th:href=" '/ChildrenCare/manager/managerView/reservationManager/detailsReservation?rid=' +${info.reservationId} ">Chi tiết</a>
                     <a th:attr="data-target='#modalManagerReservation'+${info.reservationId}" type="button" class="btn" data-toggle="modal" data-target="#modalReservation"> <i class="fa fa-eye" aria-hidden="true"></i></a>
                     <div class="modal fade" th:id="${'modalManagerReservation'+ info.reservationId}"  tabindex="-1" aria-labelledby="modalReservation" aria-hidden="true">
                       <div class="modal-dialog">
