@@ -103,7 +103,7 @@
                   <td th:text="${#numbers.formatDecimal(item.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
                   <td th:text="${item.statusReservation.statusName}"></td>
                   <td>
-                    <a th:href="@{/staff/{rid}(rid=${item.reservationId})}">Chi tiết</a>
+                    <a th:href=" '/ChildrenCare/staff/staffview/details?rid='+${item.reservationId} ">Chi tiết</a>
                   </td>
                 </tr>
                 </tbody>

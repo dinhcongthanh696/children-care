@@ -96,27 +96,10 @@ public class ReservationListStaffController {
     }
 
 
-//    @GetMapping("/staffView/filter/{pageNum}")
-//    public String updateSlider(Model model,@PathVariable(name ="pageNum") int pageNum,
-//                               @Param("filterValueByStaff") int filterValueByStaff,
-//                               HttpSession session) {
-//        String emailFromSession = (String) session.getAttribute("email");
-//        StaffModel staffModel = staffService.findStaffByEmail(emailFromSession);
-//        List<StatusModel> statusModels = statusService.findAll();
-//        Page<ReservationModel> page = reservationService.filterReservationByStaff(pageNum,staffModel.getStaff_id(),filterValueByStaff);
-//        List<ReservationModel> listByStaff = page.getContent();
-//        model.addAttribute("statusList",statusModels);
-//        model.addAttribute("currentPage", pageNum);
-//        model.addAttribute("totalPages", page.getTotalPages());
-//        model.addAttribute("totalItems", page.getTotalElements());
-//        model.addAttribute("listByStaff", listByStaff);
-//        model.addAttribute("filterValueByStaff", filterValueByStaff);
-//        return "reservationList-staff";
-//    }
 
-
-    @GetMapping("/{rid}")
-    public String reservationDetailStaff(@PathVariable int rid, Model model,HttpSession session){
+    @RequestMapping(value = "/staffview/details", method = { RequestMethod.GET, RequestMethod.POST })
+    public String reservationDetailStaff(@RequestParam(name = "rid",required = false) int rid,
+                                         Model model,HttpSession session){
         String emailFromSession = (String) session.getAttribute("email");
         StaffModel staffModel = staffService.findStaffByEmail(emailFromSession);
         ReservationModel reservationModel = reservationService.getreservationDetail(rid);
