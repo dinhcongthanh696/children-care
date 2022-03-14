@@ -88,6 +88,12 @@
                         <div class="panel-body table-responsive">
                             <div class="row">
                                 <div class="col-sm-10">
+                                    <form th:action="@{/manager/drug}">
+                                        <input type="text" name="title" class="form-control input-sm pull-left"
+                                               style="width: 200px;"
+                                               placeholder="Search by title">
+                                        <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                    </form>
                                 </div>
                                 <div class="col-sm-2">
                                     <a href="#addSliderModal" class="btn btn-success " data-toggle="modal">
@@ -190,7 +196,7 @@
                                         <td th:text="${list.getEndDate()}"></td>
                                         <td th:text="${list.getType()}"></td>
                                         <td>
-                                            <a th:href="@{drugDetail(did=${list.getDrugId()})}">Details</a>
+                                            <a th:href="@{drugDetail(did=${list.getDrugId()})}" >Details</a>
                                             <a th:attr="data-target='#editDrug'+${list.getDrugId()}"  class="editModal text-primary" data-toggle="modal" >Edit</a>
                                             <!--  edit modal-->
                                             <div th:id="${'editDrug'+ list.getDrugId()}" class="modal fade">
@@ -267,19 +273,19 @@
                 <div class="col-xl-12">
                     <ul class="post-pagination2 text-center">
                         <li><a class="left"
-                               th:href="@{/manager/drug(page=0)}"><i
+                               th:href="@{/manager/drug(page=0,title=${title})}"><i
                                 class="fa fa-angle-double-left"
                                 aria-hidden="true"></i><span>FIRST</span></a>
                         </li>
                         <li class="page-item active" th:each="pageNumber:${pageNumbers}"
                             th:if="${pagingPost.totalPages >1}"
                             th:class="${pageNumber == pagingPost.number}?'page-item active':'page-item'">
-                            <a th:href="@{/manager/drug(page=${pageNumber})}"
+                            <a th:href="@{/manager/drug(page=${pageNumber},title=${title})}"
                                th:text="${pageNumber}"></a>
                         </li>
 
                         <li><a class="right"
-                               th:href="@{/manager/post(page=${pagingPost.totalPages}-1)}"><span>LAST</span><i
+                               th:href="@{/manager/post(page=${pagingPost.totalPages}-1,title=${title})}"><span>LAST</span><i
                                 class="fa fa-angle-double-right"
                                 aria-hidden="true"></i></a>
                         </li>

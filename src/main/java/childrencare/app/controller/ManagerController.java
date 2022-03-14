@@ -283,7 +283,7 @@ public class ManagerController {
         byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
         int postId = postService.getMaxPostId() + 1;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         String dateInString = createAt;
         Date dateCreate = formatter.parse(dateInString);
@@ -307,7 +307,7 @@ public class ManagerController {
             @RequestParam(name = "postId") int postId
     ) throws Exception {
         byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
 
         Date dateUpdate = null;
@@ -374,9 +374,10 @@ public class ManagerController {
 
     @RequestMapping("/drug")
     public String drugManager(Model model,
-                              @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page) {
+                              @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page,
+                              @RequestParam(name = "title", required = false) String title) {
         int currentPage = page.orElse(0);
-        Page<DrugModel> pagingdrug = drugService.findAll(currentPage, 3);
+        Page<DrugModel> pagingdrug = drugService.findAll(title,currentPage, 3);
 
 
         int totalPages = pagingdrug.getTotalPages();
@@ -400,6 +401,7 @@ public class ManagerController {
         }
         model.addAttribute("druglist", list);
         model.addAttribute("pagingPost", pagingdrug);
+        model.addAttribute("title", title);
         return "drug_manager";
     }
 
@@ -414,7 +416,7 @@ public class ManagerController {
                           @RequestParam(name = "type") String type) throws Exception {
         byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dateCreate = formatter.parse(createAt);
         Date dateEnd = formatter.parse(endAt);
 
@@ -438,7 +440,7 @@ public class ManagerController {
             @RequestParam(name = "drugid") int drugId
     ) throws Exception {
         byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
 
         Date dateCreate = null;
@@ -465,6 +467,7 @@ public class ManagerController {
     public String getDrugDetail(Model model,
                                 @RequestParam(name = "did", required = false) int did){
         DrugModel drugdetail = drugService.getDrugByID(did);
+        if(drugdetail.getThumbnail() != null)
         drugdetail.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(drugdetail.getThumbnail()));
 
         model.addAttribute("drugdetail", drugdetail);

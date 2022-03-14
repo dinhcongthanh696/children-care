@@ -145,21 +145,21 @@
         <!-- Profile Settings-->
         <div class="col-lg-8 pb-5">
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group" style="margin-top : 20px;">
                         <label for="account-fn">User name</label>
                         <input  th:value="${userLogin.username}" class="form-control" type="text"  readonly id="account-fn" required="">
+                    </div>
+                </div>
+                <div class="col-md-6" style="margin-top : 20px;">
+                    <div class="form-group">
+                        <label for="account-fn3">Full name</label>
+                        <input th:value="${userLogin.fullname}" class="form-control" name="fullname" type="text" id="account-fn3"   required="">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn2">Address</label>
                         <input th:value="${userLogin.address}" class="form-control" name="address" type="text" id="account-fn2"    required="">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="account-fn3">Full name</label>
-                        <input th:value="${userLogin.fullname}" class="form-control" name="fullname" type="text" id="account-fn3"   required="">
                     </div>
                 </div>
                 <div class="col-md-6">
