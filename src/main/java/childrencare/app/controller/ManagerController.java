@@ -461,6 +461,7 @@ public class ManagerController {
     public String getDrugDetail(Model model,
                                 @RequestParam(name = "did", required = false) int did){
         DrugModel drugdetail = drugService.getDrugByID(did);
+        if(drugdetail.getThumbnail() != null)
         drugdetail.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(drugdetail.getThumbnail()));
 
         model.addAttribute("drugdetail", drugdetail);
