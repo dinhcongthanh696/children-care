@@ -65,7 +65,6 @@ public class ReservationController {
     private StatusService statusService;
 
 
-
     @GetMapping("/reser")
     public String getServiceCarts(Model model, HttpSession session) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
@@ -77,7 +76,7 @@ public class ReservationController {
             session.setAttribute("total", toalReservationPrice);
             model.addAttribute("size", itemList.size());
         }
-        session.setAttribute("list",itemList);
+        session.setAttribute("list", itemList);
         model.addAttribute("list", itemList);
         return "reservationDetails";
     }
@@ -120,9 +119,10 @@ public class ReservationController {
         model.addAttribute("list", listReservations);
         return "redirect:/reservation/reser";
     }
+
     @DeleteMapping("/delete/{sid}")
     public String deleteFromCart(@PathVariable(value = "sid") int id, HttpSession session,
-                               HttpServletResponse response, HttpServletRequest request) {
+                                 HttpServletResponse response, HttpServletRequest request) {
         List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
         for (ServiceModel service : services) {
             if (service.getServiceId() == id) {
@@ -155,12 +155,12 @@ public class ReservationController {
     @PostMapping("/saveData")
     @Transactional
     public String saveReservation(HttpSession session,
-                                  @RequestParam(name = "ten",required = false) String fullname,
-                                  @RequestParam(name = "gender",required = false) boolean gender,
-                                  @RequestParam(name = "email",required = false) String email,
-                                  @RequestParam(name = "phone",required = false) String phone,
-                                  @RequestParam(name = "address",required = false) String address,
-                                  @RequestParam(name = "note",required = false) String note) {
+                                  @RequestParam(name = "ten", required = false) String fullname,
+                                  @RequestParam(name = "gender", required = false) boolean gender,
+                                  @RequestParam(name = "email", required = false) String email,
+                                  @RequestParam(name = "phone", required = false) String phone,
+                                  @RequestParam(name = "address", required = false) String address,
+                                  @RequestParam(name = "note", required = false) String note) {
         UserModel user = (UserModel) session.getAttribute("user");
         CustomerModel cus = new CustomerModel();
         ReservationModel reservationModel = new ReservationModel();
@@ -221,7 +221,7 @@ public class ReservationController {
         //clear cart from session after click submit button (reservation contact) - nghia's code
 //        List<ServiceModel> listSubmit = (List<ServiceModel>) session.getAttribute("list");
 //        listSubmit.clear();
-        return "redirect:/bookingSchedule?reservationId=" + rid ;
+        return "redirect:/bookingSchedule?reservationId=" + rid;
         // end thanh's code
     }
 
@@ -234,6 +234,7 @@ public class ReservationController {
             List<ServiceModel> serviceModelList = serviceModelService.getServicesByReservationId(reserID.get());
             List<ReservationServiceModel> reservationServices = reservationService_service.getAllBookedSchedule(reserID.get());
             UserModel userModel = userService.findUserModelByUserReservationId(reserID.get());
+            float totalPriceService = reservationService_service.getSumService(reserID.get());
 
             model.addAttribute("reservationByReserId", reservationModel);
             model.addAttribute("reservation_ServiceByReserId", reservationServices);
@@ -241,6 +242,7 @@ public class ReservationController {
             //model.addAttribute("slotByReserId", slot);
             model.addAttribute("listServicesByReserId", serviceModelList);
             model.addAttribute("listCategoryPost", blogCategoryService.findAll());
+            model.addAttribute("total", totalPriceService);
             return "reservationInfor";
         } else {
             return "redirect:/";
