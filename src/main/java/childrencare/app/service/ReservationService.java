@@ -104,15 +104,15 @@ public class ReservationService {
         return repository.filterReservationByStatus1(status, pageable1);
     }
 
-    public Page<ReservationModel> listReservationByStaff(int pageNum, int staffID, int reservationID, String sortField, String sortDir) {
+    public Page<ReservationModel> listReservationByStaff(int pageNum, int staffID, int key,int statusID, String sortField, String sortDir) {
         Pageable pageable = PageRequest.of(pageNum - 1, 3,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending()
         );
-        if (reservationID == 0) {
+        if (key == 0  && statusID == 0 ) {
             return repository.listReservationByStaffID(staffID, pageable);
         }
-        return repository.listReservationByStaff(staffID, reservationID, pageable);
+        return repository.listReservationByStaff(staffID, key,statusID, pageable);
     }
     
     public Page<ReservationModel> listReservationByStaff(int page , int size , int staffId , List<String> sortFields , String[] directions){
