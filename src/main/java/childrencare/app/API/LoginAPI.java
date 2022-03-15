@@ -76,18 +76,22 @@ public class LoginAPI {
                          @RequestParam(name = "password")String password,
                          @RequestParam(name = "currentPage", required = false , defaultValue = "/") String currentPage){
         UserModel userExist = loginRepository.checkUserExist(input,password);
-        if(userExist != null){
+        if(userExist != null && userExist.isStatus()){
             session.setAttribute("user",userExist);
-            if(userExist.getAvatar() != null)
+            if(userExist.getAvatar() != null){
                 userExist.setBase64AvatarEncode(Base64.getEncoder().encodeToString(userExist.getAvatar()));
                 session.setAttribute("username",userExist.getUsername());
                 session.setAttribute("email",userExist.getEmail());
-            return "Đăng nhập thành công";
-        }else{
+                return "Đăng nhập thành công";
+            }
+        }
+        else if(!userExist.isStatus()){
+            return "Tài khoản của bạn bị vô hiệu hoá";
+        }
+        else{
             return "Tài khoản hoặc mật khẩu không chính xác";
         }
-
-
+        return "";
     }
 
     @PostMapping(value = "/signUp")
