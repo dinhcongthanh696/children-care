@@ -35,8 +35,10 @@ public class SliderController {
                            @RequestParam(name =  "filterValue",required = false,defaultValue = "-1") int filterValue){
         Page<SliderModel> page = slidersService.listAll(pageNum, keyword,filterValue);
         List<SliderModel> slidersList = page.getContent();
-        for (SliderModel slider : slidersList) {
-            slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
+        if(slidersList != null){
+            for (SliderModel slider : slidersList) {
+                slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
+            }
         }
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -49,7 +51,7 @@ public class SliderController {
 
 
 
-    @PostMapping("/update")
+    @PostMapping("/slider/update")
     @Transactional
     public String updateSlider(@RequestParam(name = "id") int id,
                                @RequestParam(name = "imgUpdate") MultipartFile imgUpdate,

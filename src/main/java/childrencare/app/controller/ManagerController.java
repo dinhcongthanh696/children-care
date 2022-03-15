@@ -117,7 +117,7 @@ public class ManagerController {
             directions[i] = (directionsValue[i].equals("ascending")) ? Direction.ASC : Direction.DESC;
         }
         LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("u.fullname", "u.email", "u.phone", "u.status"));
-        Collections.swap(sortProperties, sortProperties.indexOf("u." + sortProperty), 0);
+        //Collections.swap(sortProperties, sortProperties.indexOf("u." + sortProperty), 0);
         if (sortProperties.indexOf("u." + sortProperty) != 0) {
             sortProperties.remove(sortProperties.indexOf("u." + sortProperty));
             sortProperties.addFirst("u." + sortProperty);
@@ -146,11 +146,6 @@ public class ManagerController {
     }
 
 
-//    @RequestMapping(value = "/feedback", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String searchServiceListByTitle() {
-//
-//        return "manager-service-list";
-//    }
 
     @RequestMapping(value = "/services", method = {RequestMethod.GET, RequestMethod.POST})
     public String searchServiceListByTitle(Model model,

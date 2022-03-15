@@ -81,6 +81,7 @@ public class ScheduleController {
         model.addAttribute("reservation", reservation);
         model.addAttribute("totalPrice", reservation.getTotalReservationPrice());
 
+
         return "apppointment";
     }
 
@@ -98,6 +99,7 @@ public class ScheduleController {
                 serviceService.updateQuantity(sm.getQuantity(), sm.getServiceId());
             }
         }
+        session.setAttribute("list", null);
         //Check if the customer is new or changed
         ReservationModel reservation = reservationService.getReservatonInforByID(rid);
         String customerEmail = reservation.getCustomer().getCustomer_user().getEmail();
@@ -122,6 +124,7 @@ public class ScheduleController {
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
+
 
 
         //Send confirmation email

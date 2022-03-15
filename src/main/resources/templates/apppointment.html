@@ -495,28 +495,7 @@
                 }
             })
     });
-    // $(document).on("click", ".confirm", function () {
-    //     let reservation_id = $("#reservationId").val();
-    //     let mess = document.getElementById("message");
-    //     mess.style.display = 'block';
-    //     fetch("/ChildrenCare/updateReservationInfo?reservationId=" + reservation_id, {
-    //         method: 'PUT'
-    //     })
-    //         .then(response => {
-    //             switch (response.status) {
-    //                 case 403 :
-    //                     alert("Your are not allowed to save any changes");
-    //                     break;
-    //                 case 200 :
-    //                     //
-    //                     $(this).hide();
-    //                     location.reload();
-    //             }
-    //         })
-    //     alert("Confirm");
-    // });
-
-    $(document).on('click', '.paymentMethod', function () {
+     $(document).on('click', '.paymentMethod', function () {
         document.getElementById("checkOut").style.display = "block";
         document.getElementById("warning-mess").style.display = "none";
     })
