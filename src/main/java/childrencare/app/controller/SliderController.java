@@ -21,13 +21,13 @@ public class SliderController {
     @Autowired
     private SlidersService slidersService;
 
-    @GetMapping(value = "/managerView/sliderManager/home")
+   /* @GetMapping(value = "/managerView/sliderManager/home")
     public String viewHome(Model model){
           return viewPage(model,1,"");
     }
+    */
 
-
-    @GetMapping(value = "/sliderManager/page/{pageNum}")
+   /* @GetMapping(value = "/sliderManager/page/{pageNum}")
     public String viewPage(Model model,@PathVariable(name ="pageNum") int pageNum,
                            @Param("keyword") String keyword){
         Page<SliderModel> page = slidersService.listAll(pageNum, keyword);
@@ -42,7 +42,7 @@ public class SliderController {
         model.addAttribute("keyword", keyword);
         return "slider_manager";
     }
-
+   */
     @GetMapping("/sliderManager/filter/{pageNum}")
     public String updateSlider(Model model,@PathVariable(name ="pageNum") int pageNum,
                                @Param("filterValue") int filterValue) {
@@ -74,7 +74,7 @@ public class SliderController {
         return "redirect:/manager/sliderManager/page/1";
     }
 
-    @PostMapping("/addSlider")
+   /* @PostMapping("/addSlider")
     @Transactional
     public String addSlider(@RequestParam(name = "imgAdd") MultipartFile imgAdd,
                                @RequestParam(name = "titleAdd") String titleAdd,
@@ -90,7 +90,7 @@ public class SliderController {
         sliderModel.setNotes(noteAdd);
         slidersService.save(sliderModel);
         return "redirect:/manager/sliderManager/page/1";
-    }
+    }*/
 
     @GetMapping("/changSlideStatus")
     @Transactional

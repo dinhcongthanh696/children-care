@@ -1,5 +1,6 @@
 package childrencare.app.repository;
 
+import childrencare.app.model.CustomerModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,6 +41,14 @@ public interface UserRepository extends JpaRepository<UserModel, Integer>{
 			"where r.reservation_id = ?1", nativeQuery = true)
 	public UserModel findUserModelByUserReservationId(int reserId);
 
+	@Query(value = "SELECT * FROM user_model "
+			+ "WHERE (status > ?2 AND status < ?3) AND "
+			+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1) ",
+			countQuery = " SELECT COUNT(*) user_model "
+					+ "WHERE (status > ?2 AND status < ?3) AND "
+					+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1)",
+			nativeQuery = true)
+	public Page<UserModel> findUserByStatusAndSearchQuery(String search, int startBitRange, int endBitRange, PageRequest pageRequest);
 
 
 }

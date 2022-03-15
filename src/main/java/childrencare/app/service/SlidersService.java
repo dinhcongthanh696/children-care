@@ -33,7 +33,7 @@ public class SlidersService  {
 
 
 
-    @Modifying
+   /* @Modifying
     public void save(SliderModel entity) {
         slidersRepository.save(entity);
     }
@@ -45,7 +45,7 @@ public class SlidersService  {
         }
         return slidersRepository.findAll(pageable);
     }
-
+    */
 
     public Page<SliderModel> filterByStatus(int pageNum,int status) {
         Pageable pageable1 = PageRequest.of(pageNum - 1, 5);
