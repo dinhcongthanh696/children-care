@@ -146,11 +146,6 @@ public class ManagerController {
     }
 
 
-//    @RequestMapping(value = "/feedback", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String searchServiceListByTitle() {
-//
-//        return "manager-service-list";
-//    }
 
     @RequestMapping(value = "/services", method = {RequestMethod.GET, RequestMethod.POST})
     public String searchServiceListByTitle(Model model,

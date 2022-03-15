@@ -45,9 +45,11 @@ public class FeedbackService {
             feedbackModelPage = feedbackRepository.getAllFeedBack(sid, star, status, content, contactName, pageable);
         }
         for(FeedbackModel feedback : feedbackModelPage){
-            feedback.setBase64ImageEncode(feedback.getImage());
+            if(feedback.getImage() != null){
+                feedback.setBase64ImageEncode(feedback.getImage());
+            }
         }
-        return  feedbackModelPage;
+        return feedbackModelPage;
     }
 
     public void changeFeedbackStatus(int status, int fid){

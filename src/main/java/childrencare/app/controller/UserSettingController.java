@@ -78,7 +78,7 @@ public class UserSettingController {
         return "redirect:/setting/profile";
     }
 
-    /*
+
     @GetMapping("/myReservation/page/{pageNum}")
     public String getmyReservation(Model model,
                                    @PathVariable(name = "pageNum") int pageNum,
@@ -95,7 +95,7 @@ public class UserSettingController {
         model.addAttribute("totalItems",page.getTotalElements());
         return "myReservation";
     }
-    */
+
 
 
 
