@@ -76,4 +76,8 @@ public class UserService {
 
 		return usersPageable;
 	}
+
+	public void updateStatusAndRole(int status, int role, String email){
+		userRepository.updateStatusAndRole(status, role, email);
+	}
 }

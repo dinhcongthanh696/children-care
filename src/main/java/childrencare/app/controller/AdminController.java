@@ -9,10 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -185,4 +182,26 @@ public class AdminController {
 		return "UsersList-Admin";
 	}
 
+	@GetMapping("/userDetail")
+	public String getUserDetail(Model model, @RequestParam(name="email") String email){
+		List<RoleModel> roles = roleService.getAllRoles();
+		model.addAttribute("roles", roles);
+
+		UserModel userModel = userService.findByEmail(email);
+		if(userModel.getAvatar() != null){
+			userModel.setBase64AvaterEncode(userModel.getAvatar());
+		}
+		model.addAttribute("user", userModel);
+
+		return "admin_user_detail";
+	}
+
+	@Transactional
+	@PostMapping("/updateUserDetail")
+	public String updateUserDetail(@RequestParam(name="email") String email,
+								   @RequestParam(name="editRole") Integer role,
+								   @RequestParam(name="editStatus") Integer status){
+		userService.updateStatusAndRole(status, role, email);
+		return "redirect:/admin/userDetail?email=" + email;
+	}
 }

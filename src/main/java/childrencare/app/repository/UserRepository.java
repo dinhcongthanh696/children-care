@@ -50,5 +50,7 @@ public interface UserRepository extends JpaRepository<UserModel, Integer>{
 			nativeQuery = true)
 	public Page<UserModel> findUserByStatusAndSearchQuery(String search, int startBitRange, int endBitRange,int gender, int role_id,PageRequest pageRequest);
 
-
+	@Modifying
+	@Query(value ="Update user_model set status = ?1, role_id = ?2 where email = ?3" , nativeQuery = true)
+	void updateStatusAndRole(int status, int role_id, String email);
 }
