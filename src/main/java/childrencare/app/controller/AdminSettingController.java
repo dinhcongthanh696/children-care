@@ -31,7 +31,7 @@ public class AdminSettingController {
 	private final ScreenService screenService;
 	private final PermissionService permissionService;
 	private final UserService userService;
-	private final int SCREENSIZE = 4;
+	private final int SCREENSIZE = 20;
 	private final int USERSIZE = 3;
 	private Page<ScreenModel> currentScreens;
 	

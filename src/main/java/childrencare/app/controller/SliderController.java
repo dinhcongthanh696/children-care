@@ -81,7 +81,7 @@ public class SliderController {
         return "redirect:/manager/sliderManager/home";
     }
 
-    @GetMapping("/changSlideStatus")
+    @GetMapping("/slider/changSlideStatus")
     @Transactional
     public String changeStatusSlider(@RequestParam("sid") int rid,
                                    @RequestParam("status") String status,

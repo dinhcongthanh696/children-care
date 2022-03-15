@@ -92,7 +92,7 @@ public class ManagerController {
 
     }
 
-    @GetMapping("/customers")
+    @RequestMapping(value =  "/customers",method = {RequestMethod.GET,RequestMethod.POST})
     @Transactional
     public String toCustomersList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                                   @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
@@ -205,6 +205,7 @@ public class ManagerController {
 
         List<PostModel> list = postModels.getContent();
         for (PostModel p : list) {
+        	if(p.getThumbnail() != null)
             p.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(p.getThumbnail()));
         }
 

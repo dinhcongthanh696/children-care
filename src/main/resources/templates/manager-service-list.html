@@ -76,7 +76,7 @@ th, td {
         </header>
     <div class="wrapper row-offcanvas row-offcanvas-left">
                     <!-- Left side column. contains the logo and sidebar -->
-                    <div th:replace="navBar_admin::leftSide_admin('/admin/services')" ></div>
+                    <div th:replace="navBar_admin::leftSide_admin('/manager/services')" ></div>
 
 
                     <aside class="right-side">    
@@ -180,7 +180,7 @@ th, td {
 				</select>
 			</div>
 			<div class="col-sm-4">
-				<form th:action="@{/admin/services}" method="post">
+				<form th:action="@{/manager/services}" method="post">
 					<label for="search-query" class="form-check-label">Search : </label>
   						<input type="text" class="form-check-input" placeholder="Search By Title..."
   							id="search-query" th:value="${search}" name="search"
