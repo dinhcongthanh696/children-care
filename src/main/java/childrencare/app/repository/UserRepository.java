@@ -44,7 +44,7 @@ public interface UserRepository extends JpaRepository<UserModel, Integer>{
 	@Query(value = "SELECT * FROM user_model "
 			+ "WHERE (status > ?2 AND status < ?3) AND "
 			+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1) ",
-			countQuery = " SELECT COUNT(*) user_model "
+			countQuery = " SELECT COUNT(*) FROM user_model "
 					+ "WHERE (status > ?2 AND status < ?3) AND "
 					+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1)",
 			nativeQuery = true)

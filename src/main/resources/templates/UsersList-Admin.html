@@ -170,18 +170,19 @@
 												</span>
                             </th>
                             <th>
-												<span th:class="${sortProperty == 'status' ? 'sortFields first' : 'sortFields'}"
-                                                      th:onclick="'changeSortField(\'status\')'"
+												<span th:class="${sortProperty == 'role_id' ? 'sortFields first' : 'sortFields'}"
+                                                      th:onclick="'changeSortField(\'role_id\')'"
                                                 >
-												 Status </span>
+												 Role </span>
                                 <span
-                                        th:with="index = ${sortProperties.indexOf('status')}"
+                                        th:with="index = ${sortProperties.indexOf('role_id')}"
                                         th:class="${directionsValue[index]+ ' fa fa-sort-' + (directionsValue[index] == 'ascending' ? 'asc' : 'desc')}"
-                                        th:onclick="'changeDirection(\'status\',' + ${index}  + ')'"
+                                        th:onclick="'changeDirection(\'role_id\',' + ${index}  + ')'"
                                 >
 
 												</span>
                             </th>
+                            <th>Status</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -193,6 +194,7 @@
                             <td th:text="${user.gender ? 'Male' : 'Fenale'}"></td>
                             <td th:text="${user.fullname}"></td>
                             <td th:text="${user.phone}"></td>
+                            <td th:text="${user.userRole.getRoleName()}"></td>
                             <td th:if="${user.status}">
                                 Online
                             </td>
@@ -307,7 +309,7 @@
         var search = document.querySelector("#search-query").value;
         var status = document.getElementById("status-filter").value;
         var sortProperty = document.getElementById("sortProperty").value;
-        window.location = "/ChildrenCare/manager/customers?page=" + pageNumber
+        window.location = "/ChildrenCare/admin/users?page=" + pageNumber
             + "&search=" + search +"&status="
             +status+"&directions="+directions+"&sortProperty="+sortProperty;
     }
