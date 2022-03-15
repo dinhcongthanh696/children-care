@@ -42,13 +42,13 @@ public interface UserRepository extends JpaRepository<UserModel, Integer>{
 	public UserModel findUserModelByUserReservationId(int reserId);
 
 	@Query(value = "SELECT * FROM user_model "
-			+ "WHERE (status > ?2 AND status < ?3) AND "
+			+ "WHERE (status > ?2 AND status < ?3) AND (gender = ?4 OR ?4 = -1) AND (role_id = ?5 OR ?5 = -1) AND "
 			+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1) ",
 			countQuery = " SELECT COUNT(*) FROM user_model "
-					+ "WHERE (status > ?2 AND status < ?3) AND "
+					+ "WHERE (status > ?2 AND status < ?3) AND (gender = ?4 OR ?4 = -1) AND (role_id = ?5 OR ?5 = -1) AND "
 					+ "(phone LIKE ?1 OR fullname LIKE ?1 OR email LIKE ?1)",
 			nativeQuery = true)
-	public Page<UserModel> findUserByStatusAndSearchQuery(String search, int startBitRange, int endBitRange, PageRequest pageRequest);
+	public Page<UserModel> findUserByStatusAndSearchQuery(String search, int startBitRange, int endBitRange,int gender, int role_id,PageRequest pageRequest);
 
 
 }

@@ -57,7 +57,7 @@ public class UserService {
 	}
 
 	public Page<UserModel> getUserPageinately(String search, int page, int size,
-													 int startBitRange, int endBitRange, List<String> sortProperties, Sort.Direction[] directions){
+													 int startBitRange, int endBitRange, List<String> sortProperties, Sort.Direction[] directions, int gender, int role_id){
 		if(page < 0) {
 			page = 0;
 		}
@@ -67,11 +67,11 @@ public class UserService {
 				.and(Sort.by(directions[3], sortProperties.get(3)));
 
 		Page<UserModel> usersPageable = userRepository.findUserByStatusAndSearchQuery("%"+search+"%",
-				startBitRange,endBitRange,PageRequest.of(page,size,sortByMultipleProperties));
+				startBitRange,endBitRange,gender,role_id,PageRequest.of(page,size,sortByMultipleProperties));
 		if(usersPageable.getTotalPages() > 0 && page >= usersPageable.getTotalPages()) {
 			page = usersPageable.getTotalPages() - 1;
 			usersPageable = userRepository.findUserByStatusAndSearchQuery("%"+search+"%",
-					startBitRange, endBitRange, PageRequest.of(page, size , sortByMultipleProperties ) );
+					startBitRange, endBitRange,gender,role_id,PageRequest.of(page, size , sortByMultipleProperties ) );
 		}
 
 		return usersPageable;

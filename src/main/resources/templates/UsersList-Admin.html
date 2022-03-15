@@ -101,12 +101,32 @@
                             <option value="1" th:selected="${status == 1}">Online</option>
                         </select>
                     </div>
+                    <div class="searching-header col-sm-5 form-check">
+                        <label for="status-filter" class="form-check-label">Filter by gender</label>
+                        <select id="gender-filter" class="form-check-input"
+                                style="margin-left: 10px;border-radius: 5px;"
+                                th:onchange="'changePage('+ ${currentPage} +')'"
+                        >
+                            <option value="-1" th:selected="${gender == -1}">ALL</option>
+                            <option value="0" th:selected="${gender == 0}">Female</option>
+                            <option value="1" th:selected="${gender == 1}">Male</option>
+                        </select>
+                    </div>
+                    <div class="searching-header col-sm-5 form-check">
+                        <label for="status-filter" class="form-check-label">Filter by status</label>
+                        <select id="role-filter" class="form-check-input"
+                                style="margin-left: 10px;border-radius: 5px;"
+                                th:onchange="'changePage('+ ${currentPage} +')'"
+                        >
+                            <option value="-1" th:selected="${role_id == -1}">ALL</option>
+                            <option th:each="role : ${roles}" th:value="${role.getRoleId()}" th:selected="${role_id == role.getRoleId()}" th:text="${role.getRoleName()}"></option>
+                        </select>
+                    </div>
                     <div class="col-sm-6">
-                        <form th:action="@{/admin/customers}" method="post">
+                        <form th:action="@{/admin/users}" method="post">
                             <label for="search-query" class="form-check-label">Search : </label>
-                            <input type="text" class="form-check-input" placeholder="Search By fullname,email,phone..."
-                                   id="search-query" th:value="${search}" name="search"
-                            >
+                            <input style="padding-right: 10px" type="text" class="form-check-input" placeholder="Search By fullname,email,phone..."
+                                   id="search-query" th:value="${search}" name="search">
                             <button type="submit" class="btn btn-primary input-group-text">
                                 <span class="fa fa-search"></span>
                             </button>
@@ -211,6 +231,69 @@
 
                 <div id="pages"></div>
             </div>
+            <button  style="border-radius: 5px;padding : 10px;"
+                     data-toggle="modal" data-target="#new-user-modal" id="add-user-button"
+                     th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-user']}"
+
+                     th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
+            >
+                <i class="fa fa-plus"></i>Add new User
+            </button>
+            <div id="new-user-modal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add new User right now!!</h4>
+                            <button type="button" class="close" data-dismiss="modal">Close&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="user-email">Email</label>
+                                <input type="text" class="form-control" id="user-email" placeholder="Leave User Email here.." />
+                            </div>
+                            <div class="form-group">
+                                <label for="user-gender">Gender</label>
+                                <input type="text" class="form-control" id="user-gender" placeholder="Leave User Gender here.." />
+                            </div>
+                            <div class="form-group">
+                                <label for="user-fullname">FullName </label>
+                                <input type="number" class="form-control" id="user-fullname" placeholder="Leave User Fullname here.." />
+                            </div>
+                            <div class="form-group">
+                                <label for="user-phone">Phone </label>
+                                <input type="number" class="form-control" id="user-phone" placeholder="Leave User Phone here.." />
+                            </div>
+                            <div class="form-group">
+                                <label for="user-role">Role </label>
+                                <input type="number" class="form-control" id="user-role" placeholder="Leave User Role here.." />
+                            </div>
+                            <div class="form-group">
+                                <label for="user-status">Status </label>
+                                <input type="number" class="form-control" id="user-status" placeholder="Leave User Status here.." />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user-file">Image </label>
+                                <img id="user-image" />
+                                <input type="file" class="form-control" id="user-file" onchange="imagePreviewHandler(this)"/>
+                                <span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
+                                <h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
+                            </div>
+                            <button onclick="addNewService()"
+                                    th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+                                    th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}"
+                                    th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
+                                    id="add-new-service-button"
+                            >Save your changes</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section><!-- /.content -->
         <div class="footer-main">
             <h3>Copyright &copy SWP391 SPRING 2022 SE1517-NET TEAM 2</h3>
@@ -308,10 +391,12 @@
 
         var search = document.querySelector("#search-query").value;
         var status = document.getElementById("status-filter").value;
+        var gender = document.getElementById("gender-filter").value;
+        var role = document.getElementById("role-filter").value;
         var sortProperty = document.getElementById("sortProperty").value;
         window.location = "/ChildrenCare/admin/users?page=" + pageNumber
             + "&search=" + search +"&status="
-            +status+"&directions="+directions+"&sortProperty="+sortProperty;
+            +status+"&directions="+directions+"&sortProperty="+sortProperty+"&gender="+gender+"&role_id="+role;
     }
 
 </script>

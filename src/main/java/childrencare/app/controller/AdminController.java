@@ -29,15 +29,17 @@ public class AdminController {
 	private final ReservationService reservationService;
 	private final CustomerService customerService;
 	private final UserService userService;
+	private final RoleService roleService;
 	public AdminController(ServiceModelService serviceModelService,
 						   ServiceCategoryService serviceCategoryService,
 						   ReservationService reservationService,
-						   CustomerService customerService, UserService userService) {
+						   CustomerService customerService, UserService userService, RoleService roleService) {
 		this.serviceModelSerivce = serviceModelService;
 		this.serviceCategoryService = serviceCategoryService;
 		this.reservationService = reservationService;
 		this.customerService = customerService;
 		this.userService = userService;
+		this.roleService = roleService;
 	}
 	
 	
@@ -127,14 +129,15 @@ public class AdminController {
 		return "manager-feedback-list";
 	}
 
-	@GetMapping("/users")
+	@RequestMapping(value = "/users", method = {RequestMethod.GET, RequestMethod.POST})
 	@Transactional
 	public String toUsersList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
 								  @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
 								  @RequestParam(name = "directions", required = false, defaultValue = "ascending,ascending,ascending,ascending") String directionsParam,
 								  @RequestParam(name = "sortProperty", required = false, defaultValue = "email") String sortProperty,
 								  @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-								  Model model) {
+								  Model model, @RequestParam(name = "gender", required = false, defaultValue = "-1") int gender,
+							  @RequestParam(name = "role_id", required = false, defaultValue = "-1") int role_id) {
 		int startBitRange = -1;
 		int endBitRange = 2;
 		switch (status) {
@@ -158,7 +161,7 @@ public class AdminController {
 			sortProperties.addFirst(sortProperty);
 		}
 
-		Page<UserModel> usersPageable = userService.getUserPageinately(search, page, USERSIZE, startBitRange, endBitRange, sortProperties, directions);
+		Page<UserModel> usersPageable = userService.getUserPageinately(search, page, USERSIZE, startBitRange, endBitRange, sortProperties, directions, gender, role_id);
 		for (UserModel user : usersPageable.toList()) {
 			if (user.getAvatar() != null)
 				user.setBase64AvatarEncode(
@@ -166,7 +169,7 @@ public class AdminController {
 								.getEncoder().
 								encodeToString(user.getAvatar()));
 		}
-
+		List<RoleModel> roleModels = roleService.getAllRoles();
 		model.addAttribute("users", usersPageable.toList());
 		model.addAttribute("currentPage", usersPageable.getNumber());
 		model.addAttribute("totalPages", usersPageable.getTotalPages());
@@ -176,6 +179,8 @@ public class AdminController {
 		model.addAttribute("status", status);
 		model.addAttribute("sortProperty", sortProperty);
 		model.addAttribute("sortProperties", sortProperties);
+		model.addAttribute("roles", roleModels);
+		model.addAttribute("gender", gender);
 
 		return "UsersList-Admin";
 	}
