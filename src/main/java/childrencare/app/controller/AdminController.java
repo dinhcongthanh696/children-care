@@ -24,7 +24,7 @@ import javax.transaction.Transactional;
 public class AdminController {
 	private final ServiceModelService serviceModelSerivce;
 	private final int SERVICESIZE = 6;
-	private final int USERSIZE = 6;
+	private final int USERSIZE = 3;
 	private final ServiceCategoryService serviceCategoryService;
 	private final ReservationService reservationService;
 	private final CustomerService customerService;
@@ -131,7 +131,7 @@ public class AdminController {
 	@Transactional
 	public String toUsersList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
 								  @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
-								  @RequestParam(name = "directions", required = false, defaultValue = "ascending,ascending,ascending,ascending,ascending") String directionsParam,
+								  @RequestParam(name = "directions", required = false, defaultValue = "ascending,ascending,ascending,ascending") String directionsParam,
 								  @RequestParam(name = "sortProperty", required = false, defaultValue = "email") String sortProperty,
 								  @RequestParam(name = "page", required = false, defaultValue = "0") int page,
 								  Model model) {
@@ -151,7 +151,7 @@ public class AdminController {
 		for (int i = 0; i < directionsValue.length; i++) {
 			directions[i] = (directionsValue[i].equals("ascending")) ? Sort.Direction.ASC : Sort.Direction.DESC;
 		}
-		LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("email", "fullname", "phone", "role_id","status"));
+		LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("email", "fullname", "phone", "role_id"));
 		//Collections.swap(sortProperties, sortProperties.indexOf("u." + sortProperty), 0);
 		if (sortProperties.indexOf(sortProperty) != 0) {
 			sortProperties.remove(sortProperties.indexOf(sortProperty));
