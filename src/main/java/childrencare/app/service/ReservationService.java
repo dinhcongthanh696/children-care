@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //Nghia's code
 @Service
@@ -92,8 +94,7 @@ public class ReservationService {
         if (keyword == 0 && statusID == 0) {
             return repository.findAll(pageable);
         }
-
-        return repository.findReservationStaff(keyword, statusID, pageable);
+            return repository.findReservationStaff(keyword, statusID, pageable);
     }
 
     public Page<ReservationModel> filterReservation1(int pageNum, int status) {
@@ -156,4 +157,12 @@ public class ReservationService {
     }
 
 
+    public List<String> lastSevenDateReservation() {
+        return repository.lastSevenDateReservation();
+    }
+
+
+    public int totalPricelastSevenDateReservation(String date) {
+        return repository.totalPricelastSevenDateReservation(date);
+    }
 }

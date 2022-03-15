@@ -81,6 +81,7 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             "join c.customer_user u where  r.reservationId = ?1 or rt.statusId = ?2")
     Page<ReservationModel> findReservationStaff(int keyword,int statusID, Pageable pageable);
 
+
     @Query(value = "select r from ReservationModel r join r.statusReservation rt " +
             "join r.customer c " +
             "join c.customer_user u where rt.statusId = ?1 ")
@@ -130,6 +131,14 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     @Query(value = "UPDATE reservation SET total_reservation_price = (SELECT SUM(price) FROM reservation_service WHERE reservation_id = ?1) "
     		+ "WHERE reservation_id = ?1",nativeQuery = true)
     public void updateReservationTotalPrice(int reservationId);
+
+
+    @Query(value = "select distinct top 14[date] from reservation order by [date] desc",nativeQuery = true)
+    List<String> lastSevenDateReservation();
+
+    @Query(value = "select sum(total_reservation_price)\n" +
+            "from reservation where [date] = ?1 ",nativeQuery = true)
+    int totalPricelastSevenDateReservation(String date);
 
 
 

@@ -178,46 +178,39 @@
     </div>
   </aside>
   <!-- /.right-side -->
-  <div style="margin-left: 300px; height: 800px; width:800px;">
+  <div style="margin-left: 400px; height: 800px; width:860px;">
     <canvas id="myChart"></canvas>
   </div>
-
-
 </div><!-- ./wrapper -->
 
+<!--start line chart-->
+<input type="hidden" th:value="${sevenLastDays}" id="sevenLastDateReservation"/>
+<input type="hidden" th:value="${totalPriceByDate}" id="totalPriceByDate"/>
+<script type="text/javascript">
+    const labelsDate = JSON.parse(document.getElementById("sevenLastDateReservation").value);
+    const data = {
+      labels: labelsDate,
+      datasets: [{
+        label: 'Line chart represent to total price of last 14 days in system',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: JSON.parse(document.getElementById("totalPriceByDate").value),
+      }]
+    };
 
-<script>
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ];
+    const config = {
+      type: 'line',
+      data: data,
+      options: {}
+    };
 
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'My First dataset',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 5, 2, 20, 30, 45],
-    }]
-  };
+    const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+    );
 
-  const config = {
-    type: 'line',
-    data: data,
-    options: {}
-  };
-
-  const myChart = new Chart(
-          document.getElementById('myChart'),
-          config
-  );
 </script>
-
+<!--end line chart-->
 
 <!-- jQuery 2.0.2 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>

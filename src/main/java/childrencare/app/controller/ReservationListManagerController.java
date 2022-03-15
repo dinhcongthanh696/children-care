@@ -5,6 +5,8 @@ import childrencare.app.model.*;
 import childrencare.app.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -62,8 +64,27 @@ public class ReservationListManagerController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        List<String> sevenLastDays = reservationService.lastSevenDateReservation();
+        List<Integer> listTotalPriceByDate = new ArrayList<>();
+        for (int i =0 ; i< sevenLastDays.size(); i++){
+            int totalPriceByDate = reservationService.totalPricelastSevenDateReservation(sevenLastDays.get(i));
+           // System.out.println(sevenLastDays.get(i)+ "-" +totalPriceByDate);
+            listTotalPriceByDate.add(totalPriceByDate);
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        model.addAttribute("totalPriceByDate",listTotalPriceByDate);
+        try {
+            model.addAttribute("sevenLastDays", objectMapper.writeValueAsString(sevenLastDays));
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         return "reservationList-manager";
     }
+
+
 
     @RequestMapping(value = "/managerView/reservationManager/detailsReservation", method = { RequestMethod.GET, RequestMethod.POST })
     public String reservationDetailStaff(@RequestParam(name =  "rid") int rid,

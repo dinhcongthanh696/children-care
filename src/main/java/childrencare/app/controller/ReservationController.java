@@ -213,7 +213,7 @@ public class ReservationController {
         StatusModel statusModel = new StatusModel();
         statusModel.setStatusId(id);
         reservationModel.setStatusReservation(statusModel);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
         reservationModel.setDate(dtf.format(now));
         // thanh's code
