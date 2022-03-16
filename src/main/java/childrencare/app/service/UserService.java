@@ -3,6 +3,7 @@ package childrencare.app.service;
 import java.util.List;
 
 import childrencare.app.model.CustomerModel;
+import childrencare.app.model.ServiceModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,7 +19,11 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
-    
+
+
+	public void addNewUser(UserModel user) {
+		userRepository.save(user);
+	}
     
     public List<UserModel> findAllManager(){
         return userRepository.findUserModelByUserRole("manager");
