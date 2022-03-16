@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Manager | Customer</title>
+    <title>ADMIN | User</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="description" content="Developed By M Abdur Rokib Promy">
     <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
@@ -97,8 +97,8 @@
                                 th:onchange="'changePage('+ ${currentPage} +')'"
                         >
                             <option value="-1" th:selected="${status == -1}">ALL</option>
-                            <option value="0" th:selected="${status == 0}">Offline</option>
-                            <option value="1" th:selected="${status == 1}">Online</option>
+                            <option value="0" th:selected="${status == 0}">Disabled</option>
+                            <option value="1" th:selected="${status == 1}">Enabled</option>
                         </select>
                     </div>
                     <div class="searching-header col-sm-5 form-check">
@@ -216,13 +216,13 @@
                             <td th:text="${user.phone}"></td>
                             <td th:text="${user.userRole.getRoleName()}"></td>
                             <td th:if="${user.status}">
-                                Online
+                                Enabled
                             </td>
                             <td th:if="${!user.status}">
-                                Offline
+                                Disabled
                             </td>
                             <td>
-                                <a href="" >Edit</a>
+                                <a th:href="'/ChildrenCare/admin/userDetail?email='+${user.email}" >Edit</a>
                             </td>
                         </tr>
                         </tbody>
@@ -233,8 +233,8 @@
             </div>
             <button  style="border-radius: 5px;padding : 10px;"
                      data-toggle="modal" data-target="#new-user-modal" id="add-user-button"
-                     th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-user']}"
-
+                     th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-users']}"
+                     th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}"
                      th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
             >
                 <i class="fa fa-plus"></i>Add new User
@@ -259,19 +259,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="user-fullname">FullName </label>
-                                <input type="number" class="form-control" id="user-fullname" placeholder="Leave User Fullname here.." />
+                                <input type="text" class="form-control" id="user-fullname" placeholder="Leave User Fullname here.." />
                             </div>
                             <div class="form-group">
                                 <label for="user-phone">Phone </label>
-                                <input type="number" class="form-control" id="user-phone" placeholder="Leave User Phone here.." />
+                                <input type="text" class="form-control" id="user-phone" placeholder="Leave User Phone here.." />
                             </div>
                             <div class="form-group">
                                 <label for="user-role">Role </label>
-                                <input type="number" class="form-control" id="user-role" placeholder="Leave User Role here.." />
+                                <input type="text" class="form-control" id="user-role" placeholder="Leave User Role here.." />
                             </div>
                             <div class="form-group">
                                 <label for="user-status">Status </label>
-                                <input type="number" class="form-control" id="user-status" placeholder="Leave User Status here.." />
+                                <input type="text" class="form-control" id="user-status" placeholder="Leave User Status here.." />
                             </div>
 
                             <div class="form-group">
@@ -281,8 +281,8 @@
                                 <span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
                                 <h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
                             </div>
-                            <button onclick="addNewService()"
-                                    th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+                            <button onclick="addNewUser()"
+                                    th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-users']}"
                                     th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}"
                                     th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
                                     id="add-new-service-button"
@@ -398,6 +398,66 @@
             + "&search=" + search +"&status="
             +status+"&directions="+directions+"&sortProperty="+sortProperty+"&gender="+gender+"&role_id="+role;
     }
+
+    function addNewUser(){
+        const userEmailInputElement = document.getElementById("user-email");
+        const userGenderInputElement = document.getElementById("user-gender");
+        const userFullnameInputElement = document.getElementById("user-fullname");
+        const userPhoneInputElement = document.getElementById("user-phone");
+        const userRoleInputElement = document.getElementById("user-role");
+        const userStatusInputElement = document.getElementById("user-status");
+        const userFileInputElement = document.getElementById("user-file");
+
+
+        const formData = new FormData() ;
+        formData.append("email" , userEmailInputElement.value);
+        formData.append("file",userFileInputElement.files[0]);
+        formData.append("gender",userGenderInputElement.value);
+        formData.append("fullname",userFullnameInputElement.value);
+        formData.append("phone",userPhoneInputElement.value);
+        formData.append("role",userRoleInputElement.value);
+        formData.append("status",userStatusInputElement.value);
+
+        fetch("/ChildrenCare/admin/api-users",{
+            method : "POST",
+            body : formData
+        }).then(response => {
+            alert("Added successfully");
+            window.location.reload();
+        })
+    }
+
+    var lastChosenPreview;
+    function imagePreviewHandler(fileInputElement){
+        if(lastChosenPreview){
+            URL.revokeObjectURL(lastChosenPreview);  // for performance
+        }
+
+        var imageFile = fileInputElement.files[0];
+        lastChosenPreview = URL.createObjectURL(imageFile);
+        var imageElement = document.getElementById("user-image");
+        imageElement.src = lastChosenPreview;
+
+        var isValidImageFile = true;
+        var message = "";
+        if(imageFile.type.split("/")[0] !== "image"){
+            message = "File must be image";
+            isValidImageFile = false;
+        }else if(imageFile.size / 1000000 > 20){ // COVERT size of file to MB
+            message =  "File is more than 20 MB";
+            isValidImageFile = false;
+        }
+
+        const addNewServiceButtonElement = document.getElementById("add-new-service-button");
+        const imageFileMessageElement = document.getElementById("image-file-message");
+        if(!isValidImageFile){
+            addNewServiceButtonElement.disabled = true;
+        }else{
+            addNewServiceButtonElement.disabled = false;
+        }
+        imageFileMessageElement.innerHTML = message;
+    }
+
 
 </script>
 

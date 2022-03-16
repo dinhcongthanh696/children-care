@@ -16,7 +16,8 @@ import childrencare.app.model.CustomerModel;
 @Repository
 public interface CustomerRepository extends JpaRepository<CustomerModel, Integer>{
 	
-	@Query(value = "SELECT COUNT(*) FROM user_model WHERE DATEDIFF(day , register_date , GETDATE()) <= ?1" ,
+	@Query(value = "SELECT COUNT(*) FROM customer inner join "
+			+ "user_model on customer.customer_email = user_model.email WHERE DATEDIFF(day , register_date , GETDATE()) <= ?1" ,
 			nativeQuery = true)
 	public int countNewCustomerRegisterByLastDays(int days);
 	

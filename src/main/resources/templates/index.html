@@ -109,10 +109,19 @@
                 method : "post",
                 body : formData
             }).then(respond => {
-                return respond.text();
-            }).then(message => {
+                return respond.json();
+            }).then(mapObject => {
+                const message = mapObject.message;
                 alert(message);
-                window.location.reload();
+                if(message === "successfully"){
+                	const url = mapObject.url;
+                	if(typeof url === 'undefined'){
+                		window.location.reload();
+                	}else{
+                		window.location.href = "/ChildrenCare"+url;
+                	}
+                	
+                }
             })
         }
 
