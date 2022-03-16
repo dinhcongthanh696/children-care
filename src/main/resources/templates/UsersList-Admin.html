@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Manager | Customer</title>
+    <title>ADMIN | User</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="description" content="Developed By M Abdur Rokib Promy">
     <meta name="keywords" content="Admin, Bootstrap 3, Template, Theme, Responsive">
@@ -97,8 +97,8 @@
                                 th:onchange="'changePage('+ ${currentPage} +')'"
                         >
                             <option value="-1" th:selected="${status == -1}">ALL</option>
-                            <option value="0" th:selected="${status == 0}">Offline</option>
-                            <option value="1" th:selected="${status == 1}">Online</option>
+                            <option value="0" th:selected="${status == 0}">Disabled</option>
+                            <option value="1" th:selected="${status == 1}">Enabled</option>
                         </select>
                     </div>
                     <div class="searching-header col-sm-5 form-check">
@@ -216,10 +216,10 @@
                             <td th:text="${user.phone}"></td>
                             <td th:text="${user.userRole.getRoleName()}"></td>
                             <td th:if="${user.status}">
-                                Online
+                                Enabled
                             </td>
                             <td th:if="${!user.status}">
-                                Offline
+                                Disabled
                             </td>
                             <td>
                                 <a th:href="'/ChildrenCare/admin/userDetail?email='+${user.email}" >Edit</a>

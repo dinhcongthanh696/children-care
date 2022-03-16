@@ -11,6 +11,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -22,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api-login")
@@ -71,27 +75,34 @@ public class LoginAPI {
         return "Success";
     }
     @PostMapping(value = "/signIn")
-    public String signIn(Model model, HttpSession session,
+    public Object signIn(Model model, HttpSession session,
                          @RequestParam(name = "email")String input,
                          @RequestParam(name = "password")String password,
                          @RequestParam(name = "currentPage", required = false , defaultValue = "/") String currentPage){
         UserModel userExist = loginRepository.checkUserExist(input,password);
+        HashMap<String,String> map = new HashMap<>();
         if(userExist != null && userExist.isStatus()){
             session.setAttribute("user",userExist);
             if(userExist.getAvatar() != null){
                 userExist.setBase64AvatarEncode(Base64.getEncoder().encodeToString(userExist.getAvatar()));
                 session.setAttribute("username",userExist.getUsername());
                 session.setAttribute("email",userExist.getEmail());
-                return "Đăng nhập thành công";
+                map.put("message","successfully");
+                if(userExist.getUserRole().getRoleName().equalsIgnoreCase("customer")) {
+                	map.put("url", "");
+                }else {
+                	// first page
+                	map.put("url", userExist.getUserRole().getPermissions().get(0).getScreen().getUrl());
+                }
             }
         }
-        else if(!userExist.isStatus()){
-            return "Tài khoản của bạn bị vô hiệu hoá";
+        else if(userExist != null && !userExist.isStatus()){
+        	map.put("message", "Your account is disabled somehow");
+        }else {
+        	map.put("message","Invalid");
         }
-        else{
-            return "Tài khoản hoặc mật khẩu không chính xác";
-        }
-        return "";
+        
+       return map;
     }
 
     @PostMapping(value = "/signUp")
