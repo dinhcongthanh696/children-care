@@ -115,16 +115,16 @@ public class ReservationListManagerController {
         return "redirect:/manager/managerView/reservationManager/detailsReservation?rid="+rid;
     }
 
-    @PostMapping("/assignOtherStaff")
-    @Transactional
-    public String assignOtherStaff(
-            @RequestParam("rid") int rid,
-            @RequestParam(name = "staffID") Integer staffID,
-            @RequestParam(name = "bookedDate") Date bookedDate,
-            @RequestParam(name = "slotId") Integer slotId) {
-        reservationService_service.assginOtherStaff(staffID, bookedDate, slotId);
-        return "redirect:/manager/managerView/reservationManager/detailsReservation?rid="+rid;
-    }
+//    @PostMapping("/assignOtherStaff")
+//    @Transactional
+//    public String assignOtherStaff(
+//            @RequestParam(name = "rid") int rid,
+//            @RequestParam(name = "staffID") int staffID,
+//            @RequestParam(name = "bookedDate") Date bookedDate,
+//            @RequestParam(name = "slotId") int slotId) {
+//        reservationService_service.assginOtherStaff(staffID, bookedDate, slotId);
+//        return "redirect:/manager/managerView/reservationManager/detailsReservation?rid="+rid;
+//    }
 
 
     @GetMapping("/managerView/reservationManager/home/export")
