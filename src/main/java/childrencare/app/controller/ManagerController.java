@@ -148,7 +148,7 @@ public class ManagerController {
 
 
     @RequestMapping(value = "/services", method = {RequestMethod.GET, RequestMethod.POST})
-    public String searchServiceListByTitle(Model model,
+    public String getServicesManager(Model model,
                                            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                            @RequestParam(name = "search", required = false, defaultValue = "") String search,
                                            @RequestParam(name = "status", required = false, defaultValue = "") String rawStatus,

@@ -200,6 +200,7 @@ public class ReservationController {
             cus = customerService.findCustomerByEmail(user.getEmail());
             if (cus == null) {
                 customerService.insertToCus(1, user.getEmail());
+                cus = new CustomerModel();
                 int cid = customerService.lastIDCus();
                 cus.setCustomer_id(cid);
                 reservationModel.setCustomer(cus);
