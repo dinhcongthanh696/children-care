@@ -90,6 +90,12 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "where rc.reservation_id = ?1",nativeQuery = true)
     public float getSumService(int reserId);
 
+    @Query(value = "select * from reservation_service where booked_date = ?1\n" +
+            "and slot_id = ?2 and staff_id = ?3",nativeQuery = true)
+    public ReservationServiceModel checkStaffEmptyDateStaff(Date bookedDate,int slotID,int staffID);
+
+
+
 
 
 

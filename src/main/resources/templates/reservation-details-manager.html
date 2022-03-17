@@ -24,6 +24,30 @@
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
+
+        <script>
+            function assignOtherStaffCheck(){
+                var rid = document.getElementById("rid1").value;
+                var staffID = document.getElementById("staffID").value;
+                var bookedDate = document.getElementById("bookedDate").value;
+                var slotId = document.getElementById("slotId").value;
+                var formData = new FormData();
+                formData.append("rid",rid);
+                formData.append("staffID",staffID);
+                formData.append("bookedDate",bookedDate);
+                formData.append("slotId",slotId);
+
+                fetch("/ChildrenCare/manager/api-manager/assignOtherStaff",{
+                    method : "post",
+                    body : formData
+                }).then(respond => {
+                    return respond.text();
+                }).then(message => {
+                    alert(message);
+                    window.location.reload();
+                })
+            }
+        </script>
     </head>
     <body class="skin-black">
         <!-- header logo: style can be found in header.less -->
@@ -195,9 +219,9 @@
                                                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <form action="/ChildrenCare/manager/assignOtherStaff" method="post" >
+<!--                                                                                <form action="/ChildrenCare/manager/assignOtherStaff" method="post" >-->
                                                                                     <div class="form-group">
-                                                                                        <input name="rid" readonly th:value="${reservationDetails.reservationId}" type="hidden" class="form-control">
+                                                                                        <input id="rid1" name="rid" readonly th:value="${reservationDetails.reservationId}" type="hidden" class="form-control">
                                                                                         <label>Tên dịch vụ</label>
                                                                                         <input readonly th:value="${item.service.title}" name="id" type="text" class="form-control" required>
                                                                                     </div>
@@ -208,8 +232,8 @@
                                                                                     <div class="form-group">
                                                                                         <label>Thời gian khám</label>
                                                                                         <input readonly th:value="${item.slot.start}+'h'+'-'+${item.slot.end}+'h'" name="backlink" type="text" class="form-control" required>
-                                                                                        <input id="bookedDate" th:value="${item.id.bookedDate}" name="bookedDate" type="hidden" class="form-control">
-                                                                                        <input  id="slotId" th:value="${item.slot.id}" name="slotId" type="hidden" class="form-control">
+                                                                                        <input id="bookedDate" th:value="${item.id.bookedDate}"  type="hidden" class="form-control">
+                                                                                        <input  id="slotId" th:value="${item.slot.id}"  type="hidden" class="form-control">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label>Bác sĩ </label>
@@ -217,15 +241,15 @@
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label>Phân công cho bác sĩ khác</label>
-                                                                                        <select id="staffID" name="staffID"  class="text-uppercase text-danger" >
+                                                                                        <select id="staffID"  class="text-uppercase text-danger" >
                                                                                             <option th:each="s: ${staffList}" th:value="${s.staff_id}" th:text="'Mã bác sĩ: '+${s.staff_id}+'-Tên bác sĩ: '+${s.staff_user.fullname}"></option>
                                                                                         </select>
                                                                                     </div>
                                                                                     <div class="modal-footer">
                                                                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                                                                        <button type="submit" class="btn btn-primary  btn-default">Update</button>
+                                                                                        <button onclick="assignOtherStaffCheck()" type="submit" class="btn btn-primary  btn-default">Update</button>
                                                                                     </div>
-                                                                                </form>
+<!--                                                                                </form>-->
                                                                             </div>
                                                                         </div>
                                                                     </div>

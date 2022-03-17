@@ -148,11 +148,11 @@
                   Tổng số lượng đơn đặt: [[${totalItems}]]
                   &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=1'+${key != null? '&keyword='+ key:  ''} + '&sortField=id&sortDir=' + ${reverseSortDir}}">Trang đầu</a>
+                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=1'+ ${filterValue != null? '&filterValue='+ filterValue:  ''} +${key != null? '&keyword='+ key:  ''} + '&sortField=id&sortDir=' + ${reverseSortDir}}">Trang đầu</a>
                   <span th:unless="${currentPage > 1}">Trang đầu</span>
                   &nbsp;&nbsp;
 
-                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage - 1} +${key != null? '&keyword='+ key:  ''}+ '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang trước</a>
+                  <a th:if="${currentPage > 1}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage - 1}+ ${filterValue != null? '&filterValue='+ filterValue:  ''} +${key != null? '&keyword='+ key:  ''}+ '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang trước</a>
                   <span th:unless="${currentPage > 1}">Trang trước</span>
 
                   &nbsp;&nbsp;
@@ -161,11 +161,11 @@
 			                  <a th:if="${currentPage != i}" th:href="@{'/manager/managerView/reservationManager/home?pageNum='+ ${i}+ ${filterValue != null? '&filterValue='+ filterValue:  ''} +${key != null? '&keyword='+ key:  ''} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
 			                  <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;</span>
 
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage + 1} +${key != null? '&keyword='+ key:  ''} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Trang tiếp </a>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${currentPage + 1}+${filterValue != null? '&filterValue='+ filterValue:  ''} +${key != null? '&keyword='+ key:  ''} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Trang tiếp </a>
                   <span th:unless="${currentPage < totalPages}">Trang tiếp</span>
                   &nbsp;&nbsp;
 
-                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${totalPages}+${key != null? '&keyword='+ key:  ''}+ '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang cuối</a>
+                  <a th:if="${currentPage < totalPages}" th:href="@{'/manager/managerView/reservationManager/home?pageNum=' + ${totalPages}+${filterValue != null? '&filterValue='+ filterValue:  ''}+ ${key != null? '&keyword='+ key:  ''}+ '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  }">Trang cuối</a>
                   <span th:unless="${currentPage < totalPages}">Trang cuối</span>
                 </div>
             </div><!-- /.box-body -->
