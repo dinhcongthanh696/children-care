@@ -47,7 +47,7 @@ public class AdminAPI {
 	@PutMapping("/api-services")
 	@Transactional
 	public void editServiceStatus(@RequestBody ServiceModel service) {
-		serviceModelService.editService(service);
+		serviceModelService.updateServiceStatus(service);
 	}
 	
 	@PostMapping("/api-services")

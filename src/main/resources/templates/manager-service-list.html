@@ -359,7 +359,7 @@ th, td {
 			if(status.length === 0){
 				const serviceStatusIcon = document.getElementById("service-status-icon"+serviceId);
 				const className = (statusValue) ? 'fas fa-eye' : 'fas fa-eye-slash';
-				serviceStatusIcon.innerHTML = "-Hiding";
+				serviceStatusIcon.innerHTML = (statusValue) ? "-Showing" :"-Hiding";
 				serviceStatusIcon.className = className;
 			}else{
 				const serviceItem = document.getElementById("service"+serviceId);
