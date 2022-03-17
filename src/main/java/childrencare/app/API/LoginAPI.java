@@ -41,7 +41,7 @@ public class LoginAPI {
 
 
     @PostMapping("/reset")
-    public String sendResetLink(@RequestParam(name = "email") String email){
+    public String sendResetLink(@RequestParam(name = "email") String email) {
         JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
         String from = mailSenderImpl.getUsername();
         String to = email;
@@ -53,12 +53,12 @@ public class LoginAPI {
             mimeMessage.setSubject(subject);
 
             MimeBodyPart contentPart = new MimeBodyPart();
-            String content = "<h1> Hello "+ email +" , Reset link is : <a href='http://localhost:8080/ChildrenCare/reset'>link</a> </h1>" ;
+            String content = "<h1> Hello " + email + " , Reset link is : <a href='http://localhost:8080/ChildrenCare/reset'>link</a> </h1>";
             contentPart.setContent(content, "text/html; charset=utf-8");
 
             MimeBodyPart referencePart = new MimeBodyPart();
             String reference = "<a href='http://localhost:8080/ChildrenCare/'> Children Care's Page</a>";
-            referencePart.setContent(reference,"text/html; charset=utf-8");
+            referencePart.setContent(reference, "text/html; charset=utf-8");
 
             Multipart multiPart = new MimeMultipart();
             multiPart.addBodyPart(contentPart);
@@ -74,65 +74,65 @@ public class LoginAPI {
         }
         return "Success";
     }
+
     @PostMapping(value = "/signIn")
     public Object signIn(Model model, HttpSession session,
-                         @RequestParam(name = "email")String input,
-                         @RequestParam(name = "password")String password,
-                         @RequestParam(name = "currentPage", required = false , defaultValue = "/") String currentPage){
-        UserModel userExist = loginRepository.checkUserExist(input,password);
-        HashMap<String,String> map = new HashMap<>();
-        if(userExist != null && userExist.isStatus()){
-            session.setAttribute("user",userExist);
-            if(userExist.getAvatar() != null){
+                         @RequestParam(name = "email") String input,
+                         @RequestParam(name = "password") String password,
+                         @RequestParam(name = "currentPage", required = false, defaultValue = "/") String currentPage) {
+        UserModel userExist = loginRepository.checkUserExist(input, password);
+        HashMap<String, String> map = new HashMap<>();
+        if (userExist != null && userExist.isStatus()) {
+            session.setAttribute("user", userExist);
+            if (userExist.getAvatar() != null) {
                 userExist.setBase64AvatarEncode(Base64.getEncoder().encodeToString(userExist.getAvatar()));
-                session.setAttribute("username",userExist.getUsername());
-                session.setAttribute("email",userExist.getEmail());
-                map.put("message","successfully");
-                if(!userExist.getUserRole().getRoleName().equalsIgnoreCase("customer")) 
-                	map.put("url", userExist.getUserRole().getPermissions().get(0).getScreen().getUrl());     
             }
+            session.setAttribute("username", userExist.getUsername());
+            session.setAttribute("email", userExist.getEmail());
+            map.put("message", "successfully");
+            if (!userExist.getUserRole().getRoleName().equalsIgnoreCase("customer"))
+                map.put("url", userExist.getUserRole().getPermissions().get(0).getScreen().getUrl());
+        } else if (userExist != null && !userExist.isStatus()) {
+            map.put("message", "Your account is disabled somehow");
+        } else {
+            map.put("message", "Invalid");
         }
-        else if(userExist != null && !userExist.isStatus()){
-        	map.put("message", "Your account is disabled somehow");
-        }else {
-        	map.put("message","Invalid");
-        }
-        
-       return map;
+
+        return map;
     }
 
     @PostMapping(value = "/signUp")
     public String signUp(Model model,
-                         @RequestParam(name = "username")String username,
-                         @RequestParam(name = "fullname")String fullname,
-                         @RequestParam(name = "address")String address,
-                         @RequestParam(name = "email")String email,
+                         @RequestParam(name = "username") String username,
+                         @RequestParam(name = "fullname") String fullname,
+                         @RequestParam(name = "address") String address,
+                         @RequestParam(name = "email") String email,
                          @RequestParam(name = "gender") boolean gender,
-                         @RequestParam(name = "notes")String notes,
-                         @RequestParam(name = "password")String pass,
-                         @RequestParam(name = "phone")String phone) {
+                         @RequestParam(name = "notes") String notes,
+                         @RequestParam(name = "password") String pass,
+                         @RequestParam(name = "phone") String phone) {
         UserModel userExist1 = loginRepository.checkUserRegister(email, username);
         if (userExist1 != null) {
             return "Email hoặc username đã tồn tại!";
         } else {
-        UserModel userModel = new UserModel();
-        userModel.setUsername(username);
-        userModel.setFullname(fullname);
-        userModel.setAddress(address);
-        userModel.setEmail(email);
-        userModel.setGender(gender);
-        userModel.setNotes(notes);
-        userModel.setPassword(pass);
-        userModel.setPhone(phone);
-        userModel.setStatus(true);
-        RoleModel roleModel = new RoleModel();
-        roleModel.setRoleId(4);
-        userModel.setUserRole(roleModel);
+            UserModel userModel = new UserModel();
+            userModel.setUsername(username);
+            userModel.setFullname(fullname);
+            userModel.setAddress(address);
+            userModel.setEmail(email);
+            userModel.setGender(gender);
+            userModel.setNotes(notes);
+            userModel.setPassword(pass);
+            userModel.setPhone(phone);
+            userModel.setStatus(true);
+            RoleModel roleModel = new RoleModel();
+            roleModel.setRoleId(4);
+            userModel.setUserRole(roleModel);
 //        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 //        LocalDateTime now = LocalDateTime.now();
 //        userModel.setRegiteredDate(dtf.format(now));
-        loginRepository.save(userModel);
-        return "Đăng kí tài khoản thành công! Đăng nhập để sử dụng Website";
-    }
+            loginRepository.save(userModel);
+            return "Đăng kí tài khoản thành công! Đăng nhập để sử dụng Website";
+        }
     }
 }
