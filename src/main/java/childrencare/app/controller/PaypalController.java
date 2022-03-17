@@ -63,7 +63,7 @@ public class PaypalController {
                     "USD",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.sale,
-                    "payment description",
+                    payService.getPaymentById(2).getInfo(),
                     cancelUrl,
                     successUrl);
             for(Links links : payment.getLinks()){
