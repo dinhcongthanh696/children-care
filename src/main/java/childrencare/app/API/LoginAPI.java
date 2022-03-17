@@ -88,12 +88,8 @@ public class LoginAPI {
                 session.setAttribute("username",userExist.getUsername());
                 session.setAttribute("email",userExist.getEmail());
                 map.put("message","successfully");
-                if(userExist.getUserRole().getRoleName().equalsIgnoreCase("customer")) {
-                	map.put("url", "");
-                }else {
-                	// first page
-                	map.put("url", userExist.getUserRole().getPermissions().get(0).getScreen().getUrl());
-                }
+                if(!userExist.getUserRole().getRoleName().equalsIgnoreCase("customer")) 
+                	map.put("url", userExist.getUserRole().getPermissions().get(0).getScreen().getUrl());     
             }
         }
         else if(userExist != null && !userExist.isStatus()){
