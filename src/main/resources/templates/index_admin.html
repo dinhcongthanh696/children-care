@@ -59,7 +59,7 @@
         <!-- header logo: style can be found in header.less -->
 <!--        <header class="header" th:replace="header_admin::headerAdmin"></header>-->
         <header class="header" >
-            <a href="/ChildrenCare/admin/dashboard" class="logo" th:text="${session.user.userRole.roleName}">
+            <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}"" class="logo" th:text="${session.user.userRole.roleName}">
                
             </a>
             <!-- Header Navbar: style can be found in header.less -->
