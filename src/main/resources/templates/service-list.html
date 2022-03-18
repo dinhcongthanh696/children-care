@@ -37,7 +37,7 @@
 <body th:onload="renderPages()">
 	<div id="my-modal-success">
 		<div class="my-modal-content modal-element">
-			<h1 class="modal-element">Added successfully <i class="fas fa-check modal-element" style="font-size : 20px;"></i></h1>
+			<h1 class="modal-element"><span th:text="#{added.successfully}"></span> <i class="fas fa-check modal-element" style="font-size : 20px;"></i></h1>
 			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-success','none')"></span>
 		</div>
 	</div>
@@ -72,7 +72,7 @@
 			</div>
 			<div class="my-modal-chaining modal-element">
 				<button class="btn btn-success modal-element" disabled="disabled" id="next-button" onclick="startFormFeedback()">
-				  <i class="fas fa-arrow-right modal-element">Next</i> 
+				  <i class="fas fa-arrow-right modal-element" th:text="#{next}"></i> 
 				</button>
 			</div>
 			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-feedback-step1','none')"></span>
@@ -80,27 +80,27 @@
 	</div>
 	<div id="my-modal-feedback-step-2">
 		<div class="my-modal-content modal-element" >
-			<label for="image-feedback-input" class="modal-label modal-element">Show your image feedback :</label>
+			<label for="image-feedback-input" class="modal-label modal-element" th:text="#{show.image.feedback.label}"></label>
 			<input type="file" id="image-feedback-input" class="form-control modal-input modal-element" style="font-size : 13px;padding : 5px;" onchange="imagePreviewHandler(this)"/>
-			<span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
+			<span class="modal-element" id="image-hint" style="color : blue;" th:text="#{file.upload.hint}"></span>
 			<img class="modal-image-feedback modal-element" style="display : block;margin : 25px auto;border : 1px solid black;" src="#" alt="your image feedback"/>
 			<h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
-			<label for="comment" class="modal-label modal-element">Give your comment here : </label>
-			<textarea rows="10" cols="50" id="comment" class="form-control modal-input modal-element" placeholder="Commenting...." style="font-size : 15px;padding : 5px;"></textarea>
+			<label for="comment" class="modal-label modal-element" th:text="#{give.comment.label}"></label>
+			<textarea rows="10" cols="50" id="comment" class="form-control modal-input modal-element" th:placeholder="#{comment}+'....'" style="font-size : 15px;padding : 5px;"></textarea>
 			<button class="btn btn-primary save-feedback modal-element" 
 				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()"
-				id="save-feedback-button">
-			    Save your feedback
+				id="save-feedback-button"
+				th:text="#{save.feedback.button}">
 			</button>
 			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-feedback-step-2','none')"></span>
 		</div>
 	</div>
 	<div id="my-modal-contact-menu">
 		<div class="my-modal-content modal-element">
-			<h1 class="modal-header modal-element">Lựa chọn của bạn?</h1>
+			<h1 class="modal-header modal-element" th:text="contact.menu.question"></h1>
 			<ul class="list-group modal-element">
-				<li class="list-group-item modal-element"><a href="#" class="modal-contact-link modal-element" onclick="startLoginForm()">Login</a></li>
-				<li class="list-group-item modal-element"><a href="#" class="modal-contact-link modal-element" onclick="startContactModal(event)">Hãy để lại email lần gần nhất bạn đặt dịch vụ nhé!</a> </li>
+				<li class="list-group-item modal-element"><a href="#" class="modal-contact-link modal-element" onclick="startLoginForm()" th:text="#{login}"></a></li>
+				<li class="list-group-item modal-element"><a href="#" class="modal-contact-link modal-element" onclick="startContactModal(event)" th:text="#{give.email.contact}"></a> </li>
 			</ul>
 			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-contact-menu','none')"></span>
 		</div>
@@ -114,14 +114,14 @@
 	
 	<div id="my-modal-contact">
 		<div class="my-modal-content modal-element">
-			<h1 class="modal-header modal-element">Contact</h1>
+			<h1 class="modal-header modal-element" th:text="#{contact}"></h1>
 			<div class="form-group email modal-element">
-				<label for="user-email" class="modal-label modal-element">Email</label>
-				<input type="text" class="form-control modal-input modal-element" placeholder="Put your email..." id="user-email" onkeyup="verifyUserEmail(this.value)"/>
+				<label for="user-email" class="modal-label modal-element" th:text="#{email}"></label>
+				<input type="text" class="form-control modal-input modal-element" th:placeholder="#{put.your.email} + '....'" id="user-email" onkeyup="verifyUserEmail(this.value)"/>
 				<span id="email-verification-message" class="modal-element"></span>
 			</div>	
 			<h5 id="contact-message" class="modal-element"></h5>
-			<button class="btn btn-danger modal-element" id="verify-contact-button" onclick="identifyUserContact()" disabled="disabled">Verify your contact <span id="verify-contact-icon" class="fas fa-exclamation"></span></button>
+			<button class="btn btn-danger modal-element" id="verify-contact-button" onclick="identifyUserContact()" disabled="disabled"> <span th:text="#{verify.your.contact}"></span> <span id="verify-contact-icon" class="fas fa-exclamation"></span></button>
 			<span class="fa fa-close close-modal modal-element" onclick="triggerModal('my-modal-contact','none')"></span>
 		</div>
 	</div>
@@ -129,9 +129,9 @@
 	<div id="my-modal-identification">
 		<div class="my-modal-content modal-element">
 			<h1 class="modal-header modal-element" id="modal-header-counter"></h1>
-			<label for="answer" id="label-answer" class="modal-element">Your answer : </label>
+			<label for="answer" id="label-answer" class="modal-element" th:text="#{your.answer}"></label>
 			<input type="text" class="form-control modal-input modal-element" placeholder="Put your answer..." id="answer"/>
-			<button class="btn btn-primary modal-element" onclick="indentifyCaptchaCode()" id="verify-email" disabled="disabled">Verify</button>
+			<button class="btn btn-primary modal-element" onclick="indentifyCaptchaCode()" id="verify-email" disabled="disabled" th:text="#{verify}"></button>
 		</div>
 	</div>
 	
