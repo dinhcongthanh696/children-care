@@ -116,9 +116,9 @@
 <body class="skin-black">
 <!-- header logo: style can be found in header.less -->
 <header class="header">
-    <a href="index.html" class="logo">
+    <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}" class="logo">
         <!-- Add the class icon to your logo image or logo icon to add the margining -->
-        ChildrenCare
+        Manager
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <div th:replace="header_admin::navbarRight"></div>
