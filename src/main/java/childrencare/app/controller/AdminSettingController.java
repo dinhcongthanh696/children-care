@@ -1,5 +1,6 @@
 package childrencare.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -33,7 +34,6 @@ public class AdminSettingController {
 	private final UserService userService;
 	private final int SCREENSIZE = 20;
 	private final int USERSIZE = 3;
-	private Page<ScreenModel> currentScreens;
 	
 	@Autowired
 	public AdminSettingController(RoleService roleService,ScreenService screenService,PermissionService permissionService,UserService userService) {
@@ -48,7 +48,7 @@ public class AdminSettingController {
 			@RequestParam(name = "search" , required = false , defaultValue = "") String search, 
 			@RequestParam(name = "currentRoleIndex" , required = false , defaultValue = "0") int roleIndex) {
 		List<RoleModel> roles = roleService.getAllRoles();
-		currentScreens = screenService.getPartialScreens(SCREENSIZE, page, search);
+		Page<ScreenModel> currentScreens = screenService.getPartialScreens(SCREENSIZE, page, search);
 		model.addAttribute("roles", roles);
 		model.addAttribute("screens",currentScreens.toList());
 		model.addAttribute("currentPage", currentScreens.getNumber());
@@ -75,9 +75,15 @@ public class AdminSettingController {
 	@PostMapping("/roles/edit")
 	@Transactional
 	public String editRoleScreens(@RequestParam(name = "permissionValues") String permissionValues ,
-			@RequestParam(name = "roleId") int roleId) {
+			@RequestParam(name = "roleId") int roleId ,
+			@RequestParam(name = "screenIdValues") String screenIdValues  ) {
 		String[] permissionValues_split = permissionValues.split("[,]");
-		permissionService.removePermissionByRole(roleId,currentScreens.toList());
+		String[] screenIdValues_split = screenIdValues.split("[,]");
+		List<Integer> currentScreens = new ArrayList<>();
+		for(String screenIdValue : screenIdValues_split){
+			currentScreens.add(Integer.parseInt(screenIdValue));
+		}
+		permissionService.removePermissionByRole(roleId,currentScreens);
 		for(int i = 0 ; i < permissionValues_split.length ; i++) {
 			if(!permissionValues_split[i].equals("ban")) {
 				permissionService.addPermission(roleId, Integer.parseInt(permissionValues_split[i]));

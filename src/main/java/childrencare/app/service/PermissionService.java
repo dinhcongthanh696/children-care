@@ -22,12 +22,8 @@ public class PermissionService {
 		permissionRepository.addPermission(roleId, screenId);
 	}
 	
-	public void removePermissionByRole(int roleId,List<ScreenModel> screens) {
-		if(screens == null) return;
-		List<Integer> screenIds = new ArrayList<>();
-		for(ScreenModel screen : screens) {
-			screenIds.add(screen.getScreenId());
-		}
+	public void removePermissionByRole(int roleId,List<Integer> screenIds) {
+		if(screenIds.isEmpty()) return;
 		permissionRepository.removeRoleScreens(roleId,screenIds);
 	}
 }

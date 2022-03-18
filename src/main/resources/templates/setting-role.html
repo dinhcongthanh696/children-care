@@ -92,8 +92,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="screenItem : ${screens}">
-					<td th:text=${screenItem.screenId}></td>
+				<tr th:each="screenItem : ${screens}" class="screen-item">
+					<td th:text=${screenItem.screenId} class="screen-item-id"></td>
 					<td th:text=${screenItem.screenName}></td>
 					<td th:text=${screenItem.url}></td>
 					<td>
@@ -149,10 +149,17 @@
 				permissionValue = (permissionCheckboxesElement[i].checked) ? permissionCheckboxesElement[i].value : "ban";	
 				permissionValues += permissionValue + ",";
 			}
+			var screenIdValues = "";
+			var screenItemId;
+			var screenItems = document.getElementsByClassName("screen-item");
+			for(let i = 0 ; i < screenItems.length ; i++){
+				screenItemId = screenItems[i].getElementsByClassName("screen-item-id")[0].innerHTML;
+				screenIdValues += screenItemId + ",";
+			}
 			const formData = new FormData();
 			formData.append("permissionValues",permissionValues);
 			formData.append("roleId",roleId);
-			
+			formData.append("screenIdValues",screenIdValues);
 			fetch("/ChildrenCare/admin/setting/roles/edit",{
 				method : 'POST',
 				body : formData
