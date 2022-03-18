@@ -97,7 +97,11 @@
 	</div>
 	<div id="my-modal-contact-menu">
 		<div class="my-modal-content modal-element">
-			<h1 class="modal-header modal-element" th:text="contact.menu.question"></h1>
+			<h1 class="modal-header modal-element" th:text="#{contact.menu.question}"></h1>
+
+
+
+
 			<ul class="list-group modal-element">
 				<li class="list-group-item modal-element"><a href="#" class="modal-contact-link modal-element" onclick="startLoginForm()" th:text="#{login}"></a></li>
 				<li class="list-group-item modal-element"><a href="#" class="modal-contact-link modal-element" onclick="startContactModal(event)" th:text="#{give.email.contact}"></a> </li>
