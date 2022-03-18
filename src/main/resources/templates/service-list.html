@@ -243,6 +243,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="../js/pagging.js"></script>
+	<script src="../js/common.js"></script>
 	<script type="text/javascript">
 
 	var lastChosenFeelingElement;
@@ -252,17 +253,6 @@
 	var captchaInterval;
 	var lastChosenModal;
 	var lastInputEmail;
-	
-	function changeLanguage(langCode){
-		var queryString = window.location.search;
-		var params = new URLSearchParams(queryString);
-		if(!params.has("lang")){
-			params.append("lang",langCode);
-		}else{
-			params.set("lang",langCode);
-		}
-		window.location.href = window.location.pathname +"?"+ params;
-	}
 	
 	function triggerToolTips(serviceToopTipId,displayProperty){
 		var serviceToolTipElement = document.getElementById("serviceToolTip"+serviceToopTipId);
@@ -553,33 +543,6 @@
 		nextButton.disabled = false;
 	}
 	
-	 //nghia's code
-    function loginCheck(){
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("pass").value;
-        var formData = new FormData();
-        formData.append("email",email);
-        formData.append("password",password);
-        formData.append("currentpage",currentpage);
-        fetch("/ChildrenCare/api-login/signIn",{
-            method : "post",
-            body : formData
-        }).then(respond => {
-            return respond.json();
-        }).then(mapObject => {
-            const message = mapObject.message;
-            alert(message);
-            if(message === "successfully"){
-            	const url = mapObject.url;
-            	if(typeof url === 'undefined'){
-            		window.location.reload();
-            	}else{
-            		window.location.href = "/ChildrenCare"+url;
-            	}
-            	
-            }
-        })
-    }
 
 	function addReservationService(event,service_id) {
 		var url = "/ChildrenCare/api-reservation/add/"+service_id;
