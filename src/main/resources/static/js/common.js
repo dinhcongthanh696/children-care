@@ -82,32 +82,55 @@
                 }
             })
         }
+    var capchaGlobal;
+    function generateCapcha(){
+        var formData1 = new FormData();
+        var email_register = document.getElementById("email_register").value;
+        formData1.append("email",email_register);
+        fetch("/ChildrenCare/api-feedback/generate-captcha",{
+            method:"POST",
+            body:formData1
+        }).then(respond => {
+            alert("The capcha code has been sent to your email");
+            return respond.text();
+        }).then(capcha => {
+            capchaGlobal = capcha;
+        })
+    }
 
-        function register(){
-            var email_register = document.getElementById("email_register").value;
-            var username_register = document.getElementById("username_register").value;
-            var fullname_register = document.getElementById("fullname_register").value;
-            var address_register = document.getElementById("address_register").value;
-            var gender_register = document.getElementById("gender_register").value;
-            var notes_register = document.getElementById("notes_register").value;
-            var password_register = document.getElementById("password_register").value;
-            var phone_register = document.getElementById("phone_register").value;
-            var formData = new FormData();
-            formData.append("email",email_register);
-            formData.append("username",username_register);
-            formData.append("fullname",fullname_register);
-            formData.append("address",address_register);
-            formData.append("gender",gender_register);
-            formData.append("notes",notes_register);
-            formData.append("password",password_register);
-            formData.append("phone",phone_register);
-            fetch("/ChildrenCare/api-login/signUp",{
-                method : "post",
-                body : formData
-            }).then(respond => {
-                return respond.text();
-            }).then(message => {
-                alert(message);
-                window.location.reload();
-            })
+    function register(){
+
+        var confirmCheck = document.getElementById("confirm").value;
+        if(confirmCheck !== capchaGlobal){
+            alert("Capcha invalid!");
+            return;
         }
+
+        var email_register = document.getElementById("email_register").value;
+        var username_register = document.getElementById("username_register").value;
+        var fullname_register = document.getElementById("fullname_register").value;
+        var address_register = document.getElementById("address_register").value;
+        var gender_register = document.getElementById("gender_register").value;
+        var notes_register = document.getElementById("notes_register").value;
+        var password_register = document.getElementById("password_register").value;
+        var phone_register = document.getElementById("phone_register").value;
+        var formData = new FormData();
+        formData.append("email",email_register);
+        formData.append("username",username_register);
+        formData.append("fullname",fullname_register);
+        formData.append("address",address_register);
+        formData.append("gender",gender_register);
+        formData.append("notes",notes_register);
+        formData.append("password",password_register);
+        formData.append("phone",phone_register);
+
+        fetch("/ChildrenCare/api-login/signUp",{
+            method : "post",
+            body : formData
+        }).then(respond => {
+            return respond.text();
+        }).then(message => {
+            alert(message);
+            window.location.reload();
+        })
+    }
