@@ -87,7 +87,7 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "from reservation_service as rc\n" +
             "inner join service s on s.service_id=rc.service_id\n" +
             "where rc.reservation_id = ?1",nativeQuery = true)
-    public float getSumService(int reserId);
+    public Float getSumService(int reserId);
 
     @Query(value = "select * from reservation_service where booked_date = ?1\n" +
             "and slot_id = ?2 and staff_id = ?3",nativeQuery = true)

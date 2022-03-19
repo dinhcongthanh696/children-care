@@ -97,6 +97,9 @@ public class ReservationService_Service {
     }
 
     public float getSumService(int reserId){
+        if(reservationServiceRepository.getSumService(reserId) == null){
+            return 0;
+        }
         return reservationServiceRepository.getSumService(reserId);
     }
 

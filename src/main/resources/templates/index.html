@@ -67,7 +67,8 @@
                         <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
                             <ul class="navigation clearfix">
                                 <li>
-                                    <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" class="far fa-user fa-2x text-white "  onclick="triggerLoginForm('block')"></i>
+                                    <i style="padding: 10px;" href="#signup"   class="far fa-user fa-2x text-white " th:if="${session.user} != null" ></i>
+                                    <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" class="far fa-user fa-2x text-white " th:if="${session.user} == null" onclick="triggerLoginForm('block')"></i>
                                     <ul>
                                         <li><a href="/ChildrenCare/setting/profile">Settings</a></li>
                                         <li><a href="/ChildrenCare/logout">Log out</a></li>
