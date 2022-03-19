@@ -133,8 +133,8 @@
 
 <div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
 <div class="container text-dark py-5 text-center">
-  <h1 class="display-4">THÔNG TIN DỊCH VỤ</h1>
-  <h3 th:if="${list.isEmpty()}">Bạn đang không có dịch vụ nào trong giỏ hàng</h3>
+  <h1 class="display-4" th:text="#{cart.show}"></h1>
+  <h3 th:if="${list.isEmpty()}" th:text="#{cart.title}"></h3>
 </div>
 
 <div class="container mt-5 mb-5">
@@ -146,13 +146,13 @@
           <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"   alt="chua co anh"  class="img-fluid rounded shadow-sm">
         </div>
         <div class="col-lg-5 col-5 text-lg-left">
-          <h3  th:text="'Mã dịch vụ: '+${info.serviceId}" class="h6 mb-0"></h3><br>
-          <h3 th:text="'Tên dịch vụ: '+${info.title}" class="h6 mb-0"></h3><br>
-            <small th:text="'Giá dịch vụ: '+${#numbers.formatDecimal(info.salePrice,1,'POINT',0,'POINT') + 'đ'}"></small>
+          <h3  th:text="#{cart.service.id}+':' +${info.serviceId}" class="h6 mb-0"></h3><br>
+          <h3 th:text="#{cart.service.name}+':'+${info.title}" class="h6 mb-0"></h3><br>
+            <small th:text="#{cart.service.price}+':'+${#numbers.formatDecimal(info.salePrice,1,'POINT',0,'POINT') + 'đ'}"></small>
         </div>
         <div th:text="${#numbers.formatDecimal(info.salePrice,1,'POINT',0,'POINT')+'đ'}" class="product-price d-none"></div>
         <div class="pass-quantity col-lg-3 col-md-4 col-sm-3">
-          <label class="pass-quantity">Số lượng người</label>
+          <label class="pass-quantity" th:text="#{cart.totalPerson}"></label>
           <input  class="form-control" type="number" min="1" th:value="${info.quantity}"
                  th:onfocus="'storeOldValue('+${info.serviceId}+',this.value)'"
                  th:onchange="'editCartItem(event,'+ ${info.serviceId} +',this.value)'"/>
@@ -173,7 +173,7 @@
       </tr>
 
     </div>
-    <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted text-uppercase">Xem thêm dịch vụ</span></div>
+    <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted text-uppercase" th:text="#{cart.view}"></span></div>
 
     <div th:if="${!list.isEmpty()}" class="row py-5 p-4 bg-white rounded shadow-sm">
       <div class="col-lg-6">
@@ -194,14 +194,14 @@
         </div>
       </div>
       <div class="col-lg-6">
-        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Thông tin giỏ hàng </div>
+        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold" th:text="#{cart.info}"></div>
         <div class="p-4">
-          <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
+          <p class="font-italic mb-4" th:text="#{cart.note}"></p>
           <ul class="list-unstyled mb-4">
-            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tổng đơn hàng</strong>
+            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted" th:text="#{cart.total}"></strong>
               <p th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')+'đ'}" class="font-weight-bold cart-total totals-value text-danger"></p></li>
           </ul>
-          <a th:if="${list}!=null" href="/ChildrenCare/reservation/contact" class="btn btn-primary rounded-pill py-2 btn-block">Xác nhận đơn hàng</a>
+          <a th:if="${list}!=null" href="/ChildrenCare/reservation/contact" class="btn btn-primary rounded-pill py-2 btn-block" th:text="#{cart.confirm}"></a>
         </div>
       </div>
     </div>

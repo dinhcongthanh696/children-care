@@ -66,7 +66,9 @@ public class ReservationController {
 
 
     @GetMapping("/reser")
-    public String getServiceCarts(Model model, HttpSession session) {
+    public String getServiceCarts(Model model,
+                                  HttpSession session,
+                                  @RequestParam(name = "lang",required = false, defaultValue = "en") String lang) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         if (itemList != null) {
             double toalReservationPrice = 0;
@@ -76,6 +78,7 @@ public class ReservationController {
             session.setAttribute("total", toalReservationPrice);
             model.addAttribute("size", itemList.size());
         }
+        model.addAttribute("lang",lang);
         session.setAttribute("list", itemList);
         model.addAttribute("list", itemList);
         return "reservationDetails";
