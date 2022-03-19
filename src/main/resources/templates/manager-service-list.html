@@ -60,7 +60,19 @@ th, td {
   text-align: left;
   padding: 8px;
 }
+.invalid{
+	border: 1px solid red;
+	background-color: #fa7361;
+	color : white;
+}
 
+.form-message{
+	color: red;
+}
+	::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+		color: white;
+		opacity: 1; /* Firefox */
+	}
 	
 </style>
 <!-- end thanh style -->
@@ -100,23 +112,28 @@ th, td {
         		<div class="form-group">
         			<label for="service-title">Title</label>
     				<input type="text" class="form-control" id="service-title" placeholder="Leave Service Title here.." />
+					<span class="form-message"></span>
         		</div>
         		<div class="form-group">
         			<label for="service-brief-info">Brief Information</label>
     				<input type="text" class="form-control" id="service-brief-info" placeholder="Leave Brief Information here.." />
-        		</div>
+					<span class="form-message"></span>
+				</div>
         		<div class="form-group">
         			<label for="service-original-price">Original Price </label>
-    				<input type="number" class="form-control" id="service-original-price" placeholder="Leave Original Price here.." />
-        		</div>
+    				<input type="number" class="form-control" id="service-original-price" placeholder="Leave Original Price here.."/>
+					<span class="form-message"></span>
+				</div>
         		<div class="form-group">
         			<label for="service-sale-price">Sale Price </label>
-    				<input type="number" class="form-control" id="service-sale-price" placeholder="Leave Sale Price here.." />
-        		</div>
+    				<input type="number" class="form-control" id="service-sale-price" placeholder="Leave Sale Price here.."/>
+					<span class="form-message"></span>
+				</div>
         		<div class="form-group">
         			<label for="service-quantity">Quantity </label>
-    				<input type="number" class="form-control" id="service-quantity" placeholder="Leave Quantity here.." />
-        		</div>
+    				<input type="number" class="form-control" id="service-quantity" placeholder="Leave Quantity here.."/>
+					<span class="form-message"></span>
+				</div>
         		<div class="form-group">
         			<label for="service-category-id">Service Category  </label>
     				<select class="form-control" id="service-category-id">
@@ -126,7 +143,8 @@ th, td {
         		<div class="form-group">
         			<label for="service-description">Description</label>
     				<textarea class="form-control" id="service-description" placeholder="Leave Service Description here.." cols="20"></textarea>
-        		</div>
+					<span class="form-message"></span>
+				</div>
         		<div class="form-group">
         			<label for="service-file">Image </label>
         			<img id="service-image" />
@@ -331,10 +349,23 @@ th, td {
                 checkboxClass: 'icheckbox_flat-grey',
                 radioClass: 'iradio_flat-grey'
             });
-		</script>  
+		</script>
+	<script src="../js/validator.js"></script>
 	<script type="text/javascript">
 	var lastChosenPreview;
-	
+	var selectorRules = [
+		Validator.isRequired("#service-title",5),
+		Validator.isRequired("#service-brief-info",10),
+		Validator.isRequired("#service-original-price",0,"Original Price must not be empty"),
+		Validator.isRequired("#service-sale-price",0,"Sale Price must not be empty"),
+		Validator.isMinNumber("#service-original-price",0,"Original price must be greater than 0"),
+		Validator.isMinNumber("#service-sale-price",0,"Sale price must be greater than 0"),
+		Validator.isRequired("#service-quantity",0,"Quantity must not be empty"),
+		Validator.isMinNumber("#service-quantity",0,"Quantity must be greater than 0"),
+		Validator.isRequired("#service-description",10,"Description must contains at least 10 characters")
+	];
+	Validator(selectorRules);
+
 	function changePage(pageNumber) {
 		var search = document.querySelector("#search-query").value;
 		var status = document.getElementById("status-filter").value;
@@ -372,6 +403,40 @@ th, td {
 	}
 	
 	function addNewService(){
+		var rules = {};
+
+		selectorRules.forEach(selectorRule => {
+			if(Array.isArray(rules[selectorRule.selector])){
+				rules[selectorRule.selector].push(selectorRule.test);
+			}else{
+				rules[selectorRule.selector] = [selectorRule.test];
+			}
+		})
+
+		var isValid = true;
+		selectorRules.forEach(selectorRule => {
+			var formElement = document.querySelector(selectorRule.selector);
+			var formValue = formElement.value;
+			var fieldRules = rules[selectorRule.selector];
+			var formMessageElement = formElement.parentElement.getElementsByClassName("form-message")[0];
+			var errorMessage = undefined;
+			for(let i = 0 ; i < fieldRules.length ; i++){
+				errorMessage = fieldRules[i](formValue);
+				if(errorMessage) break;
+			}
+			if(errorMessage){
+				if(isValid) isValid = false;
+				formMessageElement.innerHTML = errorMessage;
+				formElement.classList.add("invalid");
+			}else{
+				formMessageElement.innerHTML = "";
+				formElement.classList.remove("invalid");
+			}
+		})
+
+		if(!isValid) return;
+
+
 		const serviceTittleInputElement = document.getElementById("service-title");
 		const serviceBriefInfoInputElement = document.getElementById("service-brief-info");
 		const serviceOriginalPriceInputElement = document.getElementById("service-original-price");
