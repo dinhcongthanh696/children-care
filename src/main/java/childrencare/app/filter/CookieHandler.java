@@ -23,8 +23,7 @@ public class CookieHandler {
 
 	public static void editCartsCookie(int serviceId,HttpServletRequest request,HttpServletResponse response,
 			String path,int expriedTime,String modifiedValue) {
-		Cookie cartCookie = getCookie("carts", request);
-		if(cartCookie != null && !cartCookie.getValue().isEmpty()) {
+			Cookie cartCookie = getCookie("carts", request);
 			String cartCookieValue = cartCookie.getValue();
 			String[] serviceCarts = cartCookieValue.split("[-]+");
 			String[] serviceCartAttributes;
@@ -32,6 +31,7 @@ public class CookieHandler {
 			String cartModifiedCookieValue = "";
 			boolean isExsisting = false;
 			for(String serviceCart : serviceCarts) {
+				if(serviceCart.isEmpty()) break;   // if serviceCarts is empty it will return 1 empty string element
 				serviceCartAttributes = serviceCart.split("_");
 				serviceCookieId = Integer.parseInt(serviceCartAttributes[0]);
 				if(serviceCookieId == serviceId) {
@@ -49,7 +49,6 @@ public class CookieHandler {
 			cartCookie.setValue(cartModifiedCookieValue);
 			cartCookie.setMaxAge(expriedTime);
 			response.addCookie(cartCookie);
-		}
 	}
 
 	public static void createNewCookie(String name , HttpServletRequest request,HttpServletResponse response,

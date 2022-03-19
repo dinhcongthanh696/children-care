@@ -39,58 +39,7 @@
 <!--login style-->
     <link href="../css/authentication.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/reservationContact.css">
-    <script>
-        //nghia's code
-        function loginCheck(){
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("pass").value;
-            var formData = new FormData();
-            formData.append("email",email);
-            formData.append("password",password);
-            formData.append("currentpage",currentpage);
-            fetch("/ChildrenCare/api-login/signIn",{
-                method : "post",
-                body : formData
-            }).then(respond => {
-                return respond.text();
-            }).then(message => {
-                alert(message);
-                window.location.reload();
-            })
-        }
-
-        function register(){
-            var email_register = document.getElementById("email_register").value;
-            var username_register = document.getElementById("username_register").value;
-            var fullname_register = document.getElementById("fullname_register").value;
-            var address_register = document.getElementById("address_register").value;
-            var gender_register = document.getElementById("gender_register").value;
-            var notes_register = document.getElementById("notes_register").value;
-            var password_register = document.getElementById("password_register").value;
-            var phone_register = document.getElementById("phone_register").value;
-            var formData = new FormData();
-            formData.append("email",email_register);
-            formData.append("username",username_register);
-            formData.append("fullname",fullname_register);
-            formData.append("address",address_register);
-            formData.append("gender",gender_register);
-            formData.append("notes",notes_register);
-            formData.append("password",password_register);
-            formData.append("phone",phone_register);
-            fetch("/ChildrenCare/api-login/signUp",{
-                method : "post",
-                body : formData
-            }).then(respond => {
-                return respond.text();
-            }).then(message => {
-                alert(message);
-            })
-        }
-
-
-    </script>
-
-
+    <script src="../js/common.js"></script>
 </head>
 <body>
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('/reservation/contact')"></div>
@@ -129,17 +78,17 @@
                         <div class="col-md-5">
                             <div class="card border-0">
                                 <div class="card-header pb-0">
-                                    <h2 class="card-title space text-uppercase">Xác nhận thông tin</h2>
-                                    <p class="card-text text-bold text-uppercase">Thông tin khách hàng</p>
-                                    <p class="card-text text-bold text-uppercase text-danger">* Trường bắt buộc</p>
+                                    <h2 class="card-title space text-uppercase" th:text="#{contact.title}"></h2>
+                                    <p class="card-text text-bold text-uppercase"th:text="#{contact.cus}"></p>
+                                    <p class="card-text text-bold text-uppercase text-danger" th:text="'*'+ #{contact.note}"></p>
                                     <hr class="my-0">
                                 </div>
                                 <div class="card-body">
-                                    <div class="form-group"> <label for="NAME1" class="text-bold text-uppercase text-danger">Họ và tên*</label>
+                                    <div class="form-group"> <label for="NAME1" class="text-bold text-uppercase text-danger" th:text="#{contact.name} +'*'"></label>
                                         <input readonly required th:if="${user} !=null" th:value="${user.fullname}" class="form-control form-control-sm" id="" aria-describedby="helpId" >
                                         <input name="ten" required th:if="${user} == null" type="text"  class="form-control form-control-sm" id="NAME1" aria-describedby="helpId" >
                                     </div>
-                                    <div class="form-group"> <label  class="text-bold text-uppercase">Giới tính</label>
+                                    <div class="form-group"> <label  class="text-bold text-uppercase" th:text="#{contact.gender} +'*'"></label>
                                         <select readonly th:if="${user!= null}"  class="small text-muted mb-1">
                                             <option value="1" th:checked="${user.gender}">Nam</option>
                                             <option value="0" th:checked="not ${user.gender}">Nữ</option>
@@ -149,17 +98,17 @@
                                             <option value="0">Nữ</option>
                                         </select>
                                     </div>
-                                    <div class="form-group"> <label for="NAME3" class="text-bold text-uppercase text-danger">Địa chỉ Email*</label>
+                                    <div class="form-group"> <label for="NAME3" class="text-bold text-uppercase text-danger" th:text="#{contact.email} +'*'"></label>
                                         <input  readonly th:if="${user} !=null"  type="text" th:value="${user.email}"  class="form-control form-control-sm"  aria-describedby="helpId" >
                                         <input name="email" required pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}" th:if="${user} == null"  type="text" class="form-control form-control-sm"  id="NAME3" aria-describedby="helpId"> </div>
-                                            <div class="form-group"> <label for="NAME4" class="text-bold text-uppercase text-danger">Số điện thoại*</label>
+                                            <div class="form-group"> <label for="NAME4" class="text-bold text-uppercase text-danger" th:text="#{contact.phone} +'*'"></label>
                                                 <input readonly th:if="${user} !=null" th:value="${user.phone}" type="text"   class="form-control form-control-sm"  aria-describedby="helpId" >
                                                 <input name="phone" required pattern="[0][0-9]{9}" th:if="${user} == null" type="text" class="form-control form-control-sm"  id="NAME4" aria-describedby="helpId" > </div>
-                                            <div class="form-group"> <label for="NAME5" class="text-bold text-uppercase text-danger">Địa chỉ*</label>
+                                            <div class="form-group"> <label for="NAME5" class="text-bold text-uppercase text-danger" th:text="#{contact.address} +'*'"></label>
                                                 <input readonly th:if="${user} !=null" type="text" th:value="${user.address}" class="form-control form-control-sm"  aria-describedby="helpId" >
                                                 <input name="address" required  th:if="${user} == null" type="text" class="form-control form-control-sm"  id="NAME5" aria-describedby="helpId"> </div>
 
-                                            <div class="form-group"> <label for="NAME6" class="text-bold text-uppercase">Ghi chú</label>
+                                            <div class="form-group"> <label for="NAME6" class="text-bold text-uppercase" th:text="#{contact.mess} +'*'"></label>
                                                 <input readonly th:if="${user} !=null" type="text" th:value="${user.notes}"  class="form-control form-control-sm"  aria-describedby="helpId" >
                                                 <input name="note" th:if="${user} == null"  type="text" class="form-control form-control-sm"  id="NAME6" aria-describedby="helpId" > </div>
 
@@ -171,9 +120,9 @@
                             <div class="card border-0 ">
                                 <div class="card-header card-2">
 
-                                    <p class="card-text text-muted mt-md-4 mb-2 space text-bold text-uppercase">Đơn hàng của bạn | Quay lại giỏ hàng
-                                        <a class="text-bold text-uppercase" href="/ChildrenCare/reservation/reser"><i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                                    <p class="card-text text-muted mt-md-4 mb-2 space text-bold text-uppercase" >
+                                        <a th:text="#{contact.back}" class="text-bold text-uppercase" href="/ChildrenCare/reservation/reser">
+                                            </a> <i class="fa fa-shopping-cart" aria-hidden="true"></i></p>
                                     <i class="fa fa-arrow-down" aria-hidden="true"></i>
 
                                 </div>
@@ -188,11 +137,11 @@
                                                         <div class="row ">
                                                             <div class="col-auto">
                                                                 <p class="mb-0"><b></b></p>
-                                                                <small  th:text="${'  Mã dịch vụ: '+ item.serviceId}" class="text-muted"></small>
+                                                                <small  th:text="#{cart.service.id}+':' +${item.serviceId}" class="text-muted"></small>
                                                                 <br>
-                                                                <small th:text="${'  Tên dịch vụ: '+item.title}" class="text-muted"></small>
+                                                                <small th:text="#{cart.service.name}+':'+${item.title}" class="text-muted"></small>
                                                                 <br>
-                                                                <small th:text="${'  Giá dịch vụ: '+#numbers.formatDecimal(item.salePrice,1,'POINT',0,'POINT')+'đ'}" class="text-muted"></small>
+                                                                <small th:text="#{cart.service.price}+':'+${#numbers.formatDecimal(item.salePrice,1,'POINT',0,'POINT') + 'đ'}" class="text-muted"></small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -210,7 +159,7 @@
                                     </th:block>
                                     <div class="row justify-content-between">
                                         <div class="col-auto col-md-9">
-                                            <div class="media flex-column flex-sm-row"> Tổng đơn hàng:
+                                            <div class="media flex-column flex-sm-row" ><h4 th:text="#{contact.cart}"></h4>
                                                 <div class="media-body my-auto">
                                                     <div class="row ">
                                                         <div class="col-auto">
@@ -229,7 +178,7 @@
 
 
                                     <div class="row mb-5 mt-4 ">
-                                        <div class="col-md-7 col-lg-6 mx-auto"><button type="submit" class="btn btn-block btn-outline-primary btn-lg">XÁC NHẬN</button></div>
+                                        <div class="col-md-7 col-lg-6 mx-auto"><button type="submit" class="btn btn-block btn-outline-primary btn-lg" th:text="#{contact.confirm}"></button></div>
                                     </div>
 
                                 </div>
