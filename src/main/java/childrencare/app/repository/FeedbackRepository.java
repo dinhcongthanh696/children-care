@@ -45,7 +45,7 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
 
     @Query(value = "select * from feedback where 1=1 " +
             "and (:sid = -1  or service_id = :sid) " +
-            "and (:star = -1 or :star = 4) " +
+            "and (:star = -1 or rated_star = :star) " +
             "and (:status = -1 or status = :status) " +
             "and (:content = '' or comment like %:content%) " +
             "and (:contactName = '' or customer_id in " +
@@ -58,7 +58,7 @@ public interface FeedbackRepository extends JpaRepository<FeedbackModel, Integer
 
     @Query(value = "select * from feedback where 1=1 " +
             "and service_id is null " +
-            "and (:star = -1 or :star = 4) " +
+            "and (:star = -1 or rated_star = :star) " +
             "and (:status = -1 or status = :status) " +
             "and (:content = '' or comment like %:content%) " +
             "and (:contactName = '' or customer_id in " +

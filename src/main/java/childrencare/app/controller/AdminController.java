@@ -1,46 +1,42 @@
 package childrencare.app.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import childrencare.app.model.*;
+import childrencare.app.service.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import childrencare.app.model.FeedbackModel;
-import childrencare.app.model.ServiceCategoryModel;
-import childrencare.app.model.ServiceModel;
-import childrencare.app.service.CustomerService;
-import childrencare.app.service.ReservationService;
-import childrencare.app.service.ServiceCategoryService;
-import childrencare.app.service.ServiceModelService;
+import javax.transaction.Transactional;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 	private final ServiceModelService serviceModelSerivce;
 	private final int SERVICESIZE = 6;
+	private final int USERSIZE = 3;
 	private final ServiceCategoryService serviceCategoryService;
 	private final ReservationService reservationService;
 	private final CustomerService customerService;
+	private final UserService userService;
+	private final RoleService roleService;
 	public AdminController(ServiceModelService serviceModelService,
-			ServiceCategoryService serviceCategoryService,
-			ReservationService reservationService,
-			CustomerService customerService) {
+						   ServiceCategoryService serviceCategoryService,
+						   ReservationService reservationService,
+						   CustomerService customerService, UserService userService, RoleService roleService) {
 		this.serviceModelSerivce = serviceModelService;
 		this.serviceCategoryService = serviceCategoryService;
 		this.reservationService = reservationService;
 		this.customerService = customerService;
+		this.userService = userService;
+		this.roleService = roleService;
 	}
 	
 	
@@ -128,5 +124,84 @@ public class AdminController {
 	@RequestMapping(value = "/feedback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String show() {
 		return "manager-feedback-list";
+	}
+
+	@RequestMapping(value = "/users", method = {RequestMethod.GET, RequestMethod.POST})
+	@Transactional
+	public String toUsersList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
+								  @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
+								  @RequestParam(name = "directions", required = false, defaultValue = "ascending,ascending,ascending,ascending") String directionsParam,
+								  @RequestParam(name = "sortProperty", required = false, defaultValue = "email") String sortProperty,
+								  @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+								  Model model, @RequestParam(name = "gender", required = false, defaultValue = "-1") int gender,
+							  @RequestParam(name = "role_id", required = false, defaultValue = "-1") int role_id) {
+		int startBitRange = -1;
+		int endBitRange = 2;
+		switch (status) {
+			case 0:
+				endBitRange--;
+				break;
+			case 1:
+				startBitRange++;
+				break;
+		}
+
+		String[] directionsValue = directionsParam.split("[,]");
+		Sort.Direction[] directions = new Sort.Direction[directionsValue.length];
+		for (int i = 0; i < directionsValue.length; i++) {
+			directions[i] = (directionsValue[i].equals("ascending")) ? Sort.Direction.ASC : Sort.Direction.DESC;
+		}
+		LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("email", "fullname", "phone", "role_id"));
+		//Collections.swap(sortProperties, sortProperties.indexOf("u." + sortProperty), 0);
+		if (sortProperties.indexOf(sortProperty) != 0) {
+			sortProperties.remove(sortProperties.indexOf(sortProperty));
+			sortProperties.addFirst(sortProperty);
+		}
+
+		Page<UserModel> usersPageable = userService.getUserPageinately(search, page, USERSIZE, startBitRange, endBitRange, sortProperties, directions, gender, role_id);
+		for (UserModel user : usersPageable.toList()) {
+			if (user.getAvatar() != null)
+				user.setBase64AvatarEncode(
+						Base64
+								.getEncoder().
+								encodeToString(user.getAvatar()));
+		}
+		List<RoleModel> roleModels = roleService.getAllRoles();
+		model.addAttribute("users", usersPageable.toList());
+		model.addAttribute("currentPage", usersPageable.getNumber());
+		model.addAttribute("totalPages", usersPageable.getTotalPages());
+		model.addAttribute("directionsValue", directionsValue);
+		model.addAttribute("directionsParam", directionsParam);
+		model.addAttribute("search", search);
+		model.addAttribute("status", status);
+		model.addAttribute("sortProperty", sortProperty);
+		model.addAttribute("sortProperties", sortProperties);
+		model.addAttribute("roles", roleModels);
+		model.addAttribute("gender", gender);
+
+		return "UsersList-Admin";
+	}
+
+	@GetMapping("/userDetail")
+	public String getUserDetail(Model model, @RequestParam(name="email") String email){
+		List<RoleModel> roles = roleService.getAllRoles();
+		model.addAttribute("roles", roles);
+
+		UserModel userModel = userService.findByEmail(email);
+		if(userModel.getAvatar() != null){
+			userModel.setBase64AvaterEncode(userModel.getAvatar());
+		}
+		model.addAttribute("user", userModel);
+
+		return "admin_user_detail";
+	}
+
+	@Transactional
+	@PostMapping("/updateUserDetail")
+	public String updateUserDetail(@RequestParam(name="email") String email,
+								   @RequestParam(name="editRole") Integer role,
+								   @RequestParam(name="editStatus") Integer status){
+		userService.updateStatusAndRole(status, role, email);
+		return "redirect:/admin/userDetail?email=" + email;
 	}
 }

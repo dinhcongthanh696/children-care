@@ -66,7 +66,7 @@ th, td {
 </head>
 <body th:onload="renderPages()" class="skin-black">
 	<header class="header" >
-            <a th:href="@{/admin/dashboard}" class="logo" th:text="${session.user.userRole.roleName}">
+            <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}" class="logo" th:text="${session.user.userRole.roleName}">
                
             </a>
             <!-- Header Navbar: style can be found in header.less -->
@@ -97,12 +97,12 @@ th, td {
 													th:onchange="'changePage('+ ${currentPage} +')'"
 												>
 													<option value="-1" th:selected="${status == -1}">ALL</option>
-													<option value="0" th:selected="${status == 0}">Offline</option>
-													<option value="1" th:selected="${status == 1}">Online</option>
+													<option value="0" th:selected="${status == 0}">Disabled</option>
+													<option value="1" th:selected="${status == 1}">Enabled</option>
 											</select>
 										</div>
 									<div class="col-sm-6">
-										<form th:action="@{/admin/customers}" method="post">
+										<form th:action="@{/manager/customers}" method="post">
 											<label for="search-query" class="form-check-label">Search : </label>
   											<input type="text" class="form-check-input" placeholder="Search By fullname,email,phone..."
   													id="search-query" th:value="${search}" name="search"
@@ -196,10 +196,10 @@ th, td {
 											<td th:text="${customer.customer_user.email}"></td>
 											<td th:text="${customer.customer_user.phone}"></td>
 											<td th:if="${customer.customer_user.status}">
-												Online
+												Enabled
 											</td>
 											<td th:if="${!customer.customer_user.status}">
-												Offline
+												Disabled
 											</td>
 											<td>
 												<a th:href="'/ChildrenCare/manager/customers/' + ${customer.getCustomer_id()}" >Edit</a>

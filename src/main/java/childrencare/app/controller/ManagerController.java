@@ -92,7 +92,7 @@ public class ManagerController {
 
     }
 
-    @GetMapping("/customers")
+    @RequestMapping(value =  "/customers",method = {RequestMethod.GET,RequestMethod.POST})
     @Transactional
     public String toCustomersList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                                   @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
@@ -117,7 +117,7 @@ public class ManagerController {
             directions[i] = (directionsValue[i].equals("ascending")) ? Direction.ASC : Direction.DESC;
         }
         LinkedList<String> sortProperties = new LinkedList<String>(Arrays.asList("u.fullname", "u.email", "u.phone", "u.status"));
-        Collections.swap(sortProperties, sortProperties.indexOf("u." + sortProperty), 0);
+        //Collections.swap(sortProperties, sortProperties.indexOf("u." + sortProperty), 0);
         if (sortProperties.indexOf("u." + sortProperty) != 0) {
             sortProperties.remove(sortProperties.indexOf("u." + sortProperty));
             sortProperties.addFirst("u." + sortProperty);
@@ -146,14 +146,9 @@ public class ManagerController {
     }
 
 
-//    @RequestMapping(value = "/feedback", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String searchServiceListByTitle() {
-//
-//        return "manager-service-list";
-//    }
 
     @RequestMapping(value = "/services", method = {RequestMethod.GET, RequestMethod.POST})
-    public String searchServiceListByTitle(Model model,
+    public String getServicesManager(Model model,
                                            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                            @RequestParam(name = "search", required = false, defaultValue = "") String search,
                                            @RequestParam(name = "status", required = false, defaultValue = "") String rawStatus,
@@ -205,6 +200,7 @@ public class ManagerController {
 
         List<PostModel> list = postModels.getContent();
         for (PostModel p : list) {
+        	if(p.getThumbnail() != null)
             p.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(p.getThumbnail()));
         }
 

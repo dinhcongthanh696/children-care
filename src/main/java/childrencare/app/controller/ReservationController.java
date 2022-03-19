@@ -66,7 +66,9 @@ public class ReservationController {
 
 
     @GetMapping("/reser")
-    public String getServiceCarts(Model model, HttpSession session) {
+    public String getServiceCarts(Model model,
+                                  HttpSession session,
+                                  @RequestParam(name = "lang",required = false, defaultValue = "en") String lang) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         if (itemList != null) {
             double toalReservationPrice = 0;
@@ -76,6 +78,7 @@ public class ReservationController {
             session.setAttribute("total", toalReservationPrice);
             model.addAttribute("size", itemList.size());
         }
+        model.addAttribute("lang",lang);
         session.setAttribute("list", itemList);
         model.addAttribute("list", itemList);
         return "reservationDetails";
@@ -137,7 +140,9 @@ public class ReservationController {
 
     //nghia's code
     @GetMapping("/contact")
-    public String getReservationContact(Model model, HttpSession session) {
+    public String getReservationContact(Model model,
+                                        HttpSession session,
+                                        @RequestParam(name = "lang",required = false, defaultValue = "en") String lang) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         UserModel userModel = (UserModel) session.getAttribute("user");
         if (itemList != null) {
@@ -145,6 +150,7 @@ public class ReservationController {
             model.addAttribute("orderList", itemList);
             model.addAttribute("total", total);
             model.addAttribute("user", userModel);
+            model.addAttribute("lang",lang);
             return "reservationContact";
         } else {
             return "redirect:/reservation/reser";
@@ -200,6 +206,7 @@ public class ReservationController {
             cus = customerService.findCustomerByEmail(user.getEmail());
             if (cus == null) {
                 customerService.insertToCus(1, user.getEmail());
+                cus = new CustomerModel();
                 int cid = customerService.lastIDCus();
                 cus.setCustomer_id(cid);
                 reservationModel.setCustomer(cus);
@@ -213,7 +220,7 @@ public class ReservationController {
         StatusModel statusModel = new StatusModel();
         statusModel.setStatusId(id);
         reservationModel.setStatusReservation(statusModel);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
         reservationModel.setDate(dtf.format(now));
         // thanh's code

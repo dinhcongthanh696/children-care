@@ -116,9 +116,9 @@
 <body class="skin-black">
 <!-- header logo: style can be found in header.less -->
 <header class="header">
-    <a href="index.html" class="logo">
+    <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}" class="logo">
         <!-- Add the class icon to your logo image or logo icon to add the margining -->
-        ChildrenCare
+        Manager
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <div th:replace="header_admin::navbarRight"></div>
@@ -136,7 +136,7 @@
                         <header class="panel-heading" style="text-align: center">
                             Feedback Manager
                         </header>
-                        <div class="panel-body table-responsive">
+                        <div class="panel-body table">
                             <div class="row">
                                 <div class="row">
                                     <div class="col-sm-3 col-md-3">
@@ -154,6 +154,7 @@
                                             </option>
                                             <div th:each="service : ${serviceList}">
                                                 <option
+                                                        th:value="${service.serviceId}"
                                                         th:selected="${serviceId == service.serviceId ? true : false}"
                                                         th:text="${service.title}">
                                                 </option>
@@ -195,9 +196,9 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="row" style="text-align: center">
+                            <div class="row" style="text-align: right">
                                 <button type="button" class="btn btn-primary"
-                                        th:onclick="getFeedbackData([[${feedbackPage.number + 1}]])">  Filter <i class="fas fa-filter"></i>
+                                        th:onclick="getFeedbackData([[${feedbackPage.number + 1}]])">  Filter <i class="bi bi-filter"></i>
                                 </button>
                             </div>
                             <div class="row">
@@ -237,8 +238,8 @@
                                         <td>
                                             <a th:href="|#addSliderModal${feedback.feedbackId}|"
                                                class="btn btn-success " data-toggle="modal">
-                                                <i class="bi bi-pencil" aria-hidden="true" style="color: #0a1821"></i>
-                                                <span>Edit</span></a>
+                                                <i class="bi bi-eye" style="color: #0a1821"></i>
+                                                <span>View detail </span></a>
                                             <!-- Add Modal HTML -->
                                             <div th:id="|addSliderModal${feedback.feedbackId}|" class="modal fade">
                                                 <div class="modal-dialog">
@@ -264,7 +265,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Mobile</label>
-                                                                <input name="" type="date" class="form-control"
+                                                                <input name="" type="text" class="form-control"
                                                                        th:value="${feedback.customer.customer_user.phone}"
                                                                        readonly>
                                                             </div>

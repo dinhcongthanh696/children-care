@@ -134,7 +134,7 @@
                                                     <!-- Insert user's chosen service -->
                                                     <th:block th:each="service : ${services}">
                                                         <option th:utext="${service.title}"
-                                                                th:value="${service.serviceId}"></option>
+                                                                th:value="|${service.serviceId}_${service.salePrice}|"></option>
                                                     </th:block>
                                                 </select>
                                             </div>
@@ -374,7 +374,6 @@
 
     /*=====  Cancel a booked reservation */
     function deleteSchedule(booked_date, slot_id, staff_id) {
-        console.log(booked_date + "_" + slot_id + "_" + staff_id);
         var formData = new FormData();
         formData.append("booked_date", booked_date);
         formData.append("slot_id", slot_id);
@@ -456,26 +455,17 @@
         let date = new Date($('#datepicker').val());
         let booked_date = getPickedDate(date);
         let staff_id = $("#staffMenu").val();
-        let service_id = $("#chosenService").val();
+        let service_price = $("#chosenService").val();
         let reservation_id = $("#reservationId").val();
+        let word = service_price.split("_");
 
         let formData = new FormData();
         formData.append("reservation_id", reservation_id);
-        formData.append("service_id", service_id);
+        formData.append("service_id", word[0]);
         formData.append("slot_id", slot_id);
         formData.append("booked_date", booked_date);
         formData.append("staff_id", staff_id);
-        formData.append("price", '100');
-
-        let bookedInfo = '';
-        bookedInfo += "Service: " + $("#chosenService").find(":selected").text();
-        bookedInfo += "-Doctor: " + $("#staffMenu").find(":selected").text();
-        bookedInfo += "-Time: " + booked_date + " - " + $(this).text();
-
-        let serviceName = $("#chosenService").find(":selected").text();
-        let staffName = $("#staffMenu").find(":selected").text();
-
-        alert(bookedInfo);
+        formData.append("price", word[1]);
 
         fetch("/ChildrenCare/api-reservation/schedule", {
             method: 'PUT',
@@ -495,28 +485,7 @@
                 }
             })
     });
-    // $(document).on("click", ".confirm", function () {
-    //     let reservation_id = $("#reservationId").val();
-    //     let mess = document.getElementById("message");
-    //     mess.style.display = 'block';
-    //     fetch("/ChildrenCare/updateReservationInfo?reservationId=" + reservation_id, {
-    //         method: 'PUT'
-    //     })
-    //         .then(response => {
-    //             switch (response.status) {
-    //                 case 403 :
-    //                     alert("Your are not allowed to save any changes");
-    //                     break;
-    //                 case 200 :
-    //                     //
-    //                     $(this).hide();
-    //                     location.reload();
-    //             }
-    //         })
-    //     alert("Confirm");
-    // });
-
-    $(document).on('click', '.paymentMethod', function () {
+     $(document).on('click', '.paymentMethod', function () {
         document.getElementById("checkOut").style.display = "block";
         document.getElementById("warning-mess").style.display = "none";
     })

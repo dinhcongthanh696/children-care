@@ -21,4 +21,8 @@ public class PayService {
     public void setPaymentMethod(int pid, int rid){
         payRepository.setPaymentMethod(pid, rid);
     }
+
+    public Payment getPaymentById(int id){
+        return payRepository.getById(id);
+    }
 }

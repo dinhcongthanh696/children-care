@@ -68,13 +68,21 @@ public class ReservationService_Service {
     		int size , int staffId , int serviceId , List<Integer> drugIds
     ){
     	if(page < 0) page = 0;
-    	Page<ReservationServiceModel> reservationServicesPageable = 
-    			reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds,drugIds.size(), PageRequest.of(page, size));
+    	
+    	Page<ReservationServiceModel> reservationServicesPageable = null;
+    	if(drugIds.isEmpty()) {
+    		reservationServicesPageable = reservationServiceRepository.listReservationServiceByStaffAndService(staffId, serviceId, PageRequest.of(page, size));
+    	}else {
+    		reservationServicesPageable =	reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds,drugIds.size(), PageRequest.of(page, size));
+    	}
     	if(reservationServicesPageable.getTotalPages() > 0 && 
     		page >= reservationServicesPageable.getTotalPages()	) {
     		page = reservationServicesPageable.getTotalPages() - 1;
-    		reservationServicesPageable = 
-        			reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds ,drugIds.size(), PageRequest.of(page, size));
+    		if(drugIds.isEmpty()) {
+        		reservationServicesPageable = reservationServiceRepository.listReservationServiceByStaffAndService(staffId, serviceId, PageRequest.of(page, size));
+        	}else {
+        		reservationServicesPageable =	reservationServiceRepository.listReservationByStaffAndServiceAndDrugs(staffId, serviceId, drugIds,drugIds.size(), PageRequest.of(page, size));
+        	}
     	}
     	return reservationServicesPageable;
     }
@@ -93,4 +101,7 @@ public class ReservationService_Service {
     }
 
 
+    public ReservationServiceModel checkStaffEmptyDateStaff(Date bookedDate, int slotID, int staffID) {
+        return reservationServiceRepository.checkStaffEmptyDateStaff(bookedDate, slotID, staffID);
+    }
 }

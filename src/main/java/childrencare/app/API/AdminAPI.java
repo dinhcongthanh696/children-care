@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import childrencare.app.model.RoleModel;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,7 +47,7 @@ public class AdminAPI {
 	@PutMapping("/api-services")
 	@Transactional
 	public void editServiceStatus(@RequestBody ServiceModel service) {
-		serviceModelService.editService(service);
+		serviceModelService.updateServiceStatus(service);
 	}
 	
 	@PostMapping("/api-services")
@@ -67,5 +68,39 @@ public class AdminAPI {
 		}
 		
 		serviceModelService.addNewService(service);
+	}
+
+	@PostMapping("/api-users")
+	@Transactional
+	public void addNewUser(@RequestParam(name = "email")String email, @RequestParam(name = "gender")String gender,
+						   @RequestParam(name = "fullname")String fullname, @RequestParam(name = "phone")String phone,
+						   @RequestParam(name = "role")String role, @RequestParam(name = "status")String status,
+						   @RequestParam(name = "file")MultipartFile file){
+		RoleModel roleModel = new RoleModel();
+		roleModel.setRoleId(Integer.parseInt(role));
+		UserModel user = new UserModel();
+		user.setEmail(email);
+		user.setFullname(fullname);
+		user.setPhone(phone);
+		if(gender.equals("Male")){
+			user.setGender(true);
+		}else{
+			user.setGender(false);
+		}
+		if(status.equals("Online")){
+			user.setStatus(true);
+		}else {
+			user.setStatus(false);
+		}
+		user.setUserRole(roleModel);
+		if(file != null){
+			try {
+				user.setAvatar(file.getBytes());
+				user.setBase64AvaterEncode(user.getAvatar());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		userService.addNewUser(user);
 	}
 }

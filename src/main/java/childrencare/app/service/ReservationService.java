@@ -12,9 +12,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //Nghia's code
 @Service
@@ -56,8 +59,9 @@ public class ReservationService {
 
     public void createSchedule(int reservationId, int serviceId, int slotId,
                                int staff_id, Date date, double price) {
+        List<Integer> list = null;
         if (staff_id == 0) {
-            staff_id = staffRepository.getStaffBySlotAndDate(date, staff_id);
+            staff_id = staffRepository.getStaffBySlotAndDate(date, slotId);
         }
         repository.createSchedule(reservationId, serviceId, slotId, staff_id, date, price);
     }
@@ -92,8 +96,7 @@ public class ReservationService {
         if (keyword == 0 && statusID == 0) {
             return repository.findAll(pageable);
         }
-
-        return repository.findReservationStaff(keyword, statusID, pageable);
+            return repository.findReservationStaff(keyword, statusID, pageable);
     }
 
     public Page<ReservationModel> filterReservation1(int pageNum, int status) {
@@ -156,4 +159,12 @@ public class ReservationService {
     }
 
 
+    public List<String> lastSevenDateReservation() {
+        return repository.lastSevenDateReservation();
+    }
+
+
+    public int totalPricelastSevenDateReservation(String date) {
+        return repository.totalPricelastSevenDateReservation(date);
+    }
 }

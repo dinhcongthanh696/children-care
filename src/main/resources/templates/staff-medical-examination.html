@@ -65,7 +65,7 @@ th, td {
 </head>
 <body th:onload="renderPages()" class="skin-black">
 	<header class="header" >
-            <a th:href="@{/admin/dashboard}" class="logo" th:text="${session.user.userRole.roleName}">
+            <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}" class="logo" th:text="${session.user.userRole.roleName}">
                
             </a>
             <!-- Header Navbar: style can be found in header.less -->
@@ -73,7 +73,7 @@ th, td {
         </header>
     <div class="wrapper row-offcanvas row-offcanvas-left">
                     <!-- Left side column. contains the logo and sidebar -->
-                    <div th:replace="navBar_admin::leftSide_admin('/manager/customers')" ></div>
+                    <div th:replace="navBar_admin::leftSide_admin('/staff/medical-examination')" ></div>
 					
 
                     <aside class="right-side">    
@@ -89,7 +89,7 @@ th, td {
 											<label for="service-filter" class="form-check-label">Filter by service</label>
 											<select id="service-filter" class="form-check-input" 
 													style="margin-left: 10px;border-radius: 5px;"
-													onchange="changePage()"
+													th:onchange="'changePage('+ ${currentPage} +')'"
 												>
 													<option value="-1">None</option>
 													<option th:each="service : ${services}"
@@ -105,7 +105,7 @@ th, td {
 											<label th:for="${drug.drugId}" th:text="${drug.drugName}"></label>
 											<input type="checkbox" name="drugs" 
 											th:value="${drug.drugId}" th:id="${drug.drugId}" 
-											onclick="changePage()"
+											th:onclick="'changePage('+ ${currentPage} +')'"
 											th:checked="${currentDrugIdS != null} and ${currentDrugIdS.?[#this == __${drug.drugId}__].size() > 0 }"/>
 										</th:block>	
 									</div>
@@ -226,9 +226,8 @@ th, td {
 				window.location.href = "/ChildrenCare/staff/prescription?rid="+rid+"&sid="+sid;
 			}
 			
-			function changePage(){
+			function changePage(pageNumber){
 				var serviceId = document.getElementById("service-filter").value;
-				var currentPage = document.getElementById("currentPage").value;
 				var drugIds = "";
 				var drugCheckBoxElements = document.getElementsByName("drugs");
 				drugCheckBoxElements.forEach(drugCheckBoxElement => {
@@ -236,7 +235,7 @@ th, td {
 						drugIds += drugCheckBoxElement.value + ",";
 					}
 				})
-				window.location.href="/ChildrenCare/staff/medical-examination?page="+currentPage
+				window.location.href="/ChildrenCare/staff/medical-examination?page="+pageNumber
 						+"&service="+serviceId+"&drugs="+drugIds;
 				
 			}

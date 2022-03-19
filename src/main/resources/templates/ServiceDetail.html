@@ -519,6 +519,7 @@
         const triggerLoginForm = document.getElementById("trigger-login-form");
         triggerLoginForm.click();
     }
+    //nghia's code
     function loginCheck(){
         var email = document.getElementById("email").value;
         var password = document.getElementById("pass").value;
@@ -530,10 +531,19 @@
             method : "post",
             body : formData
         }).then(respond => {
-            return respond.text();
-        }).then(message => {
+            return respond.json();
+        }).then(mapObject => {
+            const message = mapObject.message;
             alert(message);
-            window.location.reload();
+            if(message === "successfully"){
+            	const url = mapObject.url;
+            	if(typeof url === 'undefined'){
+            		window.location.reload();
+            	}else{
+            		window.location.href = "/ChildrenCare"+url;
+            	}
+            	
+            }
         })
     }
     

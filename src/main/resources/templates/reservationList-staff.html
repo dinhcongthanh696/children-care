@@ -28,7 +28,7 @@
 <body class="skin-black">
 <!-- header logo: style can be found in header.less -->
 <header class="header">
-  <a href="index.html" class="logo">
+  <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}" class="logo">
     <!-- Add the class icon to your logo image or logo icon to add the margining -->
     ChildrenCare
   </a>
@@ -103,7 +103,7 @@
                   <td th:text="${#numbers.formatDecimal(item.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
                   <td th:text="${item.statusReservation.statusName}"></td>
                   <td>
-                    <a th:href="@{/staff/{rid}(rid=${item.reservationId})}">Chi tiết</a>
+                    <a th:href=" '/ChildrenCare/staff/staffview/details?rid='+${item.reservationId} ">Chi tiết</a>
                   </td>
                 </tr>
                 </tbody>

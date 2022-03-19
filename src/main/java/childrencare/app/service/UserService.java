@@ -2,6 +2,8 @@ package childrencare.app.service;
 
 import java.util.List;
 
+import childrencare.app.model.CustomerModel;
+import childrencare.app.model.ServiceModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,7 +19,11 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
-    
+
+
+	public void addNewUser(UserModel user) {
+		userRepository.save(user);
+	}
     
     public List<UserModel> findAllManager(){
         return userRepository.findUserModelByUserRole("manager");
@@ -53,5 +59,30 @@ public class UserService {
 	
 	public UserModel findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	public Page<UserModel> getUserPageinately(String search, int page, int size,
+													 int startBitRange, int endBitRange, List<String> sortProperties, Sort.Direction[] directions, int gender, int role_id){
+		if(page < 0) {
+			page = 0;
+		}
+		Sort sortByMultipleProperties = Sort.by(directions[0], sortProperties.get(0))
+				.and(Sort.by(directions[1], sortProperties.get(1)))
+				.and(Sort.by(directions[2], sortProperties.get(2)))
+				.and(Sort.by(directions[3], sortProperties.get(3)));
+
+		Page<UserModel> usersPageable = userRepository.findUserByStatusAndSearchQuery("%"+search+"%",
+				startBitRange,endBitRange,gender,role_id,PageRequest.of(page,size,sortByMultipleProperties));
+		if(usersPageable.getTotalPages() > 0 && page >= usersPageable.getTotalPages()) {
+			page = usersPageable.getTotalPages() - 1;
+			usersPageable = userRepository.findUserByStatusAndSearchQuery("%"+search+"%",
+					startBitRange, endBitRange,gender,role_id,PageRequest.of(page, size , sortByMultipleProperties ) );
+		}
+
+		return usersPageable;
+	}
+
+	public void updateStatusAndRole(int status, int role, String email){
+		userRepository.updateStatusAndRole(status, role, email);
 	}
 }

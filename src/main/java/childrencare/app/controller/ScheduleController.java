@@ -59,7 +59,7 @@ public class ScheduleController {
 
 
     @GetMapping("/bookingSchedule")
-    public String getAllDoctor(Model model, HttpSession session,
+    public String getAllSchedule(Model model, HttpSession session,
                                @RequestParam(name="reservationId") Integer reservationId){
         List<StaffModel> staffs = staffService.getAllStaff();
         model.addAttribute("staffs", staffs);
@@ -79,7 +79,10 @@ public class ScheduleController {
         ReservationModel reservation= reservationService.getReservationByID(reservationId);
 
         model.addAttribute("reservation", reservation);
-        model.addAttribute("totalPrice", reservation.getTotalReservationPrice());
+
+        double totalPrice = reservation.getTotalReservationPrice() / 23000;
+        model.addAttribute("totalPrice", totalPrice);
+
 
         return "apppointment";
     }
@@ -98,6 +101,7 @@ public class ScheduleController {
                 serviceService.updateQuantity(sm.getQuantity(), sm.getServiceId());
             }
         }
+        session.setAttribute("list", null);
         //Check if the customer is new or changed
         ReservationModel reservation = reservationService.getReservatonInforByID(rid);
         String customerEmail = reservation.getCustomer().getCustomer_user().getEmail();
@@ -122,6 +126,7 @@ public class ScheduleController {
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
+
 
 
         //Send confirmation email

@@ -62,12 +62,31 @@
             var img = document.getElementById('imgAddPreview');
             img.src = lastChoosenImg;
 
+            var isValidImageFile = true;
+            var message = "";
+            if(file.type.split("/")[0] !== "image"){
+                message = "File must be image";
+                isValidImageFile = false;
+            }else if(file.size / 1000000 > 20){ // COVERT size of file to MB
+                message =  "File is more than 20 MB";
+                isValidImageFile = false;
+            }
+
+            const saveSlideButtonElement = document.getElementById("add-slide-button");
+            const imageFileMessageElement = document.getElementById("imageAdd-file-message");
+            if(!isValidImageFile){
+                saveSlideButtonElement.disabled = true;
+            }else{
+                saveSlideButtonElement.disabled = false;
+            }
+            imageFileMessageElement.innerHTML = message;
+
 
         }
 
         function changeStatusSlide(slideId,status) {
             status = !status;
-            window.location.href = "/ChildrenCare/manager/changSlideStatus?sid=" + slideId + "&status=" + status;
+            window.location.href = "/ChildrenCare/manager/slider/changSlideStatus?sid=" + slideId + "&status=" + status;
         }
 
     </script>
@@ -76,7 +95,7 @@
 <body class="skin-black">
 <!-- header logo: style can be found in header.less -->
 <header class="header">
-    <a href="index.html" class="logo">
+    <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}" class="logo">
         <!-- Add the class icon to your logo image or logo icon to add the margining -->
         ChildrenCare
     </a>
@@ -144,7 +163,10 @@
                                                             <label>Slider Image</label>
                                                             <img id="imgAddPreview" style="height: 200px"  class="form-control" alt="No image" required>
                                                             <input name="imgAdd" onchange="addImgPreview(this)" type="file">
-
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <span class="modal-element" id="imageAdd-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
+                                                            <h5 id="imageAdd-file-message" class="modal-element" style="color : red;"></h5>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Slider Backlink</label>
@@ -164,7 +186,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                                        <input type="submit" class="btn btn-success" value="Add">
+                                                        <input id="add-slide-button" type="submit" class="btn btn-success" value="Add">
                                                     </div>
                                                 </form>
                                             </div>
@@ -258,7 +280,7 @@
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="/ChildrenCare/manager/update" method="post" enctype="multipart/form-data">
+                                                            <form action="/ChildrenCare/manager/slider/update" method="post" enctype="multipart/form-data">
                                                                 <div class="form-group">
                                                                     <label>ID</label>
                                                                     <input readonly th:value="${s.slideId}" name="id" type="text" class="form-control" required>
@@ -293,7 +315,7 @@
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                                                    <button id="save-slide-button"  type="submit" class="btn btn-primary  btn-default">Update</button>
+                                                                    <button id="update-slide-button"  type="submit" class="btn btn-primary  btn-default">Update</button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -336,6 +358,7 @@
                         </div><!-- /.box -->
                     </div>
                 </div>
+            </div>
         </section><!-- /.content -->
         <div class="footer-main">
             Children-Care System Management

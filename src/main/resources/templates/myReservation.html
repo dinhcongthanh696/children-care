@@ -45,6 +45,56 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--    fix login form not appear when first click-->
+    <script>
+        //nghia's code
+        function loginCheck(){
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("pass").value;
+            var formData = new FormData();
+            formData.append("email",email);
+            formData.append("password",password);
+            formData.append("currentpage",currentpage);
+            fetch("/ChildrenCare/api-login/signIn",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+
+            })
+        }
+
+        function register(){
+            var email_register = document.getElementById("email_register").value;
+            var username_register = document.getElementById("username_register").value;
+            var fullname_register = document.getElementById("fullname_register").value;
+            var address_register = document.getElementById("address_register").value;
+            var gender_register = document.getElementById("gender_register").value;
+            var notes_register = document.getElementById("notes_register").value;
+            var password_register = document.getElementById("password_register").value;
+            var phone_register = document.getElementById("phone_register").value;
+            var formData = new FormData();
+            formData.append("email",email_register);
+            formData.append("username",username_register);
+            formData.append("fullname",fullname_register);
+            formData.append("address",address_register);
+            formData.append("gender",gender_register);
+            formData.append("notes",notes_register);
+            formData.append("password",password_register);
+            formData.append("phone",phone_register);
+            fetch("/ChildrenCare/api-login/signUp",{
+                method : "post",
+                body : formData
+            }).then(respond => {
+                return respond.text();
+            }).then(message => {
+                alert(message);
+                window.location.reload();
+            })
+        }
+
+    </script>
 </head>
 <body>
 <div class="boxed_wrapper" th:replace="authentication.html :: authentication('/setting/myReservation/page/1')"></div>
@@ -81,7 +131,9 @@
                             </thead>
                             <tbody>
                             <tr th:each="item: ${customerReser}">
-                                <td th:text="${item.reservationId}"></td>
+                                <td/>
+                                <a th:href="'/ChildrenCare/reservation/infor?rid='+${item.reservationId}"  th:text="${item.reservationId}"></a>
+                                </td>
                                 <td th:text="${item.date}"></td>
                                 <td th:text="${#numbers.formatDecimal(item.totalReservationPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
                                 <td th:utext="${item.statusReservation.statusName}"></td>
@@ -110,7 +162,7 @@
                                                                 <th th:text="${item1.service.title}" scope="row"></th>
                                                                 <td th:text="${item1.id.bookedDate}"></td>
                                                                 <td th:text="${item1.staff.staff_user.fullname}"></td>
-                                                                <td th:text="${#numbers.formatDecimal(item1.service.originalPrice,1,'POINT',0,'POINT') + 'đ'}"></td>
+                                                                <td th:text="${#numbers.formatDecimal(item1.service.salePrice,1,'POINT',0,'POINT') + 'đ'}"></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>

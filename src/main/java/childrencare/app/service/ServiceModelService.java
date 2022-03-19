@@ -173,12 +173,8 @@ public class ServiceModelService {
 		return services;
 	}
 	
-	public void editService(ServiceModel service) {
-		if(service.getServiceCategory() == null) {
-			serviceRepository.updateStatus(service.isStatus(), service.getServiceId());
-		}else {
-			serviceRepository.save(service);
-		}
+	public void updateServiceStatus(ServiceModel service) {
+		serviceRepository.updateStatus(service.isStatus(), service.getServiceId());
 	}
 
 	public List<ServiceModel> getServicesByReservationId(int reserID){

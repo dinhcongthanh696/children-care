@@ -51,7 +51,7 @@
 </head>
 <body onload="renderPages()" class="skin-black">
 	<header class="header" >
-            <a th:href="@{/admin/dashboard}" class="logo" th:text="${session.user.userRole.roleName}">
+            <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}" class="logo" th:text="${session.user.userRole.roleName}">
                
             </a>
             <!-- Header Navbar: style can be found in header.less -->
@@ -92,8 +92,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="screenItem : ${screens}">
-					<td th:text=${screenItem.screenId}></td>
+				<tr th:each="screenItem : ${screens}" class="screen-item">
+					<td th:text=${screenItem.screenId} class="screen-item-id"></td>
 					<td th:text=${screenItem.screenName}></td>
 					<td th:text=${screenItem.url}></td>
 					<td>
@@ -149,10 +149,17 @@
 				permissionValue = (permissionCheckboxesElement[i].checked) ? permissionCheckboxesElement[i].value : "ban";	
 				permissionValues += permissionValue + ",";
 			}
+			var screenIdValues = "";
+			var screenItemId;
+			var screenItems = document.getElementsByClassName("screen-item");
+			for(let i = 0 ; i < screenItems.length ; i++){
+				screenItemId = screenItems[i].getElementsByClassName("screen-item-id")[0].innerHTML;
+				screenIdValues += screenItemId + ",";
+			}
 			const formData = new FormData();
 			formData.append("permissionValues",permissionValues);
 			formData.append("roleId",roleId);
-			
+			formData.append("screenIdValues",screenIdValues);
 			fetch("/ChildrenCare/admin/setting/roles/edit",{
 				method : 'POST',
 				body : formData
@@ -219,7 +226,6 @@
 
         </script>
         <script>
-
             $('input[type="checkbox"].flat-grey, input[type="radio"].flat-grey').iCheck({
                 checkboxClass: 'icheckbox_flat-grey',
                 radioClass: 'iradio_flat-grey'

@@ -5,6 +5,8 @@ import childrencare.app.model.*;
 import childrencare.app.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -62,10 +64,29 @@ public class ReservationListManagerController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        List<String> sevenLastDays = reservationService.lastSevenDateReservation();
+        List<Integer> listTotalPriceByDate = new ArrayList<>();
+        for (int i =0 ; i< sevenLastDays.size(); i++){
+            int totalPriceByDate = reservationService.totalPricelastSevenDateReservation(sevenLastDays.get(i));
+           // System.out.println(sevenLastDays.get(i)+ "-" +totalPriceByDate);
+            listTotalPriceByDate.add(totalPriceByDate);
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        model.addAttribute("totalPriceByDate",listTotalPriceByDate);
+        try {
+            model.addAttribute("sevenLastDays", objectMapper.writeValueAsString(sevenLastDays));
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         return "reservationList-manager";
     }
 
-    @RequestMapping(value = "/managerView/reservationManager/home/detailsReservation", method = { RequestMethod.GET, RequestMethod.POST })
+
+
+    @RequestMapping(value = "/managerView/reservationManager/detailsReservation", method = { RequestMethod.GET, RequestMethod.POST })
     public String reservationDetailStaff(@RequestParam(name =  "rid") int rid,
                                          Model model){
         ReservationModel reservationModel = reservationService.getreservationDetail(rid);
@@ -85,25 +106,25 @@ public class ReservationListManagerController {
 
         return "reservation-details-manager";
     }
-    @PostMapping("/updateStatus")
+    @PostMapping("/reservation/updateStatus")
     @Transactional
     public String reservationDetailStaff(@RequestParam("rid") int rid,
                                          @RequestParam("status") int status,
                                          Model model){
         reservationService.changeStatusReservation(status,rid);
-        return "redirect:/manager/"+rid;
+        return "redirect:/manager/managerView/reservationManager/detailsReservation?rid="+rid;
     }
 
-    @PostMapping("/assignOtherStaff")
-    @Transactional
-    public String assignOtherStaff(
-            @RequestParam("rid") int rid,
-            @RequestParam(name = "staffID") Integer staffID,
-            @RequestParam(name = "bookedDate") Date bookedDate,
-            @RequestParam(name = "slotId") Integer slotId) {
-        reservationService_service.assginOtherStaff(staffID, bookedDate, slotId);
-        return "redirect:/manager/"+rid;
-    }
+//    @PostMapping("/assignOtherStaff")
+//    @Transactional
+//    public String assignOtherStaff(
+//            @RequestParam(name = "rid") int rid,
+//            @RequestParam(name = "staffID") int staffID,
+//            @RequestParam(name = "bookedDate") Date bookedDate,
+//            @RequestParam(name = "slotId") int slotId) {
+//        reservationService_service.assginOtherStaff(staffID, bookedDate, slotId);
+//        return "redirect:/manager/managerView/reservationManager/detailsReservation?rid="+rid;
+//    }
 
 
     @GetMapping("/managerView/reservationManager/home/export")

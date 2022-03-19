@@ -65,18 +65,17 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "   SET  [staff_id] = ?1 where booked_date = ?2 and slot_id = ?3",nativeQuery =true)
     void assginOtherStaff(int staffID, Date booked_date, int slot_id);
     
-    @Query(value = "select rs.booked_date,rs.slot_id,rs.staff_id,rs.price,rs.reservation_id,rs.service_id from "
-    		+ "reservation as r left join reservation_service as rs "
-    		+ "on r.reservation_id = rs.reservation_id left join reservation_service_drug as rsd "
-    		+ "on r.reservation_id = rs.reservation_id AND rs.service_id = rsd.service_id "
-    		+ "WHERE rs.staff_id = (?1) "
-    		+ "AND (rs.service_id = (?2) OR (?2) = -1) "
-    		+ "AND ( (SELECT COUNT(*) FROM reservation_service_drug as rsd1 "
-    		+ "WHERE rsd1.reservation_id = rs.reservation_id AND rsd1.service_id = rs.service_id AND "
-    		+ "rsd1.drug_id IN (?3)) = (?4) OR '' IN (?3) ) "
-    		+ "GROUP BY rs.booked_date,rs.slot_id,rs.staff_id,rs.price,rs.reservation_id,rs.service_id" , nativeQuery = true)
-    Page<ReservationServiceModel> listReservationByStaffAndServiceAndDrugs(int staffId , int serviceId , List<Integer> drugIds , int drugSize ,  Pageable pageable);
+    @Query(value = "select * from reservation_service as rs "
+    		+ "WHERE rs.staff_id = ?1 "
+    		+ "AND (rs.service_id = ?2 OR ?2 = -1) "
+    		+ "AND ( SELECT COUNT(*) FROM reservation_service_drug as rsd "
+    		+ "WHERE rsd.reservation_id = rs.reservation_id AND rsd.service_id = rs.service_id AND "
+    		+ "rsd.drug_id IN (?3) ) = ?4   " , nativeQuery = true)
+    public Page<ReservationServiceModel> listReservationByStaffAndServiceAndDrugs(int staffId , int serviceId , List<Integer> drugIds , int drugSize ,  Pageable pageable);
     
+    @Query(value = "select * from reservation_service where staff_id = ?1 AND (service_id = ?2 OR ?2 = -1)" ,nativeQuery = true)
+    public Page<ReservationServiceModel> listReservationServiceByStaffAndService(int staffId , int serviceId ,  Pageable pageable);
+   
     @Modifying
     @Query(value = "UPDATE reservation_service SET price = (SELECT sale_price FROM service where service_id = ?2) "
     		+ " + (SELECT SUM(d.price * rsd.quantity) FROM reservation_service_drug as rsd inner join drug as d ON rsd.drug_id = d.drug_id  "
@@ -89,6 +88,12 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
             "inner join service s on s.service_id=rc.service_id\n" +
             "where rc.reservation_id = ?1",nativeQuery = true)
     public float getSumService(int reserId);
+
+    @Query(value = "select * from reservation_service where booked_date = ?1\n" +
+            "and slot_id = ?2 and staff_id = ?3",nativeQuery = true)
+    public ReservationServiceModel checkStaffEmptyDateStaff(Date bookedDate,int slotID,int staffID);
+
+
 
 
 
