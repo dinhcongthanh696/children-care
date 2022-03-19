@@ -295,7 +295,7 @@ public class ManagerController {
             @RequestParam(name = "briefInfor") String briefInfor,
             @RequestParam(name = "updateAt") String updateAt,
             @RequestParam(name = "detail") String detail,
-            @RequestParam(name = "image") MultipartFile thumbnail,
+            @RequestParam(name = "imgUpdate") MultipartFile thumbnail,
             @RequestParam(name = "title") String title,
             @RequestParam(name = "author") String email,
             @RequestParam(name = "category") int category,
