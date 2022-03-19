@@ -181,7 +181,7 @@ public class ManagerController {
     }
 
     @RequestMapping("/post")
-    public String reservationInfor(Model model
+    public String managerPost(Model model
             , @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page
             , @RequestParam(name = "type", required = false, defaultValue = "-1") String type
             , @RequestParam(name = "categoryId", required = false, defaultValue = "-1") String categoryId
@@ -373,7 +373,7 @@ public class ManagerController {
     }
 
     @RequestMapping("/drug")
-    public String drugManager(Model model,
+    public String c(Model model,
                               @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page,
                               @RequestParam(name = "title", required = false) String title) {
         int currentPage = page.orElse(0);

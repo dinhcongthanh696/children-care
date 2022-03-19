@@ -64,7 +64,7 @@ public class FeedbackController {
 
     @PostMapping("/feedback")
     @Transactional
-    public void feedbackHome(
+    public void saveFeedback(
             @RequestParam(name = "cus_email", defaultValue = "empty_email") String email,
             @RequestParam(name = "create_date") String date,
             @RequestParam(name = "image") MultipartFile img,
