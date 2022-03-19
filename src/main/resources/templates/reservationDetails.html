@@ -201,7 +201,7 @@
             <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted" th:text="#{cart.total}"></strong>
               <p th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')+'đ'}" class="font-weight-bold cart-total totals-value text-danger"></p></li>
           </ul>
-          <a th:if="${list}!=null" href="/ChildrenCare/reservation/contact" class="btn btn-primary rounded-pill py-2 btn-block" th:text="#{cart.confirm}"></a>
+          <a th:if="${list}!=null" th:href="'/ChildrenCare/reservation/contact?lang='+${lang}" class="btn btn-primary rounded-pill py-2 btn-block" th:text="#{cart.confirm}"></a>
         </div>
       </div>
     </div>

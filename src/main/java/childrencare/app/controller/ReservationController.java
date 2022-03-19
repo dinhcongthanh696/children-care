@@ -140,7 +140,9 @@ public class ReservationController {
 
     //nghia's code
     @GetMapping("/contact")
-    public String getReservationContact(Model model, HttpSession session) {
+    public String getReservationContact(Model model,
+                                        HttpSession session,
+                                        @RequestParam(name = "lang",required = false, defaultValue = "en") String lang) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         UserModel userModel = (UserModel) session.getAttribute("user");
         if (itemList != null) {
@@ -148,6 +150,7 @@ public class ReservationController {
             model.addAttribute("orderList", itemList);
             model.addAttribute("total", total);
             model.addAttribute("user", userModel);
+            model.addAttribute("lang",lang);
             return "reservationContact";
         } else {
             return "redirect:/reservation/reser";
