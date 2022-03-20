@@ -26,4 +26,8 @@ public class PermissionService {
 		if(screenIds.isEmpty()) return;
 		permissionRepository.removeRoleScreens(roleId,screenIds);
 	}
+
+	public List<PermissionModel> loadByRole(int roleId){
+		return permissionRepository.getByRole(roleId);
+	}
 }
