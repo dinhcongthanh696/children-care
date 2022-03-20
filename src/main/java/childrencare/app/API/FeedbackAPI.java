@@ -89,7 +89,6 @@ public class FeedbackAPI {
 		
 		// if user does not have account
 		// 2. identify user email
-		System.out.println("Before before send");
 		JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
 		String from = mailSenderImpl.getUsername();
 		String to = email;
@@ -113,9 +112,7 @@ public class FeedbackAPI {
 			multiPart.addBodyPart(referencePart);
 			
 			mimeMessage.setContent(multiPart);
-			System.out.println("Before send");
 			mailSender.send(mimeMessage);
-			System.out.println("After send");
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
