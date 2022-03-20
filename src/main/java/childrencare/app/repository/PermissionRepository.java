@@ -20,6 +20,9 @@ public interface PermissionRepository extends JpaRepository<PermissionModel, Per
 	@Modifying
 	@Query(value = "DELETE FROM permission WHERE role_id = ?1 AND screen_id IN ?2",nativeQuery = true)
 	public void removeRoleScreens(int roleId,List<Integer> screenIds);
-	
-	public List<PermissionModel> findByRole(RoleModel roleModel);
+
+	@Query(value = "SELECT * FROM permission WHERE role_id = ?1", nativeQuery = true)
+	List<PermissionModel> getByRole(int roleId);
+
+
 }

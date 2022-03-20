@@ -32,8 +32,7 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
         	<li th:each="permission : ${session.user.userRole.permissions.?[screen.method == 'GET']}" 
-        		th:if="not ${#strings.containsIgnoreCase(permission.screen.url,'api')} and not ${#strings.containsIgnoreCase(permission.screen.screenName,'detail')} 
-        		and not ${#strings.containsIgnoreCase(permission.screen.screenName,'change')}"
+        		th:if="not ${#strings.containsIgnoreCase(permission.screen.url,'api')} and not ${#strings.containsIgnoreCase(permission.screen.screenName,'detail')} and not ${#strings.containsIgnoreCase(permission.screen.url,'changStatus')}"
         		th:class="${currentUrl == permission.screen.url} ? 'active' : ''" >
         		<a th:href="@{${permission.screen.url}}">
         			<span th:text="${permission.screen.screenName}"></span>
