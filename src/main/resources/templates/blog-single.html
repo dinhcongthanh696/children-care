@@ -38,26 +38,83 @@
     <div class="preloader"></div>
 
     <!-- Start Top Bar area -->
-    <section class="top-bar-area">
+    <section class="top-bar-area" th:fragment="top-bar">
         <div class="container">
             <div class="row">
-                <div class="col-xl-7 col-lg-6">
+                <div class="col-xl-5 col-lg-3">
                     <div class="top-left">
-                        <ul>
+                        <!--<ul>
                             <li><a href="#">Locations</a></li>
                             <li><a href="#">Special Offers</a></li>
                             <li><a href="#">Teeth Cleaning Tips</a></li>
-                        </ul>
+                        </ul> !-->
                     </div>
                 </div>
-                <div class="col-xl-5 col-lg-6">
+                <div class="col-xl-1 col-lg-3 container-fluid">
+                    <div class="inner-content clearfix ">
+                        <nav class="main-menu style1 clearfix">
+                            <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
+                                <ul class="navigation clearfix">
+                                    <li>
+                                        <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" class="far fa-user fa-2x text-white "  onclick="triggerLoginForm('block')"></i>
+                                        <ul>
+                                            <li><a href="/ChildrenCare/setting/profile">Settings</a></li>
+                                            <li><a href="/ChildrenCare/logout">Log out</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-12">
                     <div class="top-right">
-                        <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
                         <ul class="sociallinks-style-one">
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
+                            <li th:if="${session.user == null}">
+                                <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form"
+                                   class="far fa-user fa-2x text-white" onclick="triggerLoginForm('block')"></i>
+                            </li>
+                            <li>
+                                <a th:href="'/ChildrenCare/reservation/reser?lang=' + ${lang}">
+                                    <i class="fas fa-shopping-cart" style="
+                        			font-size: 33px;
+    								color: white;
+    								position : relative;
+                        		">
+                        			<span id="shopping-cart-items" style="
+                        				border-radius: 100%;
+    									background-color: white;
+    									font-weight: bold;
+    									position: absolute;
+    									right: 0;
+    									top: 0;
+    									font-size: 14px;
+    									color: red;
+    									border: 1px solid black;
+    									padding: 3px;
+                        			" th:text="${session.list == null ? '' : session.list.size}"></span>
+                                    </i>
+                                </a>
+                            </li>
+                            <li>
+                                <i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
+                                <label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
+                                <select class="form-control" id="languages-switcher"
+                                        onchange="changeLanguage(this.value)"
+                                        style="height : 34px;"
+                                >
+                                    <option value="en" th:selected="${lang == 'en'}">
+                                        <span th:text="#{lang.en}"></span>
+                                    </option>
+                                    <option value="vi" th:selected="${lang == 'vi'}">
+                                        <span th:text="#{lang.vn}"></span>
+                                    </option>
+                                    <option value="ja" th:selected="${lang == 'ja'}">
+                                        <span th:text="#{lang.ja}"></span>
+                                    </option>
+                                </select>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -67,54 +124,11 @@
     <!-- End Top Bar area -->
 
     <!--Start header style1 area-->
-    <header class="header-style1-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="inner-content clearfix">
-                        <div class="header-style1-logo float-left">
-                            <a href="index-2.html">
-                                <img src="images/resources/logo.png" alt="Awesome Logo">
-                            </a>
-                        </div>
-                        <div class="header-contact-info float-left">
-                            <ul>
-                                <li>
-                                    <div class="single-item">
-                                        <div class="icon">
-                                            <span class="icon-support"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>+1 555-7890-123</p>
-                                            <span>support@example.com</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="single-item">
-                                        <div class="icon">
-                                            <span class="icon-gps"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>86 Brattle Street</p>
-                                            <span>Cambridge, MA 02138</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="header-style1-button float-right">
-                            <a href="#"><span class="icon-date"></span>Make Appointment</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <header th:replace="header.html :: header"></header>
     <!--End header style1 area-->
 
     <!--Start mainmenu area-->
-    <section th:replace="mainmenu.html :: mainMenu(actionForm='',placeholder='Search...',current='blog',search='')">
+    <section th:replace="mainmenu.html :: mainMenu(actionForm='',placeholder='Search...',current='blogDetail',search='')">
     </section>
     <!--End mainmenu area-->
 
@@ -211,7 +225,7 @@
                                     </div>
                                     <div class="meta-box">
                                         <ul class="meta-info">
-                                            <li><a href="#"><span class="flaticon-pencil"></span>Lilly Anderson</a></li>
+                                            <li><a href="#"  th:text="${postDetail.getAuthor().getFullname()}"><span class="flaticon-pencil"></span></a></li>
                                             <li><a href="#"
                                                    th:text="${postDetail.getPostCategory().getPostCategoryName()}"><span
                                                     class="flaticon-document"></span>Technology</a></li>
@@ -339,90 +353,6 @@
                             </ul>
                         </div>
                         <!--End single sidebar-->
-                        <!--Start single-sidebar-->
-                        <div class="single-sidebar">
-                            <div class="sidebar-title">
-                                <h3>Instagram</h3>
-                            </div>
-                            <ul class="instagram">
-                                <li>
-                                    <div class="img-holder">
-                                        <img src="images/sidebar/instagram-1.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="img-holder">
-                                        <img src="images/sidebar/instagram-2.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="img-holder">
-                                        <img src="images/sidebar/instagram-3.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="img-holder">
-                                        <img src="images/sidebar/instagram-4.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="img-holder">
-                                        <img src="images/sidebar/instagram-5.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="img-holder">
-                                        <img src="images/sidebar/instagram-6.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="follow-us-instagram">
-                                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i>Follow Us On Instagram</a>
-                            </div>
-                        </div>
-                        <!--End single-sidebar-->
                     </div>
                 </div>
                 <!--End Sidebar Wrapper-->
