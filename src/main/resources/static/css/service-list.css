@@ -11,6 +11,10 @@
 	border-radius: 2px;
 }
 
+.form-message{
+	color: red;
+}
+
 .service-item {
 	transition: border 1s, box-shadow 1s;
 	margin-right: 1%;
@@ -235,5 +239,5 @@ li.list-group-item:hover{
 }
 
 .invalid{
-	box-shadow : 1px 1px 1px 1px red;
+	box-shadow : 1px 1px 2px 3px red;
 }

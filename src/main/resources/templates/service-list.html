@@ -85,9 +85,12 @@
 			<span class="modal-element" id="image-hint" style="color : blue;" th:text="#{file.upload.hint}"></span>
 			<img class="modal-image-feedback modal-element" style="display : block;margin : 25px auto;border : 1px solid black;" src="#" alt="your image feedback"/>
 			<h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
-			<label for="comment" class="modal-label modal-element" th:text="#{give.comment.label}"></label>
-			<textarea rows="10" cols="50" id="comment" class="form-control modal-input modal-element" th:placeholder="#{comment}+'....'" style="font-size : 15px;padding : 5px;"></textarea>
-			<button class="btn btn-primary save-feedback modal-element" 
+			<div class="form-control">
+				<label for="comment" class="modal-label modal-element" th:text="#{give.comment.label}"></label>
+				<textarea rows="10" cols="50" id="comment" class="form-control modal-input modal-element" th:placeholder="#{comment}+'....'" style="font-size : 15px;padding : 5px;"></textarea>
+				<span class="form-message"></span>
+			</div>
+				<button class="btn btn-primary save-feedback modal-element"
 				style="font-size: 25px;border-radius: 9px;" onclick="saveFeedback()"
 				id="save-feedback-button"
 				th:text="#{save.feedback.button}">
@@ -248,7 +251,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="../js/pagging.js"></script>
 	<script src="../js/common.js"></script>
+	<script src="../js/validator.js"></script>
 	<script type="text/javascript">
+	var selectorRules = [Validator.isRequired("#comment",10,"Comment must contains at least 10 characters")];
+	Validator(selectorRules);
 
 	var lastChosenFeelingElement;
 	var lastChosenFeeling = 5;
@@ -369,6 +375,38 @@
 	}
 	
 	function saveFeedback(){
+		var rules = {};
+		selectorRules.forEach(selectorRule => {
+			if(Array.isArray(rules[selectorRule.selector])){
+				rules[selectorRule.selector].push(selectorRule.test);
+			}else{
+				rules[selectorRule.selector] = [selectorRule.test];
+			}
+		})
+		var isValid = true;
+		selectorRules.forEach(selectorRule => {
+			var formElement = document.querySelector(selectorRule.selector);
+			var formValue = formElement.value;
+			var formRules = rules[selectorRule.selector];
+			var formMessage = formElement.parentElement.getElementsByClassName("form-message")[0];
+			var errorMessage;
+			for(let i = 0 ; i < formRules.length ; i++){
+				errorMessage = formRules[i](formValue);
+				if(errorMessage) break;
+			}
+
+			if(errorMessage){
+				if(isValid) isValid = false;
+				formMessage.innerHTML = errorMessage;
+				formElement.classList.add("invalid");
+			}else{
+				formMessage.innerHTML = "";
+				formElement.classList.remove("invalid");
+			}
+		})
+
+		if(!isValid) return;
+
 		var imageFileFeedback = document.getElementById("image-feedback-input").files[0];
 		
 		var commentFeedback = document.getElementById("comment").value;

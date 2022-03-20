@@ -59,9 +59,9 @@
         <!-- header logo: style can be found in header.less -->
 <!--        <header class="header" th:replace="header_admin::headerAdmin"></header>-->
         <header class="header" >
-            <a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}"" class="logo" th:text="${session.user.userRole.roleName}">
-               
-            </a>
+			<a th:href="@{${session.user.getUserRole().getPermissions().get(0).getScreen().getUrl()}}" class="logo" th:text="${session.user.getUserRole().getRoleName()}">
+
+			</a>
             <!-- Header Navbar: style can be found in header.less -->
            <div th:replace="header_admin::navbarRight"></div>
         </header>
