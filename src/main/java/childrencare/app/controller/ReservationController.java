@@ -176,6 +176,8 @@ public class ReservationController {
         if (user == null && userFindByEmail == null) {
             //insert to user table
             UserModel userNew = new UserModel();
+            RoleModel role = new RoleModel();
+            role.setRoleId(2);
             userNew.setUsername(email);
             userNew.setFullname(fullname);
             userNew.setAddress(address);
@@ -184,6 +186,7 @@ public class ReservationController {
             userNew.setNotes(note);
             userNew.setPhone(phone);
             userNew.setStatus(true);
+            userNew.setUserRole(role);
             userService.save(userNew);
             customerService.insertToCus(1, userNew.getEmail());
             //save to reservation table
