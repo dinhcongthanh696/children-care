@@ -5,12 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import java.sql.Time;
 import java.util.Date;
@@ -24,6 +19,7 @@ import java.util.List;
 public class Slot {
     @Id
     @Column(name = "slot_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Column(name = "start_time")

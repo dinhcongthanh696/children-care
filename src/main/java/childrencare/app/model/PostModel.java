@@ -16,16 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class PostModel {
 	@Id
 	@Column(name = "post_id")
-	@SequenceGenerator(
-			sequenceName = "post_id_sequence",
-			name = "post_id_sequence",
-			allocationSize = 1
-	)
-	
-	@GeneratedValue(
-			strategy = GenerationType.IDENTITY,
-			generator = "post_id_sequence"
-	)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int postId;
 	@Column(nullable = true)
 	private byte[] thumbnail;

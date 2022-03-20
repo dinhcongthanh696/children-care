@@ -26,16 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class RoleModel {
 	@Id
 	@Column(name = "role_id")
-	@SequenceGenerator(
-			sequenceName = "role_id_sequence",
-			name = "role_id_sequence",
-			allocationSize = 1
-	)
-	
-	@GeneratedValue(
-			strategy = GenerationType.IDENTITY,
-			generator = "role_id_sequence"
-	)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int roleId;
 	@Column(name = "role_name")
 	private String roleName;

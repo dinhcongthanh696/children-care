@@ -66,9 +66,7 @@ public class ServiceModel {
 
 	@Id
 	@Column(name = "service_id")
-	@SequenceGenerator(sequenceName = "service_id_sequence", name = "service_id_sequence", allocationSize = 1)
-
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "service_id_sequence")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private int serviceId;
 	private byte[] thumbnail;

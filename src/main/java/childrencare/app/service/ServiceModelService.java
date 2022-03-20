@@ -150,7 +150,9 @@ public class ServiceModelService {
 	
 	
 	public ServiceModel getServicesById(int id){
-		return serviceRepository.findById(id).get();
+		Optional<ServiceModel> service = serviceRepository.findById(id);
+		if(!service.isPresent()) return null;
+		return service.get();
 	}
 	
 	public void addNewService(ServiceModel service) {
