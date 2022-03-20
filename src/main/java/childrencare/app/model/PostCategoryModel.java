@@ -22,16 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostCategoryModel {
 	@Id
-	@SequenceGenerator(
-			sequenceName = "post_category_id_sequence",
-			name = "post_category_id_sequence",
-			allocationSize = 1
-	)
-	
-	@GeneratedValue(
-			strategy = GenerationType.IDENTITY,
-			generator = "post_category_id_sequence"
-	)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "post_category_id")
 	private int postCategoryId;
 	@Column(name = "post_category_name")

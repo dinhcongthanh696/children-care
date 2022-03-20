@@ -23,16 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class ServiceCategoryModel {
 	@Id
 	@Column(name = "service_category_id")
-	@SequenceGenerator(
-			sequenceName = "service_category_id_sequence",
-			name = "service_category_id_sequence",
-			allocationSize = 1
-	)
-	
-	@GeneratedValue(
-			strategy = GenerationType.IDENTITY,
-			generator = "service_category_id_sequence"
-	)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int serviceCategoryId; 
 	@Column(name = "service_category_name")
 	private String serviceCategoryName;

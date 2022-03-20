@@ -277,14 +277,13 @@ public class ManagerController {
                              @RequestParam(name = "category") int category,
                              @RequestParam(name = "statusAdd") boolean status) throws Exception {
         byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
-        int postId = postService.getMaxPostId() + 1;
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         String dateInString = createAt;
         Date dateCreate = formatter.parse(dateInString);
 
-        postService.addNewPost(postId, briefInfor, dateCreate, detail, imgConvertAdd, title, dateCreate, email, category, status);
+        postService.addNewPost(briefInfor, dateCreate, detail, imgConvertAdd, title, dateCreate, email, category, status);
         return "redirect:/manager/post";
     }
 
