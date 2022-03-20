@@ -3,6 +3,7 @@ package childrencare.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +76,9 @@ public class AdminSettingController {
 	@PostMapping("/roles/edit")
 	@Transactional
 	public String editRoleScreens(@RequestParam(name = "permissionValues") String permissionValues ,
-			@RequestParam(name = "roleId") int roleId ,
-			@RequestParam(name = "screenIdValues") String screenIdValues  ) {
+								  @RequestParam(name = "roleId") int roleId ,
+								  @RequestParam(name = "screenIdValues") String screenIdValues, HttpSession session) {
+
 		String[] permissionValues_split = permissionValues.split("[,]");
 		String[] screenIdValues_split = screenIdValues.split("[,]");
 		List<Integer> currentScreens = new ArrayList<>();
@@ -89,6 +91,9 @@ public class AdminSettingController {
 				permissionService.addPermission(roleId, Integer.parseInt(permissionValues_split[i]));
 			}
 		}
+
+		UserModel userModel = (UserModel) session.getAttribute("user");
+		userModel.getUserRole().setPermissions(permissionService.loadByRole(roleId));
 		return "redirect:/setting/roles";
 	}
 }
