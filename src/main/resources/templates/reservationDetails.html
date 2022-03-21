@@ -34,6 +34,7 @@
 
   <link href="../css/authentication.css" rel="stylesheet">
   <script>
+    
     // nghia's code
     $(document).ready(function() {
       var fadeTime = 100;
@@ -148,7 +149,8 @@
         <div class="col-lg-5 col-5 text-lg-left">
           <h3  th:text="#{cart.service.id}+':' +${info.serviceId}" class="h6 mb-0"></h3><br>
           <h3 th:text="#{cart.service.name}+':'+${info.title}" class="h6 mb-0"></h3><br>
-            <small th:text="#{cart.service.price}+':'+${#numbers.formatDecimal(info.salePrice,1,'POINT',0,'POINT') + 'đ'}"></small>
+            <small th:text="#{cart.service.price}+':'+${#numbers.formatDecimal(info.salePrice,1,'POINT',0,'POINT') + 'đ'}"
+            ></small>
         </div>
         <div th:text="${#numbers.formatDecimal(info.salePrice,1,'POINT',0,'POINT')+'đ'}" class="product-price d-none"></div>
         <div class="pass-quantity col-lg-3 col-md-4 col-sm-3">
