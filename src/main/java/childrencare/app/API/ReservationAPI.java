@@ -89,14 +89,14 @@ public class ReservationAPI {
 	) {
 		double price = serviceModelService.getServiceById(serviceId).get().getOriginalPrice();
 		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
-		for(ServiceModel serviceModel : serviceModels){
-			if(serviceModel.getServiceId() == serviceId){
-				int quantity = serviceModel.getQuantity();
+		for(int i = 0; i < serviceModels.size(); i++){
+			if(serviceModels.get(i).getServiceId() == serviceId){
+				int quantity = serviceModels.get(i).getQuantity();
 				if(quantity == 1){
-					serviceModels.remove(serviceModel);
+					serviceModels.remove(serviceModels.get(i));
 				}
 				else{
-					serviceModel.setQuantity(quantity - 1);
+					serviceModels.get(i).setQuantity(quantity - 1);
 				}
 			}
 		}
@@ -116,8 +116,13 @@ public class ReservationAPI {
 		System.out.println("Service id : "+serviceId);
 		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
 		boolean isExist = false;
+<<<<<<< HEAD
 		for(ServiceModel s : serviceModels){
 			System.out.println(serviceId+" "+s.getServiceId());
+=======
+		for (int i = 0; i < serviceModels.size(); i++){
+			ServiceModel s = serviceModels.get(i);
+>>>>>>> a3b8be87ff2fd0e2329be1e5e1c9764dc692385e
 			if(s.getServiceId() == serviceId){
 				System.out.println("True");
 				s.setQuantity(s.getQuantity() + 1);
@@ -125,9 +130,15 @@ public class ReservationAPI {
 				break;
 			}
 		}
+<<<<<<< HEAD
 		if(!isExist){
 			System.out.println("False");
 			ServiceModel serviceModel = serviceModelService.getServicesById(serviceId);
+=======
+		if(isExist == false){
+			ServiceModel serviceModel = serviceModelService.findServiceById(serviceId);
+			serviceModel.setQuantity(1);
+>>>>>>> a3b8be87ff2fd0e2329be1e5e1c9764dc692385e
 			serviceModels.add(serviceModel);
 		}
 		reservationService.deleteSchedule(slot_id, staff_id, booked_date);

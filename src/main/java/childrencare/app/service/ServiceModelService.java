@@ -154,8 +154,15 @@ public class ServiceModelService {
 		if(!service.isPresent()) return null;
 		return service.get();
 	}
-	
-	public void addNewService(ServiceModel service) {
+	public ServiceModel findServiceById(int id) {
+		ServiceModel service = serviceRepository.getById(id);
+		if(service != null && service.getThumbnail() != null){
+			service.setBase64ThumbnailEncode(service.getThumbnail());
+		}
+		return service;
+	}
+
+		public void addNewService(ServiceModel service) {
 		serviceRepository.save(service);
 	}
 	
