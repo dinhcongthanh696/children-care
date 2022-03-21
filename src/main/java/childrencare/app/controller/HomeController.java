@@ -49,10 +49,12 @@ public class HomeController {
         List<FeedbackModel> feedbacks = feedbackService.getAll();
         List<ServiceModel> services = serviceModelService.getHighestRatedStarServices(size);
         for (ServiceModel service : services) {
+            if(service.getThumbnail() != null)
             service.setBase64ThumbnailEncode(service.getThumbnail());
         }
         List<SliderModel> sliders = slidersService.listSliderHomepage(1);
         for (SliderModel slider : sliders) {
+            if(slider.getImage() != null)
             slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
         }
 
