@@ -38,7 +38,7 @@
                 formData.append("slotId",slotId);
 
                 fetch("/ChildrenCare/manager/api-manager/assignOtherStaff",{
-                    method : "post",
+                    method : "POST",
                     body : formData
                 }).then(respond => {
                     return respond.text();
@@ -254,6 +254,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                             </td>
 
                                                         </tr>
