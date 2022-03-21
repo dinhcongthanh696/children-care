@@ -152,7 +152,6 @@
             background-color: black
         }
 
-
         #darker img {
             margin-right: 15px;
             position: static
@@ -189,7 +188,7 @@
             border-radius: 5px;
             overflow: hidden;
             margin: 5em auto;
-            height: 850px;
+            height: 350px;
             width: 700px;
 
         }
@@ -261,7 +260,6 @@
             text-align: center;
             font-size: 20px;
             color: #7d7d7d;
-
         }
 
         /* control */
@@ -344,6 +342,20 @@
 
         #container img {width: 100%;height: 100%;}
 
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #39435C;
+        }
+
         .info {
             background: rgba(27, 26, 26, 0.9);
             font-family: 'Farsan', cursive;
@@ -359,6 +371,7 @@
             width: 100%;
             left: 0;
             top: 0;
+            overflow: auto;
         }
 
         .info h2 {text-align: center}
@@ -412,8 +425,7 @@
   </span> -->
 
 
-             <!-- The most important information about the product -->
-             <p class="information" th:text="${service.description}"></p>
+
 
 
 
@@ -450,7 +462,8 @@
                      <li th:text="'Sale Price: ' + ${service.salePrice}"></li>
                      <li th:text="'Service Category: ' + ${service.serviceCategory.serviceCategoryName}"></li>
                  </ul>
-
+                 <!-- The most important information about the product -->
+                 <p class="information" th:text="${service.description}"></p>
              </div>
          </div>
          <!--  End product image  -->
