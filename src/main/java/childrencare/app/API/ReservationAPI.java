@@ -26,17 +26,17 @@ import childrencare.app.service.ServiceModelService;
 public class ReservationAPI {
 
 	// Thanh's code
-		@Autowired
-		private ServiceModelService serviceModelService;
+	@Autowired
+	private ServiceModelService serviceModelService;
 
-		@Autowired
-		private ReservationService reservationService;
+	@Autowired
+	private ReservationService reservationService;
 
 
 	@GetMapping("/add/{sid}")
 	public int addToCart(@PathVariable(value = "sid") int id, HttpSession session,
-			HttpServletResponse response, HttpServletRequest request , 
-			@RequestParam(name = "quantity" , defaultValue = "1") int quantity) throws IOException {
+						 HttpServletResponse response, HttpServletRequest request,
+						 @RequestParam(name = "quantity", defaultValue = "1") int quantity) throws IOException {
 		Optional<ServiceModel> optinal = serviceModelService.getServiceById(id);
 		ServiceModel service = null;
 
@@ -50,7 +50,7 @@ public class ReservationAPI {
 		if (listReservations == null) {
 			listReservations = new ArrayList<>();
 		}
-		
+
 		boolean check = false;
 		for (ServiceModel svm : listReservations) {
 			if (svm.getServiceId() == id) {
@@ -63,7 +63,7 @@ public class ReservationAPI {
 			service.setQuantity(quantity);
 			listReservations.add(service);
 		}
-		
+
 		// start thanh's code (add service cookie)
 		Cookie cartsCookie = CookieHandler.getCookie("carts", request);
 		if (cartsCookie != null) {
@@ -79,7 +79,7 @@ public class ReservationAPI {
 
 
 	@Transactional
-	@PutMapping ("/schedule")
+	@PutMapping("/schedule")
 	public void addSchedule(HttpSession session,
 							@RequestParam(name = "reservation_id") Integer reservationId,
 							@RequestParam(name = "service_id") Integer serviceId,
@@ -89,13 +89,12 @@ public class ReservationAPI {
 	) {
 		double price = serviceModelService.getServiceById(serviceId).get().getOriginalPrice();
 		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
-		for(int i = 0; i < serviceModels.size(); i++){
-			if(serviceModels.get(i).getServiceId() == serviceId){
+		for (int i = 0; i < serviceModels.size(); i++) {
+			if (serviceModels.get(i).getServiceId() == serviceId) {
 				int quantity = serviceModels.get(i).getQuantity();
-				if(quantity == 1){
+				if (quantity == 1) {
 					serviceModels.remove(serviceModels.get(i));
-				}
-				else{
+				} else {
 					serviceModels.get(i).setQuantity(quantity - 1);
 				}
 			}
@@ -115,19 +114,19 @@ public class ReservationAPI {
 	) {
 		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
 		boolean isExist = false;
-		for (int i = 0; i < serviceModels.size(); i++){
-			ServiceModel s = serviceModels.get(i);
-			if(s.getServiceId() == serviceId){
-				s.setQuantity(s.getQuantity() + 1);
-				isExist = true;
-				break;
+			for (int i = 0; i < serviceModels.size(); i++) {
+				ServiceModel s = serviceModels.get(i);
+				if (s.getServiceId() == serviceId) {
+					s.setQuantity(s.getQuantity() + 1);
+					isExist = true;
+					break;
+				}
 			}
+			if (isExist == false) {
+				ServiceModel serviceModel = serviceModelService.findServiceById(serviceId);
+				serviceModel.setQuantity(1);
+				serviceModels.add(serviceModel);
+			}
+			reservationService.deleteSchedule(slot_id, staff_id, booked_date);
 		}
-		if(isExist == false){
-			ServiceModel serviceModel = serviceModelService.findServiceById(serviceId);
-			serviceModel.setQuantity(1);
-			serviceModels.add(serviceModel);
-		}
-		reservationService.deleteSchedule(slot_id, staff_id, booked_date);
 	}
-}
