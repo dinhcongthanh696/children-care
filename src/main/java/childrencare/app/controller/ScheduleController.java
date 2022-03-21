@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -65,7 +66,17 @@ public class ScheduleController {
         model.addAttribute("staffs", staffs);
 
         List<ServiceModel> services = (List<ServiceModel>) session.getAttribute("list");
-        model.addAttribute("services", services);
+
+        List<ServiceModel> scheduleServices = new ArrayList();
+        for(ServiceModel service : services){
+            for(int i = 0; i < service.getQuantity(); i++){
+                scheduleServices.add(new ServiceModel(
+                        service.getServiceId(),
+                        service.getTitle()
+                ));
+            }
+        }
+        model.addAttribute("services", scheduleServices);
 
         List<ReservationServiceModel> schedules =
                 reservationService_service.getAllBookedSchedule(reservationId);

@@ -6,8 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import childrencare.app.repository.*;
-import childrencare.app.service.CustomerService;
-import childrencare.app.service.ReservationService;
+import childrencare.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -24,8 +23,6 @@ import childrencare.app.model.ReservationServiceModel;
 import childrencare.app.model.ServiceCategoryModel;
 import childrencare.app.model.ServiceModel;
 import childrencare.app.model.UserModel;
-import childrencare.app.service.ServiceCategoryService;
-import childrencare.app.service.ServiceModelService;
 
 @Controller
 @RequestMapping("/service")
@@ -36,6 +33,8 @@ public class ServiceController {
 	private final FeedbackRepository feedbackRepository;
 	private final CustomerService customerService;
 	private final ReservationService reservationService;
+	@Autowired
+	private BlogCategoryService blogCategoryService;
 	private final int SERVICESIZE = 9;
 	@Autowired
 	public ServiceController(ServiceCategoryRepository serviceCategoryRepository,
@@ -94,6 +93,7 @@ public class ServiceController {
 		model.addAttribute("search", search);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("servicecategories", categories);
+		model.addAttribute("listCategoryPost", blogCategoryService.findAll());
 		model.addAttribute("userReservationServices", reservationServices);
 		model.addAttribute("lang",lang);
 		return "service-list";
