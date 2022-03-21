@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +63,7 @@ public class ReservationService {
         List<Integer> list = null;
         if (staff_id == 0) {
             staff_id = staffRepository.getStaffBySlotAndDate(date, slotId);
+
         }
         repository.createSchedule(reservationId, serviceId, slotId, staff_id, date, price);
     }
