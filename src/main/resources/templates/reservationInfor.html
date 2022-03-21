@@ -40,26 +40,83 @@
     <div class="preloader"></div>
 
     <!-- Start Top Bar area -->
-    <section class="top-bar-area">
+    <section class="top-bar-area" th:fragment="top-bar">
         <div class="container">
             <div class="row">
-                <div class="col-xl-7 col-lg-6">
+                <div class="col-xl-5 col-lg-3">
                     <div class="top-left">
-                        <ul>
+                        <!--<ul>
                             <li><a href="#">Locations</a></li>
                             <li><a href="#">Special Offers</a></li>
                             <li><a href="#">Teeth Cleaning Tips</a></li>
-                        </ul>
+                        </ul> !-->
                     </div>
                 </div>
-                <div class="col-xl-5 col-lg-6">
+                <div class="col-xl-1 col-lg-3 container-fluid">
+                    <div class="inner-content clearfix ">
+                        <nav class="main-menu style1 clearfix">
+                            <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
+                                <ul class="navigation clearfix">
+                                    <li>
+                                        <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" class="far fa-user fa-2x text-white "  onclick="triggerLoginForm('block')"></i>
+                                        <ul>
+                                            <li><a href="/ChildrenCare/setting/profile">Settings</a></li>
+                                            <li><a href="/ChildrenCare/logout">Log out</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-12">
                     <div class="top-right">
-                        <p><span class="icon-clock"></span>Mon - Sat: 09.00 to 18.00, Sunday: Closed.</p>
                         <ul class="sociallinks-style-one">
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
+                            <li th:if="${session.user == null}">
+                                <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form"
+                                   class="far fa-user fa-2x text-white" onclick="triggerLoginForm('block')"></i>
+                            </li>
+                            <li>
+                                <a th:href="'/ChildrenCare/reservation/reser?lang=' + ${lang}">
+                                    <i class="fas fa-shopping-cart" style="
+                        			font-size: 33px;
+    								color: white;
+    								position : relative;
+                        		">
+                        			<span id="shopping-cart-items" style="
+                        				border-radius: 100%;
+    									background-color: white;
+    									font-weight: bold;
+    									position: absolute;
+    									right: 0;
+    									top: 0;
+    									font-size: 14px;
+    									color: red;
+    									border: 1px solid black;
+    									padding: 3px;
+                        			" th:text="${session.list == null ? '' : session.list.size}"></span>
+                                    </i>
+                                </a>
+                            </li>
+                            <li>
+                                <i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
+                                <label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
+                                <select class="form-control" id="languages-switcher"
+                                        onchange="changeLanguage(this.value)"
+                                        style="height : 34px;"
+                                >
+                                    <option value="en" th:selected="${lang == 'en'}">
+                                        <span th:text="#{lang.en}"></span>
+                                    </option>
+                                    <option value="vi" th:selected="${lang == 'vi'}">
+                                        <span th:text="#{lang.vn}"></span>
+                                    </option>
+                                    <option value="ja" th:selected="${lang == 'ja'}">
+                                        <span th:text="#{lang.ja}"></span>
+                                    </option>
+                                </select>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -69,50 +126,7 @@
     <!-- End Top Bar area -->
 
     <!--Start header style1 area-->
-    <header class="header-style1-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="inner-content clearfix">
-                        <div class="header-style1-logo float-left">
-                            <a href="index-2.html">
-                                <img src="images/resources/logo.png" alt="Awesome Logo">
-                            </a>
-                        </div>
-                        <div class="header-contact-info float-left">
-                            <ul>
-                                <li>
-                                    <div class="single-item">
-                                        <div class="icon">
-                                            <span class="icon-support"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>+1 555-7890-123</p>
-                                            <span>support@example.com</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="single-item">
-                                        <div class="icon">
-                                            <span class="icon-gps"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>86 Brattle Street</p>
-                                            <span>Cambridge, MA 02138</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="header-style1-button float-right">
-                            <a href="#"><span class="icon-date"></span>Make Appointment</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <header th:replace="header.html :: header"></header>
     <!--End header style1 area-->
 
     <!--Start mainmenu area-->
@@ -121,7 +135,7 @@
     </section>
     <!--End mainmenu area-->
 
-    <!-- Hidden Navigation Bar -->
+    <!-- Hidden Navigation Bar
     <section class="hidden-bar right-align">
         <div class="hidden-bar-closer">
             <button><span class="flaticon-remove"></span></button>
@@ -169,7 +183,7 @@
             </div>
         </div>
     </section>
-    <!-- End Hidden Bar -->
+     End Hidden Bar -->
 
     <!--Start breadcrumb area-->
     <section class="breadcrumb-area" style="background-image: url(images/resources/breadcrumb-bg.jpg);">
@@ -254,9 +268,9 @@
                                                         <div class="col-auto">
                                                             <p><b>Gender: </b>
                                                                 <span
-                                                                        th:if="${userByReserId.isGender()}">Nam</span>
+                                                                        th:if="${userByReserId.isGender()}">Male</span>
                                                                 <span
-                                                                        th:if="${!userByReserId.isGender()}">Nu</span>
+                                                                        th:if="${!userByReserId.isGender()}">Female</span>
                                                             </p>
                                                         </div>
                                                         <div class="col-auto">
@@ -290,7 +304,8 @@
                                                         <div th:each="listServiceByReserId:${reservation_ServiceByReserId}">
                                                             <div class="row justify-content-between">
                                                                 <div class="col-auto col-md-7">
-                                                                    <div class="media flex-column flex-sm-row"><img
+                                                                    <div class="media flex-column flex-sm-row">
+                                                                        <img
                                                                             class=" img-fluid"
                                                                             src="https://i.imgur.com/6oHix28.jpg"
                                                                             width="62" height="62">
@@ -299,7 +314,11 @@
                                                                                 <div class="col-auto">
                                                                                     <p class="mb-0"><b
                                                                                             th:text="${listServiceByReserId.getService().getTitle()}"></b>
-                                                                                    </p><small
+                                                                                    </p>
+                                                                                    <p class="mb-0"><b
+                                                                                            th:text="${listServiceByReserId.getService().getSalePrice()}"></b><b>VND</b>
+                                                                                    </p>
+                                                                                    <small
                                                                                         class="text-muted"
                                                                                         th:text="'Date:'+${listServiceByReserId.id.getBookedDate()}+',Time:'+${listServiceByReserId.getSlot().getStart()}"></small>
                                                                                 </div>
@@ -311,11 +330,11 @@
                                                                     <p class="boxed-1"
                                                                        th:text="${listServiceByReserId.getService().getQuantity()}"></p>
                                                                 </div>-->
-                                                                <div class=" pl-0 flex-sm-col col-auto my-auto ">
+                                                                <!--<div class=" pl-0 flex-sm-col col-auto my-auto ">
                                                                     <p>
                                                                         <b th:text="${listServiceByReserId.getService().getOriginalPrice()}"></b><b>$</b>
                                                                     </p>
-                                                                </div>
+                                                                </div>-->
                                                                 <div class=" pl-0 flex-sm-col col-auto my-auto ">
                                                                     <a th:href="@{/reservation/infor/dele
                                                                     (rid=${reservationByReserId.getReservationId()}
@@ -335,7 +354,7 @@
                                                                         <p><b>Total</b></p>
                                                                     </div>
                                                                     <div class="flex-sm-col col-auto">
-                                                                        <p class="mb-1"><b th:text="${total}"></b><b>$</b></p>
+                                                                        <p class="mb-1"><b th:text="${total}"></b><b>VND</b></p>
                                                                     </div>
                                                                 </div>
                                                                 <hr class="my-0">

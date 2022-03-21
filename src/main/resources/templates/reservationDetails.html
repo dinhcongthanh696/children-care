@@ -132,10 +132,12 @@
 <div style="margin-bottom: 50px" th:insert="index :: top-bar"></div>
 <header th:replace="header.html :: header"></header>
 
-<div th:replace="mainmenu.html :: mainMenu('','Search...','home','')"></div>
+<div th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/service/services', placeholder=#{search.by.title},current='services',search='')">
+
+</div>
 <div class="container text-dark py-5 text-center">
   <h1 class="display-4" th:text="#{cart.show}"></h1>
-  <h3 th:if="${list.isEmpty()}" th:text="#{cart.title}"></h3>
+  <h3 th:if=" ${list != null and list.isEmpty()}" th:text="#{cart.title}"></h3>
 </div>
 
 <div class="container mt-5 mb-5">
@@ -177,7 +179,7 @@
     </div>
     <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted text-uppercase" th:text="#{cart.view}"></span></div>
 
-    <div th:if="${!list.isEmpty()}" class="row py-5 p-4 bg-white rounded shadow-sm">
+    <div th:if="${ list != null and !list.isEmpty()}" class="row py-5 p-4 bg-white rounded shadow-sm">
       <div class="col-lg-6">
         <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Mã giảm giá</div>
         <div class="p-4">

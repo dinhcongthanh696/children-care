@@ -171,11 +171,12 @@ public class ReservationController {
         CustomerModel cus = new CustomerModel();
         ReservationModel reservationModel = new ReservationModel();
         UserModel userFindByEmail = userService.findByEmail(email);
+        UserModel userNew = new UserModel();
 
         //case : user not login and input new email
         if (user == null && userFindByEmail == null) {
             //insert to user table
-            UserModel userNew = new UserModel();
+
             RoleModel role = new RoleModel();
             role.setRoleId(2);
             userNew.setUsername(email);
@@ -193,6 +194,8 @@ public class ReservationController {
             int cid = customerService.lastIDCus();
             cus.setCustomer_id(cid);
             reservationModel.setCustomer(cus);
+            //put user to session
+            session.setAttribute("user",userNew);
         }
         //case : user not login and input old email
         if (user == null && userFindByEmail != null) {
@@ -203,6 +206,7 @@ public class ReservationController {
             userFindByEmail.setNotes(note);
             cus = customerService.findCustomerByEmail(email);
             reservationModel.setCustomer(cus);
+            session.setAttribute("user",userFindByEmail);
         }
         //case user login
         if (user != null) {
