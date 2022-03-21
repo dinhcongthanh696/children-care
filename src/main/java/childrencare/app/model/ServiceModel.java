@@ -31,6 +31,10 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class ServiceModel {
 
+	public ServiceModel(int serviceId, String title){
+		this.serviceId = serviceId;
+		this.title = title;
+	}
 	public ServiceModel(int serviceId, byte[] thumbnail, String title, String briefInfo, double originalPrice,
 			double salePrice, int quantity, String description) {
 		this.serviceId = serviceId;

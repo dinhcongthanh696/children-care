@@ -121,162 +121,204 @@
                 <div class="appointment-form-left">
                     <form name="appointment-form" action="" method="post">
                         <input type="hidden" th:value="${reservationId}" id="reservationId">
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Your service</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <select class="selectmenu" id="chosenService">
-                                                    <!-- Insert user's chosen service -->
-                                                    <th:block th:each="service : ${services}">
-                                                        <option th:utext="${service.title}"
-                                                                th:value="|${service.serviceId}_${service.salePrice}|"></option>
-                                                    </th:block>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Date</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <input type="text" name="bookedDate" placeholder="Date" id="datepicker">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Available doctor -->
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Doctor</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <select class="selectmenu" id="staffMenu">
-                                            <!-- Insert available doctor here -->
-                                            <option th:value="0"> Automatically</option>
-                                            <th:block th:each="staff : ${staffs}">
-                                                <option th:utext="${staff.staff_user.fullname}"
-                                                        th:value="${staff.staff_id}"></option>
-                                            </th:block>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Available slot -->
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Available at</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <div class="available-time">
-                                            <ul id="available-slot">
-                                                <!-- Insert available time here-->
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </form>
                     <form action="#" method="post">
                         <div class="title">
-                            <h5>Your booked schedule</h5>
+                            <h5>Your waiting table line</h5>
                         </div>
                         <div class="row">
                             <div class="col-xl-12 col-lg-12">
                                 <div class="input-box">
-                                    <table id='scheduleInfo'>
+                                    <table class="table" th:if="${services.size() != 0}">
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Slot</th>
-                                            <th>Doctor</th>
+                                            <th></th>
                                             <th>Service</th>
                                             <th></th>
                                         </tr>
-                                        <th:block th:each="sc : ${schedules}">
-                                            <tr>
-                                                <td th:utext="${sc.id.bookedDate}" th:value="${sc.id.bookedDate}"></td>
-                                                <td th:utext="${#numbers.formatInteger(sc.slot.start, 2) + ':00'}"
-                                                    th:value="${sc.id.slot_id}"></td>
-                                                <td th:utext="${sc.staff.staff_user.fullname}"
-                                                    th:value="${sc.id.staff_id}"></td>
-                                                <td th:utext="${sc.service.title}" th:value="${sc.id.staff_id}"></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-danger cancel"
-                                                            th:onclick="deleteSchedule([[${sc.id.bookedDate}]],
-                                                                                   [[${sc.id.slot_id}]],
-                                                                                   [[${sc.id.staff_id}]]) ">
-                                                        Cancel
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </th:block>
+                                        <tr th:each="service : ${services}">
+                                            <td th:text="${serviceStat.index + 1}"></td>
+                                            <td th:text="${service.title}"></td>
+                                            <td th:id="|doctor{serviceStat.index + 1}|"></td>
+                                            <td>
+                                                <a th:href="|#addSchedule${serviceStat.index + 1}|"
+                                                   class="btn btn-success " data-toggle="modal">
+                                                    <i class="bi bi-eye" style="color: #0a1821"></i>
+                                                    <span> Book </span></a>
+                                                <!-- Add Modal HTML -->
+                                                <div th:id="|addSchedule${serviceStat.index + 1}|" class="modal fade">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <input th:id="|ser${serviceStat.index + 1}|"
+                                                                       th:value="${service.serviceId}"
+                                                                       type="hidden"/>
+                                                                <div class="row">
+                                                                    <div class="col-xl-12 col-lg-12">
+                                                                        <div class="single-box">
+                                                                            <div class="title">
+                                                                                <h5>Date</h5>
+                                                                            </div>
+                                                                            <div class="input-box">
+                                                                                <input type="date" name="bookedDate"
+                                                                                       placeholder="Date"
+                                                                                       th:id="|datepicker${serviceStat.index + 1}|"
+                                                                                       th:onchange="getSlot([[${serviceStat.index + 1}]])"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Available doctor -->
+                                                                <div class="row">
+                                                                    <div class="col-xl-12 col-lg-12">
+                                                                        <div class="single-box">
+                                                                            <div class="title">
+                                                                                <h5>Doctor</h5>
+                                                                            </div>
+                                                                            <div class="input-box">
+                                                                                <select class="form-select form-select-lg mb-3"
+                                                                                        th:id="|staffMenu${serviceStat.index + 1}|"
+                                                                                        th:onchange="getSlot([[${serviceStat.index + 1}]])">
+                                                                                    <!-- Insert available doctor here -->
+                                                                                    <option th:value="0">
+                                                                                        Automatically
+                                                                                    </option>
+                                                                                    <th:block
+                                                                                            th:each="staff : ${staffs}">
+                                                                                        <option th:utext="${staff.staff_user.fullname}"
+                                                                                                th:value="${staff.staff_id}"></option>
+                                                                                    </th:block>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Available slot -->
+                                                                <div class="row">
+                                                                    <div class="col-xl-12 col-lg-12">
+                                                                        <div class="single-box">
+                                                                            <div class="title">
+                                                                                <h5>Available at</h5>
+                                                                            </div>
+                                                                            <div class="input-box">
+                                                                                <div class="available-time">
+                                                                                    <ul th:id="|available-slot${serviceStat.index + 1}|">
+                                                                                        <!-- Insert available time here-->
+
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="button" class="btn btn-default"
+                                                                           data-dismiss="modal" value="Cancel">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </table>
+                                    <div th:if="${services.size() != 0}" class="alert alert-warning" role="alert">
+                                        <i class="fa fa-warning" style="color: #ff835e"></i>
+                                        Your must booking all services in the waiting line
+                                    </div>
+                                    <div class="alert alert-success" role="alert" id="success-mess"
+                                         th:if="${services.size() == 0}">
+                                        <i class="fa fa-check" style="color: #0F9E5E"></i>
+                                        You have complete your booking! Now it's time to pay
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </form>
-                    <br>
-                    <div th:if="${schedules.size() == 0}" class="alert alert-warning" role="alert">
-                        <i class="fa fa-warning" style="color: #ff835e"></i>
-                        Your booking must contains at least 1 appointment
-                    </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-9">
-                <div class="appointment-right">
-                    <div class="confirm-booking">
-                        <h2 style="text-align: center; color: #0F9E5E"> Your Payment</h2>
-                        <div class="tab-content">
-                            <!-- credit card info-->
-                            <input type="hidden" value="">
+                </form>
+                <br>
+                <form action="#" method="post">
+                    <div class="title">
+                        <h5>Your booked schedule</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="input-box">
+                                <table id='scheduleInfo'>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Slot</th>
+                                        <th>Doctor</th>
+                                        <th>Service</th>
+                                        <th></th>
+                                    </tr>
+                                    <th:block th:each="sc : ${schedules}">
+                                        <tr>
+                                            <td th:utext="${sc.id.bookedDate}" th:value="${sc.id.bookedDate}"></td>
+                                            <td th:utext="${#numbers.formatInteger(sc.slot.start, 2) + ':00'}"
+                                                th:value="${sc.id.slot_id}"></td>
+                                            <td th:utext="${sc.staff.staff_user.fullname}"
+                                                th:value="${sc.id.staff_id}"></td>
+                                            <td th:utext="${sc.service.title}"
+                                                th:value="${sc.service.serviceId}"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger cancel"
+                                                        th:onclick="deleteSchedule([[${sc.id.bookedDate}]],
+                                                                                   [[${sc.id.slot_id}]],
+                                                                                   [[${sc.id.staff_id}]],
+                                                                                   [[${sc.service.serviceId}]]) ">
+                                                    Cancel
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <form method="post" th:action="@{/payment}" id="paymentForm">
-                        <input type="hidden" th:value="${reservationId}" name="reservationId">
-                        <input type="hidden" th:value="${totalPrice}" name="price">
-                        <th:block th:each="p : ${payments}">
-                            <div style="margin-top: 30px">
-                                <input type="radio" th:value="${p.id}" name="payMethod" class="paymentMethod">
-                                <b> <span class="btn-box alert alert-primary"
-                                          th:text="|  Check out with ${p.name}|"> </span> </b>
-                                <br>
-                            </div>
-                        </th:block>
-                        <br>
-                        <th:block th:if="${schedules.size() > 0}">
-                            <button class="btn btn-outline-success btn-lg btn-radius confirm" style="display: none"
-                                    id="checkOut">
-                                <b> Check out </b>
-                            </button>
-                        </th:block>
-                    </form>
-                    <br>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-9">
+            <div class="appointment-right" th:if="${services.size() == 0}">
+                <div class="confirm-booking">
+                    <h2 style="text-align: center; color: #0F9E5E"> Your Payment</h2>
+                    <div class="tab-content">
+                        <!-- credit card info-->
+                        <input type="hidden" value="">
+                    </div>
                 </div>
+                <form method="post" th:action="@{/payment}" id="paymentForm">
+                    <input type="hidden" th:value="${reservationId}" name="reservationId">
+                    <input type="hidden" th:value="${totalPrice}" name="price">
+                    <th:block th:each="p : ${payments}">
+                        <div style="margin-top: 30px">
+                            <input type="radio" th:value="${p.id}" name="payMethod" class="paymentMethod">
+                            <b> <span class="btn-box alert alert-primary"
+                                      th:text="|  Check out with ${p.name}|"> </span> </b>
+                            <br>
+                        </div>
+                    </th:block>
+                    <br>
+                    <th:block th:if="${schedules.size() > 0}">
+                        <button class="btn btn-outline-success btn-lg btn-radius confirm" style="display: none"
+                                id="checkOut">
+                            <b> Check out </b>
+                        </button>
+                    </th:block>
+                </form>
+                <br>
                 <th:block>
                     <div class="alert alert-warning" role="alert" id="warning-mess">
                         <i class="fa fa-warning" style="color: #ff835e"></i>
                         You need to choose payment method so can check out!
                     </div>
                 </th:block>
-                <br>
             </div>
         </div>
     </div>
+</div>
 </div>
 <!--End Appointment area -->
 
@@ -376,11 +418,12 @@
 <script>
 
     /*=====  Cancel a booked reservation */
-    function deleteSchedule(booked_date, slot_id, staff_id) {
+    function deleteSchedule(booked_date, slot_id, staff_id, service_id) {
         var formData = new FormData();
         formData.append("booked_date", booked_date);
         formData.append("slot_id", slot_id);
         formData.append("staff_id", staff_id);
+        formData.append("service_id", service_id);
 
         fetch("/ChildrenCare/api-reservation/schedule", {
             method: 'DELETE',
@@ -403,12 +446,12 @@
 
 
     /*=======  Pick a schedule =========*/
-    $(document).on('change', '#datepicker, #staffMenu', function () {
+    // $(document).on('change', '#datepicker, #staffMenu',
+    function getSlot(index) {
         // your function here
-        let date = new Date($('#datepicker').val());
+        let date = new Date($('#datepicker' + index).val());
         let booked_date = getPickedDate(date);
-        let staff_id = $("#staffMenu").val();
-
+        let staff_id = $("#staffMenu" + index).val();
         let url = '/ChildrenCare/api-slot/slots?booked_date=' + booked_date + '&staff_id=' + staff_id;
         console.log(url);
         fetch(url)
@@ -423,18 +466,20 @@
             });
 
         function appendData(data) {
-            $('#available-slot').empty();
-            var mainContainer = document.getElementById("available-slot");
+            $('#available-slot' + index).empty();
+            var mainContainer = document.getElementById("available-slot" + index);
 
             for (var i = 0; i < data.length; i++) {
-                var li = document.createElement("li");
-                li.id = data[i].id;
-                li.classList.add('slot_Booked');
-                li.innerHTML = renderHour(data[i].start);
-                mainContainer.appendChild(li);
+                var tag = document.createElement("li");
+                tag.id = data[i].id + "_" + index;
+                tag.classList.add('slot_Booked');
+                tag.innerHTML = renderHour(data[i].start);
+                mainContainer.appendChild(tag);
             }
         }
-    });
+    }
+
+    // });
 
     function getPickedDate(date) {
         let dd = String(date.getDate()).padStart(2, '0');
@@ -454,21 +499,23 @@
 
     /* ====== Create a schedule ====== */
     $(document).on('click', '.slot_Booked', function () {
-        let slot_id = this.id;
-        let date = new Date($('#datepicker').val());
+        let raw_slotID = this.id;
+        let word = raw_slotID.split("_")
+        let slot_id = word[0];
+        let index = word[1];
+        let date = new Date($('#datepicker' + index).val());
         let booked_date = getPickedDate(date);
-        let staff_id = $("#staffMenu").val();
-        let service_price = $("#chosenService").val();
+        let staff_id = $("#staffMenu" + index).val();
         let reservation_id = $("#reservationId").val();
-        let word = service_price.split("_");
+        let sid = $('#ser' + index).val();
 
+        console.log(booked_date);
         let formData = new FormData();
         formData.append("reservation_id", reservation_id);
-        formData.append("service_id", word[0]);
+        formData.append("service_id", sid);
         formData.append("slot_id", slot_id);
         formData.append("booked_date", booked_date);
         formData.append("staff_id", staff_id);
-        formData.append("price", word[1]);
 
         fetch("/ChildrenCare/api-reservation/schedule", {
             method: 'PUT',
@@ -482,13 +529,11 @@
                         alert("Your are not allowed to save any changes");
                         break;
                     case 200 :
-                        //
-                        $(this).hide();
                         location.reload();
                 }
             })
     });
-     $(document).on('click', '.paymentMethod', function () {
+    $(document).on('click', '.paymentMethod', function () {
         document.getElementById("checkOut").style.display = "block";
         document.getElementById("warning-mess").style.display = "none";
     })

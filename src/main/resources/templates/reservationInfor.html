@@ -58,7 +58,10 @@
                             <div th:if="${session.user} != null" class="navbar-collapse collapse clearfix">
                                 <ul class="navigation clearfix">
                                     <li>
-                                        <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form1" class="far fa-user fa-2x text-white "  onclick="triggerLoginForm('block')"></i>
+                                        <i style="padding: 10px;" href="#signup" data-toggle="modal"
+                                           data-target=".log-sign" id="trigger-login-form1"
+                                           class="far fa-user fa-2x text-white "
+                                           onclick="triggerLoginForm('block')"></i>
                                         <ul>
                                             <li><a href="/ChildrenCare/setting/profile">Settings</a></li>
                                             <li><a href="/ChildrenCare/logout">Log out</a></li>
@@ -72,9 +75,11 @@
                 <div class="col-xl-6 col-lg-12">
                     <div class="top-right">
                         <ul class="sociallinks-style-one">
-                            <li th:if="${session.user} != null" class="text-white" th:text="'Hello: '+${session.user.username}"></li>
+                            <li th:if="${session.user} != null" class="text-white"
+                                th:text="'Hello: '+${session.user.username}"></li>
                             <li th:if="${session.user == null}">
-                                <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign" id="trigger-login-form"
+                                <i style="padding: 10px;" href="#signup" data-toggle="modal" data-target=".log-sign"
+                                   id="trigger-login-form"
                                    class="far fa-user fa-2x text-white" onclick="triggerLoginForm('block')"></i>
                             </li>
                             <li>
@@ -100,8 +105,10 @@
                                 </a>
                             </li>
                             <li>
-                                <i class="fa fa-language" aria-hidden="true" style="font-size : 25px;color : white;"></i>
-                                <label th:text="#{label.choose.language}" style="color : white;" for="languages-switcher"></label>
+                                <i class="fa fa-language" aria-hidden="true"
+                                   style="font-size : 25px;color : white;"></i>
+                                <label th:text="#{label.choose.language}" style="color : white;"
+                                       for="languages-switcher"></label>
                                 <select class="form-control" id="languages-switcher"
                                         onchange="changeLanguage(this.value)"
                                         style="height : 34px;"
@@ -220,145 +227,145 @@
             </div>
             <div class="row">
                 <div class="col-xl-12">
-                        <div class=" container-fluid my-5 ">
-                            <div class="row justify-content-center ">
-                                <div class="col-xl-10">
-                                    <div class="card shadow-lg ">
-                                        <div class="row justify-content-around">
-                                            <div class="col-md-5">
-                                                <div class="card border-0">
-                                                    <div class="card-header pb-0">
-                                                        <h2 class="card-title space ">INFORMATION</h2>
-                                                        <p class="card-text text-muted mt-4 space">RESERVATION
-                                                            DETAILS</p>
-                                                        <hr class="my-0">
+                    <div class=" container-fluid my-5 ">
+                        <div class="row justify-content-center ">
+                            <div class="col-xl-10">
+                                <div class="card shadow-lg ">
+                                    <div class="row justify-content-around">
+                                        <div class="col-md-5">
+                                            <div class="card border-0">
+                                                <div class="card-header pb-0">
+                                                    <h2 class="card-title space ">INFORMATION</h2>
+                                                    <p class="card-text text-muted mt-4 space">RESERVATION
+                                                        DETAILS</p>
+                                                    <hr class="my-0">
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="col-auto mt-0">
+                                                        <p><b>Reservation ID: </b><span
+                                                                th:text="${reservationByReserId.getReservationId()}"></span>
+                                                        </p>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <div class="col-auto mt-0">
-                                                            <p><b>Reservation ID: </b><span
-                                                                    th:text="${reservationByReserId.getReservationId()}"></span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <p><b>Date: </b><span
-                                                                    th:text="${reservationByReserId.getDate()}"></span>
-                                                            </p>
-                                                        </div>
-                                                        <!--<div class="col-auto">
-                                                            <p><b>Time to check up: </b><span
-                                                                    ></span></p>
-                                                        </div>-->
-                                                        <div class="col-auto">
-                                                            <p><b>Status: </b>
-                                                                <span
-                                                                        th:text="${reservationByReserId.getStatusReservation().getStatusName()}"></span>
+                                                    <div class="col-auto">
+                                                        <p><b>Date: </b><span
+                                                                th:text="${reservationByReserId.getDate()}"></span>
+                                                        </p>
+                                                    </div>
+                                                    <!--<div class="col-auto">
+                                                        <p><b>Time to check up: </b><span
+                                                                ></span></p>
+                                                    </div>-->
+                                                    <div class="col-auto">
+                                                        <p><b>Status: </b>
+                                                            <span
+                                                                    th:text="${reservationByReserId.getStatusReservation().getStatusName()}"></span>
 
-                                                            </p>
+                                                        </p>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col">
+                                                            <p class="text-muted mb-2">PERSNAL DETAILS</p>
+                                                            <hr class="mt-0">
                                                         </div>
-                                                        <div class="row mt-4">
-                                                            <div class="col">
-                                                                <p class="text-muted mb-2">PERSNAL DETAILS</p>
-                                                                <hr class="mt-0">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto mt-0">
-                                                            <p><b>Name: </b><span
-                                                                    th:text="${userByReserId.getFullname()}"></span></p>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <p><b>Gender: </b>
-                                                                <span
-                                                                        th:if="${userByReserId.isGender()}">Male</span>
-                                                                <span
-                                                                        th:if="${!userByReserId.isGender()}">Female</span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <p><b>Phone: </b><span
-                                                                    th:text="${userByReserId.getPhone()}"></span></p>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <p><b>Email: </b><span
-                                                                    th:text="${userByReserId.getEmail()}"></span></p>
-                                                        </div>
-                                                        <div class="row mb-md-5">
-                                                            <div class="col">
-                                                                <a type="button" href="/ChildrenCare/setting/profile"
-                                                                        class="btn btn-lg btn-block ">Update
-                                                                </a>
-                                                            </div>
+                                                    </div>
+                                                    <div class="col-auto mt-0">
+                                                        <p><b>Name: </b><span
+                                                                th:text="${userByReserId.getFullname()}"></span></p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <p><b>Gender: </b>
+                                                            <span
+                                                                    th:if="${userByReserId.isGender()}">Male</span>
+                                                            <span
+                                                                    th:if="${!userByReserId.isGender()}">Female</span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <p><b>Phone: </b><span
+                                                                th:text="${userByReserId.getPhone()}"></span></p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <p><b>Email: </b><span
+                                                                th:text="${userByReserId.getEmail()}"></span></p>
+                                                    </div>
+                                                    <div class="row mb-md-5">
+                                                        <div class="col">
+                                                            <a type="button" href="/ChildrenCare/setting/profile"
+                                                               class="btn btn-lg btn-block ">Update
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-5">
-                                                <div class="card border-0 ">
-                                                    <div class="card-header card-2">
-                                                        <p class="card-text text-muted mt-md-4 mb-2 space">SERVICES<span
-                                                                class=" small text-muted ml-2 cursor-pointer">Your Service</span>
-                                                        </p>
-                                                        <hr class="my-2">
-                                                    </div>
-                                                    <div class="card-body pt-0">
-                                                        <!--Loop service-->
-                                                        <div th:each="listServiceByReserId:${reservation_ServiceByReserId}">
-                                                            <div class="row justify-content-between">
-                                                                <div class="col-auto col-md-7">
-                                                                    <div class="media flex-column flex-sm-row">
-                                                                        <img
-                                                                            class=" img-fluid"
-                                                                            src="https://i.imgur.com/6oHix28.jpg"
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="card border-0 ">
+                                                <div class="card-header card-2">
+                                                    <p class="card-text text-muted mt-md-4 mb-2 space">SERVICES<span
+                                                            class=" small text-muted ml-2 cursor-pointer">Your Service</span>
+                                                    </p>
+                                                    <hr class="my-2">
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <!--Loop service-->
+                                                    <div th:each="listServiceByReserId:${reservation_ServiceByReserId}">
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-auto col-md-7">
+                                                                <div class="media flex-column flex-sm-row">
+                                                                    <img
+                                                                            th:src="${'data:image/gif;base64,'+listServiceByReserId.getService().getBase64ThumbnailEncode()}"
+                                                                            class="service-thumbnail"
                                                                             width="62" height="62">
-                                                                        <div class="media-body my-auto">
-                                                                            <div class="row ">
-                                                                                <div class="col-auto">
-                                                                                    <p class="mb-0"><b
-                                                                                            th:text="${listServiceByReserId.getService().getTitle()}"></b>
-                                                                                    </p>
-                                                                                    <p class="mb-0"><b
-                                                                                            th:text="${listServiceByReserId.getService().getSalePrice()}"></b><b>VND</b>
-                                                                                    </p>
-                                                                                    <small
+                                                                    <div class="media-body my-auto">
+                                                                        <div class="row ">
+                                                                            <div class="col-auto">
+                                                                                <p class="mb-0"><b
+                                                                                        th:text="${listServiceByReserId.getService().getTitle()}"></b>
+                                                                                </p>
+                                                                                <p class="mb-0"><b
+                                                                                        th:text="${listServiceByReserId.getService().getSalePrice()}"></b><b>VND</b>
+                                                                                </p>
+                                                                                <small
                                                                                         class="text-muted"
                                                                                         th:text="'Date:'+${listServiceByReserId.id.getBookedDate()}+',Time:'+${listServiceByReserId.getSlot().getStart()}"></small>
-                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!--<div class=" pl-0 flex-sm-col col-auto my-auto">
-                                                                    <p class="boxed-1"
-                                                                       th:text="${listServiceByReserId.getService().getQuantity()}"></p>
-                                                                </div>-->
-                                                                <!--<div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                                                    <p>
-                                                                        <b th:text="${listServiceByReserId.getService().getOriginalPrice()}"></b><b>$</b>
-                                                                    </p>
-                                                                </div>-->
-                                                                <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                                                    <a th:href="@{/reservation/infor/dele
+                                                            </div>
+                                                            <!--<div class=" pl-0 flex-sm-col col-auto my-auto">
+                                                                <p class="boxed-1"
+                                                                   th:text="${listServiceByReserId.getService().getQuantity()}"></p>
+                                                            </div>-->
+                                                            <!--<div class=" pl-0 flex-sm-col col-auto my-auto ">
+                                                                <p>
+                                                                    <b th:text="${listServiceByReserId.getService().getOriginalPrice()}"></b><b>$</b>
+                                                                </p>
+                                                            </div>-->
+                                                            <div class=" pl-0 flex-sm-col col-auto my-auto ">
+                                                                <a th:href="@{/reservation/infor/dele
                                                                     (rid=${reservationByReserId.getReservationId()}
                                                                     ,sid=${listServiceByReserId.getService().getServiceId()}
                                                                     ,slotid=${listServiceByReserId.getSlot().getId()}
                                                                     ,date=${listServiceByReserId.id.getBookedDate()})}">Delete</a>
-                                                                </div>
                                                             </div>
-                                                            <hr class="my-2">
                                                         </div>
-                                                        <!--End loop service-->
-                                                        <!--Cost-->
-                                                        <div class="row ">
-                                                            <div class="col">
-                                                                <div class="row justify-content-between">
-                                                                    <div class="col-4">
-                                                                        <p><b>Total</b></p>
-                                                                    </div>
-                                                                    <div class="flex-sm-col col-auto">
-                                                                        <p class="mb-1"><b th:text="${total}"></b><b>VND</b></p>
-                                                                    </div>
+                                                        <hr class="my-2">
+                                                    </div>
+                                                    <!--End loop service-->
+                                                    <!--Cost-->
+                                                    <div class="row ">
+                                                        <div class="col">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col-4">
+                                                                    <p><b>Total</b></p>
                                                                 </div>
-                                                                <hr class="my-0">
+                                                                <div class="flex-sm-col col-auto">
+                                                                    <p class="mb-1"><b th:text="${total}"></b><b>VND</b>
+                                                                    </p>
+                                                                </div>
                                                             </div>
+                                                            <hr class="my-0">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -368,6 +375,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
                 <!--<div class="col-xl-4 col-lg-6 col-md-9">
                     <div class="appointment-right">

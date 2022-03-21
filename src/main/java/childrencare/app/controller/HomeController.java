@@ -31,6 +31,8 @@ public class HomeController {
 
     @Autowired
     private SlidersService slidersService;
+    @Autowired
+    private BlogCategoryService blogCategoryService;
 
     public HomeController(ServiceModelService serviceModelService) {
         this.serviceModelService = serviceModelService;
@@ -49,15 +51,18 @@ public class HomeController {
         List<FeedbackModel> feedbacks = feedbackService.getAll();
         List<ServiceModel> services = serviceModelService.getHighestRatedStarServices(size);
         for (ServiceModel service : services) {
+            if(service.getThumbnail() != null)
             service.setBase64ThumbnailEncode(service.getThumbnail());
         }
         List<SliderModel> sliders = slidersService.listSliderHomepage(1);
         for (SliderModel slider : sliders) {
+            if(slider.getImage() != null)
             slider.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(slider.getImage()));
         }
 
         model.addAttribute("serviceitems", serviceModelService.getHighestRatedStarServices(size));
         model.addAttribute("servicecategories", serviceCategoryService.findAll());
+        model.addAttribute("listCategoryPost", blogCategoryService.findAll());
         model.addAttribute("feedbacks", feedbacks);
         model.addAttribute("lang", lang);
         model.addAttribute("sliders",sliders);
