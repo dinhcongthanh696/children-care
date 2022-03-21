@@ -221,100 +221,104 @@
                                                 </div>
                                             </td>
                                         </tr>
-
                                     </table>
+                                    <div th:if="${services.size() != 0}" class="alert alert-warning" role="alert">
+                                        <i class="fa fa-warning" style="color: #ff835e"></i>
+                                        Your must booking all services in the waiting line
+                                    </div>
+                                    <div class="alert alert-success" role="alert" id="success-mess"
+                                         th:if="${services.size() == 0}">
+                                        <i class="fa fa-check" style="color: #0F9E5E"></i>
+                                        You have complete your booking! Now it's time to pay
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </form>
-                    <br>
-                    <form action="#" method="post">
-                        <div class="title">
-                            <h5>Your booked schedule</h5>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="input-box">
-                                    <table id='scheduleInfo'>
+                </div>
+                </form>
+                <br>
+                <form action="#" method="post">
+                    <div class="title">
+                        <h5>Your booked schedule</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="input-box">
+                                <table id='scheduleInfo'>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Slot</th>
+                                        <th>Doctor</th>
+                                        <th>Service</th>
+                                        <th></th>
+                                    </tr>
+                                    <th:block th:each="sc : ${schedules}">
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Slot</th>
-                                            <th>Doctor</th>
-                                            <th>Service</th>
-                                            <th></th>
-                                        </tr>
-                                        <th:block th:each="sc : ${schedules}">
-                                            <tr>
-                                                <td th:utext="${sc.id.bookedDate}" th:value="${sc.id.bookedDate}"></td>
-                                                <td th:utext="${#numbers.formatInteger(sc.slot.start, 2) + ':00'}"
-                                                    th:value="${sc.id.slot_id}"></td>
-                                                <td th:utext="${sc.staff.staff_user.fullname}"
-                                                    th:value="${sc.id.staff_id}"></td>
-                                                <td th:utext="${sc.service.title}"
-                                                    th:value="${sc.service.serviceId}"></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-danger cancel"
-                                                            th:onclick="deleteSchedule([[${sc.id.bookedDate}]],
+                                            <td th:utext="${sc.id.bookedDate}" th:value="${sc.id.bookedDate}"></td>
+                                            <td th:utext="${#numbers.formatInteger(sc.slot.start, 2) + ':00'}"
+                                                th:value="${sc.id.slot_id}"></td>
+                                            <td th:utext="${sc.staff.staff_user.fullname}"
+                                                th:value="${sc.id.staff_id}"></td>
+                                            <td th:utext="${sc.service.title}"
+                                                th:value="${sc.service.serviceId}"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger cancel"
+                                                        th:onclick="deleteSchedule([[${sc.id.bookedDate}]],
                                                                                    [[${sc.id.slot_id}]],
                                                                                    [[${sc.id.staff_id}]],
                                                                                    [[${sc.service.serviceId}]]) ">
-                                                        Cancel
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </th:block>
-                                    </table>
-                                </div>
+                                                    Cancel
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                </table>
                             </div>
                         </div>
-                    </form>
-                    <div th:if="${services.size() != 0}" class="alert alert-warning" role="alert">
-                        <i class="fa fa-warning" style="color: #ff835e"></i>
-                        Your must booking all services in the waiting line
                     </div>
-                </div>
+                </form>
             </div>
-            <div class="col-xl-4 col-lg-6 col-md-9">
-                <div class="appointment-right">
-                    <div class="confirm-booking">
-                        <h2 style="text-align: center; color: #0F9E5E"> Your Payment</h2>
-                        <div class="tab-content">
-                            <!-- credit card info-->
-                            <input type="hidden" value="">
-                        </div>
-                    </div>
-                    <div th:if="${services.size() != 0}">
-                        <form method="post" th:action="@{/payment}" id="paymentForm">
-                            <input type="hidden" th:value="${reservationId}" name="reservationId">
-                            <input type="hidden" th:value="${totalPrice}" name="price">
-                            <th:block th:each="p : ${payments}">
-                                <div style="margin-top: 30px">
-                                    <input type="radio" th:value="${p.id}" name="payMethod" class="paymentMethod">
-                                    <b> <span class="btn-box alert alert-primary"
-                                              th:text="|  Check out with ${p.name}|"> </span> </b>
-                                    <br>
-                                </div>
-                            </th:block>
-                            <br>
-                            <th:block th:if="${schedules.size() > 0}">
-                                <button class="btn btn-outline-success btn-lg btn-radius confirm" style="display: none"
-                                        id="checkOut">
-                                    <b> Check out </b>
-                                </button>
-                            </th:block>
-                        </form>
-                        <br>
-                        <th:block>
-                            <div class="alert alert-warning" role="alert" id="warning-mess">
-                                <i class="fa fa-warning" style="color: #ff835e"></i>
-                                You need to choose payment method so can check out!
-                            </div>
-                        </th:block>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-9">
+            <div class="appointment-right" th:if="${services.size() == 0}">
+                <div class="confirm-booking">
+                    <h2 style="text-align: center; color: #0F9E5E"> Your Payment</h2>
+                    <div class="tab-content">
+                        <!-- credit card info-->
+                        <input type="hidden" value="">
                     </div>
                 </div>
+                <form method="post" th:action="@{/payment}" id="paymentForm">
+                    <input type="hidden" th:value="${reservationId}" name="reservationId">
+                    <input type="hidden" th:value="${totalPrice}" name="price">
+                    <th:block th:each="p : ${payments}">
+                        <div style="margin-top: 30px">
+                            <input type="radio" th:value="${p.id}" name="payMethod" class="paymentMethod">
+                            <b> <span class="btn-box alert alert-primary"
+                                      th:text="|  Check out with ${p.name}|"> </span> </b>
+                            <br>
+                        </div>
+                    </th:block>
+                    <br>
+                    <th:block th:if="${schedules.size() > 0}">
+                        <button class="btn btn-outline-success btn-lg btn-radius confirm" style="display: none"
+                                id="checkOut">
+                            <b> Check out </b>
+                        </button>
+                    </th:block>
+                </form>
+                <br>
+                <th:block>
+                    <div class="alert alert-warning" role="alert" id="warning-mess">
+                        <i class="fa fa-warning" style="color: #ff835e"></i>
+                        You need to choose payment method so can check out!
+                    </div>
+                </th:block>
             </div>
         </div>
     </div>
+</div>
 </div>
 <!--End Appointment area -->
 
