@@ -242,7 +242,7 @@ public class ManagerController {
                              @RequestParam(name = "pid", required = false) int pid
     ) {
         PostModel post = postService.getPostDetail(pid);
-
+        if (post.getThumbnail()!= null)
         post.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(post.getThumbnail()));
 
         //about post
