@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import childrencare.app.model.ReservationModel;
 import childrencare.app.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -79,13 +80,26 @@ public class ReservationAPI {
 
 	@Transactional
 	@PutMapping ("/schedule")
-	public void addSchedule(@RequestParam(name = "reservation_id") Integer reservationId,
+	public void addSchedule(HttpSession session,
+							@RequestParam(name = "reservation_id") Integer reservationId,
 							@RequestParam(name = "service_id") Integer serviceId,
 							@RequestParam(name = "slot_id") Integer slotId,
 							@RequestParam(name = "staff_id") Integer staffId,
-							@RequestParam(name = "booked_date") Date date,
-							@RequestParam(name = "price") double price
+							@RequestParam(name = "booked_date") Date date
 	) {
+		double price = serviceModelService.getServiceById(serviceId).get().getOriginalPrice();
+		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
+		for(ServiceModel serviceModel : serviceModels){
+			if(serviceModel.getServiceId() == serviceId){
+				int quantity = serviceModel.getQuantity();
+				if(quantity == 1){
+					serviceModels.remove(serviceModel);
+				}
+				else{
+					serviceModel.setQuantity(quantity - 1);
+				}
+			}
+		}
 		reservationService.createSchedule(reservationId, serviceId, slotId, staffId, date, price);
 	}
 

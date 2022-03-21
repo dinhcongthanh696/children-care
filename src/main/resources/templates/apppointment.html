@@ -121,77 +121,113 @@
                 <div class="appointment-form-left">
                     <form name="appointment-form" action="" method="post">
                         <input type="hidden" th:value="${reservationId}" id="reservationId">
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Your service</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <select class="selectmenu" id="chosenService">
-                                                    <!-- Insert user's chosen service -->
-                                                    <th:block th:each="service : ${services}">
-                                                        <option th:utext="${service.title}"
-                                                                th:value="|${service.serviceId}_${service.salePrice}|"></option>
-                                                    </th:block>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Date</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <input type="text" name="bookedDate" placeholder="Date" id="datepicker">
-                                    </div>
-                                </div>
-                            </div>
+                    </form>
+                    <form action="#" method="post">
+                        <div class="title">
+                            <h5>Your waiting booking schedule</h5>
                         </div>
-                        <!-- Available doctor -->
                         <div class="row">
                             <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Doctor</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <select class="selectmenu" id="staffMenu">
-                                            <!-- Insert available doctor here -->
-                                            <option th:value="0"> Automatically</option>
-                                            <th:block th:each="staff : ${staffs}">
-                                                <option th:utext="${staff.staff_user.fullname}"
-                                                        th:value="${staff.staff_id}"></option>
-                                            </th:block>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Available slot -->
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12">
-                                <div class="single-box">
-                                    <div class="title">
-                                        <h5>Available at</h5>
-                                    </div>
-                                    <div class="input-box">
-                                        <div class="available-time">
-                                            <ul id="available-slot">
-                                                <!-- Insert available time here-->
+                                <div class="input-box">
+                                    <table class="table">
+                                        <tr>
+                                            <th></th>
+                                            <th>Service</th>
+                                            <th></th>
+                                        </tr>
+                                        <tr th:each="service : ${services}">
+                                            <td th:text="${serviceStat.index + 1}"></td>
+                                            <td th:text="${service.title}"></td>
+                                            <td th:id="|doctor{serviceStat.index + 1}|"></td>
+                                            <td>
+                                                <a th:href="|#addSchedule${serviceStat.index + 1}|"
+                                                   class="btn btn-success " data-toggle="modal">
+                                                    <i class="bi bi-eye" style="color: #0a1821"></i>
+                                                    <span> Book </span></a>
+                                                <!-- Add Modal HTML -->
+                                                <div th:id="|addSchedule${serviceStat.index + 1}|" class="modal fade">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <input th:id="|ser${serviceStat.index + 1}|"
+                                                                       th:value="${service.serviceId}"
+                                                                       type="hidden"/>
+                                                                <div class="row">
+                                                                    <div class="col-xl-12 col-lg-12">
+                                                                        <div class="single-box">
+                                                                            <div class="title">
+                                                                                <h5>Date</h5>
+                                                                            </div>
+                                                                            <div class="input-box">
+                                                                                <input type="date" name="bookedDate"
+                                                                                       placeholder="Date"
+                                                                                       th:id="|datepicker${serviceStat.index + 1}|"
+                                                                                       th:onchange="getSlot([[${serviceStat.index + 1}]])"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Available doctor -->
+                                                                <div class="row">
+                                                                    <div class="col-xl-12 col-lg-12">
+                                                                        <div class="single-box">
+                                                                            <div class="title">
+                                                                                <h5>Doctor</h5>
+                                                                            </div>
+                                                                            <div class="input-box">
+                                                                                <select class="form-select form-select-lg mb-3"
+                                                                                        th:id="|staffMenu${serviceStat.index + 1}|"
+                                                                                        th:onchange="getSlot([[${serviceStat.index + 1}]])">
+                                                                                    <!-- Insert available doctor here -->
+                                                                                    <option th:value="0">
+                                                                                        Automatically
+                                                                                    </option>
+                                                                                    <th:block
+                                                                                            th:each="staff : ${staffs}">
+                                                                                        <option th:utext="${staff.staff_user.fullname}"
+                                                                                                th:value="${staff.staff_id}"></option>
+                                                                                    </th:block>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Available slot -->
+                                                                <div class="row">
+                                                                    <div class="col-xl-12 col-lg-12">
+                                                                        <div class="single-box">
+                                                                            <div class="title">
+                                                                                <h5>Available at</h5>
+                                                                            </div>
+                                                                            <div class="input-box">
+                                                                                <div class="available-time">
+                                                                                    <ul th:id="|available-slot${serviceStat.index + 1}|">
+                                                                                        <!-- Insert available time here-->
 
-                                            </ul>
-                                        </div>
-                                    </div>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="button" class="btn btn-default"
+                                                                           data-dismiss="modal" value="Cancel">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <br>
                     <form action="#" method="post">
                         <div class="title">
                             <h5>Your booked schedule</h5>
@@ -230,7 +266,6 @@
                             </div>
                         </div>
                     </form>
-                    <br>
                     <div th:if="${schedules.size() == 0}" class="alert alert-warning" role="alert">
                         <i class="fa fa-warning" style="color: #ff835e"></i>
                         Your booking must contains at least 1 appointment
@@ -403,12 +438,12 @@
 
 
     /*=======  Pick a schedule =========*/
-    $(document).on('change', '#datepicker, #staffMenu', function () {
+    // $(document).on('change', '#datepicker, #staffMenu',
+    function getSlot(index) {
         // your function here
-        let date = new Date($('#datepicker').val());
+        let date = new Date($('#datepicker' + index).val());
         let booked_date = getPickedDate(date);
-        let staff_id = $("#staffMenu").val();
-
+        let staff_id = $("#staffMenu" + index).val();
         let url = '/ChildrenCare/api-slot/slots?booked_date=' + booked_date + '&staff_id=' + staff_id;
         console.log(url);
         fetch(url)
@@ -423,18 +458,20 @@
             });
 
         function appendData(data) {
-            $('#available-slot').empty();
-            var mainContainer = document.getElementById("available-slot");
+            $('#available-slot' + index).empty();
+            var mainContainer = document.getElementById("available-slot" + index);
 
             for (var i = 0; i < data.length; i++) {
-                var li = document.createElement("li");
-                li.id = data[i].id;
-                li.classList.add('slot_Booked');
-                li.innerHTML = renderHour(data[i].start);
-                mainContainer.appendChild(li);
+                var tag = document.createElement("li");
+                tag.id = data[i].id + "_" + index;
+                tag.classList.add('slot_Booked');
+                tag.innerHTML = renderHour(data[i].start);
+                mainContainer.appendChild(tag);
             }
         }
-    });
+    }
+
+    // });
 
     function getPickedDate(date) {
         let dd = String(date.getDate()).padStart(2, '0');
@@ -454,21 +491,23 @@
 
     /* ====== Create a schedule ====== */
     $(document).on('click', '.slot_Booked', function () {
-        let slot_id = this.id;
-        let date = new Date($('#datepicker').val());
+        let raw_slotID = this.id;
+        let word = raw_slotID.split("_")
+        let slot_id = word[0];
+        let index = word[1];
+        let date = new Date($('#datepicker' + index).val());
         let booked_date = getPickedDate(date);
-        let staff_id = $("#staffMenu").val();
-        let service_price = $("#chosenService").val();
+        let staff_id = $("#staffMenu" + index).val();
         let reservation_id = $("#reservationId").val();
-        let word = service_price.split("_");
+        let sid = $('#ser' + index).val();
 
+        console.log(booked_date);
         let formData = new FormData();
         formData.append("reservation_id", reservation_id);
-        formData.append("service_id", word[0]);
+        formData.append("service_id", sid);
         formData.append("slot_id", slot_id);
         formData.append("booked_date", booked_date);
         formData.append("staff_id", staff_id);
-        formData.append("price", word[1]);
 
         fetch("/ChildrenCare/api-reservation/schedule", {
             method: 'PUT',
@@ -482,13 +521,11 @@
                         alert("Your are not allowed to save any changes");
                         break;
                     case 200 :
-                        //
-                        $(this).hide();
                         location.reload();
                 }
             })
     });
-     $(document).on('click', '.paymentMethod', function () {
+    $(document).on('click', '.paymentMethod', function () {
         document.getElementById("checkOut").style.display = "block";
         document.getElementById("warning-mess").style.display = "none";
     })
