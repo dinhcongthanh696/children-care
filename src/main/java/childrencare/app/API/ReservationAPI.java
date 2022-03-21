@@ -113,16 +113,20 @@ public class ReservationAPI {
 							   @RequestParam(name = "booked_date") Date booked_date,
 							   @RequestParam(name = "service_id") Integer serviceId
 	) {
+		System.out.println("Service id : "+serviceId);
 		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
 		boolean isExist = false;
 		for(ServiceModel s : serviceModels){
+			System.out.println(serviceId+" "+s.getServiceId());
 			if(s.getServiceId() == serviceId){
+				System.out.println("True");
 				s.setQuantity(s.getQuantity() + 1);
 				isExist = true;
 				break;
 			}
 		}
 		if(!isExist){
+			System.out.println("False");
 			ServiceModel serviceModel = serviceModelService.getServicesById(serviceId);
 			serviceModels.add(serviceModel);
 		}
