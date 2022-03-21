@@ -51,8 +51,8 @@
         });
         var total = subtotal;
         $('.totals-value').fadeOut(fadeTime, function() {
-          $('#cart-subtotal').html(subtotal+' đ');
-          $('.cart-total').html(total+' đ');
+          $('#cart-subtotal').html(subtotal.toFixed(3)+'.000 đ');
+          $('.cart-total').html(total.toFixed(3)+'.000 đ');
           if (total == 0) {
             $('.checkout').fadeOut(fadeTime);
           } else {
@@ -73,7 +73,7 @@
         var linePrice = price * quantity;
         productRow.children('.product-line-price').each(function() {
           $(this).fadeOut(fadeTime, function() {
-            $(this).text(linePrice+' đ');
+            $(this).text(linePrice.toFixed(3)+'.000 đ');
             recalculateCart();
             $(this).fadeIn(fadeTime);
           });
