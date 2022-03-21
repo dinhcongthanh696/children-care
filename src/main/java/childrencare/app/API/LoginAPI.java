@@ -45,7 +45,8 @@ public class LoginAPI {
         JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
         String from = mailSenderImpl.getUsername();
         String to = email;
-        String subject = "Reset Password from ChildrenCare";
+        String subject = "Reset Password from ChildrenCare"; //tieu de cua mail
+        //body of email
         MimeMessage mimeMessage = mailSenderImpl.createMimeMessage();
         try {
             mimeMessage.setFrom(from);
