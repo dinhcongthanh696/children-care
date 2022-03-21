@@ -251,9 +251,9 @@ public class ReservationController {
             UserModel userModel = userService.findUserModelByUserReservationId(reserID.get());
             float totalPriceService = reservationService_service.getSumService(reserID.get());
 
-            for (ServiceModel s : serviceModelList) {
-                if (s.getThumbnail()!= null){
-                    s.setBase64ThumbnailEncode(Base64.getEncoder().encode(s.getThumbnail()));
+            for (ReservationServiceModel s : reservationServices) {
+                if (s.getService().getThumbnail()!= null){
+                    s.getService().setBase64ThumbnailEncode(s.getService().getThumbnail());
                 }
             }
 
