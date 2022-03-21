@@ -127,7 +127,7 @@ public class LoginAPI {
             userModel.setPhone(phone);
             userModel.setStatus(true);
             RoleModel roleModel = new RoleModel();
-            roleModel.setRoleId(4);
+            roleModel.setRoleId(2);
             userModel.setUserRole(roleModel);
 //        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 //        LocalDateTime now = LocalDateTime.now();
