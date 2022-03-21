@@ -21,6 +21,8 @@ public class MyErrorController implements ErrorController {
                     return "401";
                 case 403 :
                     return "403";
+                case 500 :
+                    return "500";
             }
         }
         return "404";

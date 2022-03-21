@@ -35,8 +35,8 @@ public class CookieHandler {
 				serviceCartAttributes = serviceCart.split("_");
 				serviceCookieId = Integer.parseInt(serviceCartAttributes[0]);
 				if(serviceCookieId == serviceId) {
-					isExsisting = true;
-					if(modifiedValue.isEmpty()) continue;
+					isExsisting = true; // if modified service not present so that we add it
+					if(modifiedValue.isEmpty()) continue;   // remove value
 					cartModifiedCookieValue += modifiedValue + "-";
 				}else {
 					cartModifiedCookieValue += serviceCart + "-";

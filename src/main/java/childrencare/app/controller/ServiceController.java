@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import childrencare.app.repository.*;
+import childrencare.app.service.CustomerService;
+import childrencare.app.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -32,17 +34,20 @@ public class ServiceController {
 	private final ServiceModelService serviceModelService;
 	private final ServiceCategoryService serviceCategoryService;
 	private final FeedbackRepository feedbackRepository;
-	private final CustomerRepository customerRepository;
+	private final CustomerService customerService;
+	private final ReservationService reservationService;
 	private final int SERVICESIZE = 9;
 	@Autowired
 	public ServiceController(ServiceCategoryRepository serviceCategoryRepository,
 							 ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService,
-							 FeedbackRepository feedbackRepository, CustomerRepository customerRepository) {
+							 FeedbackRepository feedbackRepository, CustomerService customerService ,
+							 ReservationService reservationService) {
 		this.serviceCategoryRepository = serviceCategoryRepository;
 		this.serviceModelService = serviceModelService;
 		this.serviceCategoryService = serviceCategoryService;
 		this.feedbackRepository = feedbackRepository;
-		this.customerRepository = customerRepository;
+		this.customerService = customerService;
+		this.reservationService = reservationService;
 	}
 	
 	@RequestMapping(value = "/services", method = { RequestMethod.GET, RequestMethod.POST })
@@ -66,9 +71,18 @@ public class ServiceController {
 		if(session != null) {
 			UserModel user = (UserModel) session.getAttribute("user");
 			if(user != null && user.getCustomer() != null) {
-				for(ReservationModel reservation : user.getCustomer().getReservations()) {
+				for(ReservationModel reservation : reservationService.listReservationByCusID(user.getCustomer().getCustomer_id())) {
 					for(ReservationServiceModel reservationService : reservation.getReservationServices()) {
 						reservationServices.add(reservationService);
+					}
+				}
+			}else if(user != null && user.getCustomer() == null){
+				user.setCustomer(customerService.findCustomerByEmail(user.getEmail()));
+				if(user.getCustomer() != null) {
+					for (ReservationModel reservation : reservationService.listReservationByCusID(user.getCustomer().getCustomer_id())) {
+						for (ReservationServiceModel reservationService : reservation.getReservationServices()) {
+							reservationServices.add(reservationService);
+						}
 					}
 				}
 			}
