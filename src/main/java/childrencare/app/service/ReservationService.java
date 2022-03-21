@@ -153,6 +153,10 @@ public class ReservationService {
         Pageable pageable = PageRequest.of(pageNum - 1, 3);
         return repository.listReservationByCusID(cusID, pageable);
     }
+
+    public List<ReservationModel> listReservationByCusID(int customerId){
+        return repository.listReservationByCusId(customerId);
+    }
     
     public void updateReservationTotalPrice(int rid) {
     	repository.updateReservationTotalPrice(rid);

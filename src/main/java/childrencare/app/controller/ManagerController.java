@@ -176,7 +176,7 @@ public class ManagerController {
     }
 
     @RequestMapping("/post")
-    public String reservationInfor(Model model
+    public String managerPost(Model model
             , @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page
             , @RequestParam(name = "type", required = false, defaultValue = "-1") String type
             , @RequestParam(name = "categoryId", required = false, defaultValue = "-1") String categoryId
@@ -277,14 +277,13 @@ public class ManagerController {
                              @RequestParam(name = "category") int category,
                              @RequestParam(name = "statusAdd") boolean status) throws Exception {
         byte[] imgConvertAdd = (thumbnail == null) ? null : thumbnail.getBytes();
-        int postId = postService.getMaxPostId() + 1;
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         String dateInString = createAt;
         Date dateCreate = formatter.parse(dateInString);
 
-        postService.addNewPost(postId, briefInfor, dateCreate, detail, imgConvertAdd, title, dateCreate, email, category, status);
+        postService.addNewPost(briefInfor, dateCreate, detail, imgConvertAdd, title, dateCreate, email, category, status);
         return "redirect:/manager/post";
     }
 
@@ -295,7 +294,7 @@ public class ManagerController {
             @RequestParam(name = "briefInfor") String briefInfor,
             @RequestParam(name = "updateAt") String updateAt,
             @RequestParam(name = "detail") String detail,
-            @RequestParam(name = "image") MultipartFile thumbnail,
+            @RequestParam(name = "imgUpdate") MultipartFile thumbnail,
             @RequestParam(name = "title") String title,
             @RequestParam(name = "author") String email,
             @RequestParam(name = "category") int category,
@@ -369,7 +368,7 @@ public class ManagerController {
     }
 
     @RequestMapping("/drug")
-    public String drugManager(Model model,
+    public String c(Model model,
                               @RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page,
                               @RequestParam(name = "title", required = false) String title) {
         int currentPage = page.orElse(0);

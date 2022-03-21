@@ -126,6 +126,9 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
             " from reservation_service\n" +
             " where customer_id = ?1)",nativeQuery = true)
     Page<ReservationModel> listReservationByCusID(int cusID,Pageable pageable);
+
+    @Query(value = "select * from reservation where customer_id = ?1",nativeQuery = true)
+    public List<ReservationModel> listReservationByCusId(int customerId);
     
     @Modifying
     @Query(value = "UPDATE reservation SET total_reservation_price = (SELECT SUM(price) FROM reservation_service WHERE reservation_id = ?1) "

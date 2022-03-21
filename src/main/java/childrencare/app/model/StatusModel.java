@@ -15,6 +15,7 @@ public class StatusModel {
 
     @Id
     @Column(name = "status_reservation_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int statusId;
 
     @Column(name = "status_name")

@@ -48,9 +48,9 @@ public interface BlogRepository extends JpaRepository<PostModel, Integer> {
     void changeStatusPost(int status, int rid);
 
     @Modifying
-    @Query(value = "INSERT INTO [post] ([post_id],[brief_info],[create_at],[details],[thumbnail],[title],[updated_at],[email],[post_category_id],[status])\n" +
-            "VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10)", nativeQuery = true)
-    public void addPost(int postid, String brefinfo, Date create, String detail, byte[] img, String title, Date updateAt, String author, int category, boolean status);
+    @Query(value = "INSERT INTO [post] ([brief_info],[create_at],[details],[thumbnail],[title],[updated_at],[email],[post_category_id],[status])\n" +
+            "VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9)", nativeQuery = true)
+    public void addPost( String brefinfo, Date create, String detail, byte[] img, String title, Date updateAt, String author, int category, boolean status);
 
     @Modifying
     @Query(value = "UPDATE [post] SET \n" +
