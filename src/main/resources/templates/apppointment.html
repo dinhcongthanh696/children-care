@@ -124,12 +124,12 @@
                     </form>
                     <form action="#" method="post">
                         <div class="title">
-                            <h5>Your waiting line</h5>
+                            <h5>Your waiting table line</h5>
                         </div>
                         <div class="row">
                             <div class="col-xl-12 col-lg-12">
                                 <div class="input-box">
-                                    <table class="table">
+                                    <table class="table" th:if="${services.size() != 0}">
                                         <tr>
                                             <th></th>
                                             <th>Service</th>
