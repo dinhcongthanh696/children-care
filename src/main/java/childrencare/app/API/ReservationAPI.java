@@ -89,14 +89,14 @@ public class ReservationAPI {
 	) {
 		double price = serviceModelService.getServiceById(serviceId).get().getOriginalPrice();
 		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
-		for(ServiceModel serviceModel : serviceModels){
-			if(serviceModel.getServiceId() == serviceId){
-				int quantity = serviceModel.getQuantity();
+		for(int i = 0; i < serviceModels.size(); i++){
+			if(serviceModels.get(i).getServiceId() == serviceId){
+				int quantity = serviceModels.get(i).getQuantity();
 				if(quantity == 1){
-					serviceModels.remove(serviceModel);
+					serviceModels.remove(serviceModels.get(i));
 				}
 				else{
-					serviceModel.setQuantity(quantity - 1);
+					serviceModels.get(i).setQuantity(quantity - 1);
 				}
 			}
 		}
@@ -115,15 +115,17 @@ public class ReservationAPI {
 	) {
 		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
 		boolean isExist = false;
-		for(ServiceModel s : serviceModels){
+		for (int i = 0; i < serviceModels.size(); i++){
+			ServiceModel s = serviceModels.get(i);
 			if(s.getServiceId() == serviceId){
 				s.setQuantity(s.getQuantity() + 1);
 				isExist = true;
 				break;
 			}
 		}
-		if(!isExist){
-			ServiceModel serviceModel = serviceModelService.getServicesById(serviceId);
+		if(isExist == false){
+			ServiceModel serviceModel = serviceModelService.findServiceById(serviceId);
+			serviceModel.setQuantity(1);
 			serviceModels.add(serviceModel);
 		}
 		reservationService.deleteSchedule(slot_id, staff_id, booked_date);
