@@ -120,10 +120,10 @@
             <div class="col-xl-8">
                 <div class="appointment-form-left">
                     <form name="appointment-form" action="" method="post">
+                        <input type="hidden" th:value="${reservationId}" id="reservationId">
                         <div class="row">
                             <div class="col-xl-12 col-lg-12">
                                 <div class="single-box">
-                                    <input type="hidden" th:value="${reservationId}" id="reservationId">
                                     <div class="title">
                                         <h5>Your service</h5>
                                     </div>
@@ -153,6 +153,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Available doctor -->
                         <div class="row">
                             <div class="col-xl-12 col-lg-12">
                                 <div class="single-box">
@@ -172,6 +173,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Available slot -->
                         <div class="row">
                             <div class="col-xl-12 col-lg-12">
                                 <div class="single-box">
@@ -182,6 +184,7 @@
                                         <div class="available-time">
                                             <ul id="available-slot">
                                                 <!-- Insert available time here-->
+
                                             </ul>
                                         </div>
                                     </div>
