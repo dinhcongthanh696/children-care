@@ -107,11 +107,25 @@ public class ReservationAPI {
 	//Delete reservation service
 	@Transactional
 	@DeleteMapping("/schedule")
-	public void deleteSchedule(
+	public void deleteSchedule(HttpSession session,
 							   @RequestParam(name = "slot_id") Integer slot_id,
 							   @RequestParam(name = "staff_id") Integer staff_id,
-							   @RequestParam(name = "booked_date") Date booked_date
+							   @RequestParam(name = "booked_date") Date booked_date,
+							   @RequestParam(name = "service_id") Integer serviceId
 	) {
+		List<ServiceModel> serviceModels = (List<ServiceModel>) session.getAttribute("list");
+		boolean isExist = false;
+		for(ServiceModel s : serviceModels){
+			if(s.getServiceId() == serviceId){
+				s.setQuantity(s.getQuantity() + 1);
+				isExist = true;
+				break;
+			}
+		}
+		if(!isExist){
+			ServiceModel serviceModel = serviceModelService.getServicesById(serviceId);
+			serviceModels.add(serviceModel);
+		}
 		reservationService.deleteSchedule(slot_id, staff_id, booked_date);
 	}
 }
