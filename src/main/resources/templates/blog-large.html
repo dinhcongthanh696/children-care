@@ -130,7 +130,8 @@
 
 
     <!--Start mainmenu area-->
-    <section th:replace="mainmenu.html :: mainMenu(actionForm='',placeholder='Search...',current='blog',search='')">
+
+    <section th:replace="mainmenu.html :: mainMenu(actionForm='/ChildrenCare/', placeholder=#{search.by.title},current='blog',search='')">
     </section>
     <!--End mainmenu area-->
 

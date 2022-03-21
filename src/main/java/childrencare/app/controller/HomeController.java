@@ -31,6 +31,8 @@ public class HomeController {
 
     @Autowired
     private SlidersService slidersService;
+    @Autowired
+    private BlogCategoryService blogCategoryService;
 
     public HomeController(ServiceModelService serviceModelService) {
         this.serviceModelService = serviceModelService;
@@ -58,6 +60,7 @@ public class HomeController {
 
         model.addAttribute("serviceitems", serviceModelService.getHighestRatedStarServices(size));
         model.addAttribute("servicecategories", serviceCategoryService.findAll());
+        model.addAttribute("listCategoryPost", blogCategoryService.findAll());
         model.addAttribute("feedbacks", feedbacks);
         model.addAttribute("lang", lang);
         model.addAttribute("sliders",sliders);

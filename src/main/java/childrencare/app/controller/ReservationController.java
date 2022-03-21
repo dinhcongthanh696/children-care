@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +69,7 @@ public class ReservationController {
     @GetMapping("/reser")
     public String getServiceCarts(Model model,
                                   HttpSession session,
-                                  @RequestParam(name = "lang",required = false, defaultValue = "en") String lang) {
+                                  @RequestParam(name = "lang", required = false, defaultValue = "en") String lang) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         if (itemList != null) {
             double toalReservationPrice = 0;
@@ -78,7 +79,7 @@ public class ReservationController {
             session.setAttribute("total", toalReservationPrice);
             model.addAttribute("size", itemList.size());
         }
-        model.addAttribute("lang",lang);
+        model.addAttribute("lang", lang);
         session.setAttribute("list", itemList);
         model.addAttribute("list", itemList);
         return "reservationDetails";
@@ -142,7 +143,7 @@ public class ReservationController {
     @GetMapping("/contact")
     public String getReservationContact(Model model,
                                         HttpSession session,
-                                        @RequestParam(name = "lang",required = false, defaultValue = "en") String lang) {
+                                        @RequestParam(name = "lang", required = false, defaultValue = "en") String lang) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         UserModel userModel = (UserModel) session.getAttribute("user");
         if (itemList != null) {
@@ -150,7 +151,7 @@ public class ReservationController {
             model.addAttribute("orderList", itemList);
             model.addAttribute("total", total);
             model.addAttribute("user", userModel);
-            model.addAttribute("lang",lang);
+            model.addAttribute("lang", lang);
             return "reservationContact";
         } else {
             return "redirect:/reservation/reser";
@@ -171,11 +172,12 @@ public class ReservationController {
         CustomerModel cus = new CustomerModel();
         ReservationModel reservationModel = new ReservationModel();
         UserModel userFindByEmail = userService.findByEmail(email);
+        UserModel userNew = new UserModel();
 
         //case : user not login and input new email
         if (user == null && userFindByEmail == null) {
             //insert to user table
-            UserModel userNew = new UserModel();
+
             RoleModel role = new RoleModel();
             role.setRoleId(2);
             userNew.setUsername(email);
@@ -193,6 +195,8 @@ public class ReservationController {
             int cid = customerService.lastIDCus();
             cus.setCustomer_id(cid);
             reservationModel.setCustomer(cus);
+            //put user to session
+            session.setAttribute("user", userNew);
         }
         //case : user not login and input old email
         if (user == null && userFindByEmail != null) {
@@ -203,6 +207,7 @@ public class ReservationController {
             userFindByEmail.setNotes(note);
             cus = customerService.findCustomerByEmail(email);
             reservationModel.setCustomer(cus);
+            session.setAttribute("user", userFindByEmail);
         }
         //case user login
         if (user != null) {
@@ -246,11 +251,18 @@ public class ReservationController {
             UserModel userModel = userService.findUserModelByUserReservationId(reserID.get());
             float totalPriceService = reservationService_service.getSumService(reserID.get());
 
+            for (ServiceModel s : serviceModelList) {
+                if (s.getThumbnail()!= null){
+                    s.setBase64ThumbnailEncode(Base64.getEncoder().encode(s.getThumbnail()));
+                }
+            }
+
+
             model.addAttribute("reservationByReserId", reservationModel);
             model.addAttribute("reservation_ServiceByReserId", reservationServices);
             model.addAttribute("userByReserId", userModel);
             //model.addAttribute("slotByReserId", slot);
-            model.addAttribute("listServicesByReserId", serviceModelList);
+            model.addAttribute("listServicesByReserIds", serviceModelList);
             model.addAttribute("listCategoryPost", blogCategoryService.findAll());
             model.addAttribute("total", totalPriceService);
             return "reservationInfor";

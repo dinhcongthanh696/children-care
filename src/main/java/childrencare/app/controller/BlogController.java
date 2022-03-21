@@ -79,9 +79,16 @@ public class BlogController {
     @RequestMapping(value = "/blogDetail", method = {RequestMethod.GET, RequestMethod.POST})
     public String blogDetails(Model model
             , @RequestParam(name = "postId") int postId) {
+
+        List<PostModel> list = blogService.findTop3RecentPost();
+        for (PostModel p : list
+        ) {
+            if(p.getThumbnail() != null)
+                p.setBase64ThumbnailEncode(Base64.getEncoder().encodeToString(p.getThumbnail()));
+        }
         model.addAttribute("postDetail", blogService.getPostByID(postId));
         model.addAttribute("listCategoryPost", blogCategoryService.findAll());
-        model.addAttribute("listTop3RecentPost", blogService.findTop3RecentPost());
+        model.addAttribute("listTop3RecentPost", list);
         return "blog-single";
     }
 

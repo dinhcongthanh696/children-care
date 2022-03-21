@@ -83,7 +83,7 @@ public interface ReservationServiceRepository extends JpaRepository<ReservationS
     		+ "WHERE reservation_id = ?1 AND service_id = ?2" , nativeQuery = true)
     public void updateReservationServicePrice(int reservationId,int serviceid);
 
-    @Query(value = "select  sum(s.original_price)\n" +
+    @Query(value = "select  sum(s.sale_price)\n" +
             "from reservation_service as rc\n" +
             "inner join service s on s.service_id=rc.service_id\n" +
             "where rc.reservation_id = ?1",nativeQuery = true)
