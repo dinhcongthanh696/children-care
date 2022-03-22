@@ -36,6 +36,8 @@ public class ChildrenCareApplication {
 		ReservationModel test = reservationRepository.getReservationModelByReservationId(1);
 		System.out.println("12345678987665432");
 		System.out.println(test.getFullname());*/
+
+		//tam biet ae nhe
 	}
 
 }
