@@ -72,11 +72,11 @@ public class ReservationController {
                                   @RequestParam(name = "lang", required = false, defaultValue = "en") String lang) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         if (itemList != null) {
-            double toalReservationPrice = 0;
+            double totalReservationPrice = 0;
             for (ServiceModel sm : itemList) {
-                toalReservationPrice += sm.getTotalCost();
+                totalReservationPrice += sm.getTotalCost();
             }
-            session.setAttribute("total", toalReservationPrice);
+            model.addAttribute("total",totalReservationPrice);
             model.addAttribute("size", itemList.size());
         }
         model.addAttribute("lang", lang);

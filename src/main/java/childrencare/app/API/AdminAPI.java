@@ -53,7 +53,7 @@ public class AdminAPI {
 	@PostMapping("/api-services")
 	@Transactional
 	public void addNewService(@RequestParam(name = "title") String title,
-			@RequestParam("thumbnail") MultipartFile thumbnail,@RequestParam("briefInfo") String briefInfo,
+			@RequestParam(value = "thumbnail" , required = false) MultipartFile thumbnail,@RequestParam("briefInfo") String briefInfo,
 			@RequestParam("originalPrice") Integer originalPrice, @RequestParam("salePrice") Integer salePrice,
 			@RequestParam("quantity") Integer quantity,@RequestParam("serviceCategoryId") Integer serviceCategoryId ,
 			@RequestParam("description") String description,@RequestParam(name = "status") boolean status) {
@@ -61,7 +61,9 @@ public class AdminAPI {
 		serviceCategoryModel.setServiceCategoryId(serviceCategoryId);
 		ServiceModel service = null;
 		try {
-			service = new ServiceModel(thumbnail.getBytes(), title, briefInfo, originalPrice, salePrice, quantity, description, status, serviceCategoryModel);
+			service = new ServiceModel(title,briefInfo,originalPrice,salePrice,quantity,description,status,serviceCategoryModel);
+			if(thumbnail != null)
+				service.setThumbnail(thumbnail.getBytes());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

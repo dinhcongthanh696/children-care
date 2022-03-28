@@ -35,8 +35,21 @@ public class ServiceModel {
 		this.serviceId = serviceId;
 		this.title = title;
 	}
+
+	public ServiceModel(String title, String briefInfo, double originalPrice,
+						double salePrice, int quantity, String description, boolean status , ServiceCategoryModel serviceCategory) {
+		this.title = title;
+		this.briefInfo = briefInfo;
+		this.originalPrice = originalPrice;
+		this.salePrice = salePrice;
+		this.quantity = quantity;
+		this.description = description;
+		this.status = status;
+		this.serviceCategory = serviceCategory;
+	}
+
 	public ServiceModel(int serviceId, byte[] thumbnail, String title, String briefInfo, double originalPrice,
-			double salePrice, int quantity, String description) {
+						double salePrice, int quantity, String description) {
 		this.serviceId = serviceId;
 		this.thumbnail = thumbnail;
 		this.title = title;
@@ -45,6 +58,7 @@ public class ServiceModel {
 		this.salePrice = salePrice;
 		this.quantity = quantity;
 		this.description = description;
+
 	}
 	
 	public ServiceModel(byte[] thumbnail, String title, String briefInfo, double originalPrice, double salePrice,

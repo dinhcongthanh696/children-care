@@ -33,62 +33,25 @@
   <!--    fix login form not appear when first click-->
 
   <link href="../css/authentication.css" rel="stylesheet">
-  <script>
-    
-    // nghia's code
-    $(document).ready(function() {
-      var fadeTime = 100;
-      $('.pass-quantity input').change(function() {
-        updateQuantity(this);
-      });
-      $('.remove-item button').click(function() {
-        removeItem(this);
-      });
 
-      function recalculateCart() {
-        var subtotal = 0;
-        $('.item').each(function() {
-          subtotal += parseFloat($(this).children('.product-line-price').text());
-        });
-        var total = subtotal;
-        $('.totals-value').fadeOut(fadeTime, function() {
-          $('#cart-subtotal').html(subtotal.toFixed(3)+'.000 đ');
-          $('.cart-total').html(total.toFixed(3)+'.000 đ');
-          if (total == 0) {
-            $('.checkout').fadeOut(fadeTime);
-          } else {
-            $('.checkout').fadeIn(fadeTime);
+  <style>
+      @keyframes fadeIn {
+          from{
+            opacity: 0;
           }
-          $('.totals-value').fadeIn(fadeTime);
-        });
-      }
-      function updateQuantity(quantityInput) {
-        var productRow = $(quantityInput).parent().parent();
-        var price = parseFloat(productRow.children('.product-price').text());
-        var quantity = $(quantityInput).val();
-        if(quantity < 1){
-          return false;
 
-        }
+          to{
+            opacity: 1;
+          }
+      }
 
-        var linePrice = price * quantity;
-        productRow.children('.product-line-price').each(function() {
-          $(this).fadeOut(fadeTime, function() {
-            $(this).text(linePrice.toFixed(3)+'.000 đ');
-            recalculateCart();
-            $(this).fadeIn(fadeTime);
-          });
-        });
+      .fadeIn{
+          animation: fadeIn linear 1s;
       }
-      function removeItem(removeButton) {
-        var productRow = $(removeButton).parent().parent();
-        productRow.slideUp(fadeTime, function() {
-          productRow.remove();
-          recalculateCart();
-          window.location.reload();
-        });
-      }
-    });
+
+
+  </style>
+  <script>
     //thanh's code
     function storeOldValue(serviceId,oldValue){
       var storeOldValueElement = document.querySelector("#oldvalue"+serviceId);
@@ -107,18 +70,42 @@
         }else{
           alert("Decrease the quantity by : "+ (updatedQuantity * -1 ));
         }
-        fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity);
+        fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity)
+        .then(response => {
+          var  serviceItemElement = document.getElementById("item-"+serviceId);
+          var serviceItemPriceContainer = serviceItemElement.getElementsByClassName("product-line-price")[0];
 
+          reCalculatePrice(serviceItemPriceContainer,updatedQuantity,serviceId);
 
+          var totalPriceContainer = document.getElementById("total-price");
+          reCalculatePrice(totalPriceContainer,updatedQuantity,serviceId);
+        });
 
+    }
+
+    function reCalculatePrice(priceContainer,updatedQuantity,serviceItemId){
+         var  serviceItemElement = document.getElementById("item-"+serviceItemId);
+         var serviceTextSalePrice = serviceItemElement.getElementsByClassName("service-sale-price")[0].innerHTML;
+         var serviceSalePrice = parseInt(serviceTextSalePrice.replace(/[^0-9]/g,""));
+
+         var containerPrice = parseInt(priceContainer.innerHTML.replace(/[^0-9]/g,""));
+         var containerUpdatedPrice = containerPrice + (serviceSalePrice * updatedQuantity);
+         priceContainer.classList.add("fadeIn");
+         priceContainer.innerHTML = containerUpdatedPrice.toLocaleString("vi") + "đ";
+         setTimeout(() => {
+           priceContainer.classList.remove("fadeIn");
+         },1000);
     }
     function removeCartItem(serviceId){
         fetch("/ChildrenCare/reservation/delete/"+serviceId,{
           method : 'DELETE'
         })
                 .then(response => {
-                  var removedCartItem = document.querySelector("#item"+serviceId);
+                  var removedCartItem = document.querySelector("#item-"+serviceId);
                   removedCartItem.style.display = "none";
+                  var itemQuantity = parseInt(removedCartItem.getElementsByClassName("item-quantity")[0].value);
+                  var totalPriceContainer = document.getElementById("total-price");
+                  reCalculatePrice(totalPriceContainer,itemQuantity,serviceId);
                 })
 
       }
@@ -143,8 +130,9 @@
 <div class="container mt-5 mb-5">
   <div class="row justify-content-center">
     <div class="col-xl-12 col-lg-8 col-md-7">
-      <tr th:each="info: ${session.list}" th:id="${'item'+info.serviceId}">
-      <div class="divhover border border-gainsboro p-3 mt-3 clearfix item">
+      <div class="divhover border border-gainsboro p-3 mt-3 clearfix item"
+           th:each="info: ${session.list}" th:id="${'item-'+info.serviceId}"
+      >
         <div class="text-lg-left">
           <img th:src="${'data:image/gif;base64,'+info.base64ThumbnailEncode}"   alt="chua co anh"  class="img-fluid rounded shadow-sm">
         </div>
@@ -152,14 +140,17 @@
           <h3  th:text="#{cart.service.id}+':' +${info.serviceId}" class="h6 mb-0"></h3><br>
           <h3 th:text="#{cart.service.name}+':'+${info.title}" class="h6 mb-0"></h3><br>
             <small th:text="#{cart.service.price}+':'+${#numbers.formatDecimal(info.salePrice,1,'POINT',0,'POINT') + 'đ'}"
+                   class="service-sale-price"
             ></small>
         </div>
         <div th:text="${#numbers.formatDecimal(info.salePrice,1,'POINT',0,'POINT')+'đ'}" class="product-price d-none"></div>
         <div class="pass-quantity col-lg-3 col-md-4 col-sm-3">
           <label class="pass-quantity" th:text="#{cart.totalPerson}"></label>
-          <input  class="form-control" type="number" min="1" th:value="${info.quantity}"
+          <input  class="form-control item-quantity" type="number" min="1" th:value="${info.quantity}"
                  th:onfocus="'storeOldValue('+${info.serviceId}+',this.value)'"
-                 th:onchange="'editCartItem(event,'+ ${info.serviceId} +',this.value)'"/>
+                 th:onchange="'editCartItem(event,'+ ${info.serviceId} +',this.value)'"
+
+          />
           <input type="hidden" th:id="'oldvalue'+(${info.serviceId})"/>
         </div>
 
@@ -173,8 +164,6 @@
         </div>
 
       </div>
-
-      </tr>
 
     </div>
     <div class="back-to-shop"><a href="/ChildrenCare/service/services">&leftarrow;</a><span class="text-muted text-uppercase" th:text="#{cart.view}"></span></div>
@@ -203,7 +192,11 @@
           <p class="font-italic mb-4" th:text="#{cart.note}"></p>
           <ul class="list-unstyled mb-4">
             <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted" th:text="#{cart.total}"></strong>
-              <p th:text="${#numbers.formatDecimal(session.total,1,'POINT',0,'POINT')+'đ'}" class="font-weight-bold cart-total totals-value text-danger"></p></li>
+              <p th:text="${#numbers.formatDecimal(total,1,'POINT',0,'POINT')+'đ'}"
+                 class="font-weight-bold cart-total totals-value text-danger"
+                  id="total-price"
+              ></p>
+            </li>
           </ul>
           <a th:if="${list}!=null" th:href="'/ChildrenCare/reservation/contact?lang='+${lang}" class="btn btn-primary rounded-pill py-2 btn-block" th:text="#{cart.confirm}"></a>
         </div>

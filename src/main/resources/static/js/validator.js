@@ -1,42 +1,70 @@
 
-var selectorRules = {};
+var rules = {};
 
-function Validator(rules){
+function validate(InputElement,selector){
+    const inputValue = InputElement.value;
+    const selectorRules = rules[selector];
+    const formMessageElement = InputElement.parentElement.getElementsByClassName("form-message")[0];
+    var errorMessage;
+    for(let i = 0 ; i < selectorRules.length ; i++){
+        errorMessage = selectorRules[i](inputValue);
+        if(errorMessage) break;
+    }
 
-    rules.forEach(rule => {
-        if(Array.isArray(selectorRules[rule.selector])){
-            selectorRules[rule.selector].push(rule.test);
+    if(errorMessage){
+        formMessageElement.innerHTML = errorMessage;
+        InputElement.classList.add("invalid");
+    }else{
+        formMessageElement.innerHTML = "";
+        InputElement.classList.remove("invalid");
+    }
+
+    return (typeof errorMessage === 'undefined') ? true : false;
+}
+
+function Validator(options){
+    var selectorRules = options.selectorRules;
+    var formElement = document.getElementById(options.formId);
+
+    formElement.onsubmit = event => {
+        event.preventDefault();
+        var isFormValid = true;
+
+        selectorRules.forEach(selectorRule => {
+            const InputElement = formElement.querySelector(selectorRule.selector);
+            let  isInputValid = validate(InputElement,selectorRule.selector);
+            if(isFormValid && !isInputValid){
+                isFormValid = false;
+            }
+        })
+
+        if(isFormValid){
+            if(typeof options.onSubmit === 'function'){
+                options.onSubmit();
+            }else{
+                formElement.submit();
+            }
+        }
+    }
+
+    selectorRules.forEach(selectorRule => {
+        if(Array.isArray(rules[selectorRule.selector])){
+            rules[selectorRule.selector].push(selectorRule.test);
         }else{
-            selectorRules[rule.selector] = [rule.test];
+            rules[selectorRule.selector] = [selectorRule.test];
         }
 
-        const formElement = document.querySelector(rule.selector);
-        const formMessageElement = formElement.parentElement.getElementsByClassName("form-message")[0];
+        const InputElement = formElement.querySelector(selectorRule.selector);
+        const formMessageElement = InputElement.parentElement.getElementsByClassName("form-message")[0];
         // when user blur out of input field
-        formElement.onblur = function(){
-            const formValue = formElement.value;
-            const fieldRules = selectorRules[rule.selector];
-
-
-            var errorMessage;
-            for(let i = 0 ; i < fieldRules.length ; i++){
-                errorMessage = fieldRules[i](formValue);
-                if(errorMessage) break;
-            }
-
-            if(errorMessage){
-                formMessageElement.innerHTML = errorMessage;
-                formElement.classList.add("invalid");
-            }else{
-                formMessageElement.innerHTML = "";
-                formElement.classList.remove("invalid");
-            }
+        InputElement.onblur = function(){
+            validate(InputElement,selectorRule.selector);
         }
 
         // when user input something
-        formElement.oninput = function (){
+        InputElement.oninput = function (){
             formMessageElement.innerHTML = "";
-            formElement.classList.remove("invalid");
+            InputElement.classList.remove("invalid");
         }
     })
 }
@@ -45,7 +73,8 @@ Validator.isRequired = function (selector,length,message){
     return {
         selector : selector,
         test : function(value){
-            return value.trim().length > length ? undefined : message || 'This field must contains at lease '+length+' characters';
+            return value.trim().length > length ? undefined :
+                message || 'This field must contains at lease '+length+' characters';
         }
     }
 }

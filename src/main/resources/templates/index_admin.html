@@ -141,10 +141,11 @@
 						<tr th:each="category : ${categories}">
 							<td th:text="'#'+${category.serviceCategoryId}"></td>
 							<td th:text="${category.serviceCategoryName}"></td>
-							<td th:text="${#numbers.formatDecimal(category.totalRevenue,3,'COMMA',0,'COMMA')} + 'đ'"></td>
+							<td th:text="${category.totalRevenue != 0  ? #numbers.formatDecimal(category.totalRevenue,3,'COMMA',0,'COMMA') + 'đ' : '0đ'}"></td>
 						</tr>
 						<tr>
-							<td colspan="3" th:text="'Total Revenue : '+${#aggregates.sum(categories.![totalRevenue])}" style="text-align : center;font-weight : bold;font-size : 30px;"></td>
+							<td colspan="3" th:text="'Total Revenue : '+${#aggregates.sum(categories.![totalRevenue]) != 0
+							? #numbers.formatDecimal(#aggregates.sum(categories.![totalRevenue]),3,'COMMA',0,'COMMA') + 'đ' : '0đ'}" style="text-align : center;font-weight : bold;font-size : 30px;"></td>
 						</tr>
 					</tbody>
 				</table>

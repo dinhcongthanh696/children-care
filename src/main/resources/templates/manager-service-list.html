@@ -73,7 +73,37 @@ th, td {
 		color: white;
 		opacity: 1; /* Firefox */
 	}
-	
+.modal-content{
+	animation: fadeIn ease-in 1s;
+}
+
+.modal-body{
+	animation: growth linear 1s;
+}
+
+@keyframes fadeIn{
+	from {
+		opacity: 0;
+	}
+
+	to{
+		opacity: 1;
+	}
+}
+
+@keyframes growth {
+	30%{
+		transform: scale(0.2);
+	}
+
+	60%{
+		transform: scale(0.5);
+	}
+
+	100%{
+		transform: scale(1);
+	}
+}
 </style>
 <!-- end thanh style -->
  <!-- Fav icon -->	
@@ -109,59 +139,61 @@ th, td {
         		<button type="button" class="close" data-dismiss="modal">Close&times;</button>
       		</div>
       		<div class="modal-body">
-        		<div class="form-group">
-        			<label for="service-title">Title</label>
-    				<input type="text" class="form-control" id="service-title" placeholder="Leave Service Title here.." />
-					<span class="form-message"></span>
-        		</div>
-        		<div class="form-group">
-        			<label for="service-brief-info">Brief Information</label>
-    				<input type="text" class="form-control" id="service-brief-info" placeholder="Leave Brief Information here.." />
-					<span class="form-message"></span>
-				</div>
-        		<div class="form-group">
-        			<label for="service-original-price">Original Price </label>
-    				<input type="number" class="form-control" id="service-original-price" placeholder="Leave Original Price here.."/>
-					<span class="form-message"></span>
-				</div>
-        		<div class="form-group">
-        			<label for="service-sale-price">Sale Price </label>
-    				<input type="number" class="form-control" id="service-sale-price" placeholder="Leave Sale Price here.."/>
-					<span class="form-message"></span>
-				</div>
-        		<div class="form-group">
-        			<label for="service-quantity">Quantity </label>
-    				<input type="number" class="form-control" id="service-quantity" placeholder="Leave Quantity here.."/>
-					<span class="form-message"></span>
-				</div>
-        		<div class="form-group">
-        			<label for="service-category-id">Service Category  </label>
-    				<select class="form-control" id="service-category-id">
-    					<option th:each="category : ${categories}" th:value="${category.serviceCategoryId}" th:text="${category.serviceCategoryName}"></option>
-    				</select>
-        		</div>
-        		<div class="form-group">
-        			<label for="service-description">Description</label>
-    				<textarea class="form-control" id="service-description" placeholder="Leave Service Description here.." cols="20"></textarea>
-					<span class="form-message"></span>
-				</div>
-        		<div class="form-group">
-        			<label for="service-file">Image </label>
-        			<img id="service-image" />
-    				<input type="file" class="form-control" id="service-file" onchange="imagePreviewHandler(this)"/>
-    				<span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
-    				<h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
-        		</div>
-        		<div class="form-check">
-        			<label for="service-status" class="form-check-label">Status(Showing or Hiding)</label>
-    				<input type="checkbox" class="form-check-input" id="service-status" checked="checked" style="margin-left: 5px;"/>
-        		</div>
-        		<button onclick="addNewService()"
-        			th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
-					th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}" 
-					th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
-					id="add-new-service-button"        			
-        		>Save your changes</button>
+				<form action="#" method="POST" id="form-add-new-service">
+					<div class="form-group">
+						<label for="service-title">Title</label>
+						<input type="text" class="form-control" id="service-title" placeholder="Leave Service Title here.." />
+						<span class="form-message"></span>
+					</div>
+					<div class="form-group">
+						<label for="service-brief-info">Brief Information</label>
+						<input type="text" class="form-control" id="service-brief-info" placeholder="Leave Brief Information here.." />
+						<span class="form-message"></span>
+					</div>
+					<div class="form-group">
+						<label for="service-original-price">Original Price </label>
+						<input type="number" class="form-control" id="service-original-price" placeholder="Leave Original Price here.."/>
+						<span class="form-message"></span>
+					</div>
+					<div class="form-group">
+						<label for="service-sale-price">Sale Price </label>
+						<input type="number" class="form-control" id="service-sale-price" placeholder="Leave Sale Price here.."/>
+						<span class="form-message"></span>
+					</div>
+					<div class="form-group">
+						<label for="service-quantity">Quantity </label>
+						<input type="number" class="form-control" id="service-quantity" placeholder="Leave Quantity here.."/>
+						<span class="form-message"></span>
+					</div>
+					<div class="form-group">
+						<label for="service-category-id">Service Category  </label>
+						<select class="form-control" id="service-category-id">
+							<option th:each="category : ${categories}" th:value="${category.serviceCategoryId}" th:text="${category.serviceCategoryName}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="service-description">Description</label>
+						<textarea class="form-control" id="service-description" placeholder="Leave Service Description here.." cols="20"></textarea>
+						<span class="form-message"></span>
+					</div>
+					<div class="form-group">
+						<label for="service-file">Image </label>
+						<img id="service-image" />
+						<input type="file" class="form-control" id="service-file" onchange="imagePreviewHandler(this)"/>
+						<span class="modal-element" id="image-hint" style="color : blue;">Hint : File must image and not over 20MB</span>
+						<h5 id="image-file-message" class="modal-element" style="color : red;"></h5>
+					</div>
+					<div class="form-check">
+						<label for="service-status" class="form-check-label">Status(Showing or Hiding)</label>
+						<input type="checkbox" class="form-check-input" id="service-status" checked="checked" style="margin-left: 5px;"/>
+					</div>
+					<button type="submit"
+						th:with="editaccess = ${session.user.userRole.permissions.?[screen.url == '/admin/api-services']}"
+						th:disabled="${editaccess.?[screen.method == 'POST'].isEmpty()}"
+						th:class="${editaccess.?[screen.method == 'POST'].isEmpty()} ? 'btn btn-danger' : 'btn btn-primary'"
+						id="add-new-service-button"
+					>Save your changes</button>
+				</form>
       		</div>
       		<div class="modal-footer">
         		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -364,7 +396,11 @@ th, td {
 		Validator.isMinNumber("#service-quantity",0,"Quantity must be greater than 0"),
 		Validator.isRequired("#service-description",10,"Description must contains at least 10 characters")
 	];
-	Validator(selectorRules);
+	Validator({
+		selectorRules : selectorRules,
+		formId : "form-add-new-service",
+		onSubmit : addNewService
+	});
 
 	function changePage(pageNumber) {
 		var search = document.querySelector("#search-query").value;
@@ -403,40 +439,6 @@ th, td {
 	}
 	
 	function addNewService(){
-		var rules = {};
-
-		selectorRules.forEach(selectorRule => {
-			if(Array.isArray(rules[selectorRule.selector])){
-				rules[selectorRule.selector].push(selectorRule.test);
-			}else{
-				rules[selectorRule.selector] = [selectorRule.test];
-			}
-		})
-
-		var isValid = true;
-		selectorRules.forEach(selectorRule => {
-			var formElement = document.querySelector(selectorRule.selector);
-			var formValue = formElement.value;
-			var fieldRules = rules[selectorRule.selector];
-			var formMessageElement = formElement.parentElement.getElementsByClassName("form-message")[0];
-			var errorMessage = undefined;
-			for(let i = 0 ; i < fieldRules.length ; i++){
-				errorMessage = fieldRules[i](formValue);
-				if(errorMessage) break;
-			}
-			if(errorMessage){
-				if(isValid) isValid = false;
-				formMessageElement.innerHTML = errorMessage;
-				formElement.classList.add("invalid");
-			}else{
-				formMessageElement.innerHTML = "";
-				formElement.classList.remove("invalid");
-			}
-		})
-
-		if(!isValid) return;
-
-
 		const serviceTittleInputElement = document.getElementById("service-title");
 		const serviceBriefInfoInputElement = document.getElementById("service-brief-info");
 		const serviceOriginalPriceInputElement = document.getElementById("service-original-price");
