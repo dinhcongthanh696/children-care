@@ -115,8 +115,8 @@ public class ScheduleController {
         session.setAttribute("list", null);
         //Check if the customer is new or changed
         ReservationModel reservation = reservationService.getReservatonInforByID(rid);
-        String customerEmail = reservation.getCustomer().getCustomer_user().getEmail();
-
+        UserModel user = (UserModel) session.getAttribute("user");
+        String customerEmail = user.getEmail();
         CustomerModel customer = customerService.findCustomerByEmail(customerEmail);
 
         if(customer == null){
@@ -143,7 +143,7 @@ public class ScheduleController {
         //Send confirmation email
         JavaMailSenderImpl mailSenderImpl = (JavaMailSenderImpl) mailSender;
         String from = mailSenderImpl.getUsername();
-        String to = "dominhanh171201@gmail.com";
+        String to = user.getEmail() ;
         String subject = "Email confirmation from Children Care";
         List<ReservationServiceModel> reservations = reservationService_service.getAllBookedSchedule(rid);
 

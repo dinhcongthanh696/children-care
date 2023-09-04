@@ -26,7 +26,6 @@ import childrencare.app.service.DrugService;
 
 
 @SpringBootApplication
-@Transactional
 public class ChildrenCareApplication {
 
 	public static void main(String[] args) {

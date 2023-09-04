@@ -146,10 +146,14 @@ public class ReservationController {
                                         @RequestParam(name = "lang", required = false, defaultValue = "en") String lang) {
         List<ServiceModel> itemList = (List<ServiceModel>) session.getAttribute("list");
         UserModel userModel = (UserModel) session.getAttribute("user");
+        double total = 0;
         if (itemList != null) {
-            double total = (Double) session.getAttribute("total");
+            for(int i = 0 ; i < itemList.size() ; i++) {
+            	total += itemList.get(i).getTotalCost();
+            }
             model.addAttribute("orderList", itemList);
             model.addAttribute("total", total);
+            session.setAttribute("total", total);
             model.addAttribute("user", userModel);
             model.addAttribute("lang", lang);
             return "reservationContact";

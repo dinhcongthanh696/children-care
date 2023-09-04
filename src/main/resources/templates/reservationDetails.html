@@ -64,12 +64,8 @@
       if(newValue < 1){
         alert("Quantity must be >= 1");
         window.location.reload();
+        return;
       }
-        if(updatedQuantity > 0){
-          alert("Increase the quantity by : "+updatedQuantity);
-        }else{
-          alert("Decrease the quantity by : "+ (updatedQuantity * -1 ));
-        }
         fetch("/ChildrenCare/reservation/add/"+serviceId+"?quantity="+updatedQuantity)
         .then(response => {
           var  serviceItemElement = document.getElementById("item-"+serviceId);
@@ -105,7 +101,7 @@
                   removedCartItem.style.display = "none";
                   var itemQuantity = parseInt(removedCartItem.getElementsByClassName("item-quantity")[0].value);
                   var totalPriceContainer = document.getElementById("total-price");
-                  reCalculatePrice(totalPriceContainer,itemQuantity,serviceId);
+                  reCalculatePrice(totalPriceContainer,(itemQuantity * -1),serviceId);
                 })
 
       }

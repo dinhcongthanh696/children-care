@@ -39,7 +39,7 @@ public class ServiceController {
 	@Autowired
 	public ServiceController(ServiceCategoryRepository serviceCategoryRepository,
 							 ServiceModelService serviceModelService, ServiceCategoryService serviceCategoryService,
-							 FeedbackRepository feedbackRepository, CustomerService customerService ,
+							  FeedbackRepository feedbackRepository, CustomerService customerService ,
 							 ReservationService reservationService) {
 		this.serviceCategoryRepository = serviceCategoryRepository;
 		this.serviceModelService = serviceModelService;
@@ -56,6 +56,7 @@ public class ServiceController {
 			@RequestParam(name = "category",required = false, defaultValue =  "0") int categoryId,
 			@RequestParam(name = "lang",required = false, defaultValue = "en") String lang ,
 			HttpSession session) {
+		System.out.println(serviceModelService);
 		Page<ServiceModel> services = null;
 		int startBitRange = 0;
 		int endBitRange = 2;   // Collect service that is showing

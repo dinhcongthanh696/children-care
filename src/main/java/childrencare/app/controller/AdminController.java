@@ -27,6 +27,8 @@ public class AdminController {
 	private final CustomerService customerService;
 	private final UserService userService;
 	private final RoleService roleService;
+
+
 	public AdminController(ServiceModelService serviceModelService,
 						   ServiceCategoryService serviceCategoryService,
 						   ReservationService reservationService,
@@ -44,6 +46,7 @@ public class AdminController {
 	public String toAdminDashBoard(Model model,
 			@RequestParam(name = "revenueDate",required = false,defaultValue = "") String revenueDate,
 			@RequestParam(name = "page",required = false,defaultValue = "0" ) Integer page) {
+		System.out.println(serviceModelSerivce);
 		int totalCustomerNewlyReserved = customerService.getNewCustomerReservedByLastDays(7);
 		int totalCustomerNewlyRegistered = customerService.getNewCustomerRegisterByLastDays(7);
 		
