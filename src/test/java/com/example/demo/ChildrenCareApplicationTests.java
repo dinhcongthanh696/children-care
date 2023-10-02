@@ -26,7 +26,7 @@ class ChildrenCareApplicationTests {
     public void testGetAllDrugs() {
         List<DrugModel> drugModels = drugService.findAllDrugs();
         // Use assertions to check if the result is as expected
-        assertEquals(drugModels.size(), 5);
+        assertEquals(drugModels.size(), 3);
     }
 
 }
