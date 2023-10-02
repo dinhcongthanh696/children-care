@@ -9,3 +9,8 @@ COPY target/Children-Care-0.0.1-SNAPSHOT.jar /app/
 
 # Specify the command to run your Spring Boot application
 CMD ["java", "-jar", "Children-Care-0.0.1-SNAPSHOT.jar"]
+
+FROM openjdk:8-jre-alpine
+VOLUME /tmp
+ADD /target/actuator-sample-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
