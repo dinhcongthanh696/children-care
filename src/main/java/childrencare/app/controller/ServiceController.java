@@ -56,7 +56,6 @@ public class ServiceController {
 			@RequestParam(name = "category",required = false, defaultValue =  "0") int categoryId,
 			@RequestParam(name = "lang",required = false, defaultValue = "en") String lang ,
 			HttpSession session) {
-		System.out.println(serviceModelService);
 		Page<ServiceModel> services = null;
 		int startBitRange = 0;
 		int endBitRange = 2;   // Collect service that is showing
