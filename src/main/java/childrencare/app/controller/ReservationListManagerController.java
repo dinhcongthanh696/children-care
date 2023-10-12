@@ -69,7 +69,6 @@ public class ReservationListManagerController {
         List<Integer> listTotalPriceByDate = new ArrayList<>();
         for (int i =0 ; i< sevenLastDays.size(); i++){
             int totalPriceByDate = reservationService.totalPricelastSevenDateReservation(sevenLastDays.get(i));
-           // System.out.println(sevenLastDays.get(i)+ "-" +totalPriceByDate);
             listTotalPriceByDate.add(totalPriceByDate);
         }
         ObjectMapper objectMapper = new ObjectMapper();
