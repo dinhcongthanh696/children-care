@@ -19,6 +19,15 @@ import lombok.Data;
 @Entity
 @Table(name = "drug")
 public class DrugModel {
+	
+
+	public DrugModel() {
+	}
+
+	public DrugModel(String drugName) {
+		this.drugName = drugName;
+	}
+
 	@Id
 	@Column(name = "drug_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

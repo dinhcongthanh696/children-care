@@ -1,18 +1,27 @@
 package childrencare.app.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+
 import childrencare.app.model.DrugModel;
 import childrencare.app.repository.DrugRepository;
+import io.grpc.stub.StreamObserver;
+import proto.DrugServiceGrpc;
+import proto.Drug.DrugResoponse;
+import proto.Drug.Empty;
+import proto.Drug.ListDrugResponse;
+import proto.DrugServiceGrpc.DrugServiceImplBase;
 
-@Service
-public class DrugService {
+@GRpcService
+public class DrugService extends DrugServiceImplBase{
 	@Autowired
 	private DrugRepository drugRepository;
 	
@@ -42,5 +51,19 @@ public class DrugService {
 	}
 	public DrugModel getDrugByID(int did){
 		return drugRepository.getById(did);
+	}
+
+	@Override
+	public void findAllDrugs(Empty request, StreamObserver<ListDrugResponse> responseObserver) {
+		List<DrugModel> drugModels = drugRepository.findAll();
+		if(drugModels == null) return;
+		List<DrugResoponse> responses = new ArrayList<>();
+		for(int i = 0 ; i < drugModels.size() ; i++) {
+			DrugResoponse response = DrugResoponse.newBuilder().setDrugName(drugModels.get(i).getDrugName()).build();
+			responses.add(response);
+		}
+		ListDrugResponse listDrugResponse = ListDrugResponse.newBuilder().addAllDrugs(responses).build();
+		responseObserver.onNext(listDrugResponse);
+		responseObserver.onCompleted();
 	}
 }

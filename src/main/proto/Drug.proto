@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package proto;
+
+message DrugResoponse {
+  string drugName = 1;
+}
+
+message ListDrugResponse {
+  repeated DrugResoponse drugs = 1;
+}
+
+message Empty {}
+
+service DrugService {
+  rpc findAllDrugs(Empty) returns (ListDrugResponse);
+}
